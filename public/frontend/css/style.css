@@ -530,6 +530,8 @@ body {
     gap: 10px;
     font-size: 14px;
     font-weight: 500;
+    flex-wrap: nowrap;
+    white-space: nowrap;
 }
 
 .gov-text a {
