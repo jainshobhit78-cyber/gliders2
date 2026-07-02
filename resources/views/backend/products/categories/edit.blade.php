@@ -1,0 +1,154 @@
+@extends('backend.layout.app')
+
+@section('content')
+
+    <div class="container-fluid">
+
+        <div class="title-header d-flex align-items-center gap-3">
+
+            <a href="{{ url('admin/category/list') }}" class="back-btn">
+
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M22 13V11H5.82L9.77 7.05L8.36 5.64L2 12L8.36 18.36L9.77 16.95L5.82 13H22Z" />
+                </svg>
+
+                <span>Back</span>
+
+            </a>
+
+            <h5>Edit Category</h5>
+
+        </div>
+
+        <form method="POST" action="{{ url('admin/category/update/' . $category->id) }}" enctype="multipart/form-data"
+            class="theme-form">
+
+            @csrf
+
+            <div class="mb-3">
+
+                <label class="form-label-title">Category Name</label>
+
+                <input type="text" name="name" value="{{ old('name', $category->name) }}" class="form-control">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label-title">Display Order</label>
+
+                <input type="number" name="display_order" value="{{ old('display_order', $category->display_order) }}" class="form-control" step="1">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Image</label>
+
+                <input type="file" name="image" id="imageInput" class="form-control"
+                    accept="image/jpeg,image/png,image/jpg,image/webp,image/svg+xml">
+
+                @if($category->image)
+
+                    <br>
+
+                    <img src="{{ asset('uploads/category/' . $category->image) }}" id="imagePreview"
+                        style="margin-top:10px;height:120px;border:1px solid #ddd;padding:4px;">
+
+                @endif
+
+
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Status</label>
+
+                <select name="status" class="form-control">
+
+                    <option value="active" @if(old('status', $category->status) == 'active') selected @endif>
+                        Active
+                    </option>
+
+                    <option value="inactive" @if(old('status', $category->status) == 'inactive') selected @endif>
+                        Inactive
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="panel-footer">
+
+                <button class="btn btn-primary" id="submitBtn">
+
+                    <span class="btnText">
+
+                        Update Category
+
+                    </span>
+
+                    <span class="btnLoader d-none">
+
+                        <i class="fa fa-spinner fa-spin"></i>
+                        Saving...
+
+                    </span>
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+@endsection
+
+@section('script')
+    <script>
+
+        $(document).ready(function () {
+
+            $('.theme-form').on('submit', function () {
+
+                if (typeof tinymce !== "undefined") {
+                    tinymce.triggerSave();
+                }
+
+                $('#submitBtn').prop('disabled', true);
+
+                $('.btnText').addClass('d-none');
+                $('.btnLoader').removeClass('d-none');
+
+            });
+
+        });
+
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#imageInput').change(function () {
+
+                let reader = new FileReader();
+
+                reader.onload = function (e) {
+
+                    $('#imagePreview')
+                        .attr('src', e.target.result)
+                        .show();
+
+                }
+
+                reader.readAsDataURL(this.files[0]);
+
+            });
+
+        });
+
+    </script>
+@endsection
