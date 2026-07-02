@@ -89,7 +89,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js"></script>
-    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     @yield('scripts')
 
@@ -368,12 +368,20 @@
 
         document.getElementById('languageSwitcher').addEventListener('change', function () {
             let lang = this.value;
+            let attempts = 0;
 
-            let select = document.querySelector('.goog-te-combo');
-            if (select) {
-                select.value = lang;
-                select.dispatchEvent(new Event('change'));
+            function triggerTranslation() {
+                let select = document.querySelector('.goog-te-combo');
+                if (select) {
+                    select.value = lang;
+                    select.dispatchEvent(new Event('change'));
+                } else if (attempts < 20) {
+                    attempts++;
+                    setTimeout(triggerTranslation, 150);
+                }
             }
+
+            triggerTranslation();
         });
     </script>
 
