@@ -90,13 +90,17 @@
             </div>
 
             <div class="announce-right">
-                <div class="marquee">
-                    <span>
-                        {{ $marquee->text1 ?? '' }}
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        {{ $marquee->text2 ?? '' }}
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                    </span>
+                <div class="ticker-wrap">
+                    <div class="ticker-scroll" style="animation-duration: {{ $settings->ticker_speed ?? 20 }}s;">
+                        @foreach($tickerItems as $item)
+                            @if($item->link)
+                                <a href="{{ $item->link }}" target="_blank" class="ticker-item link-item">{{ $item->text }}</a>
+                            @else
+                                <span class="ticker-item">{{ $item->text }}</span>
+                            @endif
+                            <span class="ticker-divider">★</span>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>

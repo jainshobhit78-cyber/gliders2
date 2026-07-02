@@ -550,7 +550,6 @@ body {
     margin-right: 5px;
 }
 
-.skip-btn,
 .font-controls button,
 .icon-btn {
     background: rgba(255, 255, 255, 0.08);
@@ -561,6 +560,28 @@ body {
     text-decoration: none;
     cursor: pointer;
     font-size: 13px;
+}
+
+.skip-btn {
+    position: absolute;
+    top: -100px;
+    left: 25px;
+    background: #e06a00;
+    color: #fff;
+    padding: 8px 16px;
+    z-index: 99999;
+    transition: top 0.2s ease;
+    border-radius: 0 0 8px 8px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 14px;
+    border: 1px solid #fff;
+}
+
+.skip-btn:focus {
+    top: 0;
+    outline: none;
+    color: #fff;
 }
 
 .font-controls {
@@ -2947,30 +2968,57 @@ table td {
     /* clip-path: polygon(4% 0, 100% 0, 100% 100%, 0 100%); */
 }
 
-/* MARQUEE */
-.marquee {
-    white-space: nowrap;
+/* MODERN TICKER MARQUEE */
+.ticker-wrap {
     overflow: hidden;
+    white-space: nowrap;
     width: 100%;
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
-.marquee span {
+.ticker-scroll {
     display: inline-block;
     padding-left: 100%;
     font-size: 18px;
-    font-weight: 500;
-    animation: marqueeMove 15s linear infinite;
+    font-weight: 600;
+    animation: tickerMove 20s linear infinite;
+    cursor: pointer;
 }
 
-/* ANIMATION */
-@keyframes marqueeMove {
-    0% {
-        transform: translateX(0%);
-    }
+.ticker-scroll:hover {
+    animation-play-state: paused;
+}
 
+.ticker-item {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    margin-right: 15px;
+}
+
+.ticker-item.link-item {
+    color: #ff9f43;
+}
+
+.ticker-item.link-item:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.ticker-divider {
+    color: #EE6802;
+    margin-right: 15px;
+    font-size: 14px;
+}
+
+@keyframes tickerMove {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
     100% {
-        transform: translateX(-100%);
+        transform: translate3d(-100%, 0, 0);
     }
 }
 

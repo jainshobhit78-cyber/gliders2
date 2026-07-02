@@ -20,7 +20,8 @@ class HomeController extends Controller
     public function index()
     {
         $videoBanner = VideoBanner::latest()->first();
-        $marquee = DB::table('marquee')->first();
+        $tickerItems = \App\Models\TickerNews::where('is_active', true)->orderBy('position', 'asc')->get();
+        $settings = \App\Models\GeneralSetting::first();
         $galleryImages = ImageGallery::latest()->get();
         $stateCounter = StateCounter::latest()->first();
 
@@ -55,7 +56,8 @@ class HomeController extends Controller
 
         return view('frontend.home.index', compact(
             'videoBanner',
-            'marquee',
+            'tickerItems',
+            'settings',
             'galleryImages',
             'stateCounter',
             'products',

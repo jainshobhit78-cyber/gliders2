@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\ChatbotFaqController;
+use App\Http\Controllers\Backend\TickerNewsController;
 use App\Http\Controllers\Backend\MediaController;
 use App\Http\Controllers\Backend\FNewsController;
 use App\Http\Controllers\Backend\NewsController;
@@ -397,9 +398,12 @@ Route::middleware(['adminAuth', 'ipWhitelist'])->group(function () {
 
     Route::get('admin/home/state_counter/edit', [keyOfferingsController::class, 'edit_state_counter']);
     Route::post('admin/state_counter/update', [keyOfferingsController::class, 'update_state_counter']);
-
-    Route::get('admin/home/marquee/edit', [keyOfferingsController::class, 'edit_marquee']);
-    Route::post('admin/marquee/update', [keyOfferingsController::class, 'update_marquee']);
+    // Ticker News routes
+    Route::get('admin/home/marquee/edit', [TickerNewsController::class, 'index']);
+    Route::post('admin/home/marquee/speed/update', [TickerNewsController::class, 'updateSpeed']);
+    Route::post('admin/home/marquee/add', [TickerNewsController::class, 'store']);
+    Route::post('admin/home/marquee/update-item/{id}', [TickerNewsController::class, 'updateItem']);
+    Route::get('admin/home/marquee/delete/{id}', [TickerNewsController::class, 'delete']);
 
     Route::get('admin/home/image_gallery', [keyOfferingsController::class, 'image_gallery_list']);
     Route::get('admin/home/image_gallery/form/{id?}', [keyOfferingsController::class, 'image_gallery_form']);
