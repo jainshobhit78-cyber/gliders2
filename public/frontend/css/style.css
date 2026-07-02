@@ -6637,3 +6637,174 @@ table td {
         transform: translateY(-10px);
     }
 }
+
+/* ==========================================================================
+   Mobile & Responsive Overrides (Super Smooth & Device-Optimized)
+   ========================================================================== */
+
+/* Government Topbar Mobile Adjustments */
+@media (max-width: 991px) {
+    .gov-text {
+        font-size: 12px !important;
+        gap: 8px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .gov-topbar {
+        padding: 8px 15px !important;
+    }
+    .gov-bar-wrapper {
+        flex-direction: column !important;
+        gap: 10px !important;
+        align-items: center !important;
+    }
+    .gov-left-section {
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+        width: 100% !important;
+    }
+    .gov-text {
+        font-size: 11px !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        white-space: normal !important;
+        text-align: center !important;
+        line-height: 1.4 !important;
+    }
+    .gov-center-section {
+        width: 100% !important;
+        justify-content: center !important;
+        gap: 12px !important;
+        margin-top: 2px !important;
+    }
+}
+
+/* Homepage Announcement Ticker Mobile Adjustments */
+@media (max-width: 768px) {
+    .announcement-bar {
+        flex-direction: column !important;
+        height: auto !important;
+        position: relative !important;
+    }
+    .announce-left {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 10px 15px !important;
+        font-size: 14px !important;
+        clip-path: none !important;
+    }
+    .announce-right {
+        width: 100% !important;
+        padding: 10px 0 !important;
+        height: 38px !important;
+    }
+    .ticker-scroll {
+        font-size: 14px !important;
+    }
+    .ticker-divider {
+        font-size: 11px !important;
+    }
+}
+
+/* Leadership Tabs Mobile Scroll Adjustments */
+@media (max-width: 991px) {
+    .leader-tabs-container {
+        justify-content: flex-start !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        padding: 5px 15px 15px 15px !important;
+        margin-bottom: 30px !important;
+        gap: 12px !important;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.05) !important;
+    }
+    .leader-tab-btn {
+        flex: 0 0 auto !important;
+        white-space: nowrap !important;
+        font-size: 15px !important;
+        padding: 10px 20px !important;
+    }
+    /* Hide scrollbar for clean aesthetic */
+    .leader-tabs-container::-webkit-scrollbar {
+        height: 4px !important;
+    }
+    .leader-tabs-container::-webkit-scrollbar-thumb {
+        background-color: rgba(0,0,0,0.15) !important;
+        border-radius: 4px !important;
+    }
+}
+
+/* Leadership Profile Column Layout Responsiveness */
+@media (max-width: 991px) {
+    .leader-main-content {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 30px !important;
+        padding: 30px 20px !important;
+        border-radius: 16px !important;
+    }
+    .leader-photo-column {
+        width: 100% !important;
+        max-width: 220px !important;
+        display: flex !important;
+        justify-content: center !important;
+    }
+    .leader-photo-wrapper {
+        width: 180px !important;
+        height: 180px !important;
+        border-width: 4px !important;
+    }
+    .leader-details-column {
+        width: 100% !important;
+    }
+    .leader-name {
+        font-size: 22px !important;
+    }
+    .leader-title {
+        font-size: 15px !important;
+    }
+    .leader-bio {
+        font-size: 14px !important;
+        line-height: 1.6 !important;
+        text-align: justify !important;
+    }
+}
+
+/* Milestones Timeline Grid Responsiveness */
+@media (max-width: 768px) {
+    .timeline-nodes-list::before {
+        left: 20px !important;
+    }
+    .timeline-node-item {
+        width: 100% !important;
+        padding-left: 50px !important;
+        padding-right: 0 !important;
+        margin-bottom: 40px !important;
+    }
+    .timeline-node-dot {
+        left: 20px !important;
+        transform: translateX(-50%) !important;
+    }
+    .timeline-node-card {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+        padding: 20px !important;
+        border-radius: 14px !important;
+    }
+    .timeline-node-image {
+        max-height: 220px !important;
+        border-radius: 8px !important;
+    }
+    .timeline-node-year {
+        font-size: 22px !important;
+    }
+    .timeline-node-title {
+        font-size: 16px !important;
+    }
+    .timeline-node-desc {
+        font-size: 13.5px !important;
+    }
+}
