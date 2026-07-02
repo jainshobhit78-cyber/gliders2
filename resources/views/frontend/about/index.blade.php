@@ -157,95 +157,74 @@
                                 <p>Driving Precision. Powering Defence Excellence.</p>
                             </div>
 
-                            {{-- TOP 3 CARDS --}}
-                            <div class="leader-cards-row">
-
-                                @foreach($leaders->take(3) as $index => $leader)
-
-                                    @php
-                                        $firstMilestone = $leader->milestones->first();
-                                    @endphp
-
-                                    <div class="leader-top-card {{ $index == 1 ? 'active' : '' }}"
-                                        data-name="{{ $leader->leader_name }}" data-role="{{ $leader->role }}"
-                                        data-subtitle="{{ $leader->sub_title }}" data-bio="{{ strip_tags($leader->bio) }}"
-                                        data-image="{{ $leader->picture ? asset('uploads/leadership/' . $leader->picture) : asset('uploads/milestones/' . optional($firstMilestone)->image) }}"
-                                        data-milestones='@json($leader->milestones)'>
-
-                                        <img src="{{ $leader->picture ? asset('uploads/leadership/' . $leader->picture) : asset('uploads/milestones/' . optional($firstMilestone)->image) }}"
-                                            alt="{{ $leader->leader_name }}">
-
-                                        <h4>{{ \Illuminate\Support\Str::limit($leader->leader_name, 30) }}</h4>
-                                        <p>{{ $leader->sub_title }}</p>
-
-                                    </div>
-
+                            {{-- Dynamic Tabs based on the leaders --}}
+                            <div class="leader-tabs-container mb-4">
+                                @foreach($leaders as $index => $leader)
+                                    <button class="leader-tab-btn {{ $index == 0 ? 'active' : '' }}" 
+                                            onclick="selectLeaderTab(event, 'leader-{{ $leader->id }}')">
+                                        {{-- If role contains Chairman & Managing Director, output CMD, otherwise role --}}
+                                        @if(stripos($leader->role, 'Chairman') !== false && stripos($leader->role, 'Managing') !== false)
+                                            CMD
+                                        @else
+                                            {{ $leader->role }}
+                                        @endif
+                                    </button>
                                 @endforeach
-
                             </div>
 
-                            {{-- DEFAULT ACTIVE --}}
-                            @php
-                                $defaultLeader = $leaders->take(3)->values()[1] ?? $leaders->first();
-                                $defaultMilestone = $defaultLeader->milestones;
-                            @endphp
-
-                            {{-- DETAILS BOX --}}
-                            <div class="leader-details-box mt-5">
-
-                                <div class="leader-main-details">
-
-                                    <div class="leader-image-box">
-                                        <img id="detailImage"
-                                            src="{{ $defaultLeader->picture ? asset('uploads/leadership/' . $defaultLeader->picture) : asset('uploads/milestones/' . optional($defaultLeader->milestones->first())->image) }}">
-                                    </div>
-
-                                    <div class="leader-info-box">
-                                        <h3 id="detailName">{{ $defaultLeader->leader_name }}</h3>
-                                        <h5 id="detailRole">{{ $defaultLeader->role }}</h5>
-                                        <p class="sub-role" id="detailSubtitle">{{ $defaultLeader->sub_title }}</p>
-
-                                        <div class="bio-text" id="detailBio">
-                                            {!! $defaultLeader->bio !!}
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                {{-- MILESTONE SECTION --}}
-                                <div class="milestone-section mt-5">
-
-                                    <h3 class="milestone-title">Milestones</h3>
-
-                                    <div id="milestoneList">
-                                        @foreach($defaultMilestone as $milestone)
-                                            <div class="milestone-card">
-
-                                                @if($milestone->image)
-                                                    <div class="milestone-image">
-                                                        <img src="{{ asset('uploads/milestones/' . $milestone->image) }}">
-                                                    </div>
-                                                @endif
-
-                                                <div class="milestone-content">
-                                                    <h4>{{ $milestone->heading }}</h4>
-
-                                                    <p class="date">
-                                                        {{ $milestone->start_date }} → {{ $milestone->end_date ?? 'Present' }}
-                                                    </p>
-
-                                                    <div class="desc">
-                                                        {!! $milestone->description !!}
-                                                    </div>
+                            {{-- Leaders Tab Panels --}}
+                            <div class="leader-panels-container">
+                                @foreach($leaders as $index => $leader)
+                                    <div class="leader-tab-panel {{ $index == 0 ? 'show active' : '' }}" id="leader-{{ $leader->id }}">
+                                        
+                                        <div class="leader-main-content">
+                                            <div class="leader-photo-column">
+                                                <div class="leader-photo-wrapper">
+                                                    <img src="{{ $leader->picture ? asset('uploads/leadership/' . $leader->picture) : asset('frontend/images/avatar/user-account.jpg') }}" alt="{{ $leader->leader_name }}">
                                                 </div>
-
                                             </div>
-                                        @endforeach
+                                            
+                                            <div class="leader-details-column">
+                                                <h3 class="leader-name">{{ $leader->leader_name }}</h3>
+                                                <h5 class="leader-title">{{ $leader->role }}</h5>
+                                                <p class="leader-subtitle">{{ $leader->sub_title }}</p>
+                                                <div class="leader-bio">
+                                                    {!! $leader->bio !!}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- Milestones Timeline Section --}}
+                                        @if($leader->milestones->count() > 0)
+                                            <div class="leader-timeline-section mt-5">
+                                                <h3 class="timeline-header-title">Professional Milestones</h3>
+                                                <div class="timeline-nodes-list">
+                                                    @foreach($leader->milestones as $milestone)
+                                                        <div class="timeline-node-card">
+                                                            @if($milestone->image)
+                                                                <div class="timeline-node-image">
+                                                                    <img src="{{ asset('uploads/milestones/' . $milestone->image) }}" alt="">
+                                                                </div>
+                                                            @endif
+                                                            <div class="timeline-node-content">
+                                                                <div class="timeline-node-date">
+                                                                    {{ $milestone->start_date }} @if($milestone->end_date) → {{ $milestone->end_date }} @else → Present @endif
+                                                                </div>
+                                                                <h4>{{ $milestone->heading }}</h4>
+                                                                <div class="timeline-node-desc">
+                                                                    {!! $milestone->description !!}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+
                                     </div>
-
-                                </div>
-
+                                @endforeach
                             </div>
+
                         </div>
                     </div>
 
@@ -871,59 +850,26 @@
     </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-
-            const cards = document.querySelectorAll(".leader-top-card");
-
-            const detailName = document.getElementById("detailName");
-            const detailRole = document.getElementById("detailRole");
-            const detailSubtitle = document.getElementById("detailSubtitle");
-            const detailBio = document.getElementById("detailBio");
-            const detailImage = document.getElementById("detailImage");
-            const milestoneList = document.getElementById("milestoneList");
-
-            cards.forEach(card => {
-                card.addEventListener("click", function () {
-
-                    cards.forEach(c => c.classList.remove("active"));
-                    this.classList.add("active");
-
-                    detailName.innerText = this.dataset.name;
-                    detailRole.innerText = this.dataset.role;
-                    detailSubtitle.innerText = this.dataset.subtitle;
-                    detailBio.innerHTML = this.dataset.bio;
-                    detailImage.src = this.dataset.image;
-
-                    let milestones = JSON.parse(this.dataset.milestones);
-
-                    let milestoneHTML = '';
-
-                    milestones.forEach(m => {
-                        let milestoneImageHTML = '';
-                        if (m.image) {
-                            milestoneImageHTML = `
-                            <div class="milestone-image">
-                                <img src="/uploads/milestones/${m.image}">
-                            </div>
-                            `;
-                        }
-                        milestoneHTML += `
-                        <div class="milestone-card">
-                            ${milestoneImageHTML}
-                            <div class="milestone-content">
-                                <h4>${m.heading}</h4>
-                                <p class="date">${m.start_date} → ${m.end_date ? m.end_date : 'Present'}</p>
-                                <div class="desc">${m.description}</div>
-                            </div>
-                        </div>
-                    `;
-                    });
-
-                    milestoneList.innerHTML = milestoneHTML;
-                });
+        function selectLeaderTab(evt, panelId) {
+            // Hide all panels
+            const panels = document.querySelectorAll('.leader-tab-panel');
+            panels.forEach(p => {
+                p.classList.remove('show', 'active');
             });
 
-        });
+            // Remove active class from all tab buttons
+            const tabs = document.querySelectorAll('.leader-tab-btn');
+            tabs.forEach(t => {
+                t.classList.remove('active');
+            });
+
+            // Show selected panel and add active class to button
+            const activePanel = document.getElementById(panelId);
+            if (activePanel) {
+                activePanel.classList.add('show', 'active');
+            }
+            evt.currentTarget.classList.add('active');
+        }
     </script>
 
     <script>

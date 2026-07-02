@@ -29,8 +29,10 @@
                                 </div> -->
 
                     <div class="leader-img">
-                        @if($leader->milestones->first() && $leader->milestones->first()->image)
-                            <img src="{{ asset('uploads/milestones/' . $leader->milestones->first()->image) }}" alt="">
+                        @if($leader->picture)
+                            <img src="{{ asset('uploads/leadership/' . $leader->picture) }}" alt="" style="object-fit: cover;">
+                        @else
+                            <img src="{{ asset('frontend/images/avatar/user-account.jpg') }}" alt="" style="object-fit: cover;">
                         @endif
                     </div>
 
