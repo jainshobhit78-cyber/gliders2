@@ -164,7 +164,7 @@
                                             onclick="selectLeaderTab(event, 'leader-{{ $leader->id }}')">
                                         {{-- If role contains Chairman & Managing Director, output CMD, otherwise role --}}
                                         @if(stripos($leader->role, 'Chairman') !== false && stripos($leader->role, 'Managing') !== false)
-                                            CMD
+                                            Chairman and Managing Director
                                         @else
                                             {{ $leader->role }}
                                         @endif
