@@ -6808,3 +6808,46 @@ table td {
         font-size: 13.5px !important;
     }
 }
+
+/* ==========================================================================
+   Logo Header & Ticker News Mobile Optimization
+   ========================================================================== */
+
+/* Logo Header Responsiveness */
+@media (max-width: 768px) {
+    .logo-header {
+        padding: 15px 0 !important;
+    }
+    .logo-header .d-flex {
+        flex-direction: column !important;
+        gap: 15px !important;
+        text-align: center !important;
+    }
+    .logo-header .gov-text-box {
+        margin: 0 !important;
+        justify-content: center !important;
+        text-align: center !important;
+    }
+    .logo-header .gov-text-box p {
+        font-size: 16px !important;
+        line-height: 1.4 !important;
+        margin: 0 !important;
+        color: #333 !important;
+        font-weight: 700 !important;
+    }
+    .logo-header .gov-text-box span {
+        font-size: 13px !important;
+        font-weight: 500 !important;
+    }
+    .navbar-brand .header-logo {
+        height: 70px !important;
+    }
+    .logo-header .logo {
+        height: 45px !important;
+    }
+}
+
+/* Force Ticker Scroll Nowrap on All Screen Sizes */
+.ticker-wrap, .ticker-scroll {
+    white-space: nowrap !important;
+}
