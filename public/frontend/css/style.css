@@ -6660,19 +6660,25 @@ table td {
         align-items: center !important;
     }
     .gov-left-section {
-        justify-content: center !important;
-        flex-wrap: wrap !important;
-        gap: 10px !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 8px !important;
         width: 100% !important;
     }
     .gov-text {
         font-size: 11px !important;
-        flex-wrap: wrap !important;
-        justify-content: center !important;
-        gap: 6px !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 4px !important;
         white-space: normal !important;
         text-align: center !important;
         line-height: 1.4 !important;
+    }
+    .gov-text > span {
+        display: none !important; /* Hide vertical separator pipes on mobile */
+    }
+    .gov-text a span {
+        display: inline-block !important;
     }
     .gov-center-section {
         width: 100% !important;
@@ -6710,7 +6716,7 @@ table td {
 }
 
 /* Leadership Tabs Mobile Scroll Adjustments */
-@media (max-width: 991px) {
+@media (max-width: 1200px) {
     .leader-tabs-container {
         justify-content: flex-start !important;
         overflow-x: auto !important;
@@ -6737,7 +6743,7 @@ table td {
 }
 
 /* Leadership Profile Column Layout Responsiveness */
-@media (max-width: 991px) {
+@media (max-width: 1200px) {
     .leader-main-content {
         flex-direction: column !important;
         align-items: center !important;
