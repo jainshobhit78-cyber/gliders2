@@ -144,7 +144,18 @@
 
                     <select class="language-switch" id="languageSwitcher">
                         <option value="en">English</option>
-                        <option value="hi">हिन्दी</option>
+                        <option value="hi">हिन्दी (Hindi)</option>
+                        <option value="es">Español (Spanish)</option>
+                        <option value="fr">Français (French)</option>
+                        <option value="de">Deutsch (German)</option>
+                        <option value="ru">Русский (Russian)</option>
+                        <option value="ar">العربية (Arabic)</option>
+                        <option value="zh-CN">简体中文 (Chinese)</option>
+                        <option value="ja">日本語 (Japanese)</option>
+                        <option value="sa">संस्कृत (Sanskrit)</option>
+                        <option value="bn">বাংলা (Bengali)</option>
+                        <option value="ta">தமிழ் (Tamil)</option>
+                        <option value="te">తెలుగు (Telugu)</option>
                     </select>
 
 

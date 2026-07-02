@@ -359,7 +359,7 @@
             new google.translate.TranslateElement(
                 {
                     pageLanguage: 'en',
-                    includedLanguages: 'en,hi',
+                    includedLanguages: 'en,hi,es,fr,de,ru,ar,zh-CN,ja,sa,bn,ta,te',
                     autoDisplay: false
                 },
                 'google_translate_element'
