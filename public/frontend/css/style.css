@@ -1333,29 +1333,29 @@ body:not(.home-page) .main-navbar.sticky-nav {
 }
 
 .leader-tab-btn {
-    border: none;
-    outline: none;
-    background: transparent;
-    padding: 14px 32px;
-    font-size: 18px;
-    font-weight: 700;
-    color: #0f2b5c;
-    border-radius: 40px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    letter-spacing: 0.5px;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    padding: 14px 32px !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #0f2b5c !important;
+    border-radius: 40px !important;
+    cursor: pointer !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    letter-spacing: 0.5px !important;
 }
 
 .leader-tab-btn:hover {
-    color: #e06a00;
-    background: rgba(255, 255, 255, 0.8);
+    color: #e06a00 !important;
+    background: rgba(255, 255, 255, 0.8) !important;
 }
 
 .leader-tab-btn.active {
-    color: #fff;
-    background: linear-gradient(135deg, #0f2b5c 0%, #051430 100%);
-    box-shadow: 0 4px 15px rgba(15, 43, 92, 0.3);
-    border: 1px solid #e06a00;
+    color: #fff !important;
+    background: linear-gradient(135deg, #0f2b5c 0%, #051430 100%) !important;
+    box-shadow: 0 4px 15px rgba(15, 43, 92, 0.3) !important;
+    border: 1px solid #e06a00 !important;
 }
 
 .leader-tab-panel {
