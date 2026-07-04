@@ -487,3 +487,9 @@ Route::get('/sitemap', [PolicyController::class, 'sitemap'])
     
 Route::get('/chatbot/questions', [ChatbotController::class, 'questions']);
 Route::post('/chatbot/reply', [ChatbotController::class, 'reply']);
+
+// Temporary route to run migrations on Hostinger production
+Route::get('/run-migrations-temp', function() {
+    \Illuminate\Support\Facades\Artisan::call('migrate');
+    return 'Migrations successfully run:<br><pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre>';
+});
