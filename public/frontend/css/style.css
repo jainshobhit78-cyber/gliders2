@@ -7266,3 +7266,140 @@ table td {
 .our-products-section .product-card::after {
     display: none !important;
 }
+
+/* ==========================================================================
+   Category Products Page - Premium Systems & Solutions Card Redesign
+   ========================================================================== */
+.category-products-section {
+    background-color: #f7f9fc !important;
+    padding: 80px 0 !important;
+}
+
+.category-products-section .section-title h2 {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 38px !important;
+    font-weight: 800 !important;
+    color: #0b2a5b !important;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 50px;
+}
+
+.solution-card-link {
+    text-decoration: none !important;
+    display: block;
+}
+
+.premium-solution-card {
+    position: relative;
+    border-radius: 0px !important;
+    overflow: hidden;
+    background-color: #0b2a5b;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.premium-solution-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(11, 42, 91, 0.15);
+}
+
+/* Upper Half: Image Wrap */
+.solution-card-image-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+}
+
+.solution-card-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.premium-solution-card:hover .solution-card-image-wrap img {
+    transform: scale(1.06);
+}
+
+/* Dynamic overlay banner on bottom of image */
+.solution-card-title-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(6, 9, 20, 0.85) 0%, rgba(6, 9, 20, 0.3) 100%) !important;
+    padding: 18px 20px;
+    z-index: 2;
+    border-bottom: 3px solid #f5821f;
+    transition: background 0.4s ease;
+}
+
+.premium-solution-card:hover .solution-card-title-overlay {
+    background: linear-gradient(to top, rgba(245, 130, 31, 0.85) 0%, rgba(245, 130, 31, 0.3) 100%) !important;
+}
+
+.solution-card-title-overlay h3 {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 19px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    margin: 0 !important;
+    text-align: center;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+    text-transform: uppercase;
+}
+
+/* Lower Half: Dark container with circle overlay */
+.solution-card-content-wrap {
+    position: relative;
+    background-color: #0b2a5b;
+    padding: 40px 20px !important;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    min-height: 160px;
+}
+
+/* Centered decorative circle */
+.solution-card-circle-bg {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.03);
+    top: -90px;
+    z-index: 1;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), background 0.6s ease;
+}
+
+.premium-solution-card:hover .solution-card-circle-bg {
+    transform: scale(1.12);
+    background: rgba(245, 130, 31, 0.04);
+}
+
+/* Sub-text description */
+.solution-card-desc {
+    position: relative;
+    z-index: 2;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    font-weight: 400 !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    margin: 0 !important;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.premium-solution-card:hover .solution-card-desc {
+    color: #ffffff !important;
+}

@@ -30,26 +30,27 @@
 
                 @foreach($products as $product)
                     <div class="col-lg-4 col-md-6 mb-4">
-                        <a href="{{ route('products.detail', [$category->id, $product->id]) }}" class="product-link-box">
-                            <div class="solution-card">
-
-                                <div class="solution-image">
+                        <a href="{{ route('products.detail', [$category->id, $product->id]) }}" class="solution-card-link">
+                            <div class="premium-solution-card">
+                                <!-- Upper Half: Image with title overlay -->
+                                <div class="solution-card-image-wrap">
                                     <img src="{{ asset('uploads/products/' . optional($product->images->first())->image) }}"
-                                        alt="{{ $product->title }}">
+                                         alt="{{ $product->title }}">
+                                    <div class="solution-card-title-overlay">
+                                        <h3>{{ $product->title }}</h3>
+                                    </div>
                                 </div>
 
-                                <div class="solution-content">
-                                    <div class="solution-circle">
-                                        <h4>
-                                            {{ \Illuminate\Support\Str::limit($product->title, 28) }}
-                                        </h4>
-                                    </div>
-
-                                    <p>
-                                        {!! \Illuminate\Support\Str::limit(strip_tags($product->description), 110) !!}
+                                <!-- Lower Half: Dark blue container with centered overlapping circle and description -->
+                                <div class="solution-card-content-wrap">
+                                    <!-- Centered decorative circle badge -->
+                                    <div class="solution-card-circle-bg"></div>
+                                    
+                                    <!-- Product short description text -->
+                                    <p class="solution-card-desc">
+                                        {!! \Illuminate\Support\Str::limit(strip_tags($product->description), 80) !!}
                                     </p>
                                 </div>
-
                             </div>
                         </a>
                     </div>
