@@ -226,9 +226,9 @@
                     </div> -->
 
                 <div class="gov-text-box text-white text-start d-flex align-items-center">
-                    <p class="ms-2 text-center" style="text-transform: uppercase;">
+                    <p class="ms-2 text-center mb-0" style="text-transform: uppercase; margin: 0 !important;">
                         GLIDERS INDIA LIMITED <br>
-                        <span style="font-size: 13px; text-transform: none; font-weight: normal; display: block; margin-top: 4px;">(A Government of India Enterprise)</span>
+                        <span style="font-size: 15px; text-transform: none; font-weight: normal; display: block; margin-top: 4px;">(A Government of India Enterprise)</span>
                     </p>
                 </div>
 
