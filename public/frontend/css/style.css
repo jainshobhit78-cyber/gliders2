@@ -8593,3 +8593,519 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     width: 14px;
     border-radius: 3px;
 }
+
+/* ==========================================================================
+   SYSTEM CAPABILITIES SECTION (MOCKUP SPECS CLONE)
+   ========================================================================== */
+.system-capabilities-section {
+    background-color: #08101e;
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+}
+
+.capabilities-image-pane {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 1;
+}
+
+.capabilities-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.capabilities-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: right center;
+}
+
+.capabilities-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(270deg, rgba(8, 16, 30, 0) 0%, rgba(8, 16, 30, 0.1) 60%, #08101e 98%);
+    pointer-events: none;
+}
+
+.capabilities-container {
+    position: relative;
+    z-index: 2;
+}
+
+.capabilities-content-box {
+    max-width: 580px;
+}
+
+.capabilities-section-title {
+    color: #ffffff;
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    line-height: 1.1;
+    font-family: 'Inter', sans-serif;
+}
+
+.capabilities-section-title span {
+    color: #2563eb; /* active blue */
+    display: block;
+}
+
+.capabilities-subtext {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 460px;
+}
+
+/* Glassmorphism reliability badge */
+.reliability-badge {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 360px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    z-index: 5;
+    transition: all 0.3s ease;
+}
+
+.reliability-badge:hover {
+    transform: translateY(-3px);
+    background-color: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25);
+}
+
+.reliability-badge .badge-icon-wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.reliability-badge .badge-text h4 {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    letter-spacing: 0.3px;
+}
+
+.reliability-badge .badge-text p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 12px;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Accordion Row Cards */
+.capabilities-accordion {
+    --bs-accordion-border-width: 0;
+    --bs-accordion-bg: transparent;
+    --bs-accordion-inner-border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.capabilities-accordion .accordion-item {
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: #081223 !important; /* dark blue card background */
+    border-radius: 12px !important;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.15),
+        0 1px 3px rgba(37, 99, 235, 0.08);
+}
+
+.capabilities-accordion .accordion-item:hover {
+    border-color: rgba(37, 99, 235, 0.35) !important;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.25),
+        0 0 12px rgba(37, 99, 235, 0.15);
+}
+
+.capabilities-accordion .accordion-button {
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #ffffff !important;
+    padding: 18px 24px !important;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    border: none !important;
+    gap: 16px;
+    cursor: pointer;
+}
+
+.capabilities-accordion .accordion-button::after {
+    display: none !important; /* hide default bootstrap arrow */
+}
+
+/* Grid-like spacing alignment inside button */
+.capabilities-accordion .spec-icon-wrap {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(37, 99, 235, 0.15);
+    border: 1px solid rgba(37, 99, 235, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3b82f6; /* bright blue icon */
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.capabilities-accordion .accordion-item:hover .spec-icon-wrap {
+    background: rgba(37, 99, 235, 0.25);
+    color: #60a5fa;
+}
+
+.capabilities-accordion .spec-label {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    flex: 0 0 180px; /* fixed label width for perfect alignment */
+    text-align: left;
+}
+
+.capabilities-accordion .spec-divider {
+    height: 20px;
+    width: 1px;
+    background-color: rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+}
+
+.capabilities-accordion .spec-value {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 15px;
+    font-weight: 500;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.capabilities-accordion .plus-icon {
+    font-size: 20px;
+    font-weight: 300;
+    color: #2563eb; /* active blue plus */
+    margin-left: auto;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.capabilities-accordion .accordion-button:not(.collapsed) .plus-icon {
+    transform: rotate(45deg);
+    color: #f97316; /* active orange cross on collapse */
+}
+
+/* Accordion expanded content */
+.capabilities-accordion .accordion-body {
+    padding: 0 24px 20px 74px !important; /* offsets left content past icon circle */
+    background: rgba(0, 0, 0, 0.12);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.capabilities-accordion .accordion-body p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ==========================================================================
+   RESPONSIVE STYLES
+   ========================================================================== */
+@media (max-width: 1199px) {
+    .capabilities-accordion .spec-label {
+        flex: 0 0 150px;
+    }
+}
+
+@media (max-width: 991px) {
+    .system-capabilities-section {
+        padding: 70px 0;
+        flex-direction: column;
+        display: block;
+        min-height: auto;
+    }
+    
+    .capabilities-image-pane {
+        position: relative;
+        width: 100%;
+        height: 380px;
+        margin-bottom: 50px;
+    }
+    
+    .capabilities-gradient-overlay {
+        background: linear-gradient(180deg, rgba(8, 16, 30, 0.05) 0%, rgba(8, 16, 30, 0.6) 40%, #08101e 95%);
+    }
+    
+    .capabilities-img-wrapper img {
+        object-position: center center;
+    }
+    
+    .capabilities-content-box {
+        max-width: 100%;
+    }
+    
+    .capabilities-section-title {
+        font-size: 34px;
+    }
+    
+    .reliability-badge {
+        bottom: 24px;
+        right: 24px;
+        padding: 16px 20px;
+    }
+}
+
+@media (max-width: 575px) {
+    .capabilities-accordion .accordion-button {
+        padding: 14px 16px !important;
+        gap: 10px;
+    }
+    
+    .capabilities-accordion .spec-label {
+        flex: 0 0 110px;
+        font-size: 13px;
+    }
+    
+    .capabilities-accordion .spec-value {
+        font-size: 13px;
+    }
+    
+    .capabilities-accordion .accordion-body {
+        padding: 0 16px 16px 60px !important;
+    }
+    
+    .reliability-badge {
+        position: relative;
+        bottom: 0;
+        right: 0;
+        max-width: 100%;
+        margin-top: -30px;
+        border-radius: 12px;
+        margin-inline: 16px;
+    }
+}
+
+/* ==========================================================================
+   SECTION 2: MAIN CAPABILITIES (RAFAEL STYLE CLONE)
+   ========================================================================== */
+.main-capabilities-section {
+    background-color: #242424;
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+}
+
+.caps-image-pane {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 1;
+}
+
+.caps-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.caps-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.caps-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(270deg, rgba(36, 36, 36, 0.1) 0%, rgba(36, 36, 36, 0.7) 40%, #242424 95%);
+}
+
+.caps-container {
+    position: relative;
+    z-index: 2;
+}
+
+.caps-content-box {
+    max-width: 540px;
+}
+
+.caps-section-title {
+    color: #ffffff;
+    font-size: 38px;
+    font-weight: 700;
+    margin-bottom: 45px;
+    position: relative;
+}
+
+.caps-section-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -15px;
+    width: 60px;
+    height: 4px;
+    background-color: #EE6802;
+}
+
+/* Accordion Styling */
+.caps-accordion {
+    --bs-accordion-border-width: 0;
+    --bs-accordion-bg: transparent;
+    --bs-accordion-inner-border-radius: 0;
+}
+
+.caps-accordion .accordion-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25) !important;
+    background: transparent !important;
+    position: relative;
+}
+
+.caps-accordion .accordion-item:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+
+.caps-accordion .accordion-button {
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #ffffff !important;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 24px 0 !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: none !important;
+    width: 100%;
+}
+
+.caps-accordion .accordion-button::after {
+    display: none !important;
+}
+
+.caps-accordion .accordion-button:not(.collapsed) {
+    color: #EE6802 !important;
+}
+
+/* Plus-minus icon transition */
+.plus-minus-icon {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    flex-shrink: 0;
+    margin-left: 15px;
+}
+
+.plus-minus-icon::before,
+.plus-minus-icon::after {
+    content: '';
+    position: absolute;
+    background-color: #ffffff;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Horizontal line */
+.plus-minus-icon::before {
+    top: 6px;
+    left: 0;
+    width: 14px;
+    height: 2px;
+}
+
+/* Vertical line */
+.plus-minus-icon::after {
+    top: 0;
+    left: 6px;
+    width: 2px;
+    height: 14px;
+}
+
+.caps-accordion .accordion-button:not(.collapsed) .plus-minus-icon::before {
+    background-color: #EE6802;
+}
+
+.caps-accordion .accordion-button:not(.collapsed) .plus-minus-icon::after {
+    transform: rotate(90deg);
+    opacity: 0;
+    background-color: #EE6802;
+}
+
+.caps-accordion .accordion-body {
+    padding: 0 0 24px 0 !important;
+}
+
+.caps-accordion .accordion-body p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 16px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Responsive Styles for Caps */
+@media (max-width: 991px) {
+    .main-capabilities-section {
+        padding: 60px 0;
+        flex-direction: column;
+        display: block;
+        min-height: auto;
+    }
+    
+    .caps-image-pane {
+        position: relative;
+        width: 100%;
+        height: 350px;
+        margin-bottom: 40px;
+    }
+    
+    .caps-gradient-overlay {
+        background: linear-gradient(180deg, rgba(36, 36, 36, 0.1) 0%, rgba(36, 36, 36, 0.7) 60%, #242424 100%);
+    }
+    
+    .caps-content-box {
+        max-width: 100%;
+    }
+    
+    .caps-section-title {
+        font-size: 32px;
+    }
+}
