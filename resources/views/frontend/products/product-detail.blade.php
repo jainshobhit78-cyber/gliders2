@@ -127,7 +127,7 @@
                                 <div class="alert alert-danger p-2" style="font-size: 13px; margin-bottom: 10px; background: rgba(220, 53, 69, 0.2); border: 1px solid rgba(220, 53, 69, 0.4); color: #ff8080;">{{ $message }}</div>
                             @enderror
                             <div class="captcha-wrapper mb-3" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                                <span style="color: #333; white-space: nowrap; font-weight: 600;">Security Check: What is {{ session('captcha_num1') }} + {{ session('captcha_num2') }}?</span>
+                                <span style="color: #fff; white-space: nowrap; font-weight: 600;">Security Check: What is {{ session('captcha_num1') }} + {{ session('captcha_num2') }}?</span>
                                 <input type="number" name="captcha" placeholder="Answer" required style="margin: 0; width: 100px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
                             </div>
 

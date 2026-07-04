@@ -6338,12 +6338,19 @@ table td {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 22px;
-    font-weight: 600;
-    color: #fff;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #ffffff !important;
+    background: rgba(11, 42, 91, 0.85) !important;
+    padding: 8px 14px !important;
+    border-radius: 4px !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    width: 85% !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25) !important;
+    text-shadow: none !important;
     z-index: 2;
-    width: 90%;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
 }
 
 .explore-pagination {
@@ -7338,14 +7345,16 @@ table td {
     height: 200px;
 }
 
-/* Centered background circle badge containing the title */
+/* Centered background circle badge containing the title (Translucent & Blur Filter) */
 .solution-card-circle-bg {
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(11, 42, 91, 0.98) 0%, rgba(6, 9, 20, 0.98) 100%) !important;
-    border: 3px solid rgba(255, 255, 255, 0.15) !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
+    background: rgba(6, 9, 20, 0.45) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 3px solid rgba(255, 255, 255, 0.25) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -7357,12 +7366,12 @@ table td {
 .premium-solution-card:hover .solution-card-circle-bg {
     transform: scale(1.1);
     border-color: #f5821f !important;
-    background: radial-gradient(circle, rgba(245, 130, 31, 0.98) 0%, rgba(197, 90, 11, 0.98) 100%) !important;
-    box-shadow: 0 12px 30px rgba(245, 130, 31, 0.45) !important;
+    background: rgba(245, 130, 31, 0.55) !important;
+    box-shadow: 0 12px 30px rgba(245, 130, 31, 0.3) !important;
 }
 
 .solution-card-circle-bg h3 {
-    font-family: 'Outfit', sans-serif !important;
+    font-family: var(--products-font), 'Outfit', sans-serif !important;
     font-size: 15.5px !important; /* Elegant size to prevent layout popping/cropping */
     font-weight: 800 !important;
     color: #ffffff !important;
@@ -7559,4 +7568,329 @@ table td {
         padding: 95px 15px 30px !important;
         min-height: 180px !important;
     }
+}
+
+/* ==========================================================================
+   Media Page - Playlists & Instagram-style Social Feed Overhaul
+   ========================================================================== */
+.media-page-wrapper {
+    background: #fdfdfd;
+}
+
+.media-section-main-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 36px !important;
+    font-weight: 800 !important;
+    color: #0b2a5b !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Playlists Horizontal Pills Scroller */
+.playlists-pill-header {
+    background: #f7f9fc;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.playlists-scroller {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 5px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.playlists-scroller::-webkit-scrollbar {
+    height: 5px;
+}
+.playlists-scroller::-webkit-scrollbar-thumb {
+    background: rgba(11, 42, 91, 0.15);
+    border-radius: 10px;
+}
+
+.playlist-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(11, 42, 91, 0.12) !important;
+    border-radius: 50px !important;
+    color: #4a5568 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 13.5px !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+}
+
+.playlist-pill:hover {
+    background: rgba(11, 42, 91, 0.05) !important;
+    color: #0b2a5b !important;
+    border-color: #0b2a5b !important;
+    transform: translateY(-2px);
+}
+
+.playlist-pill.active {
+    background: #0b2a5b !important;
+    border-color: #0b2a5b !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(11, 42, 91, 0.25) !important;
+}
+
+.playlist-pill .pill-play-icon {
+    font-size: 10px;
+    color: inherit;
+}
+
+/* Playlist Details Banner */
+.playlist-details-banner {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+.playlist-heading {
+    font-family: 'Outfit', sans-serif !important;
+    color: #0b2a5b !important;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+}
+
+/* Media Type Tabs */
+.filter-tab-btn {
+    background: rgba(11, 42, 91, 0.04);
+    border: 1px solid rgba(11, 42, 91, 0.1);
+    color: #4a5568;
+    padding: 8px 18px;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 600;
+    font-size: 13px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.filter-tab-btn:hover {
+    background: rgba(11, 42, 91, 0.08);
+    color: #0b2a5b;
+}
+.filter-tab-btn.active {
+    background: #f5821f !important;
+    border-color: #f5821f !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(245, 130, 31, 0.2) !important;
+}
+
+/* Media Feed Card Style */
+.media-feed-card {
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.media-feed-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 35px rgba(11, 42, 91, 0.12);
+}
+
+.media-card-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.bg-primary-soft {
+    background: rgba(11, 42, 91, 0.08);
+}
+.bg-success-soft {
+    background: rgba(40, 167, 69, 0.08);
+}
+
+.media-card-display-box {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.media-card-display-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+.media-feed-card:hover .media-card-display-box img {
+    transform: scale(1.05);
+}
+
+/* Video Players styling */
+.video-display-box video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.video-custom-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.video-custom-overlay:hover {
+    background: rgba(0, 0, 0, 0.15);
+}
+.custom-video-play-btn {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #f5821f !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-size: 20px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 4px !important;
+    box-shadow: 0 4px 15px rgba(245, 130, 31, 0.4) !important;
+    transition: all 0.3s ease;
+}
+.media-feed-card:hover .custom-video-play-btn {
+    transform: scale(1.1);
+}
+
+/* Hover Overlay for Photos */
+.media-card-hover-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(11, 42, 91, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+.media-card-display-box:hover .media-card-hover-overlay {
+    opacity: 1;
+}
+.hover-overlay-icon {
+    color: #ffffff;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 600;
+    font-size: 13.5px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+.media-card-body {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.media-card-caption {
+    font-size: 14.5px !important;
+    line-height: 1.5 !important;
+    color: #4a5568 !important;
+    margin: 0 !important;
+}
+
+/* Action Bar buttons */
+.action-btn {
+    background: none !important;
+    border: none !important;
+    padding: 6px 10px !important;
+    color: #4a5568 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 6px;
+    transition: all 0.25s ease !important;
+    cursor: pointer;
+}
+.action-btn:hover {
+    background: rgba(11, 42, 91, 0.05) !important;
+    color: #0b2a5b !important;
+}
+.btn-like.liked {
+    color: #dc3545 !important;
+}
+.btn-like.liked svg {
+    fill: #dc3545 !important;
+    stroke: #dc3545 !important;
+}
+.btn-share-wa:hover {
+    background: rgba(37, 211, 102, 0.08) !important;
+    color: #25d366 !important;
+}
+
+/* Dynamic Comments Box */
+.comments-drawer {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    animation: slideDown 0.3s ease;
+}
+.comments-list {
+    max-height: 160px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+.comments-list::-webkit-scrollbar {
+    width: 4px;
+}
+.comments-list::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+.comment-item {
+    padding: 8px 0;
+}
+.comment-author {
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif !important;
+}
+.comment-text {
+    color: #333;
+    line-height: 1.4;
+}
+.comment-input-row input {
+    background: #f7f9fc !important;
+    border: 1px solid rgba(0,0,0,0.08) !important;
+    font-size: 12.5px !important;
+    padding: 6px 10px !important;
+}
+.comment-input-row input:focus {
+    background: #ffffff !important;
+    border-color: #0b2a5b !important;
+    box-shadow: none !important;
+}
+.btn-post-comment {
+    background: #0b2a5b !important;
+    border-color: #0b2a5b !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    font-size: 12.5px !important;
+    padding: 6px 12px !important;
+    transition: background 0.3s ease;
+}
+.btn-post-comment:hover {
+    background: #081d41 !important;
 }

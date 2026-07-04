@@ -49,7 +49,7 @@
                                     
                                     <!-- Product short description text -->
                                     <p class="solution-card-desc">
-                                        {!! \Illuminate\Support\Str::limit(strip_tags($product->description), 80) !!}
+                                        {!! \Illuminate\Support\Str::limit(html_entity_decode(strip_tags($product->description)), 80) !!}
                                     </p>
                                 </div>
                             </div>

@@ -194,7 +194,7 @@
 
                                         <!-- Short Description -->
                                         <p class="product-desc-p">
-                                            {!! \Illuminate\Support\Str::limit(strip_tags($product->description), 90) !!}
+                                            {!! \Illuminate\Support\Str::limit(html_entity_decode(strip_tags($product->description)), 90) !!}
                                         </p>
 
                                         <!-- Action view details pill button -->
