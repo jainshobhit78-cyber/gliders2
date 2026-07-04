@@ -20,6 +20,12 @@ class GeneralSetting extends Model
         'visitor_count',
         'ticker_speed',
         'google_analytics_id',
+        'products_title_prefix',
+        'products_title_suffix',
+        'products_subtitle',
+        'solutions_title',
+        'products_font_family',
+        'headings_font_family',
     ];
 
     public static function isElectionMode()

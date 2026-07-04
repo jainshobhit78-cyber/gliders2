@@ -95,6 +95,57 @@
                                 Enter your Google Analytics 4 Measurement ID (starting with "G-"). Once saved, the tracking tag will automatically run on the public pages.
                             </small>
                         </div>
+
+                        <div class="mt-4 border-top pt-3">
+                            <label class="form-label-title" style="font-weight: 700; font-size: 1.15rem; color: #13235b; display: block; margin-bottom: 5px;">Homepage Headings & Fonts Customization</label>
+                            
+                            <div class="row mt-3">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" style="font-weight: 600;">Products Heading Prefix (Blue/Black color)</label>
+                                    <input type="text" name="products_title_prefix" class="form-control" placeholder="e.g. Our" value="{{ old('products_title_prefix', $setting->products_title_prefix ?? 'Our') }}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" style="font-weight: 600;">Products Heading Suffix (Orange color)</label>
+                                    <input type="text" name="products_title_suffix" class="form-control" placeholder="e.g. Products" value="{{ old('products_title_suffix', $setting->products_title_suffix ?? 'Products') }}">
+                                </div>
+                            </div>
+
+                            <div class="mt-3">
+                                <label class="form-label" style="font-weight: 600;">Products Subtitle text</label>
+                                <textarea name="products_subtitle" class="form-control mt-1" rows="3" placeholder="Enter paragraph text beneath products heading...">{{ old('products_subtitle', $setting->products_subtitle ?? 'Advanced parachute systems and specialized aerial delivery equipment engineered for absolute precision, safety, and mission success.') }}</textarea>
+                            </div>
+
+                            <div class="mt-3">
+                                <label class="form-label" style="font-weight: 600;">Solutions Typing Heading</label>
+                                <input type="text" name="solutions_title" class="form-control mt-1" placeholder="e.g. Parachute Solutions that Ensure" value="{{ old('solutions_title', $setting->solutions_title ?? 'Parachute Solutions that Ensure') }}">
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" style="font-weight: 600;">Products Cards Title Font</label>
+                                    <select name="products_font_family" class="form-control">
+                                        @php $pFont = $setting->products_font_family ?? 'Outfit'; @endphp
+                                        <option value="Outfit" {{ $pFont == 'Outfit' ? 'selected' : '' }}>Outfit (Default Modern)</option>
+                                        <option value="Inter" {{ $pFont == 'Inter' ? 'selected' : '' }}>Inter (Sleek Tech)</option>
+                                        <option value="Kumbh Sans" {{ $pFont == 'Kumbh Sans' ? 'selected' : '' }}>Kumbh Sans</option>
+                                        <option value="Roboto" {{ $pFont == 'Roboto' ? 'selected' : '' }}>Roboto</option>
+                                        <option value="Montserrat" {{ $pFont == 'Montserrat' ? 'selected' : '' }}>Montserrat</option>
+                                        <option value="Playfair Display" {{ $pFont == 'Playfair Display' ? 'selected' : '' }}>Playfair Display (Serif Elegance)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" style="font-weight: 600;">Headings Font Family</label>
+                                    <select name="headings_font_family" class="form-control">
+                                        @php $hFont = $setting->headings_font_family ?? 'Outfit'; @endphp
+                                        <option value="Outfit" {{ $hFont == 'Outfit' ? 'selected' : '' }}>Outfit (Default Modern)</option>
+                                        <option value="Inter" {{ $hFont == 'Inter' ? 'selected' : '' }}>Inter</option>
+                                        <option value="Kumbh Sans" {{ $hFont == 'Kumbh Sans' ? 'selected' : '' }}>Kumbh Sans</option>
+                                        <option value="Roboto" {{ $hFont == 'Roboto' ? 'selected' : '' }}>Roboto</option>
+                                        <option value="Montserrat" {{ $hFont == 'Montserrat' ? 'selected' : '' }}>Montserrat</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mt-4 border-top pt-3">

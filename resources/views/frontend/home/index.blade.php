@@ -110,14 +110,22 @@
         <section class="our-products-section">
             <div class="container-fluid px-5">
                 
+                @php
+                    $homeSetting = \App\Models\GeneralSetting::first();
+                    $productsPrefix = $homeSetting->products_title_prefix ?? 'Our';
+                    $productsSuffix = $homeSetting->products_title_suffix ?? 'Products';
+                    $productsSubtitleText = $homeSetting->products_subtitle ?? 'Advanced parachute systems and specialized aerial delivery equipment engineered for absolute precision, safety, and mission success.';
+                    $solutionsTitleText = $homeSetting->solutions_title ?? 'Parachute Solutions that Ensure';
+                @endphp
+                
                 <!-- TOP HEADER ROW -->
                 <div class="products-header-row mb-5 d-flex justify-content-between align-items-end flex-wrap gap-4">
                     <div class="header-left-col">
                         <h2 class="section-title">
-                            Our <span>Products</span>
+                            {{ $productsPrefix }} <span>{{ $productsSuffix }}</span>
                         </h2>
                         <p class="section-subtitle-text">
-                            Advanced parachute systems and specialized aerial delivery equipment engineered for absolute precision, safety, and mission success.
+                            {{ $productsSubtitleText }}
                         </p>
                     </div>
                     <div class="header-right-col">
@@ -214,7 +222,7 @@
                 <h2 class="section-title section-title-2 premium-heading"
                     style="margin-top: 90px; font-size: 60px; line-height: 1.2;">
 
-                    Parachute Solutions that Ensure
+                    {{ $solutionsTitleText }}
                     <span class="typing-wrapper">
                         <span id="animated-word"></span>
                         <span class="cursor">|</span>

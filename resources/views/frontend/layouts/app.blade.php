@@ -8,7 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Inter:wght@100..900&family=Kumbh+Sans:wght@100..900&family=Montserrat:wght@100..900&family=Roboto:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
 
     <link rel="preload" as="image" href="{{ url('frontend/images/avatar/user-account.jpg') }}" />
     <link rel="stylesheet" href="{{ url('frontend/css/bootstrap.min.css') }}">
@@ -43,6 +43,22 @@
             gtag('config', '{{ $gaMeasurementId }}');
         </script>
     @endif
+
+    <style>
+        :root {
+            --headings-font: '{{ $trackingSetting->headings_font_family ?? "Outfit" }}', sans-serif !important;
+            --products-font: '{{ $trackingSetting->products_font_family ?? "Outfit" }}', sans-serif !important;
+        }
+        
+        .our-products-section .section-title,
+        .our-products-section .premium-heading {
+            font-family: var(--headings-font) !important;
+        }
+        
+        .our-products-section .premium-product-card .product-title-h3 {
+            font-family: var(--products-font) !important;
+        }
+    </style>
 
     @yield('style')
 </head>
