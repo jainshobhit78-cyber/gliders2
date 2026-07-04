@@ -240,10 +240,10 @@
 
                     <div class="gov-text-box text-white text-start ms-2">
                         <a class="navbar-brand me-3" href="{{ route('home') }}">
-                            <img src="{{ asset('frontend/images/logo/OPF.jpg') }}" class="logo" style="height: 80px;">
+                            <img src="{{ asset('frontend/images/logo/OPF.jpg') }}" class="logo" style="height: 68px;">
                         </a>
                         <a class="navbar-brand" href="{{ route('home') }}">
-                            <img src="{{ asset('frontend/images/logo/right-1.png') }}" class="logo" style="height: 80px;">
+                            <img src="{{ asset('frontend/images/logo/right-1.png') }}" class="logo" style="height: 68px;">
                         </a>
                     </div>
                 </div>
