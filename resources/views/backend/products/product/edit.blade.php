@@ -110,6 +110,121 @@
 
                     </div>
 
+                    <!-- TECHNICAL SPECIFICATIONS TAB/CARD -->
+                    <div class="card mt-4 mb-4 border-info">
+                        <div class="card-header bg-info text-white">
+                            <h6 class="mb-0 text-white"><i class="fa fa-cogs"></i> Technical Specifications Section</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Specifications Section Subheading / Intro Info</label>
+                                <input type="text" name="specs_subtext" value="{{ old('specs_subtext', $product->specs_subtext) }}" class="form-control" placeholder="e.g. Designed for precision, built for performance...">
+                                <small class="text-muted">Displays as the paragraph text below the Specifications section heading.</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Specifications Photo / Image (Right Side)</label>
+                                <input type="file" name="specs_image" class="form-control" accept="image/*">
+                                @if($product->specs_image)
+                                    <div class="mt-2">
+                                        <img src="{{ asset('uploads/products/' . $product->specs_image) }}" width="150" class="border rounded">
+                                    </div>
+                                @endif
+                                <small class="text-muted">Displays on the right-hand side of the Technical Specifications section.</small>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle" id="specsTable">
+                                    <thead>
+                                        <tr class="table-light">
+                                            <th style="width: 15%;">Icon SVG Code</th>
+                                            <th style="width: 25%;">Parameter</th>
+                                            <th style="width: 25%;">Value / Unit / Rate</th>
+                                            <th style="width: 30%;">Expanded Details / Description</th>
+                                            <th style="width: 5%;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if($product->technical_specs && is_array($product->technical_specs))
+                                            @foreach($product->technical_specs as $index => $spec)
+                                                <tr>
+                                                    <td>
+                                                        <textarea name="technical_specs[{{ $index }}][icon]" class="form-control form-control-sm" rows="2" placeholder="e.g. <svg>...</svg>">{{ $spec['icon'] ?? '' }}</textarea>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="technical_specs[{{ $index }}][parameter]" value="{{ $spec['parameter'] ?? '' }}" class="form-control form-control-sm" required placeholder="e.g. Span of Main Parachute">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="technical_specs[{{ $index }}][value]" value="{{ $spec['value'] ?? '' }}" class="form-control form-control-sm" required placeholder="e.g. 7 sqm">
+                                                    </td>
+                                                    <td>
+                                                        <textarea name="technical_specs[{{ $index }}][description]" class="form-control form-control-sm" rows="2" placeholder="Detail notes (shown when expanded)">{{ $spec['description'] ?? '' }}</textarea>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-danger btn-xs remove-row"><i class="fa fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button type="button" class="btn btn-outline-info btn-sm mt-2" id="addSpecRow">
+                                <i class="fa fa-plus"></i> Add Specification Row
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- MAIN CAPABILITIES TAB/CARD -->
+                    <div class="card mt-4 mb-4 border-primary">
+                        <div class="card-header bg-primary text-white">
+                            <h6 class="mb-0 text-white"><i class="fa fa-rocket"></i> Main Capabilities Section</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Capabilities Background Image / Wallpaper</label>
+                                <input type="file" name="caps_image" class="form-control" accept="image/*">
+                                @if($product->caps_image)
+                                    <div class="mt-2">
+                                        <img src="{{ asset('uploads/products/' . $product->caps_image) }}" width="150" class="border rounded">
+                                    </div>
+                                @endif
+                                <small class="text-muted">Background image for the Main Capabilities section.</small>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle" id="capsTable">
+                                    <thead>
+                                        <tr class="table-light">
+                                            <th style="width: 35%;">Heading / Question</th>
+                                            <th style="width: 60%;">Description / Answer</th>
+                                            <th style="width: 5%;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if($product->main_capabilities && is_array($product->main_capabilities))
+                                            @foreach($product->main_capabilities as $index => $cap)
+                                                <tr>
+                                                    <td>
+                                                        <input type="text" name="main_capabilities[{{ $index }}][heading]" value="{{ $cap['heading'] ?? '' }}" class="form-control form-control-sm" required placeholder="e.g. Aerodynamic Deceleration">
+                                                    </td>
+                                                    <td>
+                                                        <textarea name="main_capabilities[{{ $index }}][description]" class="form-control form-control-sm" rows="2" required placeholder="e.g. Generates extreme drag force..."></textarea>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-danger btn-xs remove-row"><i class="fa fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="addCapRow">
+                                <i class="fa fa-plus"></i> Add Capability Row
+                            </button>
+                        </div>
+                    </div>
 
                     <input type="hidden" name="removed_images" id="removedImages">
 
@@ -286,4 +401,57 @@
 
     </script>
 
+    <script>
+        let specIndex = {{ $product->technical_specs ? count($product->technical_specs) : 0 }};
+        let capIndex = {{ $product->main_capabilities ? count($product->main_capabilities) : 0 }};
+
+        // Add Spec Row
+        $('#addSpecRow').click(function() {
+            let row = `
+                <tr>
+                    <td>
+                        <textarea name="technical_specs[${specIndex}][icon]" class="form-control form-control-sm" rows="2" placeholder="e.g. <svg>...</svg>"></textarea>
+                    </td>
+                    <td>
+                        <input type="text" name="technical_specs[${specIndex}][parameter]" class="form-control form-control-sm" required placeholder="e.g. Span of Main Parachute">
+                    </td>
+                    <td>
+                        <input type="text" name="technical_specs[${specIndex}][value]" class="form-control form-control-sm" required placeholder="e.g. 7 sqm">
+                    </td>
+                    <td>
+                        <textarea name="technical_specs[${specIndex}][description]" class="form-control form-control-sm" rows="2" placeholder="Detail notes (shown when expanded)"></textarea>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-danger btn-xs remove-row"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+            `;
+            $('#specsTable tbody').append(row);
+            specIndex++;
+        });
+
+        // Add Cap Row
+        $('#addCapRow').click(function() {
+            let row = `
+                <tr>
+                    <td>
+                        <input type="text" name="main_capabilities[${capIndex}][heading]" class="form-control form-control-sm" required placeholder="e.g. Aerodynamic Deceleration">
+                    </td>
+                    <td>
+                        <textarea name="main_capabilities[${capIndex}][description]" class="form-control form-control-sm" rows="2" required placeholder="e.g. Generates extreme drag force..."></textarea>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-danger btn-xs remove-row"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+            `;
+            $('#capsTable tbody').append(row);
+            capIndex++;
+        });
+
+        // Remove Row
+        $(document).on('click', '.remove-row', function() {
+            $(this).closest('tr').remove();
+        });
+    </script>
 @endsection

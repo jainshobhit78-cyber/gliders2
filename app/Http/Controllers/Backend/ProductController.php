@@ -28,17 +28,58 @@ class ProductController extends Controller
     {
         $request->validate([
             'wallpaper' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'specs_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'caps_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
             'filepond' => 'nullable|array',
             'filepond.*' => 'image|mimes:jpg,jpeg,png,webp,svg|max:2048',
             'delivery_tag' => 'nullable|string|max:100',
         ]);
 
         $wallpaperName = null;
-
         if ($request->hasFile('wallpaper')) {
             $wallpaper = $request->file('wallpaper');
             $wallpaperName = time() . '_wallpaper_' . $wallpaper->getClientOriginalName();
             $wallpaper->move(public_path('uploads/products'), $wallpaperName);
+        }
+
+        $specsImageName = null;
+        if ($request->hasFile('specs_image')) {
+            $specsImage = $request->file('specs_image');
+            $specsImageName = time() . '_specs_' . $specsImage->getClientOriginalName();
+            $specsImage->move(public_path('uploads/products'), $specsImageName);
+        }
+
+        $capsImageName = null;
+        if ($request->hasFile('caps_image')) {
+            $capsImage = $request->file('caps_image');
+            $capsImageName = time() . '_caps_' . $capsImage->getClientOriginalName();
+            $capsImage->move(public_path('uploads/products'), $capsImageName);
+        }
+
+        $technicalSpecs = [];
+        if ($request->technical_specs && is_array($request->technical_specs)) {
+            foreach ($request->technical_specs as $spec) {
+                if (!empty($spec['parameter'])) {
+                    $technicalSpecs[] = [
+                        'parameter' => $spec['parameter'],
+                        'value' => $spec['value'] ?? '',
+                        'description' => $spec['description'] ?? '',
+                        'icon' => $spec['icon'] ?? ''
+                    ];
+                }
+            }
+        }
+
+        $mainCapabilities = [];
+        if ($request->main_capabilities && is_array($request->main_capabilities)) {
+            foreach ($request->main_capabilities as $cap) {
+                if (!empty($cap['heading'])) {
+                    $mainCapabilities[] = [
+                        'heading' => $cap['heading'],
+                        'description' => $cap['description'] ?? ''
+                    ];
+                }
+            }
         }
 
         $product = Product::create([
@@ -46,7 +87,12 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'description' => $request->description,
             'wallpaper' => $wallpaperName,
-            'delivery_tag' => $request->delivery_tag
+            'delivery_tag' => $request->delivery_tag,
+            'specs_subtext' => $request->specs_subtext,
+            'specs_image' => $specsImageName,
+            'technical_specs' => $technicalSpecs,
+            'caps_image' => $capsImageName,
+            'main_capabilities' => $mainCapabilities
         ]);
 
         if ($request->hasFile('filepond')) {
@@ -77,6 +123,8 @@ class ProductController extends Controller
     {
         $request->validate([
             'wallpaper' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'specs_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'caps_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
             'filepond' => 'nullable|array',
             'filepond.*' => 'image|mimes:jpg,jpeg,png,webp,svg|max:2048',
             'delivery_tag' => 'nullable|string|max:100',
@@ -85,11 +133,50 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         $wallpaperName = $product->wallpaper;
-
         if ($request->hasFile('wallpaper')) {
             $wallpaper = $request->file('wallpaper');
             $wallpaperName = time() . '_wallpaper_' . $wallpaper->getClientOriginalName();
             $wallpaper->move(public_path('uploads/products'), $wallpaperName);
+        }
+
+        $specsImageName = $product->specs_image;
+        if ($request->hasFile('specs_image')) {
+            $specsImage = $request->file('specs_image');
+            $specsImageName = time() . '_specs_' . $specsImage->getClientOriginalName();
+            $specsImage->move(public_path('uploads/products'), $specsImageName);
+        }
+
+        $capsImageName = $product->caps_image;
+        if ($request->hasFile('caps_image')) {
+            $capsImage = $request->file('caps_image');
+            $capsImageName = time() . '_caps_' . $capsImage->getClientOriginalName();
+            $capsImage->move(public_path('uploads/products'), $capsImageName);
+        }
+
+        $technicalSpecs = [];
+        if ($request->technical_specs && is_array($request->technical_specs)) {
+            foreach ($request->technical_specs as $spec) {
+                if (!empty($spec['parameter'])) {
+                    $technicalSpecs[] = [
+                        'parameter' => $spec['parameter'],
+                        'value' => $spec['value'] ?? '',
+                        'description' => $spec['description'] ?? '',
+                        'icon' => $spec['icon'] ?? ''
+                    ];
+                }
+            }
+        }
+
+        $mainCapabilities = [];
+        if ($request->main_capabilities && is_array($request->main_capabilities)) {
+            foreach ($request->main_capabilities as $cap) {
+                if (!empty($cap['heading'])) {
+                    $mainCapabilities[] = [
+                        'heading' => $cap['heading'],
+                        'description' => $cap['description'] ?? ''
+                    ];
+                }
+            }
         }
 
         $product->update([
@@ -97,7 +184,12 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'description' => $request->description,
             'wallpaper' => $wallpaperName,
-            'delivery_tag' => $request->delivery_tag
+            'delivery_tag' => $request->delivery_tag,
+            'specs_subtext' => $request->specs_subtext,
+            'specs_image' => $specsImageName,
+            'technical_specs' => $technicalSpecs,
+            'caps_image' => $capsImageName,
+            'main_capabilities' => $mainCapabilities
         ]);
 
         if ($request->hasFile('filepond')) {

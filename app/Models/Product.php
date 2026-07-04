@@ -11,7 +11,17 @@ class Product extends Model
         'category_id',
         'description',
         'wallpaper',
-        'delivery_tag'
+        'delivery_tag',
+        'specs_subtext',
+        'specs_image',
+        'technical_specs',
+        'caps_image',
+        'main_capabilities'
+    ];
+
+    protected $casts = [
+        'technical_specs' => 'array',
+        'main_capabilities' => 'array'
     ];
 
     public function category()

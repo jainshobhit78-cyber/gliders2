@@ -169,8 +169,47 @@
             ]
         ];
 
-        $specs = $techSpecs[$product->id] ?? $techSpecs['default'];
-        $caps = $mainCapabilities[$product->id] ?? $mainCapabilities['default'];
+        // Try resolving dynamic specifications from the database
+        if (!empty($product->technical_specs) && is_array($product->technical_specs) && count($product->technical_specs) > 0) {
+            $specsItems = [];
+            foreach ($product->technical_specs as $item) {
+                $specsItems[] = [
+                    'icon' => !empty($item['icon']) ? $item['icon'] : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>',
+                    'heading' => $item['parameter'] ?? '',
+                    'value' => $item['value'] ?? '',
+                    'desc' => $item['description'] ?? ''
+                ];
+            }
+            $specs = [
+                'title' => 'Technical',
+                'title_span' => 'Specifications',
+                'subtext' => $product->specs_subtext ?: $cleanDescription,
+                'image' => $product->specs_image ? asset('uploads/products/' . $product->specs_image) : $originalProductImage,
+                'items' => $specsItems
+            ];
+        } else {
+            $specs = $techSpecs[$product->id] ?? $techSpecs['default'];
+        }
+
+        // Try resolving dynamic capabilities from the database
+        if (!empty($product->main_capabilities) && is_array($product->main_capabilities) && count($product->main_capabilities) > 0) {
+            $capsItems = [];
+            foreach ($product->main_capabilities as $item) {
+                $capsItems[] = [
+                    'heading' => $item['heading'] ?? '',
+                    'desc' => $item['description'] ?? ''
+                ];
+            }
+            $caps = [
+                'title' => 'Main Capabilities',
+                'image' => $product->caps_image 
+                    ? asset('uploads/products/' . $product->caps_image) 
+                    : ($product->wallpaper ? asset('uploads/products/' . $product->wallpaper) : $originalProductImage),
+                'items' => $capsItems
+            ];
+        } else {
+            $caps = $mainCapabilities[$product->id] ?? $mainCapabilities['default'];
+        }
     @endphp
 
     <!-- SECTION 1: TECHNICAL SPECIFICATIONS (MOCKUP SPECS CLONE) -->
