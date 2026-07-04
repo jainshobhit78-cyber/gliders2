@@ -563,24 +563,26 @@ body {
 }
 
 .skip-btn {
-    position: absolute !important;
-    top: -100px !important;
-    left: 25px !important;
-    background: #e06a00 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(255, 255, 255, 0.15) !important;
     color: #fff !important;
-    padding: 8px 16px !important;
-    z-index: 999999 !important;
-    transition: top 0.2s ease !important;
-    border-radius: 0 0 8px 8px !important;
-    font-weight: 600 !important;
+    padding: 5px 12px !important;
+    border-radius: 4px !important;
+    font-weight: 500 !important;
     text-decoration: none !important;
-    font-size: 14px !important;
-    border: 1px solid #fff !important;
+    font-size: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
     white-space: nowrap !important;
+    transition: all 0.2s ease !important;
+    margin-right: 5px !important;
 }
 
-.skip-btn:focus {
-    top: 0 !important;
+.skip-btn:hover, .skip-btn:focus {
+    background: #e06a00 !important;
+    border-color: #e06a00 !important;
+    color: #fff !important;
     outline: none !important;
 }
 
