@@ -109,33 +109,97 @@
     <section class="linear-background">
         <section class="our-products-section">
             <div class="container-fluid px-5">
-                <h2 class="section-title">
-                    Our <span>Products</span>
-                </h2>
+                
+                <!-- TOP HEADER ROW -->
+                <div class="products-header-row mb-5 d-flex justify-content-between align-items-end flex-wrap gap-4">
+                    <div class="header-left-col">
+                        <h2 class="section-title">
+                            Our <span>Products</span>
+                        </h2>
+                        <p class="section-subtitle-text">
+                            Advanced parachute systems engineered for<br>precision, safety & mission success.
+                        </p>
+                    </div>
+                    <div class="header-right-col">
+                        <a href="{{ route('products.index') }}" class="btn-explore-all">
+                            <span>Explore All Products</span>
+                            <span class="explore-arrow">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </span>
+                        </a>
+                    </div>
+                </div>
 
                 <div class="swiper productSlider">
                     <div class="swiper-wrapper">
 
                         @foreach($products as $product)
+                            @php
+                                $index = $loop->index % 4;
+                                $themeClass = 'theme-orange';
+                                $tagText = 'Aerial Delivery';
+                                $dotColor = '#f5821f';
+                                $iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg>';
+
+                                if ($index == 1) {
+                                    $themeClass = 'theme-green';
+                                    $tagText = 'Tactical Operations';
+                                    $dotColor = '#48bb78';
+                                    $iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>';
+                                } elseif ($index == 2) {
+                                    $themeClass = 'theme-blue';
+                                    $tagText = 'Military Grade';
+                                    $dotColor = '#4299e1';
+                                    $iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>';
+                                } elseif ($index == 3) {
+                                    $themeClass = 'theme-purple';
+                                    $tagText = 'Heavy Load';
+                                    $dotColor = '#9f7aea';
+                                    $iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>';
+                                }
+                            @endphp
+
                             <div class="swiper-slide">
-                                <div class="fan-spread-scroll-item">
-                                    <div class="fan-spread-scroll-item__image-wrapper">
-                                        <img src="{{ asset('uploads/products/' . optional($product->images->first())->image) }}"
-                                             alt="{{ $product->title }}">
+                                <div class="premium-product-card {{ $themeClass }}">
+                                    <!-- Full background photo -->
+                                    <div class="card-bg-image">
+                                        <img src="{{ asset('uploads/products/' . optional($product->images->first())->image) }}" alt="{{ $product->title }}">
                                     </div>
-                                    
-                                    <div class="fan-spread-scroll-item__content">
-                                        <a href="{{ route('products.detail', ['categoryId' => $product->category_id, 'productId' => $product->id]) }}" class="fan-spread-scroll-link stretched-link">
-                                            <h3 class="fan-spread-scroll-title">{{ $product->title }}</h3>
-                                        </a>
-                                        
-                                        <div class="bottom-content">
-                                            <div class="fan-spread-scroll-description">
-                                                {!! \Illuminate\Support\Str::limit(strip_tags($product->description), 110) !!}
-                                            </div>
-                                            <div class="btn-circle-arrow">
-                                                <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5;" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                                            </div>
+
+                                    <!-- Top Right corner floating badge -->
+                                    <div class="floating-icon-badge">
+                                        {!! $iconSvg !!}
+                                    </div>
+
+                                    <!-- Inner card content -->
+                                    <div class="premium-card-content">
+                                        <!-- Category Tag -->
+                                        <div class="category-tag-pill">
+                                            <span class="tag-dot" style="background-color: {{ $dotColor }};"></span>
+                                            <span class="tag-label">{{ $tagText }}</span>
+                                        </div>
+
+                                        <!-- Title (H3) -->
+                                        <h3 class="product-title-h3">
+                                            {{ $product->title }}
+                                        </h3>
+
+                                        <!-- Short Description -->
+                                        <p class="product-desc-p">
+                                            {!! \Illuminate\Support\Str::limit(strip_tags($product->description), 90) !!}
+                                        </p>
+
+                                        <!-- Action view details pill button -->
+                                        <div class="d-flex align-items-center gap-3">
+                                            @if($index == 0)
+                                                <div class="seal-logo-wrapper">
+                                                    <img src="{{ asset('frontend/images/logo/g.png') }}" style="width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.3);" alt="Seal">
+                                                </div>
+                                            @endif
+                                            <a href="{{ route('products.detail', ['categoryId' => $product->category_id, 'productId' => $product->id]) }}" class="btn-view-details">
+                                                <span>View Details</span>
+                                                <span class="details-arrow">→</span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -147,6 +211,9 @@
                     <!-- arrows -->
                     <div class="swiper-button-prev"></div>
                     <div class="swiper-button-next"></div>
+
+                    <!-- pagination -->
+                    <div class="swiper-pagination"></div>
                 </div>
 
                 <h2 class="section-title section-title-2 premium-heading"
@@ -911,6 +978,11 @@
             autoplay: {
                 delay: 2500,
                 disableOnInteraction: false,
+            },
+
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
             },
 
             breakpoints: {
