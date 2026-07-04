@@ -957,13 +957,13 @@
           <div class="legacy-role-line">${l.role}</div>
           <div class="legacy-tenure">${legacyIcon('calendar')}<span>${l.tenure_text || ''}</span></div>
           <p class="legacy-desc">${l.description || ''}</p>
+          ${l.quote ? `
+          <div class="legacy-quote-box">
+            <span class="legacy-qmark legacy-top">&ldquo;</span>
+            <div class="legacy-quote-content">${l.quote}</div>
+            <span class="legacy-qmark legacy-bottom">&rdquo;</span>
+          </div>` : ''}
         </div>
-        ${l.quote ? `
-        <div class="legacy-quote-box">
-          <span class="legacy-qmark legacy-top">&ldquo;</span>
-          ${l.quote}
-          <span class="legacy-qmark legacy-bottom">&rdquo;</span>
-        </div>` : '<div></div>'}
       `;
 
       // achievements

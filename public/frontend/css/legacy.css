@@ -401,7 +401,7 @@
 
 @media(min-width:980px) {
     .legacy-detail-panel {
-        grid-template-columns: 340px 1fr 300px;
+        grid-template-columns: 340px 1fr;
         align-items: start;
         padding: 48px;
         gap: 36px;
@@ -487,34 +487,36 @@
 }
 
 .legacy-quote-box {
-    background: #fff;
+    background: #081d40 !important;
     border-radius: 12px;
-    padding: 26px 22px;
+    padding: 26px 22px 26px 54px;
     box-shadow: var(--legacy-card-shadow);
     position: relative;
-    font-size: 16px;
-    color: #333d4f;
+    font-size: 15.5px;
+    color: #fff !important;
     line-height: 1.8;
     font-style: italic;
+    margin-top: 24px;
+    text-align: left;
 }
 
 .legacy-quote-box .legacy-qmark {
     font-family: 'Outfit', sans-serif;
     font-style: normal;
     color: var(--legacy-orange);
-    font-size: 30px;
+    font-size: 54px;
     font-weight: 800;
-    line-height: 0;
-    display: block;
+    position: absolute;
+    line-height: 1;
 }
 
 .legacy-quote-box .legacy-qmark.legacy-top {
-    margin-bottom: 6px;
+    left: 18px;
+    top: 14px;
 }
 
 .legacy-quote-box .legacy-qmark.legacy-bottom {
-    text-align: right;
-    margin-top: 6px;
+    display: none;
 }
 
 /* ===== ACHIEVEMENTS / FOCUS ===== */
