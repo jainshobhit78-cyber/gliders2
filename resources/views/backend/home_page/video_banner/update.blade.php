@@ -204,6 +204,9 @@
     });
 
     $(document).on('submit', '.theme-form', function () {
+        // Disable file inputs to prevent the browser from uploading the large file again over standard POST
+        $('input[type="file"]').prop('disabled', true);
+
         $('#submitBtn').prop('disabled', true);
         $('.btnText').addClass('d-none');
         $('.btnLoader').removeClass('d-none');
