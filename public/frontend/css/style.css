@@ -7423,12 +7423,20 @@ table td {
         flex-direction: row !important;
         justify-content: space-between !important;
         align-items: center !important;
-        gap: 5px !important;
+        gap: 10px !important;
+        padding: 0 10px !important;
     }
     .logo-header .logo {
         height: 28px !important;
+        width: auto !important;
     }
     .logo-header .gov-text-box {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 !important;
+    }
+    .logo-header .gov-text-box p {
         display: none !important; /* Hide long gov text on mobile to save space */
     }
     
@@ -7441,6 +7449,18 @@ table td {
     .navbar-toggler {
         padding: 4px 8px !important;
         font-size: 0.9rem !important;
+    }
+
+    /* Hero Banner Video Mobile Optimization */
+    .hero-banner {
+        min-height: 60vh !important;
+        height: 60vh !important;
+        margin-top: -80px !important;
+        padding-top: 80px !important;
+    }
+    .hero-video {
+        height: 100% !important;
+        object-fit: cover !important;
     }
     
     /* 2. Products Section & Spacing */
