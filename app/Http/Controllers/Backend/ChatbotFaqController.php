@@ -26,7 +26,7 @@ class ChatbotFaqController extends Controller
             'answer' => 'required'
         ]);
 
-        ChatbotFaq::create($request->all());
+        ChatbotFaq::create($request->only(['question', 'answer']));
 
         return redirect()->route('chatbot.index')
             ->with('success', 'FAQ added successfully');
@@ -42,7 +42,7 @@ class ChatbotFaqController extends Controller
     {
         $faq = ChatbotFaq::findOrFail($id);
 
-        $faq->update($request->all());
+        $faq->update($request->only(['question', 'answer']));
 
         return redirect()->route('chatbot.index')
             ->with('success', 'FAQ updated successfully');

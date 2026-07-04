@@ -94,7 +94,7 @@ class HomeController extends Controller
             'captcha_num2' => rand(1, 10)
         ]);
 
-        ContactMessage::create($request->all());
+        ContactMessage::create($request->only(['name', 'email', 'phone', 'message']));
 
         return back()->with('success', 'Message sent successfully!');
     }

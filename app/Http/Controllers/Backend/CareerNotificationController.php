@@ -24,6 +24,10 @@ class CareerNotificationController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'pdfs' => 'nullable|array',
+            'pdfs.*' => 'file|mimes:pdf|max:10240',
+        ]);
 
         $item = CareerNotification::create([
             'title' => $request->title,
@@ -56,6 +60,10 @@ class CareerNotificationController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'pdfs' => 'nullable|array',
+            'pdfs.*' => 'file|mimes:pdf|max:10240',
+        ]);
 
         $item = CareerNotification::findOrFail($id);
 

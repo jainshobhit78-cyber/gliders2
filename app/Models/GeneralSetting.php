@@ -26,6 +26,10 @@ class GeneralSetting extends Model
         'solutions_title',
         'products_font_family',
         'headings_font_family',
+        'products_page_tagline',
+        'products_page_title',
+        'products_page_subtitle',
+        'products_page_wallpaper',
     ];
 
     public static function isElectionMode()

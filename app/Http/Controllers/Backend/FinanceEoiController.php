@@ -25,6 +25,9 @@ class FinanceEoiController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'pdf' => 'nullable|file|mimes:pdf|max:10240',
+        ]);
 
         $pdfName = null;
 
@@ -63,6 +66,9 @@ class FinanceEoiController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'pdf' => 'nullable|file|mimes:pdf|max:10240',
+        ]);
 
         $item = FinanceEoi::findOrFail($id);
 

@@ -25,7 +25,8 @@ class ProductCategoryController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'display_order' => 'nullable|integer|min:1'
+            'display_order' => 'nullable|integer|min:1',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
         ]);
 
         $imageName = null;
@@ -56,7 +57,8 @@ class ProductCategoryController extends Controller
     {
 
         $request->validate([
-            'display_order' => 'nullable|integer|min:1'
+            'display_order' => 'nullable|integer|min:1',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
         ]);
 
         $category = ProductCategory::find($id);

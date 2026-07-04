@@ -26,6 +26,10 @@ class AboutLeadershipController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'picture' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+        ]);
+
         $pictureName = null;
         if ($request->hasFile('picture')) {
             $file = $request->file('picture');
@@ -91,6 +95,10 @@ class AboutLeadershipController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'picture' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+        ]);
+
         $leader = AboutLeadership::findOrFail($id);
 
         $pictureName = $leader->picture;

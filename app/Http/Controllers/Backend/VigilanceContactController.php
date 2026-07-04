@@ -25,6 +25,9 @@ class VigilanceContactController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+        ]);
 
         $contact = new VigilanceContact();
 
@@ -61,6 +64,9 @@ class VigilanceContactController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+        ]);
 
         $contact = VigilanceContact::findOrFail($id);
 

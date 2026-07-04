@@ -25,6 +25,10 @@ class VigilanceSetupController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'pdf' => 'nullable|file|mimes:pdf|max:10240',
+        ]);
 
         $setup = new VigilanceSetup();
 
@@ -72,6 +76,10 @@ class VigilanceSetupController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'pdf' => 'nullable|file|mimes:pdf|max:10240',
+        ]);
 
         $setup = VigilanceSetup::findOrFail($id);
 

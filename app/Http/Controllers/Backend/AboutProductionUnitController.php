@@ -64,7 +64,7 @@ class AboutProductionUnitController extends Controller
                     $videoPath = public_path('uploads/production/videos');
 
                     if (!file_exists($videoPath)) {
-                        mkdir($videoPath, 0777, true);
+                        mkdir($videoPath, 0755, true);
                     }
 
                     $video->move($videoPath, $videoName);
@@ -97,7 +97,7 @@ class AboutProductionUnitController extends Controller
                     $imagePath = public_path('uploads/production/images');
 
                     if (!file_exists($imagePath)) {
-                        mkdir($imagePath, 0777, true);
+                        mkdir($imagePath, 0755, true);
                     }
 
                     foreach ($images as $imgIndex => $image) {
@@ -236,7 +236,7 @@ class AboutProductionUnitController extends Controller
                     $imagePath = public_path('uploads/production/images');
 
                     if (!file_exists($imagePath)) {
-                        mkdir($imagePath, 0777, true);
+                        mkdir($imagePath, 0755, true);
                     }
 
                     $lastOrder = ProductionUnitMilestoneImage::where(
@@ -288,7 +288,7 @@ class AboutProductionUnitController extends Controller
                     $videoPath = public_path('uploads/production/videos');
 
                     if (!file_exists($videoPath)) {
-                        mkdir($videoPath, 0777, true);
+                        mkdir($videoPath, 0755, true);
                     }
 
                     $video->move($videoPath, $videoName);

@@ -86,7 +86,7 @@ class AdminAuthController extends Controller
 
         $admin = Admin::where('email', $request->email)->first();
         if (!$admin) {
-            return back()->withErrors(['email' => 'Email does not exist in our records.']);
+            return back()->with('success', 'If this email is registered, a reset link has been sent.');
         }
 
         $token = Str::random(64);
@@ -129,10 +129,18 @@ class AdminAuthController extends Controller
     {
         $request->validate([
             'token' => 'required',
-            'password' => 'required|min:6|confirmed'
+            'password' => [
+                'required', 'confirmed', 'min:10',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&#]/',
+            ]
         ]);
 
-        $record = PasswordReset::where('token', $request->token)->first();
+        $record = PasswordReset::where('token', $request->token)
+            ->where('created_at', '>=', now()->subMinutes(60))
+            ->first();
 
         if (!$record) {
             return back()->withErrors(['token' => 'Invalid or expired token']);
@@ -163,7 +171,13 @@ class AdminAuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:admins,email,' . $admin->id,
-            'new_password' => 'nullable|min:6|confirmed',
+            'new_password' => [
+                'nullable', 'confirmed', 'min:10',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&#]/',
+            ],
         ]);
 
         $admin->name = $request->name;

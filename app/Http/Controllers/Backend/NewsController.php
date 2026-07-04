@@ -77,8 +77,9 @@ class NewsController extends Controller
     {
 
         $request->validate([
-            'title' => 'required',
-            'category_id' => 'required'
+            'title' => 'required|string|max:255',
+            'category_id' => 'required',
+            'wallpaper' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $image = null;
@@ -139,6 +140,10 @@ class NewsController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'wallpaper' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
 
         $item = NewsArticle::findOrFail($id);
 

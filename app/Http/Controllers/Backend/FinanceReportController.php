@@ -26,6 +26,10 @@ class FinanceReportController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'pdfs' => 'nullable|array',
+            'pdfs.*' => 'file|mimes:pdf|max:10240',
+        ]);
 
         $item = FinanceReport::create([
             'heading' => $request->heading,
@@ -68,6 +72,10 @@ class FinanceReportController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'pdfs' => 'nullable|array',
+            'pdfs.*' => 'file|mimes:pdf|max:10240',
+        ]);
 
         $item = FinanceReport::findOrFail($id);
 

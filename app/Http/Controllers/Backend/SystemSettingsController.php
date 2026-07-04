@@ -33,9 +33,13 @@ class SystemSettingsController extends Controller
             'solutions_title' => 'nullable|string',
             'products_font_family' => 'nullable|string|max:255',
             'headings_font_family' => 'nullable|string|max:255',
+            'products_page_tagline' => 'nullable|string|max:255',
+            'products_page_title' => 'nullable|string|max:255',
+            'products_page_subtitle' => 'nullable|string',
+            'products_page_wallpaper' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:3072',
         ]);
 
-        $setting->update([
+        $data = [
             'maintenance_mode' => $request->has('maintenance_mode'),
             'maintenance_until' => $request->maintenance_until,
             'election_mode' => $request->has('election_mode'),
@@ -52,7 +56,19 @@ class SystemSettingsController extends Controller
             'solutions_title' => $request->solutions_title,
             'products_font_family' => $request->products_font_family,
             'headings_font_family' => $request->headings_font_family,
-        ]);
+            'products_page_tagline' => $request->products_page_tagline,
+            'products_page_title' => $request->products_page_title,
+            'products_page_subtitle' => $request->products_page_subtitle,
+        ];
+
+        if ($request->hasFile('products_page_wallpaper')) {
+            $file = $request->file('products_page_wallpaper');
+            $filename = 'products_bg_custom_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('frontend/images'), $filename);
+            $data['products_page_wallpaper'] = $filename;
+        }
+
+        $setting->update($data);
 
         return back()->with('success', 'System settings updated successfully.');
     }

@@ -28,21 +28,17 @@ class MediaController extends Controller
 
     public function uploadVideo(Request $request)
     {
+        $request->validate([
+            'file' => 'required|file|mimetypes:video/mp4,video/webm,video/ogg,video/quicktime|max:2048000',
+        ]);
 
         if ($request->hasFile('file')) {
-
             $video = $request->file('file');
-
-            $name = time() . '_' . $video->getClientOriginalName();
-
+            $name = time() . '_' . \Illuminate\Support\Str::random(16) . '.' . $video->getClientOriginalExtension();
             $video->move(public_path('uploads/media/videos'), $name);
-
-            return response()->json([
-                'name' => $name
-            ]);
-
+            return response()->json(['name' => $name]);
         }
-
+        return response()->json(['error' => 'No file provided'], 400);
     }
     public function store(Request $request)
     {

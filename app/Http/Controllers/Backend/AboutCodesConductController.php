@@ -25,6 +25,9 @@ class AboutCodesConductController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'pdf' => 'nullable|file|mimes:pdf|max:10240',
+        ]);
 
         $code = new AboutCodesConduct();
 
@@ -63,6 +66,10 @@ class AboutCodesConductController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'pdf' => 'nullable|file|mimes:pdf|max:10240',
+        ]);
+
         $code = AboutCodesConduct::findOrFail($id);
 
         $code->title = $request->title;

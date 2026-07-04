@@ -23,6 +23,9 @@ class VigilanceBulletinController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'pdf' => 'nullable|file|mimes:pdf|max:10240',
+        ]);
 
         $item = new VigilanceBulletin();
 
@@ -55,6 +58,9 @@ class VigilanceBulletinController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'pdf' => 'nullable|file|mimes:pdf|max:10240',
+        ]);
 
         $item = VigilanceBulletin::findOrFail($id);
 

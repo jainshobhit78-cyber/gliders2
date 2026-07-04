@@ -7912,3 +7912,317 @@ table td {
     color: rgba(255, 255, 255, 0.15) !important;
     transform: translateY(-5px);
 }
+
+/* ==========================================================================
+   Category Directory Page - Products Mockup-Matching Overhaul
+   ========================================================================== */
+.products-directory-section {
+    position: relative;
+    background: url('/frontend/images/products-bg-mockup.jpg') no-repeat center center / cover !important;
+    overflow: hidden;
+    padding: 60px 0 !important;
+    min-height: 85vh;
+}
+.products-directory-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(245, 248, 255, 0.55) !important; /* Soft ice-white overlay to fade wallpaper */
+    z-index: 2;
+    pointer-events: none;
+}
+.products-directory-section .container {
+    position: relative;
+    z-index: 5;
+}
+
+.parachute-bg-accent {
+    position: absolute;
+    top: -5%;
+    right: -5%;
+    width: 40%;
+    max-width: 480px;
+    opacity: 0.15;
+    z-index: 1;
+    pointer-events: none;
+}
+.faded-parachute-accent {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.mockup-header-box {
+    position: relative;
+    z-index: 5;
+    padding-top: 20px;
+}
+
+.mission-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(11, 42, 91, 0.05);
+    border: 1px solid rgba(11, 42, 91, 0.08);
+    color: #0b2a5b;
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    border-radius: 50px;
+    font-family: 'Outfit', sans-serif !important;
+}
+
+.badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #0b2a5b;
+    border-radius: 50%;
+}
+
+.mockup-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 48px !important;
+    font-weight: 800 !important;
+    color: #0b2a5b !important;
+    margin: 10px 0 !important;
+    text-transform: capitalize;
+}
+
+.mockup-subtitle {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    color: #4a5568 !important;
+    margin-bottom: 20px !important;
+}
+
+.mockup-explore-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #061026 !important; /* Extremely dark solid background */
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    padding: 12px 24px !important;
+    border-radius: 50px !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    text-decoration: none !important;
+    box-shadow: 0 8px 24px rgba(6, 16, 38, 0.35) !important;
+    transition: all 0.3s ease !important;
+}
+
+.mockup-explore-btn:hover {
+    transform: translateY(-2px);
+    background: #0b2a5b !important;
+    box-shadow: 0 10px 28px rgba(6, 16, 38, 0.45) !important;
+    color: #ffffff !important;
+}
+
+.arrow-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+.mockup-explore-btn:hover .arrow-circle {
+    transform: translateX(4px);
+}
+
+/* Mockup Card Link Reset */
+.mockup-card-link-wrapper {
+    display: block;
+    text-decoration: none !important;
+}
+
+/* Category Card Layout */
+.mockup-category-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    aspect-ratio: 9 / 11;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    background: #030f26;
+}
+
+.mockup-card-img-box {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+.mockup-card-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.mockup-category-card:hover .mockup-card-img-box img {
+    transform: scale(1.08);
+}
+
+.mockup-card-overlay-mask {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(3, 15, 38, 0.45) 0%, rgba(3, 15, 38, 0.95) 80%);
+    z-index: 2;
+    transition: all 0.4s ease;
+}
+.mockup-category-card:hover .mockup-card-overlay-mask {
+    background: linear-gradient(180deg, rgba(3, 15, 38, 0.3) 0%, rgba(3, 15, 38, 0.98) 80%);
+}
+
+.mockup-card-icon-badge {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(10, 46, 110, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+.mockup-category-card:hover .mockup-card-icon-badge {
+    background: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.45);
+    transform: scale(1.05);
+}
+
+.mockup-card-content-box {
+    position: relative;
+    z-index: 3;
+    padding: 100px 25px 25px;
+    height: 100%;
+}
+
+.mockup-card-tag {
+    color: #3b82f6 !important; /* Highly visible electric blue */
+    font-size: 11px;
+    font-weight: 800 !important; /* Bolder weight */
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    font-family: 'Outfit', sans-serif !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important; /* High contrast drop shadow */
+}
+
+.mockup-card-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    margin: 8px 0 12px !important;
+}
+
+.mockup-card-desc {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px !important;
+    line-height: 1.55 !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    margin-bottom: 20px !important;
+}
+
+.mockup-card-index {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 38px !important;
+    font-weight: 900 !important;
+    color: rgba(255, 255, 255, 0.08) !important;
+    line-height: 1 !important;
+    pointer-events: none;
+    transition: all 0.4s ease;
+}
+.mockup-category-card:hover .mockup-card-index {
+    color: rgba(255, 255, 255, 0.16) !important;
+}
+
+.mockup-details-pill {
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 50px;
+    padding: 8px 24px;
+    font-size: 12.5px;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 600;
+    color: #ffffff !important;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.04);
+}
+.mockup-category-card:hover .mockup-details-pill {
+    background: #ffffff !important;
+    color: #0b2a5b !important;
+    border-color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(255,255,255,0.1);
+}
+
+.mockup-arrow-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff !important;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    transition: all 0.3s ease;
+}
+.mockup-category-card:hover .mockup-arrow-circle {
+    background: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+    transform: rotate(-45deg);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.mockup-category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 45px rgba(3, 15, 38, 0.35);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* Right Side Vertical Text Accent */
+.vertical-text-accent {
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    transform-origin: right center;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(11, 42, 91, 0.15);
+    letter-spacing: 2px;
+    z-index: 1;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+/* Decorative Pagination dots */
+.mockup-pagination-dots .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(11, 42, 91, 0.15);
+    transition: all 0.3s ease;
+}
+.mockup-pagination-dots .dot.active {
+    width: 24px;
+    height: 8px;
+    border-radius: 4px;
+    background: #3b82f6;
+}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\GeneralSetting;
 
 class ProductFController extends Controller
 {
@@ -16,7 +17,9 @@ class ProductFController extends Controller
             ->orderBy('id', 'asc')
             ->get();
 
-        return view('frontend.products.index', compact('categories'));
+        $setting = GeneralSetting::first();
+
+        return view('frontend.products.index', compact('categories', 'setting'));
     }
 
     // CATEGORY PRODUCTS PAGE

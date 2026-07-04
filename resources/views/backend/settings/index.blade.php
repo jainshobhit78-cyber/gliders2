@@ -11,7 +11,7 @@
             <div class="card-body">
                 @include('_message')
 
-                <form method="POST" action="{{ route('admin.settings.update') }}" class="theme-form">
+                <form method="POST" action="{{ route('admin.settings.update') }}" class="theme-form" enctype="multipart/form-data">
                     @csrf
 
                     <!-- Maintenance Mode -->
@@ -145,6 +145,43 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Products Landing Page Customization -->
+                    <div class="mb-4 mt-4 border-top pt-3">
+                        <label class="form-label-title" style="font-weight: 700; font-size: 1.15rem; color: #13235b; display: block; margin-bottom: 5px;">Products Landing Page Customization</label>
+                        <small class="text-muted d-block mb-3">Customize the tagline, heading, subtitle text, and background wallpaper displayed on the <b>/products</b> category listing page.</small>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" style="font-weight: 600;">Page Tagline (Top Badge)</label>
+                                <input type="text" name="products_page_tagline" class="form-control" placeholder="e.g. MISSION READY. ALWAYS." value="{{ old('products_page_tagline', $setting->products_page_tagline ?? 'MISSION READY. ALWAYS.') }}">
+                                <small class="text-muted d-block mt-1">Small uppercase text shown above the main heading.</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" style="font-weight: 600;">Page Title</label>
+                                <input type="text" name="products_page_title" class="form-control" placeholder="e.g. Our Products" value="{{ old('products_page_title', $setting->products_page_title ?? 'Our Products') }}">
+                                <small class="text-muted d-block mt-1">Main heading displayed prominently on the page.</small>
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <label class="form-label" style="font-weight: 600;">Page Subtitle</label>
+                            <textarea name="products_page_subtitle" class="form-control mt-1" rows="3" placeholder="Enter descriptive paragraph text...">{{ old('products_page_subtitle', $setting->products_page_subtitle ?? 'Engineered with precision. Trusted by the forces. Built for every mission and environment.') }}</textarea>
+                            <small class="text-muted d-block mt-1">Descriptive text shown below the heading on the products page.</small>
+                        </div>
+
+                        <div class="mt-3">
+                            <label class="form-label" style="font-weight: 600;">Background Wallpaper</label>
+                            <input type="file" name="products_page_wallpaper" class="form-control mt-1" accept="image/jpeg,image/png,image/webp">
+                            <small class="text-muted d-block mt-1">Upload a high-resolution image (JPEG/PNG/WEBP, max 3 MB). A faded overlay will be applied automatically for readability.</small>
+                            @if($setting->products_page_wallpaper)
+                                <div class="mt-2 p-2 border rounded d-inline-block" style="background: #f8f9fa;">
+                                    <img src="{{ asset('frontend/images/' . $setting->products_page_wallpaper) }}" alt="Current Wallpaper" style="max-height: 120px; border-radius: 8px; display: block;">
+                                    <small class="text-muted d-block mt-1 text-center">Current: {{ $setting->products_page_wallpaper }}</small>
+                                </div>
+                            @endif
                         </div>
                     </div>
 

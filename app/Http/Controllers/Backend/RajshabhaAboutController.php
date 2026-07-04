@@ -29,6 +29,9 @@ class RajshabhaAboutController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'pdf' => 'nullable|file|mimes:pdf|max:10240',
+        ]);
 
         $pdf = null;
 
@@ -60,6 +63,9 @@ class RajshabhaAboutController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'pdf' => 'nullable|file|mimes:pdf|max:10240',
+        ]);
 
         $item = RajshabhaAbout::findOrFail($id);
 
