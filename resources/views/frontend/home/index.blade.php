@@ -271,7 +271,7 @@
                                     @foreach($keyOfferings as $offering)
                                         <div class="swiper-slide">
                                             <div class="offering-card">
-                                                <a href="{{ route('products.index') }}">
+                                                <a href="{{ $offering->category_id ? route('products.category', $offering->category_id) : route('products.index') }}">
                                                     <img src="{{ asset('uploads/key_offerings/' . $offering->image) }}"
                                                         alt="{{ $offering->title }}">
 
@@ -287,6 +287,10 @@
                                     @endforeach
 
                                 </div>
+                                <!-- Navigation Buttons & Pagination -->
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-pagination"></div>
                             </div>
                         </div>
                     </div>
@@ -1104,7 +1108,16 @@
             spaceBetween: 15,
             loop: true,
             autoplay: {
-                delay: 2500
+                delay: 2500,
+                disableOnInteraction: false
+            },
+            navigation: {
+                nextEl: ".offeringSlider .swiper-button-next",
+                prevEl: ".offeringSlider .swiper-button-prev",
+            },
+            pagination: {
+                el: ".offeringSlider .swiper-pagination",
+                clickable: true,
             },
             breakpoints: {
                 320: { slidesPerView: 1 },

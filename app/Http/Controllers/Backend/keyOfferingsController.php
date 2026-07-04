@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\ImageGallery;
 use App\Models\KeyOffering;
+use App\Models\ProductCategory;
 use App\Models\Marquee;
 use App\Models\OurUnit;
 use App\Models\PartnerLogo;
@@ -22,7 +23,8 @@ class keyOfferingsController extends Controller
 
     public function add()
     {
-        return view('backend.home_page.key.create');
+        $categories = ProductCategory::orderBy('name', 'asc')->get();
+        return view('backend.home_page.key.create', compact('categories'));
     }
 
 
@@ -34,6 +36,7 @@ class keyOfferingsController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'category_id' => 'nullable|exists:product_categories,id',
             'is_home' => 'required|in:0,1',
         ]);
 
@@ -56,6 +59,7 @@ class keyOfferingsController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'image' => $imageName,
+            'category_id' => $request->category_id,
             'is_home' => $request->is_home,
         ]);
 
@@ -67,6 +71,7 @@ class keyOfferingsController extends Controller
     public function edit($id)
     {
         $data['offer'] = KeyOffering::findOrFail($id);
+        $data['categories'] = ProductCategory::orderBy('name', 'asc')->get();
         return view('backend.home_page.key.edit', $data);
     }
 
@@ -79,6 +84,7 @@ class keyOfferingsController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'category_id' => 'nullable|exists:product_categories,id',
             'is_home' => 'required|in:0,1',
         ]);
 
@@ -104,6 +110,7 @@ class keyOfferingsController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'image' => $imageName,
+            'category_id' => $request->category_id,
             'is_home' => $request->is_home,
         ]);
 

@@ -8538,3 +8538,58 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
         background: rgba(255, 255, 255, 0.05) !important;
     }
 }
+
+/* ==========================================================================
+   HOMEPAGE KEY OFFERINGS SWIPER NAVIGATION STYLES
+   ========================================================================== */
+.offeringSlider {
+    padding-bottom: 45px !important;
+    position: relative;
+}
+
+.offeringSlider .swiper-button-next,
+.offeringSlider .swiper-button-prev {
+    color: #EE6802 !important;
+    background: rgba(255, 255, 255, 0.95);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    top: 50% !important;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.offeringSlider .swiper-button-next::after,
+.offeringSlider .swiper-button-prev::after {
+    font-size: 14px !important;
+    font-weight: 800;
+}
+
+.offeringSlider .swiper-button-next:hover,
+.offeringSlider .swiper-button-prev:hover {
+    background: #EE6802;
+    color: #ffffff !important;
+    transform: scale(1.06) translateY(-50%);
+}
+
+.offeringSlider .swiper-button-prev {
+    left: 4px !important;
+}
+
+.offeringSlider .swiper-button-next {
+    right: 4px !important;
+}
+
+.offeringSlider .swiper-pagination {
+    bottom: 5px !important;
+    z-index: 10;
+}
+
+.offeringSlider .swiper-pagination-bullet-active {
+    background-color: #EE6802 !important;
+    width: 14px;
+    border-radius: 3px;
+}

@@ -62,6 +62,21 @@
                     @enderror
                 </div>
 
+                <div class="mb-4">
+                    <label class="form-label-title">Link to Product Category</label>
+                    <select name="category_id" class="form-control">
+                        <option value="">-- None (No Link) --</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('category_id')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
 
                 {{-- DESCRIPTION --}}
                 <div class="mb-4">

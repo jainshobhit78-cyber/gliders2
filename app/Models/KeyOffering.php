@@ -12,6 +12,12 @@ class KeyOffering extends Model
         'title',
         'description',
         'image',
+        'category_id',
         'is_home'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(ProductCategory::class, 'category_id');
+    }
 }
