@@ -644,13 +644,13 @@
 
 @media(min-width:560px) {
     .legacy-stats-bar {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
 }
 
 @media(min-width:760px) {
     .legacy-stats-bar {
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         margin-bottom: 44px;
     }
 }
@@ -706,6 +706,7 @@
     font-weight: 800;
     color: var(--legacy-navy);
     font-family: 'Outfit', sans-serif;
+    white-space: nowrap;
 }
 
 .legacy-stat-item .legacy-lbl {
@@ -793,7 +794,7 @@
     align-items: flex-start;
     overflow-x: auto;
     overflow-y: visible;
-    padding: 36px 4px 14px;
+    padding: 36px 4px 65px; /* Sizable padding at the bottom to prevent scrollbar overlay / text cutoff */
     gap: 22px;
     scroll-snap-type: x proximity;
 }

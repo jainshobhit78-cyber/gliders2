@@ -243,7 +243,7 @@
                             <img src="{{ asset('frontend/images/logo/OPF.jpg') }}" class="logo" style="height: 80px;">
                         </a>
                         <a class="navbar-brand" href="{{ route('home') }}">
-                            <img src="{{ asset('frontend/images/logo/right-1.png') }}" class="logo">
+                            <img src="{{ asset('frontend/images/logo/right-1.png') }}" class="logo" style="height: 80px;">
                         </a>
                     </div>
                 </div>
