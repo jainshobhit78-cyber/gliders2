@@ -8387,3 +8387,121 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
         padding-left: 18px !important;
     }
 }
+
+/* ==========================================================================
+   HOMEPAGE LEADERSHIP SWIPER MANUAL NAVIGATION STYLES
+   ========================================================================== */
+.management-section {
+    position: relative;
+}
+.management-section .swiper-button-next,
+.management-section .swiper-button-prev {
+    color: #EE6802 !important;
+    background: #ffffff;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    top: 52% !important;
+    z-index: 10;
+}
+.management-section .swiper-button-next::after,
+.management-section .swiper-button-prev::after {
+    font-size: 16px !important;
+    font-weight: 800;
+}
+.management-section .swiper-button-next:hover,
+.management-section .swiper-button-prev:hover {
+    background: #EE6802;
+    color: #ffffff !important;
+    transform: scale(1.08) translateY(-50%);
+}
+.management-section .swiper-button-prev {
+    left: -24px !important;
+}
+.management-section .swiper-button-next {
+    right: -24px !important;
+}
+.management-section .swiper-pagination {
+    bottom: 25px !important;
+    z-index: 10;
+}
+.management-section .swiper-pagination-bullet-active {
+    background-color: #EE6802 !important;
+    width: 18px;
+    border-radius: 4px;
+}
+
+@media(max-width: 991px) {
+    .management-section .swiper-button-prev {
+        left: 10px !important;
+    }
+    .management-section .swiper-button-next {
+        right: 10px !important;
+    }
+}
+
+/* ==========================================================================
+   MOBILE FORCE CARDS & CERTIFICATE CARDS HORIZONTAL SLIDERS
+   ========================================================================== */
+@media (max-width: 767px) {
+    /* Forces horizontal scroll list */
+    .trusted-forces-grid {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory !important;
+        gap: 16px !important;
+        padding: 15px 5px 25px !important;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+    }
+
+    .trusted-forces-grid .force-card {
+        flex: 0 0 76% !important;
+        max-width: 76% !important;
+        scroll-snap-align: start !important;
+        margin-bottom: 0 !important;
+        box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    /* Certificates horizontal scroll list */
+    .certification-grid {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory !important;
+        gap: 16px !important;
+        padding: 15px 5px 25px !important;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+    }
+
+    .certification-grid .cert-card {
+        flex: 0 0 72% !important;
+        max-width: 72% !important;
+        scroll-snap-align: start !important;
+        min-height: 220px !important;
+        margin-bottom: 0 !important;
+        box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    /* Custom thin scrollbars for visual indicators */
+    .trusted-forces-grid::-webkit-scrollbar,
+    .certification-grid::-webkit-scrollbar {
+        height: 4px !important;
+    }
+    
+    .trusted-forces-grid::-webkit-scrollbar-thumb,
+    .certification-grid::-webkit-scrollbar-thumb {
+        background: rgba(238, 104, 2, 0.35) !important;
+        border-radius: 4px !important;
+    }
+
+    .trusted-forces-grid::-webkit-scrollbar-track,
+    .certification-grid::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05) !important;
+    }
+}

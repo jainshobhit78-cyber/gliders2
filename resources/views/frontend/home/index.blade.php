@@ -632,6 +632,11 @@
                         @endforeach
 
                     </div>
+                    
+                    <!-- Navigation Buttons & Pagination -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-pagination"></div>
                 </div>
 
             </div>
@@ -1188,14 +1193,17 @@
         document.addEventListener("DOMContentLoaded", function () {
             new Swiper(".managementSlider", {
                 slidesPerView: 3,
-                spaceBetween: 0,
+                spaceBetween: 30,
                 centeredSlides: false,
-                loop: true,
-                autoplay: {
-                    delay: 2500,
-                    disableOnInteraction: false
+                loop: false,
+                navigation: {
+                    nextEl: ".management-section .swiper-button-next",
+                    prevEl: ".management-section .swiper-button-prev",
                 },
-
+                pagination: {
+                    el: ".management-section .swiper-pagination",
+                    clickable: true,
+                },
                 breakpoints: {
                     320: {
                         slidesPerView: 1
