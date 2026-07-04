@@ -19,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Automatically bypass Spatie permission checks for super administrators
+        \Illuminate\Support\Facades\Gate::before(function ($user, $ability) {
+            return method_exists($user, 'hasRole') && $user->hasRole('admin') ? true : null;
+        });
+
         view()->composer('*', function ($view) {
             if (!session()->has('captcha_num1') || !session()->has('captcha_num2')) {
                 session([
