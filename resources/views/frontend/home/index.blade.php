@@ -117,28 +117,29 @@
                     <div class="swiper-wrapper">
 
                         @foreach($products as $product)
-                                            <div class="swiper-slide">
-                                                <a href="{{ route('products.detail', [
-                                'categoryId' => $product->category_id,
-                                'productId' => $product->id
-                            ]) }}" class="product-link">
-                                                    <div class="product-card">
-                                                        <div class="product-card-img">
-                                                            <img src="{{ asset('uploads/products/' . optional($product->images->first())->image) }}"
-                                                                alt="{{ $product->title }}">
-                                                        </div>
-                                                        <div class="product-card-info">
-                                                            <h3 class="product-title-h3">
-                                                                {{ \Illuminate\Support\Str::limit($product->title, 35, '...') }}
-                                                            </h3>
-                                                            <div class="product-action-link mt-2">
-                                                                <span>View Details</span>
-                                                                <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px; height:16px; transition:transform 0.3s ease;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                            <div class="swiper-slide">
+                                <div class="fan-spread-scroll-item">
+                                    <div class="fan-spread-scroll-item__image-wrapper">
+                                        <img src="{{ asset('uploads/products/' . optional($product->images->first())->image) }}"
+                                             alt="{{ $product->title }}">
+                                    </div>
+                                    
+                                    <div class="fan-spread-scroll-item__content">
+                                        <a href="{{ route('products.detail', ['categoryId' => $product->category_id, 'productId' => $product->id]) }}" class="fan-spread-scroll-link stretched-link">
+                                            <h3 class="fan-spread-scroll-title">{{ $product->title }}</h3>
+                                        </a>
+                                        
+                                        <div class="bottom-content">
+                                            <div class="fan-spread-scroll-description">
+                                                {!! \Illuminate\Support\Str::limit(strip_tags($product->description), 110) !!}
                                             </div>
+                                            <div class="btn-circle-arrow">
+                                                <svg style="width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5;" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
 
                     </div>

@@ -6871,76 +6871,194 @@ table td {
 }
 
 /* ==========================================================================
-   Homepage Product Card Redesign Overrides (Locks to Safran/Defense Portal Aesthetic)
+   Homepage Product Card - Rafael.co.il Discover Our Domains Pixel-Perfect Clone
    ========================================================================== */
-.our-products-section .product-card {
+.our-products-section {
+    background-color: #ffffff !important;
+    background-image: none !important;
+    padding: 40px 0 60px !important;
+}
+
+.our-products-section .section-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 42px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    color: #101010 !important;
+    margin-bottom: 30px !important;
+    text-align: left !important;
+    padding-left: 15px;
+}
+
+.our-products-section .section-title span {
+    color: #f5821f !important;
+}
+
+.our-products-section .section-title::after {
+    display: none !important;
+}
+
+/* Swiper Slide / Card Base */
+.our-products-section .fan-spread-scroll-item {
     position: relative;
-    border-radius: 16px !important;
+    height: 520px !important;
+    border-radius: 12px !important;
     overflow: hidden;
-    background: #fff !important;
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
-    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    background-color: #06074d;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+    transition: box-shadow 0.5s ease !important;
+}
+
+/* Dark Blue Dynamic Gradient Overlay */
+.our-products-section .fan-spread-scroll-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(0deg, rgba(2, 2, 56, 0.65) 0%, rgba(2, 2, 56, 0.15) 100%) !important;
+    pointer-events: none;
+    transition: background 0.5s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.our-products-section .fan-spread-scroll-item:hover::after {
+    background: linear-gradient(0deg, rgba(2, 2, 56, 0.8) 0%, rgba(2, 2, 56, 0.3) 100%) !important;
+}
+
+/* Full Photo Image Wrapper */
+.our-products-section .fan-spread-scroll-item__image-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.our-products-section .fan-spread-scroll-item__image-wrapper img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.our-products-section .fan-spread-scroll-item:hover .fan-spread-scroll-item__image-wrapper img {
+    transform: scale(1.08) !important;
+}
+
+/* Floating content layout */
+.our-products-section .fan-spread-scroll-item__content {
+    position: relative;
+    z-index: 2;
     height: 100%;
     display: flex;
     flex-direction: column;
-    transform: none !important;
+    justify-content: flex-end;
+    padding: 2.5rem 2rem !important;
+    color: #fff;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1) !important;
 }
 
-.our-products-section .product-card:hover {
-    transform: translateY(-8px) !important;
-    box-shadow: 0 16px 36px rgba(11, 42, 91, 0.12) !important;
-    border-color: rgba(245, 130, 31, 0.3) !important;
+.our-products-section .fan-spread-scroll-item:hover .fan-spread-scroll-item__content {
+    transform: translateY(-5px) !important;
 }
 
-.our-products-section .product-card-img {
-    width: 100%;
+/* Link Wrapper */
+.our-products-section .fan-spread-scroll-link {
+    text-decoration: none !important;
+    color: #fff !important;
+}
+
+/* Product Heading (H3) */
+.our-products-section .fan-spread-scroll-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    line-height: 1.25 !important;
+    color: #ffffff !important;
+    margin: 0 0 15px 0 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease !important;
+}
+
+.our-products-section .fan-spread-scroll-item:hover .fan-spread-scroll-title {
+    color: #f5821f !important;
+}
+
+/* Bottom Content Container - Slides Open on Hover */
+.our-products-section .fan-spread-scroll-item .bottom-content {
+    max-height: 0;
     overflow: hidden;
-    background-color: #f7f9fc;
-}
-
-.our-products-section .product-card img {
-    width: 100% !important;
-    height: 250px !important;
-    object-fit: cover !important;
-    display: block !important;
-    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-}
-
-.our-products-section .product-card:hover img {
-    transform: scale(1.06) !important;
-}
-
-.our-products-section .product-card-info {
-    padding: 20px 20px 24px !important;
-    background: #ffffff !important;
-    flex-grow: 1;
+    opacity: 0;
+    transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease !important;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    transition: background-color 0.3s ease;
+    align-items: flex-start;
 }
 
-.our-products-section .product-card:hover .product-card-info {
-    background-color: #fafbfd !important;
+.our-products-section .fan-spread-scroll-item:hover .bottom-content {
+    max-height: 250px;
+    opacity: 1;
 }
 
-.our-products-section .product-title-h3 {
+/* Product description */
+.our-products-section .fan-spread-scroll-description {
     font-family: 'Outfit', sans-serif !important;
-    color: #0b2a5b !important;
-    font-size: 18px !important;
-    font-weight: 700 !important;
-    line-height: 1.4 !important;
-    margin: 0 !important;
+    font-size: 14.5px !important;
+    line-height: 1.5 !important;
+    font-weight: 300 !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    margin-bottom: 25px !important;
     display: -webkit-box !important;
-    -webkit-line-clamp: 2 !important;
-    -webkit-box-orient: vertical !important;
-    overflow: hidden !important;
-    transition: color 0.3s ease;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.our-products-section .product-card:hover .product-title-h3 {
-    color: #f5821f !important;
+/* Circle Arrow Button */
+.our-products-section .btn-circle-arrow {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50% !important;
+    background: #ffffff !important;
+    color: #06074d !important;
+    border: none !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+    transition: background 0.3s, color 0.3s, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.our-products-section .fan-spread-scroll-item:hover .btn-circle-arrow {
+    background: #f5821f !important;
+    color: #ffffff !important;
+    transform: rotate(-45deg) !important;
+}
+
+/* Swiper navigation arrows redesign */
+.our-products-section .swiper-button-prev,
+.our-products-section .swiper-button-next {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    background: #ffffff !important;
+    color: #101010 !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.3s ease !important;
+}
+
+.our-products-section .swiper-button-prev:hover,
+.our-products-section .swiper-button-next:hover {
+    background: #101010 !important;
+    color: #ffffff !important;
+    border-color: #101010 !important;
+}
+
+.our-products-section .swiper-button-prev::after,
+.our-products-section .swiper-button-next::after {
+    font-size: 16px !important;
 }
 
 .our-products-section .product-card::before,
