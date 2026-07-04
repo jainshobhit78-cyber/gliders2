@@ -3,17 +3,22 @@
 @section('content')
 
     <!-- CATEGORY HERO BANNER -->
-    <section class="category-hero" style="background-image: url('{{ asset('uploads/category/' . $category->image) }}')">
+    @php
+        $bgImage = $category->wallpaper_image ? asset('uploads/category/' . $category->wallpaper_image) : asset('uploads/category/' . $category->image);
+        $title = $category->category_title ?: $category->name;
+    @endphp
+    <section class="category-hero" style="background-image: url('{{ $bgImage }}')">
 
         <div class="category-overlay"></div>
 
         <div class="container">
-            <div class="category-hero-content">
-                <!-- <p class="breadcrumb-text">
-                                Home / Products / <span>{{ $category->name }}</span>
-                            </p> -->
-
-                <h1>{{ $category->name }}</h1>
+            <div class="category-hero-content text-center">
+                <h1>{{ $title }}</h1>
+                @if($category->category_subtitle)
+                    <p class="category-hero-subtitle" style="color: #fff; max-width: 700px; margin: 15px auto 0; font-size: 1.15rem; opacity: 0.9;">
+                        {{ $category->category_subtitle }}
+                    </p>
+                @endif
             </div>
         </div>
     </section>

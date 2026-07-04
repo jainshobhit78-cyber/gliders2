@@ -10,7 +10,10 @@ class ProductCategory extends Model
 
     protected $fillable = [
         'name',
+        'category_title',
+        'category_subtitle',
         'image',
+        'wallpaper_image',
         'status',
         'display_order'
     ];

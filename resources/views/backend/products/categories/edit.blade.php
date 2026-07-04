@@ -35,6 +35,40 @@
 
             <div class="mb-3">
 
+                <label class="form-label-title">Category Title (Detailed Heading)</label>
+
+                <input type="text" name="category_title" value="{{ old('category_title', $category->category_title) }}" class="form-control">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label-title">Category Subtitle (Detailed Text)</label>
+
+                <textarea name="category_subtitle" class="form-control" rows="3">{{ old('category_subtitle', $category->category_subtitle) }}</textarea>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label-title">Background Wallpaper</label>
+
+                <input type="file" name="wallpaper_image" id="wallpaperInput" class="form-control" accept="image/jpeg,image/png,image/jpg,image/webp">
+
+                @if($category->wallpaper_image)
+                    <br>
+                    <img src="{{ asset('uploads/category/' . $category->wallpaper_image) }}" id="wallpaperPreview"
+                        style="margin-top:10px;height:120px;border:1px solid #ddd;padding:4px;">
+                @else
+                    <div class="mt-2">
+                        <img id="wallpaperPreview" src="" style="max-width:200px; display:none; border-radius:6px;">
+                    </div>
+                @endif
+
+            </div>
+
+            <div class="mb-3">
+
                 <label class="form-label-title">Display Order</label>
 
                 <input type="number" name="display_order" value="{{ old('display_order', $category->display_order) }}" class="form-control" step="1">
@@ -124,6 +158,56 @@
 
             });
 
+
+                </select>
+
+            </div>
+
+            <div class="panel-footer">
+
+                <button class="btn btn-primary" id="submitBtn">
+
+                    <span class="btnText">
+
+                        Update Category
+
+                    </span>
+
+                    <span class="btnLoader d-none">
+
+                        <i class="fa fa-spinner fa-spin"></i>
+                        Saving...
+
+                    </span>
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+@endsection
+
+@section('script')
+    <script>
+
+        $(document).ready(function () {
+
+            $('.theme-form').on('submit', function () {
+
+                if (typeof tinymce !== "undefined") {
+                    tinymce.triggerSave();
+                }
+
+                $('#submitBtn').prop('disabled', true);
+
+                $('.btnText').addClass('d-none');
+                $('.btnLoader').removeClass('d-none');
+
+            });
+
         });
 
     </script>
@@ -146,6 +230,14 @@
 
                 reader.readAsDataURL(this.files[0]);
 
+            });
+
+            $('#wallpaperInput').change(function () {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#wallpaperPreview').attr('src', e.target.result).show();
+                }
+                reader.readAsDataURL(this.files[0]);
             });
 
         });
