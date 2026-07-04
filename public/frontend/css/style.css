@@ -7893,3 +7893,22 @@ table td {
 .btn-post-comment:hover {
     background: #081d41 !important;
 }
+
+/* Card index number floating at the bottom left */
+.card-index-num {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 55px !important;
+    font-weight: 900 !important;
+    color: rgba(255, 255, 255, 0.08) !important;
+    line-height: 1 !important;
+    pointer-events: none;
+    z-index: 1;
+    transition: all 0.4s ease;
+}
+.premium-product-card:hover .card-index-num {
+    color: rgba(255, 255, 255, 0.15) !important;
+    transform: translateY(-5px);
+}
