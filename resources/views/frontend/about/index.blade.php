@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
 @section('style')
-    <link rel="stylesheet" href="{{ url('frontend/css/legacy.css') }}">
+    <link rel="stylesheet" href="{{ url('frontend/css/legacy.css') }}?v={{ file_exists(public_path('frontend/css/legacy.css')) ? filemtime(public_path('frontend/css/legacy.css')) : time() }}">
 @endsection
 
 @section('content')

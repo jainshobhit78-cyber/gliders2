@@ -230,8 +230,8 @@
     background: #fff;
     border: 2px solid var(--legacy-line);
     border-bottom: 4px solid var(--legacy-navy);
-    border-radius: 8px;
-    padding: 16px 12px 14px;
+    border-radius: 12px;
+    padding: 24px 16px 20px;
     text-align: center;
     transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
@@ -256,7 +256,7 @@
 
 @media(min-width:1160px) {
     .legacy-leader-card {
-        flex: 0 0 15.4%;
+        flex: 0 0 18%;
     }
 }
 
@@ -275,18 +275,18 @@
 }
 
 .legacy-leader-card .legacy-avatar {
-    width: 84px;
-    height: 84px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
-    margin: 0 auto 12px;
+    margin: 0 auto 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
     font-weight: 700;
-    font-size: 22px;
+    font-size: 26px;
     font-family: 'Outfit', sans-serif;
-    border: 3px solid #fff;
+    border: 4px solid #fff;
     box-shadow: 0 0 0 3px var(--legacy-line);
     overflow: hidden;
 }
@@ -302,23 +302,23 @@
 }
 
 .legacy-leader-card h4 {
-    font-size: 14.5px;
+    font-size: 17px;
     color: var(--legacy-ink);
     font-weight: 700;
-    line-height: 1.25;
+    line-height: 1.3;
 }
 
 .legacy-leader-card .legacy-role {
-    font-size: 11.5px;
+    font-size: 13px;
     color: var(--legacy-muted);
-    margin-top: 4px;
+    margin-top: 6px;
     line-height: 1.4;
-    min-height: 30px;
+    min-height: 38px;
 }
 
 .legacy-leader-card .legacy-years {
-    margin-top: 8px;
-    font-size: 12.5px;
+    margin-top: 10px;
+    font-size: 14.5px;
     font-weight: 700;
     color: var(--legacy-navy);
 }
@@ -378,12 +378,12 @@
 /* ===== DETAIL PANEL ===== */
 .legacy-detail-panel {
     background: var(--legacy-sky);
-    border-radius: 12px;
-    margin: 24px var(--legacy-gutter, 40px);
-    padding: 24px;
+    border-radius: 16px;
+    margin: 30px var(--legacy-gutter, 40px);
+    padding: 36px;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 22px;
+    gap: 32px;
     transition: opacity .22s ease, transform .22s ease;
 }
 
@@ -394,27 +394,27 @@
 
 @media(min-width:640px) {
     .legacy-detail-panel {
-        padding: 30px;
-        gap: 26px;
+        padding: 40px;
+        gap: 36px;
     }
 }
 
 @media(min-width:980px) {
     .legacy-detail-panel {
-        grid-template-columns: 260px 1fr 280px;
+        grid-template-columns: 340px 1fr 300px;
         align-items: start;
-        padding: 36px;
-        gap: 28px;
+        padding: 48px;
+        gap: 36px;
     }
 }
 
 .legacy-detail-photo {
     background: #fff;
-    border-radius: 10px;
-    padding: 18px;
+    border-radius: 12px;
+    padding: 24px;
     box-shadow: var(--legacy-card-shadow);
     text-align: center;
-    max-width: 200px;
+    max-width: 300px;
     margin: 0 auto;
 }
 
@@ -428,13 +428,13 @@
 .legacy-detail-photo .legacy-avatar-lg {
     width: 100%;
     aspect-ratio: 1/1;
-    border-radius: 8px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
     font-weight: 700;
-    font-size: 36px;
+    font-size: 54px;
     font-family: 'Outfit', sans-serif;
     overflow: hidden;
 }
@@ -447,54 +447,54 @@
 
 @media(min-width:980px) {
     .legacy-detail-photo .legacy-avatar-lg {
-        font-size: 46px;
+        font-size: 64px;
     }
 }
 
 .legacy-detail-main h2 {
-    font-size: clamp(20px, 5vw, 26px);
+    font-size: clamp(24px, 5vw, 32px);
     font-weight: 800;
 }
 
 .legacy-detail-main .legacy-role-line {
     color: var(--legacy-orange);
     font-weight: 700;
-    font-size: 14px;
-    margin-top: 6px;
+    font-size: 17px;
+    margin-top: 8px;
 }
 
 .legacy-detail-main .legacy-tenure {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 14px;
-    font-size: 13px;
+    gap: 10px;
+    margin-top: 18px;
+    font-size: 15.5px;
     color: var(--legacy-navy);
     font-weight: 600;
 }
 
 .legacy-detail-main .legacy-tenure svg {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     flex-shrink: 0;
 }
 
 .legacy-detail-main p.legacy-desc {
-    margin-top: 16px;
-    color: #445069;
-    font-size: 14px;
-    line-height: 1.7;
+    margin-top: 20px;
+    color: #333d4f;
+    font-size: 16px;
+    line-height: 1.8;
 }
 
 .legacy-quote-box {
     background: #fff;
-    border-radius: 10px;
-    padding: 20px 18px;
+    border-radius: 12px;
+    padding: 26px 22px;
     box-shadow: var(--legacy-card-shadow);
     position: relative;
-    font-size: 13.5px;
-    color: #445069;
-    line-height: 1.7;
+    font-size: 16px;
+    color: #333d4f;
+    line-height: 1.8;
     font-style: italic;
 }
 
@@ -534,13 +534,13 @@
 }
 
 .legacy-info-col h3 {
-    font-size: 15px;
+    font-size: 19px;
     font-weight: 700;
     color: var(--legacy-navy);
     letter-spacing: .3px;
     position: relative;
-    padding-bottom: 10px;
-    margin-bottom: 16px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
 }
 
 .legacy-info-col h3::after {
@@ -548,8 +548,8 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 42px;
-    height: 3px;
+    width: 50px;
+    height: 4px;
     background: var(--legacy-orange);
     border-radius: 2px;
 }
@@ -557,18 +557,18 @@
 .legacy-achv-list li {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    font-size: 13.5px;
-    color: #3d4a63;
-    padding: 7px 0;
-    line-height: 1.5;
+    gap: 12px;
+    font-size: 16px;
+    color: #2b3547;
+    padding: 9px 0;
+    line-height: 1.6;
 }
 
 .legacy-achv-list .legacy-tick {
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
-    border: 1.5px solid var(--legacy-orange);
+    border: 2px solid var(--legacy-orange);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -577,8 +577,8 @@
 }
 
 .legacy-achv-list .legacy-tick svg {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
 }
 
 .legacy-focus-grid {
@@ -623,10 +623,10 @@
 }
 
 .legacy-focus-item span {
-    font-size: 12px;
-    color: #3d4a63;
+    font-size: 14px;
+    color: #2b3547;
     font-weight: 600;
-    line-height: 1.35;
+    line-height: 1.4;
 }
 
 /* ===== STATS BAR ===== */
@@ -700,36 +700,36 @@
 }
 
 .legacy-stat-item .legacy-num {
-    font-size: 19px;
+    font-size: 26px;
     font-weight: 800;
     color: var(--legacy-navy);
     font-family: 'Outfit', sans-serif;
 }
 
 .legacy-stat-item .legacy-lbl {
-    font-size: 11.5px;
+    font-size: 13.5px;
     color: var(--legacy-muted);
-    margin-top: 2px;
-    line-height: 1.3;
+    margin-top: 4px;
+    line-height: 1.35;
 }
 
 @media(min-width:760px) {
     .legacy-stat-item .legacy-ic {
-        width: 46px;
-        height: 46px;
+        width: 52px;
+        height: 52px;
     }
 
     .legacy-stat-item .legacy-ic svg {
-        width: 22px;
-        height: 22px;
+        width: 24px;
+        height: 24px;
     }
 
     .legacy-stat-item .legacy-num {
-        font-size: 21px;
+        font-size: 30px;
     }
 
     .legacy-stat-item .legacy-lbl {
-        font-size: 12px;
+        font-size: 14.5px;
     }
 }
 
