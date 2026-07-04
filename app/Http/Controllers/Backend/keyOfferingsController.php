@@ -133,10 +133,66 @@ class keyOfferingsController extends Controller
         return view('backend.home_page.video_banner.update', compact('offer'));
     }
 
+    public function uploadChunk(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file',
+            'chunkIndex' => 'required|integer',
+            'totalChunks' => 'required|integer',
+            'upload_id' => 'required|string|alpha_num',
+            'file_ext' => 'required|string|alpha_num',
+        ]);
+
+        $file = $request->file('file');
+        $chunkIndex = $request->chunkIndex;
+        $totalChunks = $request->totalChunks;
+        $upload_id = $request->upload_id;
+        $file_ext = $request->file_ext;
+
+        $tempPath = storage_path('app/chunks/' . $upload_id);
+        if (!file_exists($tempPath)) {
+            mkdir($tempPath, 0755, true);
+        }
+
+        $file->move($tempPath, $chunkIndex);
+
+        // If it's the last chunk, merge all of them
+        if ($chunkIndex == $totalChunks - 1) {
+            $finalPath = public_path('uploads/video_banner');
+            if (!file_exists($finalPath)) {
+                mkdir($finalPath, 0755, true);
+            }
+
+            $finalFileName = time() . '_' . $upload_id . '.' . $file_ext;
+            $finalFile = fopen($finalPath . '/' . $finalFileName, 'wb');
+
+            for ($i = 0; $i < $totalChunks; $i++) {
+                $chunkFile = $tempPath . '/' . $i;
+                if (!file_exists($chunkFile)) {
+                    return response()->json(['error' => 'Chunk ' . $i . ' is missing.'], 400);
+                }
+
+                $chunkContent = fopen($chunkFile, 'rb');
+                stream_copy_to_stream($chunkContent, $finalFile);
+                fclose($chunkContent);
+                unlink($chunkFile);
+            }
+
+            fclose($finalFile);
+            rmdir($tempPath);
+
+            return response()->json(['finalName' => $finalFileName]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
     public function update_video_banner(Request $request)
     {
         $request->validate([
             'title' => 'nullable|string|max:255',
+            'uploaded_banner_video' => 'nullable|string',
+            'uploaded_mid_video' => 'nullable|string',
             'banner_video' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg,video/quicktime|max:2048000',
             'mid_video' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg,video/quicktime|max:2048000',
         ]);
@@ -146,35 +202,38 @@ class keyOfferingsController extends Controller
         $bannerVideoName = $banner->banner_video ?? null;
         $midVideoName = $banner->mid_video ?? null;
 
-        // Banner Video Upload
-        if ($request->hasFile('banner_video')) {
-
+        // Use chunk uploaded file if exists
+        if ($request->filled('uploaded_banner_video')) {
             if ($banner && $banner->banner_video && file_exists(public_path('uploads/video_banner/' . $banner->banner_video))) {
                 unlink(public_path('uploads/video_banner/' . $banner->banner_video));
             }
-
+            $bannerVideoName = $request->uploaded_banner_video;
+        } elseif ($request->hasFile('banner_video')) {
+            if ($banner && $banner->banner_video && file_exists(public_path('uploads/video_banner/' . $banner->banner_video))) {
+                unlink(public_path('uploads/video_banner/' . $banner->banner_video));
+            }
             $file = $request->file('banner_video');
             $bannerVideoName = time() . '_banner.' . $file->getClientOriginalExtension();
-
             $file->move(public_path('uploads/video_banner'), $bannerVideoName);
         }
 
-        // Mid Video Upload
-        if ($request->hasFile('mid_video')) {
-
+        // Use chunk uploaded mid file if exists
+        if ($request->filled('uploaded_mid_video')) {
             if ($banner && $banner->mid_video && file_exists(public_path('uploads/video_banner/' . $banner->mid_video))) {
                 unlink(public_path('uploads/video_banner/' . $banner->mid_video));
             }
-
+            $midVideoName = $request->uploaded_mid_video;
+        } elseif ($request->hasFile('mid_video')) {
+            if ($banner && $banner->mid_video && file_exists(public_path('uploads/video_banner/' . $banner->mid_video))) {
+                unlink(public_path('uploads/video_banner/' . $banner->mid_video));
+            }
             $file = $request->file('mid_video');
             $midVideoName = time() . '_mid.' . $file->getClientOriginalExtension();
-
             $file->move(public_path('uploads/video_banner'), $midVideoName);
         }
 
         if ($banner) {
             $banner->update([
-                // 'title' => $request->title,
                 'banner_video' => $bannerVideoName,
                 'mid_video' => $midVideoName,
             ]);
@@ -338,8 +397,8 @@ class keyOfferingsController extends Controller
         if ($gallery) {
             if ($request->hasFile('image')) {
 
-                if ($gallery->image && file_exists(base_path($gallery->image))) {
-                    unlink(base_path($gallery->image));
+                if ($gallery->image && file_exists(public_path($gallery->image))) {
+                    unlink(public_path($gallery->image));
                 }
 
                 $file = $request->file('image');
@@ -373,8 +432,8 @@ class keyOfferingsController extends Controller
     {
         $image = ImageGallery::findOrFail($id);
 
-        if ($image->image && file_exists(base_path($image->image))) {
-            unlink(base_path($image->image));
+        if ($image->image && file_exists(public_path($image->image))) {
+            unlink(public_path($image->image));
         }
 
         $image->delete();
@@ -412,8 +471,8 @@ class keyOfferingsController extends Controller
         if ($gallery) {
             if ($request->hasFile('image')) {
 
-                if ($gallery->image && file_exists(base_path($gallery->image))) {
-                    unlink(base_path($gallery->image));
+                if ($gallery->image && file_exists(public_path($gallery->image))) {
+                    unlink(public_path($gallery->image));
                 }
 
                 $file = $request->file('image');
@@ -446,8 +505,8 @@ class keyOfferingsController extends Controller
     {
         $image = PartnerLogo::findOrFail($id);
 
-        if ($image->image && file_exists(base_path($image->image))) {
-            unlink(base_path($image->image));
+        if ($image->image && file_exists(public_path($image->image))) {
+            unlink(public_path($image->image));
         }
 
         $image->delete();

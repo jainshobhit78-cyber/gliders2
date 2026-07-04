@@ -64,14 +64,19 @@ Route::post('admin/login', [AdminAuthController::class, 'loginPost']);
 
 
 Route::get('admin/forgot-password', [AdminAuthController::class, 'forgotPassword']);
-Route::post('admin/forgot-password', [AdminAuthController::class, 'forgotPasswordPost']);
+Route::post('admin/forgot-password', [AdminAuthController::class, 'forgotPasswordPost'])->middleware('throttle:3,5');
 
 Route::get('admin/reset-password/{token}', [AdminAuthController::class, 'showResetForm']);
 Route::post('admin/reset-password', [AdminAuthController::class, 'resetPasswordPost']);
 
-Route::get('admin/logout', [AdminAuthController::class, 'logout']);
+Route::post('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
 Route::middleware(['adminAuth', 'ipWhitelist'])->group(function () {
+
+    Route::get('admin/fix-permissions', function () {
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\AdminRolePermissionSeeder']);
+        return "Permissions successfully populated inside the database!";
+    });
 
     // System Settings Routes
     Route::get('admin/settings', [SystemSettingsController::class, 'index'])->name('admin.settings.index');
@@ -79,8 +84,8 @@ Route::middleware(['adminAuth', 'ipWhitelist'])->group(function () {
 
     // Approvals Dashboard Routes
     Route::get('admin/approvals', [ApprovalController::class, 'index'])->name('admin.approvals.index');
-    Route::get('admin/approvals/news/approve/{id}', [ApprovalController::class, 'approveNews'])->name('admin.approvals.news.approve');
-    Route::get('admin/approvals/media/approve/{id}', [ApprovalController::class, 'approveMedia'])->name('admin.approvals.media.approve');
+    Route::post('admin/approvals/news/approve/{id}', [ApprovalController::class, 'approveNews'])->name('admin.approvals.news.approve');
+    Route::post('admin/approvals/media/approve/{id}', [ApprovalController::class, 'approveMedia'])->name('admin.approvals.media.approve');
 
     Route::get('admin/dashboard', function () {
         return view('backend.dashboard.list');
@@ -108,7 +113,7 @@ Route::middleware(['adminAuth', 'ipWhitelist'])->group(function () {
     Route::get(
         'admin/about/production-unit/view/{id}',
         [AboutProductionUnitController::class, 'viewMilestones']
-    );
+    )->middleware('permission:production_unit.view,admin');
 
     Route::get('admin/about/history', [AboutHistoryController::class, 'list'])->middleware('permission:history.view,admin');
     Route::get('admin/about/history/add', [AboutHistoryController::class, 'add'])->middleware('permission:history.create,admin');
@@ -318,23 +323,23 @@ Route::middleware(['adminAuth', 'ipWhitelist'])->group(function () {
     Route::post('admin/news/category/update/{id}', [NewsController::class, 'categoryUpdate'])->middleware('permission:news_categories.edit,admin');
 
     // Legacy Management Routes (Gliders Legacy)
-    Route::get('admin/legacy', [LegacyController::class, 'index'])->name('admin.legacy.index');
-    Route::get('admin/legacy/add', [LegacyController::class, 'add'])->name('admin.legacy.add');
-    Route::post('admin/legacy/store', [LegacyController::class, 'store'])->name('admin.legacy.store');
-    Route::get('admin/legacy/edit/{id}', [LegacyController::class, 'edit'])->name('admin.legacy.edit');
-    Route::post('admin/legacy/update/{id}', [LegacyController::class, 'update'])->name('admin.legacy.update');
-    Route::get('admin/legacy/delete/{id}', [LegacyController::class, 'delete'])->name('admin.legacy.delete');
+    Route::get('admin/legacy', [LegacyController::class, 'index'])->name('admin.legacy.index')->middleware('permission:legacy.view,admin');
+    Route::get('admin/legacy/add', [LegacyController::class, 'add'])->name('admin.legacy.add')->middleware('permission:legacy.create,admin');
+    Route::post('admin/legacy/store', [LegacyController::class, 'store'])->name('admin.legacy.store')->middleware('permission:legacy.create,admin');
+    Route::get('admin/legacy/edit/{id}', [LegacyController::class, 'edit'])->name('admin.legacy.edit')->middleware('permission:legacy.edit,admin');
+    Route::post('admin/legacy/update/{id}', [LegacyController::class, 'update'])->name('admin.legacy.update')->middleware('permission:legacy.edit,admin');
+    Route::get('admin/legacy/delete/{id}', [LegacyController::class, 'delete'])->name('admin.legacy.delete')->middleware('permission:legacy.delete,admin');
 
     // OPF Legacy Management Routes (OPF Legacy)
-    Route::get('admin/opf-legacy', [LegacyController::class, 'indexOPF'])->name('admin.opf_legacy.index');
-    Route::get('admin/opf-legacy/add', [LegacyController::class, 'addOPF'])->name('admin.opf_legacy.add');
-    Route::post('admin/opf-legacy/store', [LegacyController::class, 'storeOPF'])->name('admin.opf_legacy.store');
-    Route::get('admin/opf-legacy/edit/{id}', [LegacyController::class, 'editOPF'])->name('admin.opf_legacy.edit');
-    Route::post('admin/opf-legacy/update/{id}', [LegacyController::class, 'updateOPF'])->name('admin.opf_legacy.update');
-    Route::get('admin/opf-legacy/delete/{id}', [LegacyController::class, 'deleteOPF'])->name('admin.opf_legacy.delete');
+    Route::get('admin/opf-legacy', [LegacyController::class, 'indexOPF'])->name('admin.opf_legacy.index')->middleware('permission:legacy.view,admin');
+    Route::get('admin/opf-legacy/add', [LegacyController::class, 'addOPF'])->name('admin.opf_legacy.add')->middleware('permission:legacy.create,admin');
+    Route::post('admin/opf-legacy/store', [LegacyController::class, 'storeOPF'])->name('admin.opf_legacy.store')->middleware('permission:legacy.create,admin');
+    Route::get('admin/opf-legacy/edit/{id}', [LegacyController::class, 'editOPF'])->name('admin.opf_legacy.edit')->middleware('permission:legacy.edit,admin');
+    Route::post('admin/opf-legacy/update/{id}', [LegacyController::class, 'updateOPF'])->name('admin.opf_legacy.update')->middleware('permission:legacy.edit,admin');
+    Route::get('admin/opf-legacy/delete/{id}', [LegacyController::class, 'deleteOPF'])->name('admin.opf_legacy.delete')->middleware('permission:legacy.delete,admin');
 
-    Route::post('admin/legacy/settings', [LegacyController::class, 'updateSettings'])->name('admin.legacy.settings');
-    Route::post('admin/legacy/reorder', [LegacyController::class, 'reorder'])->name('admin.legacy.reorder');
+    Route::post('admin/legacy/settings', [LegacyController::class, 'updateSettings'])->name('admin.legacy.settings')->middleware('permission:legacy.edit,admin');
+    Route::post('admin/legacy/reorder', [LegacyController::class, 'reorder'])->name('admin.legacy.reorder')->middleware('permission:legacy.edit,admin');
 
     Route::get('admin/category/list', [ProductCategoryController::class, 'list'])->middleware('permission:product_categories.view,admin');
     Route::get('admin/category/add', [ProductCategoryController::class, 'add'])->middleware('permission:product_categories.create,admin');
@@ -353,7 +358,7 @@ Route::middleware(['adminAuth', 'ipWhitelist'])->group(function () {
     Route::get('admin/media', [MediaController::class, 'list'])->middleware('permission:media.view,admin');
     Route::get('admin/media/add', [MediaController::class, 'add'])->middleware('permission:media.create,admin');
     Route::post('admin/media/store', [MediaController::class, 'store'])->middleware('permission:media.create,admin');
-    Route::post('admin/media/upload-video', [MediaController::class, 'uploadVideo']);
+    Route::post('admin/media/upload-video', [MediaController::class, 'uploadVideo'])->middleware('permission:media.create,admin');
     Route::get('admin/media/edit/{id}', [MediaController::class, 'edit'])->middleware('permission:media.edit,admin');
     Route::post('admin/media/update/{id}', [MediaController::class, 'update'])->middleware('permission:media.edit,admin');
     Route::get('admin/media/delete/{id}', [MediaController::class, 'delete'])->middleware('permission:media.delete,admin');
@@ -362,69 +367,70 @@ Route::middleware(['adminAuth', 'ipWhitelist'])->group(function () {
     Route::post('admin/profile/update', [AdminAuthController::class, 'update_profile'])->middleware('permission:profile.edit,admin');
 
 
-    Route::get('admin/role', [RoleAndPermissionController::class, 'index'])->name('admin.index');
+    Route::get('admin/role', [RoleAndPermissionController::class, 'index'])->name('admin.index')->middleware('permission:roles.view,admin');
 
     Route::get('admin/create_sub', [RoleAndPermissionController::class, 'create_sub_admin_page'])
-        ->name('admin.create');
+        ->name('admin.create')->middleware('permission:roles.create,admin');
 
     Route::post('admin/store', [RoleAndPermissionController::class, 'store_sub_admin'])
-        ->name('admin.store');
+        ->name('admin.store')->middleware('permission:roles.create,admin');
 
     Route::get('admin/{id}/edit', [RoleAndPermissionController::class, 'edit_sub_admin'])
-        ->name('admin.edit');
+        ->name('admin.edit')->middleware('permission:roles.edit,admin');
 
     Route::post('admin/{id}', [RoleAndPermissionController::class, 'update_sub_admin'])
-        ->name('admin.update');
+        ->name('admin.update')->middleware('permission:roles.edit,admin');
 
     Route::post('admin/destroy/{id}', [RoleAndPermissionController::class, 'delete_sub_admin'])
-        ->name('admin.destroy');
+        ->name('admin.destroy')->middleware('permission:roles.delete,admin');
 
     Route::get('admin/home', function () {
         return view('backend.home_page.index');
-    });
+    })->middleware('permission:home_page.view,admin');
 
-    Route::get('admin/home/key_offerings', [keyOfferingsController::class, 'list']);
-    Route::get('admin/about/key_offerings/add', [keyOfferingsController::class, 'add']);
-    Route::post('admin/about/key_offerings/add', [keyOfferingsController::class, 'store']);
-    Route::get('admin/about/key_offerings/edit/{id}', [keyOfferingsController::class, 'edit']);
-    Route::post('admin/about/key_offerings/update/{id}', [keyOfferingsController::class, 'update']);
-    Route::get('admin/about/key_offerings/delete/{id}', [keyOfferingsController::class, 'delete']);
+    Route::get('admin/home/key_offerings', [keyOfferingsController::class, 'list'])->middleware('permission:home_page.view,admin');
+    Route::get('admin/about/key_offerings/add', [keyOfferingsController::class, 'add'])->middleware('permission:home_page.edit,admin');
+    Route::post('admin/about/key_offerings/add', [keyOfferingsController::class, 'store'])->middleware('permission:home_page.edit,admin');
+    Route::get('admin/about/key_offerings/edit/{id}', [keyOfferingsController::class, 'edit'])->middleware('permission:home_page.edit,admin');
+    Route::post('admin/about/key_offerings/update/{id}', [keyOfferingsController::class, 'update'])->middleware('permission:home_page.edit,admin');
+    Route::get('admin/about/key_offerings/delete/{id}', [keyOfferingsController::class, 'delete'])->middleware('permission:home_page.delete,admin');
 
-    Route::get('admin/home/video_banner/edit', [keyOfferingsController::class, 'edit_video_banner']);
-    Route::post('admin/video_banner/update', [keyOfferingsController::class, 'update_video_banner']);
+    Route::get('admin/home/video_banner/edit', [keyOfferingsController::class, 'edit_video_banner'])->middleware('permission:home_page.view,admin');
+    Route::post('admin/video_banner/update', [keyOfferingsController::class, 'update_video_banner'])->middleware('permission:home_page.edit,admin');
+    Route::post('admin/video_banner/upload-chunk', [keyOfferingsController::class, 'uploadChunk'])->name('admin.video_banner.upload_chunk')->middleware('permission:home_page.edit,admin');
 
-    Route::get('admin/home/our_units/edit', [keyOfferingsController::class, 'edit_our_units']);
-    Route::post('admin/our_units/update', [keyOfferingsController::class, 'update_our_units']);
+    Route::get('admin/home/our_units/edit', [keyOfferingsController::class, 'edit_our_units'])->middleware('permission:home_page.view,admin');
+    Route::post('admin/our_units/update', [keyOfferingsController::class, 'update_our_units'])->middleware('permission:home_page.edit,admin');
 
-    Route::get('admin/home/state_counter/edit', [keyOfferingsController::class, 'edit_state_counter']);
-    Route::post('admin/state_counter/update', [keyOfferingsController::class, 'update_state_counter']);
+    Route::get('admin/home/state_counter/edit', [keyOfferingsController::class, 'edit_state_counter'])->middleware('permission:home_page.view,admin');
+    Route::post('admin/state_counter/update', [keyOfferingsController::class, 'update_state_counter'])->middleware('permission:home_page.edit,admin');
     // Ticker News routes
-    Route::get('admin/home/marquee/edit', [TickerNewsController::class, 'index']);
-    Route::post('admin/home/marquee/speed/update', [TickerNewsController::class, 'updateSpeed']);
-    Route::post('admin/home/marquee/add', [TickerNewsController::class, 'store']);
-    Route::post('admin/home/marquee/update-item/{id}', [TickerNewsController::class, 'updateItem']);
-    Route::get('admin/home/marquee/delete/{id}', [TickerNewsController::class, 'delete']);
+    Route::get('admin/home/marquee/edit', [TickerNewsController::class, 'index'])->middleware('permission:home_page.view,admin');
+    Route::post('admin/home/marquee/speed/update', [TickerNewsController::class, 'updateSpeed'])->middleware('permission:home_page.edit,admin');
+    Route::post('admin/home/marquee/add', [TickerNewsController::class, 'store'])->middleware('permission:home_page.edit,admin');
+    Route::post('admin/home/marquee/update-item/{id}', [TickerNewsController::class, 'updateItem'])->middleware('permission:home_page.edit,admin');
+    Route::get('admin/home/marquee/delete/{id}', [TickerNewsController::class, 'delete'])->middleware('permission:home_page.delete,admin');
 
-    Route::get('admin/home/image_gallery', [keyOfferingsController::class, 'image_gallery_list']);
-    Route::get('admin/home/image_gallery/form/{id?}', [keyOfferingsController::class, 'image_gallery_form']);
-    Route::post('admin/home/image_gallery/save', [keyOfferingsController::class, 'image_gallery_save']);
-    Route::get('admin/home/image_gallery/delete/{id}', [keyOfferingsController::class, 'image_gallery_delete']);
+    Route::get('admin/home/image_gallery', [keyOfferingsController::class, 'image_gallery_list'])->middleware('permission:home_page.view,admin');
+    Route::get('admin/home/image_gallery/form/{id?}', [keyOfferingsController::class, 'image_gallery_form'])->middleware('permission:home_page.edit,admin');
+    Route::post('admin/home/image_gallery/save', [keyOfferingsController::class, 'image_gallery_save'])->middleware('permission:home_page.edit,admin');
+    Route::get('admin/home/image_gallery/delete/{id}', [keyOfferingsController::class, 'image_gallery_delete'])->middleware('permission:home_page.delete,admin');
 
 
-    Route::get('admin/home/partner_logo', [keyOfferingsController::class, 'partner_logo_list']);
-    Route::get('admin/home/partner_logo/form/{id?}', [keyOfferingsController::class, 'partner_logo_form']);
-    Route::post('admin/home/partner_logo/save', [keyOfferingsController::class, 'partner_logo_save']);
-    Route::get('admin/home/partner_logo/delete/{id}', [keyOfferingsController::class, 'partner_logo_delete']);
+    Route::get('admin/home/partner_logo', [keyOfferingsController::class, 'partner_logo_list'])->middleware('permission:home_page.view,admin');
+    Route::get('admin/home/partner_logo/form/{id?}', [keyOfferingsController::class, 'partner_logo_form'])->middleware('permission:home_page.edit,admin');
+    Route::post('admin/home/partner_logo/save', [keyOfferingsController::class, 'partner_logo_save'])->middleware('permission:home_page.edit,admin');
+    Route::get('admin/home/partner_logo/delete/{id}', [keyOfferingsController::class, 'partner_logo_delete'])->middleware('permission:home_page.delete,admin');
 
     Route::get('admin/inquiry', [HomeController::class, 'adminIndex'])
         ->name('admin.inquiry');
 
-    Route::get('/chatbot', [ChatbotFaqController::class, 'index'])->name('chatbot.index');
-    Route::get('/chatbot/create', [ChatbotFaqController::class, 'create'])->name('chatbot.create');
-    Route::post('/chatbot/store', [ChatbotFaqController::class, 'store'])->name('chatbot.store');
-    Route::get('/chatbot/edit/{id}', [ChatbotFaqController::class, 'edit'])->name('chatbot.edit');
-    Route::post('/chatbot/update/{id}', [ChatbotFaqController::class, 'update'])->name('chatbot.update');
-    Route::get('/chatbot/delete/{id}', [ChatbotFaqController::class, 'destroy'])->name('chatbot.delete');
+    Route::get('/chatbot', [ChatbotFaqController::class, 'index'])->name('chatbot.index')->middleware('permission:chatbot.view,admin');
+    Route::get('/chatbot/create', [ChatbotFaqController::class, 'create'])->name('chatbot.create')->middleware('permission:chatbot.create,admin');
+    Route::post('/chatbot/store', [ChatbotFaqController::class, 'store'])->name('chatbot.store')->middleware('permission:chatbot.create,admin');
+    Route::get('/chatbot/edit/{id}', [ChatbotFaqController::class, 'edit'])->name('chatbot.edit')->middleware('permission:chatbot.edit,admin');
+    Route::post('/chatbot/update/{id}', [ChatbotFaqController::class, 'update'])->name('chatbot.update')->middleware('permission:chatbot.edit,admin');
+    Route::get('/chatbot/delete/{id}', [ChatbotFaqController::class, 'destroy'])->name('chatbot.delete')->middleware('permission:chatbot.delete,admin');
     
 });
 

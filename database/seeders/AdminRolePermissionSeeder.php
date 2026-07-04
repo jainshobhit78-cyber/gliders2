@@ -149,6 +149,11 @@ class AdminRolePermissionSeeder extends Seeder
             'vendors.edit',
             'vendors.delete',
 
+            'home_page.view',
+            'home_page.create',
+            'home_page.edit',
+            'home_page.delete',
+
             'profile.view',
             'profile.edit'
         ];
