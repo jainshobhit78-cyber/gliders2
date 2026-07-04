@@ -32,19 +32,20 @@
                     <div class="col-lg-4 col-md-6 mb-4">
                         <a href="{{ route('products.detail', [$category->id, $product->id]) }}" class="solution-card-link">
                             <div class="premium-solution-card">
-                                <!-- Upper Half: Image with title overlay -->
+                                <!-- Upper Half: Image Wrap -->
                                 <div class="solution-card-image-wrap">
                                     <img src="{{ asset('uploads/products/' . optional($product->images->first())->image) }}"
                                          alt="{{ $product->title }}">
-                                    <div class="solution-card-title-overlay">
-                                        <h3>{{ $product->title }}</h3>
-                                    </div>
                                 </div>
 
                                 <!-- Lower Half: Dark blue container with centered overlapping circle and description -->
                                 <div class="solution-card-content-wrap">
-                                    <!-- Centered decorative circle badge -->
-                                    <div class="solution-card-circle-bg"></div>
+                                    <!-- Centered decorative circle badge containing the title -->
+                                    <div class="solution-card-circle-container">
+                                        <div class="solution-card-circle-bg">
+                                            <h3>{{ $product->title }}</h3>
+                                        </div>
+                                    </div>
                                     
                                     <!-- Product short description text -->
                                     <p class="solution-card-desc">

@@ -7327,66 +7327,70 @@ table td {
     transform: scale(1.08);
 }
 
-/* Title banner positioned directly inside image bottom area */
-.solution-card-title-overlay {
+/* Centered circle container positioned absolutely on boundary line */
+.solution-card-circle-container {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: linear-gradient(to top, rgba(2, 2, 56, 0.95) 0%, rgba(2, 2, 56, 0.4) 100%) !important;
-    padding: 24px 20px;
-    z-index: 2;
-    border-bottom: 4px solid #f5821f;
-    transition: background 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    width: 200px;
+    height: 200px;
 }
 
-.premium-solution-card:hover .solution-card-title-overlay {
-    background: linear-gradient(to top, rgba(245, 130, 31, 0.95) 0%, rgba(245, 130, 31, 0.4) 100%) !important;
-    border-bottom-color: #0b2a5b;
+/* Centered background circle badge containing the title */
+.solution-card-circle-bg {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(11, 42, 91, 0.98) 0%, rgba(6, 9, 20, 0.98) 100%) !important;
+    border: 3px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px !important;
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    box-sizing: border-box;
 }
 
-.solution-card-title-overlay h3 {
+.premium-solution-card:hover .solution-card-circle-bg {
+    transform: scale(1.1);
+    border-color: #f5821f !important;
+    background: radial-gradient(circle, rgba(245, 130, 31, 0.98) 0%, rgba(197, 90, 11, 0.98) 100%) !important;
+    box-shadow: 0 12px 30px rgba(245, 130, 31, 0.45) !important;
+}
+
+.solution-card-circle-bg h3 {
     font-family: 'Outfit', sans-serif !important;
-    font-size: 21px !important;
+    font-size: 15.5px !important; /* Elegant size to prevent layout popping/cropping */
     font-weight: 800 !important;
     color: #ffffff !important;
     margin: 0 !important;
     text-align: center;
-    letter-spacing: 0.5px;
+    line-height: 1.4 !important;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-height: 100%;
 }
 
 /* Lower Half: Dark blue content box */
 .solution-card-content-wrap {
     position: relative;
     background-color: #0b2a5b;
-    padding: 55px 25px !important;
+    padding: 120px 25px 40px !important; /* Pushed description text down below circle overlap area */
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    overflow: hidden;
-    min-height: 190px;
-}
-
-/* Centered background glowing circle */
-.solution-card-circle-bg {
-    position: absolute;
-    width: 240px;
-    height: 240px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 70%);
-    top: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), background 0.6s ease;
-}
-
-.premium-solution-card:hover .solution-card-circle-bg {
-    transform: translateX(-50%) scale(1.15);
-    background: radial-gradient(circle, rgba(245, 130, 31, 0.07) 0%, rgba(245, 130, 31, 0) 70%);
+    overflow: visible !important; /* Allow circle to overlap borders cleanly */
+    min-height: 230px;
 }
 
 /* Description Text */
@@ -7517,15 +7521,22 @@ table td {
     .premium-solution-card {
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
     }
+    .solution-card-circle-container {
+        width: 155px !important;
+        height: 155px !important;
+        top: -78px !important;
+    }
+    .solution-card-circle-bg {
+        width: 155px !important;
+        height: 155px !important;
+        padding: 15px !important;
+    }
+    .solution-card-circle-bg h3 {
+        font-size: 12.5px !important;
+        line-height: 1.3 !important;
+    }
     .solution-card-content-wrap {
-        padding: 30px 15px !important;
-        min-height: 130px !important;
-    }
-    .solution-card-title-overlay h3 {
-        font-size: 17px !important;
-        padding: 0 !important;
-    }
-    .solution-card-title-overlay {
-        padding: 12px 15px !important;
+        padding: 95px 15px 30px !important;
+        min-height: 180px !important;
     }
 }
