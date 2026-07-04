@@ -7406,3 +7406,126 @@ table td {
 .premium-solution-card:hover .solution-card-desc {
     color: #ffffff !important;
 }
+
+/* ==========================================================================
+   Mobile Optimization Overrides
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* 1. Header & Logo Slimming */
+    .logo-header {
+        padding: 5px 0 !important;
+    }
+    .logo-header .d-flex {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 5px !important;
+    }
+    .logo-header .logo {
+        height: 28px !important;
+    }
+    .logo-header .gov-text-box {
+        display: none !important; /* Hide long gov text on mobile to save space */
+    }
+    
+    .main-navbar {
+        padding: 6px 0 !important;
+    }
+    .navbar-brand .header-logo {
+        height: 40px !important;
+    }
+    .navbar-toggler {
+        padding: 4px 8px !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* 2. Products Section & Spacing */
+    .our-products-section {
+        padding: 40px 0 20px !important;
+    }
+    .our-products-section .section-title {
+        font-size: 28px !important;
+        text-align: center !important;
+        margin-bottom: 12px !important;
+    }
+    .our-products-section .section-subtitle-text {
+        font-size: 16px !important;
+        text-align: center !important;
+        line-height: 1.5 !important;
+    }
+    .our-products-section .products-header-row {
+        justify-content: center !important;
+        text-align: center !important;
+        margin-bottom: 25px !important;
+        gap: 15px !important;
+    }
+    .our-products-section .header-right-col {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+    }
+    
+    /* 3. Premium Product Slider Cards */
+    .our-products-section .premium-product-card {
+        height: 460px !important; /* Slightly shorter on mobile for viewport fit */
+        border-radius: 16px !important;
+    }
+    .our-products-section .premium-product-card .premium-card-content {
+        padding: 24px 20px !important;
+    }
+    .our-products-section .premium-product-card .product-title-h3 {
+        font-size: 22px !important;
+        margin-bottom: 8px !important;
+    }
+    .our-products-section .premium-product-card .product-desc-p {
+        font-size: 13px !important;
+        line-height: 1.4 !important;
+        margin-bottom: 15px !important;
+    }
+    .our-products-section .premium-product-card .category-tag-pill {
+        padding: 4px 10px !important;
+        margin-bottom: 12px !important;
+    }
+    .our-products-section .premium-product-card .category-tag-pill .tag-label {
+        font-size: 11px !important;
+    }
+    
+    /* 4. Typewriter Heading Mobile Fit */
+    .our-products-section .premium-heading {
+        font-size: 28px !important;
+        margin-top: 50px !important;
+        justify-content: center !important;
+        text-align: center !important;
+        line-height: 1.3 !important;
+        display: block !important;
+    }
+    .typing-wrapper {
+        display: inline-flex !important;
+        min-width: unset !important;
+        width: auto !important;
+        height: auto !important;
+    }
+    
+    /* 5. Category Products Page Grids */
+    .category-products-section {
+        padding: 40px 0 !important;
+    }
+    .category-products-section .section-title h2 {
+        font-size: 28px !important;
+        margin-bottom: 30px !important;
+    }
+    .premium-solution-card {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+    }
+    .solution-card-content-wrap {
+        padding: 30px 15px !important;
+        min-height: 130px !important;
+    }
+    .solution-card-title-overlay h3 {
+        font-size: 17px !important;
+        padding: 0 !important;
+    }
+    .solution-card-title-overlay {
+        padding: 12px 15px !important;
+    }
+}
