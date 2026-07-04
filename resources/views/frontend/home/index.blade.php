@@ -137,23 +137,23 @@
                             @php
                                 $index = $loop->index % 4;
                                 $themeClass = 'theme-orange';
-                                $tagText = 'Aerial Delivery';
+                                $tagText = $product->delivery_tag ?: 'Aerial Delivery';
                                 $dotColor = '#f5821f';
                                 $iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg>';
 
                                 if ($index == 1) {
                                     $themeClass = 'theme-green';
-                                    $tagText = 'Tactical Operations';
+                                    $tagText = $product->delivery_tag ?: 'Tactical Operations';
                                     $dotColor = '#48bb78';
                                     $iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>';
                                 } elseif ($index == 2) {
                                     $themeClass = 'theme-blue';
-                                    $tagText = 'Military Grade';
+                                    $tagText = $product->delivery_tag ?: 'Military Grade';
                                     $dotColor = '#4299e1';
                                     $iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>';
                                 } elseif ($index == 3) {
                                     $themeClass = 'theme-purple';
-                                    $tagText = 'Heavy Load';
+                                    $tagText = $product->delivery_tag ?: 'Heavy Load';
                                     $dotColor = '#9f7aea';
                                     $iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>';
                                 }
@@ -191,11 +191,6 @@
 
                                         <!-- Action view details pill button -->
                                         <div class="d-flex align-items-center gap-3">
-                                            @if($index == 0)
-                                                <div class="seal-logo-wrapper">
-                                                    <img src="{{ asset('frontend/images/logo/g.png') }}" style="width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.3);" alt="Seal">
-                                                </div>
-                                            @endif
                                             <a href="{{ route('products.detail', ['categoryId' => $product->category_id, 'productId' => $product->id]) }}" class="btn-view-details">
                                                 <span>View Details</span>
                                                 <span class="details-arrow">→</span>

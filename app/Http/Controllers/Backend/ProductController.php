@@ -26,6 +26,13 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'wallpaper' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'filepond' => 'nullable|array',
+            'filepond.*' => 'image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'delivery_tag' => 'nullable|string|max:100',
+        ]);
+
         $wallpaperName = null;
 
         if ($request->hasFile('wallpaper')) {
@@ -38,7 +45,8 @@ class ProductController extends Controller
             'title' => $request->title,
             'category_id' => $request->category_id,
             'description' => $request->description,
-            'wallpaper' => $wallpaperName
+            'wallpaper' => $wallpaperName,
+            'delivery_tag' => $request->delivery_tag
         ]);
 
         if ($request->hasFile('filepond')) {
@@ -67,6 +75,13 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'wallpaper' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'filepond' => 'nullable|array',
+            'filepond.*' => 'image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'delivery_tag' => 'nullable|string|max:100',
+        ]);
+
         $product = Product::find($id);
 
         $wallpaperName = $product->wallpaper;
@@ -81,7 +96,8 @@ class ProductController extends Controller
             'title' => $request->title,
             'category_id' => $request->category_id,
             'description' => $request->description,
-            'wallpaper' => $wallpaperName
+            'wallpaper' => $wallpaperName,
+            'delivery_tag' => $request->delivery_tag
         ]);
 
         if ($request->hasFile('filepond')) {

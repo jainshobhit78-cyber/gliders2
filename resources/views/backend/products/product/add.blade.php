@@ -63,6 +63,18 @@
                         <textarea name="description" class="editor form-control"></textarea>
 
                     </div>
+
+                    <div class="mb-3">
+                        <label>Product Badge / Tag (Optional)</label>
+                        <input type="text" name="delivery_tag" class="form-control" list="badge-suggestions" placeholder="Choose from list or type custom value...">
+                        <datalist id="badge-suggestions">
+                            <option value="Aerial Delivery">
+                            <option value="Tactical Operations">
+                            <option value="Military Grade">
+                            <option value="Heavy Load">
+                        </datalist>
+                        <small class="text-muted">Displays as a dynamic tag pill at the top of the product card (e.g. "Aerial Delivery").</small>
+                    </div>
                     
                     <div class="mb-3">
                         <label>Wallpaper</label>

@@ -10,7 +10,8 @@ class Product extends Model
         'title',
         'category_id',
         'description',
-        'wallpaper'
+        'wallpaper',
+        'delivery_tag'
     ];
 
     public function category()
