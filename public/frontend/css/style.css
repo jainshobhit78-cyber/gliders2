@@ -6874,7 +6874,7 @@ table td {
    Homepage Product Card - Rafael.co.il Discover Our Domains Pixel-Perfect Clone
    ========================================================================== */
 .our-products-section {
-    background: radial-gradient(circle at 50% 50%, #0d1a33 0%, #060914 100%) !important;
+    background-color: #ffffff !important;
     background-image: none !important;
     padding: 80px 0 100px !important;
     overflow: visible !important;
@@ -6886,7 +6886,7 @@ table td {
     font-weight: 800 !important;
     text-transform: uppercase !important;
     letter-spacing: 1.5px !important;
-    color: #ffffff !important;
+    color: #0b2a5b !important;
     margin-bottom: 8px !important;
     text-align: left !important;
 }
@@ -6902,10 +6902,14 @@ table td {
 .our-products-section .section-subtitle-text {
     font-family: 'Outfit', sans-serif !important;
     font-size: 14.5px !important;
-    color: rgba(255, 255, 255, 0.6) !important;
+    color: #4a5568 !important;
     line-height: 1.5 !important;
     font-weight: 400 !important;
     margin: 0 !important;
+}
+
+.our-products-section .premium-heading {
+    color: #0b2a5b !important;
 }
 
 /* Explore All Products Button */
@@ -6913,13 +6917,13 @@ table td {
     display: inline-flex !important;
     align-items: center;
     gap: 12px;
-    background: rgba(255, 255, 255, 0.04) !important;
+    background: rgba(11, 42, 91, 0.04) !important;
     backdrop-filter: blur(8px) !important;
     -webkit-backdrop-filter: blur(8px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(11, 42, 91, 0.15) !important;
     padding: 12px 26px !important;
     border-radius: 50px !important;
-    color: #ffffff !important;
+    color: #0b2a5b !important;
     font-size: 13.5px !important;
     font-weight: 600 !important;
     text-decoration: none !important;
@@ -6927,9 +6931,10 @@ table td {
 }
 
 .our-products-section .btn-explore-all:hover {
-    background: rgba(255, 255, 255, 0.12) !important;
-    border-color: rgba(255, 255, 255, 0.3) !important;
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05) !important;
+    background: #0b2a5b !important;
+    border-color: #0b2a5b !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(11, 42, 91, 0.15) !important;
 }
 
 .our-products-section .btn-explore-all .explore-arrow {
@@ -6939,7 +6944,13 @@ table td {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(11, 42, 91, 0.1);
+    color: #0b2a5b;
+}
+
+.our-products-section .btn-explore-all:hover .explore-arrow {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
 }
 
 /* Premium Card Base */
@@ -7239,7 +7250,7 @@ table td {
     width: 24px !important;
     height: 4px !important;
     border-radius: 2px !important;
-    background: rgba(255, 255, 255, 0.2) !important;
+    background: rgba(11, 42, 91, 0.15) !important;
     opacity: 1 !important;
     transition: all 0.3s ease !important;
     margin: 0 !important;
