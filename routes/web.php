@@ -487,8 +487,3 @@ Route::get('/sitemap', [PolicyController::class, 'sitemap'])
     
 Route::get('/chatbot/questions', [ChatbotController::class, 'questions']);
 Route::post('/chatbot/reply', [ChatbotController::class, 'reply']);
-
-Route::get('/run-migrations-temp', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-    return 'Migrations run successfully! Output: <br>' . \Illuminate\Support\Facades\Artisan::output();
-});
