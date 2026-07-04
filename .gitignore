@@ -25,3 +25,7 @@ Thumbs.db
 
 # uploads/**/*
 # !/uploads/.gitkeep
+
+# Ignore large video uploads
+public/uploads/video_banner/*.mov
+public/uploads/video_banner/*.mp4
