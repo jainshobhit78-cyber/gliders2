@@ -73,6 +73,11 @@ Route::post('admin/logout', [AdminAuthController::class, 'logout'])->name('admin
 
 Route::middleware(['adminAuth', 'ipWhitelist'])->group(function () {
 
+    Route::get('admin/run-migrations', function () {
+        \Illuminate\Support\Facades\Artisan::call('migrate');
+        return "Database migrations successfully executed!";
+    });
+
     Route::get('admin/fix-permissions', function () {
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\AdminRolePermissionSeeder']);
         return "Permissions successfully populated inside the database!";
