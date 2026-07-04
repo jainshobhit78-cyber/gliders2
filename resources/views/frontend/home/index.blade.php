@@ -117,7 +117,7 @@
                             Our <span>Products</span>
                         </h2>
                         <p class="section-subtitle-text">
-                            Advanced parachute systems engineered for<br>precision, safety & mission success.
+                            Advanced parachute systems and specialized aerial delivery equipment engineered for absolute precision, safety, and mission success.
                         </p>
                     </div>
                     <div class="header-right-col">

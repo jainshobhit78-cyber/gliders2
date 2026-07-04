@@ -6901,11 +6901,12 @@ table td {
 
 .our-products-section .section-subtitle-text {
     font-family: 'Outfit', sans-serif !important;
-    font-size: 14.5px !important;
+    font-size: 18px !important;
     color: #4a5568 !important;
-    line-height: 1.5 !important;
+    line-height: 1.6 !important;
     font-weight: 400 !important;
     margin: 0 !important;
+    max-width: 800px !important;
 }
 
 .our-products-section .premium-heading {
