@@ -59,16 +59,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('admin', 'admin/dashboard');
 
-// Temporary route to run database migrations from the browser
-Route::get('/run-migrations-temp', function() {
-    try {
-        \Artisan::call('migrate', ['--force' => true]);
-        return 'Migrations completed successfully!<br><br>Output:<br><pre>' . \Artisan::output() . '</pre>';
-    } catch (\Exception $e) {
-        return 'Error running migrations: ' . $e->getMessage();
-    }
-});
-
 Route::get('admin/login', [AdminAuthController::class, 'login']);
 Route::post('admin/login', [AdminAuthController::class, 'loginPost']);
 
