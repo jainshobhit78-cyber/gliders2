@@ -86,6 +86,15 @@
                             <input type="number" name="visitor_count" class="form-control mt-1" style="max-width: 250px;" placeholder="e.g. 1025" value="{{ old('visitor_count', $setting->visitor_count) }}">
                             <small class="text-muted d-block mt-1">Directly overrides or initializes the website's live visitor count.</small>
                         </div>
+                        
+                        <div class="mt-4 border-top pt-3">
+                            <label class="form-label-title" style="font-weight: 700; font-size: 1.15rem; color: #13235b; display: block; margin-bottom: 5px;">Google Analytics Integration</label>
+                            <label class="form-label" style="font-weight: 600;">Google Analytics Measurement ID (GA4 Tag)</label>
+                            <input type="text" name="google_analytics_id" class="form-control mt-1" style="max-width: 400px;" placeholder="e.g. G-XXXXXXXXXX" value="{{ old('google_analytics_id', $setting->google_analytics_id) }}">
+                            <small class="text-muted d-block mt-1">
+                                Enter your Google Analytics 4 Measurement ID (starting with "G-"). Once saved, the tracking tag will automatically run on the public pages.
+                            </small>
+                        </div>
                     </div>
 
                     <div class="mt-4 border-top pt-3">

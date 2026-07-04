@@ -26,6 +26,7 @@ class SystemSettingsController extends Controller
             'footer_phone' => 'nullable|string',
             'footer_email' => 'nullable|email',
             'visitor_count' => 'nullable|integer|min:0',
+            'google_analytics_id' => 'nullable|string|max:40',
         ]);
 
         $setting->update([
@@ -38,6 +39,7 @@ class SystemSettingsController extends Controller
             'footer_phone' => $request->footer_phone,
             'footer_email' => $request->footer_email,
             'visitor_count' => $request->filled('visitor_count') ? $request->visitor_count : 1025,
+            'google_analytics_id' => $request->google_analytics_id,
         ]);
 
         return back()->with('success', 'System settings updated successfully.');

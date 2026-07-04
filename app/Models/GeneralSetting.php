@@ -19,6 +19,7 @@ class GeneralSetting extends Model
         'footer_email',
         'visitor_count',
         'ticker_speed',
+        'google_analytics_id',
     ];
 
     public static function isElectionMode()
