@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{ url('frontend/fonts/font-icons.css') }}">
     <link rel="stylesheet" href="{{ url('frontend/css/e2dd61510303e09c.css') }}">
     <link rel="stylesheet" href="{{ url('frontend/css/fancybox.css') }}">
-    <link rel="stylesheet" href="{{ url('frontend/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url('frontend/css/style.css') }}?v={{ file_exists(public_path('frontend/css/style.css')) ? filemtime(public_path('frontend/css/style.css')) : time() }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
@@ -117,13 +117,18 @@
         }
 
         /* SKIP TO CONTENT */
-        document.querySelector(".skip-link").addEventListener("click", function (e) {
-            e.preventDefault();
-
-            document.querySelector("#mainContent").scrollIntoView({
-                behavior: "smooth"
+        const skipBtn = document.querySelector(".skip-btn");
+        if (skipBtn) {
+            skipBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                const target = document.querySelector("#mainContent");
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: "smooth"
+                    });
+                }
             });
-        });
+        }
 
         /* SCREEN READER */
         document.getElementById("screenReaderBtn").addEventListener("click", function () {
