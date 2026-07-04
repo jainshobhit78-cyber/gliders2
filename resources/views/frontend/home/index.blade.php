@@ -123,14 +123,19 @@
                                 'productId' => $product->id
                             ]) }}" class="product-link">
                                                     <div class="product-card">
-
-                                                        <img src="{{ asset('uploads/products/' . optional($product->images->first())->image) }}"
-                                                            alt="{{ $product->title }}">
-
-                                                        <div class="product-title">
-                                                            {{ \Illuminate\Support\Str::limit($product->title, 35, '...') }}
+                                                        <div class="product-card-img">
+                                                            <img src="{{ asset('uploads/products/' . optional($product->images->first())->image) }}"
+                                                                alt="{{ $product->title }}">
                                                         </div>
-
+                                                        <div class="product-card-info">
+                                                            <h3 class="product-title-h3">
+                                                                {{ \Illuminate\Support\Str::limit($product->title, 35, '...') }}
+                                                            </h3>
+                                                            <div class="product-action-link mt-2">
+                                                                <span>View Details</span>
+                                                                <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px; height:16px; transition:transform 0.3s ease;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </a>
                                             </div>
