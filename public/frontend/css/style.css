@@ -4610,7 +4610,8 @@ table td {
     border-radius: 22px;
     padding: 35px 30px;
     position: relative;
-    transition: all 0.4s ease;
+    transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.45s ease, border-color 0.45s ease;
+    will-change: transform, box-shadow;
     border: 1px solid rgba(0, 0, 0, 0.18);
     box-shadow: 0px 6px 25px 0px #00000047;
 }
@@ -4635,6 +4636,17 @@ table td {
         0 40px 80px rgba(0, 0, 0, 0.18);
 }
 
+/* INTERACTIVE POP-OUT HOVER EFFECT */
+.managementSlider .leader-card:hover {
+    transform: scale(1.13) translateY(-22px) !important;
+    border-color: #EE6802 !important;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.35),
+        0 30px 75px rgba(238, 104, 2, 0.35),
+        0 50px 90px rgba(0, 0, 0, 0.25) !important;
+    z-index: 10 !important;
+}
+
 /* TOP BADGE COMMON */
 .top-badge {
     position: absolute;
@@ -4647,6 +4659,7 @@ table td {
     font-weight: 600;
     white-space: nowrap;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* CENTER BADGE */
@@ -4671,6 +4684,26 @@ table td {
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.45s ease;
+}
+
+/* INNER HOVER SYNC EFFECTS */
+.managementSlider .leader-card:hover .leader-img {
+    transform: scale(1.05);
+    box-shadow: 0 12px 30px rgba(238, 104, 2, 0.25);
+}
+
+.managementSlider .leader-card:hover .top-badge {
+    background: linear-gradient(90deg, #EE6802 0%, #f48a3b 100%) !important;
+    color: #ffffff !important;
+    transform: translateX(-50%) translateY(-4px) scale(1.04);
+}
+
+.managementSlider .leader-card:hover .profile-btn {
+    background: #EE6802 !important;
+    border-color: #EE6802 !important;
+    color: #ffffff !important;
+    box-shadow: 0 6px 18px rgba(238, 104, 2, 0.35) !important;
 }
 
 /* BUTTON */
