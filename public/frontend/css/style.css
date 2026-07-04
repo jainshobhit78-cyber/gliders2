@@ -8226,3 +8226,125 @@ table td {
     border-radius: 4px;
     background: #3b82f6;
 }
+
+/* ==========================================================================
+   MOBILE VIEW NAVBAR OPTIMIZATIONS (Hamburger, Contrast, Scroll & Contrast)
+   ========================================================================== */
+
+/* Navbar Toggler Adaptability */
+.navbar-toggler {
+    border: 1px solid rgba(0, 20, 90, 0.25) !important;
+    color: #00142d !important;
+    background: rgba(0, 20, 90, 0.06) !important;
+    border-radius: 6px;
+    padding: 6px 12px !important;
+    font-size: 1.4rem !important;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 3px rgba(238, 104, 2, 0.25) !important;
+}
+
+/* Home page transparent header toggler over dark video banner */
+body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    color: #ffffff !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+/* Sticky navbar white toggler icon */
+.main-navbar.sticky-nav .navbar-toggler {
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Collapse mobile container overrides for smoothness and full visibility */
+@media (max-width: 991px) {
+    .main-navbar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar-collapse {
+        background: rgba(0, 18, 48, 0.98) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        margin-top: 15px;
+        padding: 20px !important;
+        max-height: 70vh !important; /* Limit height so it doesn't overflow screen */
+        overflow-y: auto !important; /* Enable scrolling for large menu */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45) !important;
+        transition: all 0.3s ease-in-out;
+        width: 100%;
+    }
+
+    /* Clean navigation links inside mobile collapse */
+    .navbar-collapse .navbar-nav {
+        gap: 2px !important;
+    }
+
+    .navbar-collapse .navbar-nav .nav-link {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+        font-size: 15px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 12px 10px !important;
+        text-align: left;
+        display: block;
+        width: 100%;
+        transition: all 0.25s ease;
+    }
+
+    .navbar-collapse .navbar-nav .nav-link:hover,
+    .navbar-collapse .navbar-nav .nav-link.active {
+        color: #EE6802 !important;
+        background: rgba(255, 255, 255, 0.03);
+        padding-left: 15px !important;
+    }
+
+    .navbar-collapse .navbar-nav .nav-item:last-child .nav-link {
+        border-bottom: none;
+    }
+
+    /* Custom nested Dropdown menus on mobile */
+    .navbar-collapse .dropdown-menu {
+        background: rgba(255, 255, 255, 0.03) !important;
+        border-left: 2px solid #EE6802 !important;
+        border-radius: 0 8px 8px 0;
+        margin-top: 4px;
+        margin-bottom: 8px;
+        padding: 5px 0 5px 15px !important;
+        position: static !important;
+        float: none !important;
+        box-shadow: none !important;
+    }
+
+    .navbar-collapse .dropdown-item {
+        color: rgba(255, 255, 255, 0.85) !important;
+        font-weight: 500 !important;
+        font-size: 14px !important;
+        padding: 10px 12px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        text-align: left;
+        background: transparent !important;
+        transition: all 0.2s ease;
+    }
+
+    .navbar-collapse .dropdown-item:last-child {
+        border-bottom: none;
+    }
+
+    .navbar-collapse .dropdown-item:hover {
+        color: #EE6802 !important;
+        padding-left: 18px !important;
+    }
+}

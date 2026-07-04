@@ -263,8 +263,8 @@
                 <img src="{{ asset('frontend/images/logo/gliders.png') }}" class="logo">
             </a> -->
             <!-- MOBILE TOGGLE -->
-            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
-                ☰
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav" aria-label="Toggle navigation">
+                <span class="bi bi-list"></span>
             </button>
 
 
