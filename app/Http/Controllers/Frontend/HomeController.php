@@ -40,7 +40,7 @@ class HomeController extends Controller
         $playlists = $playlistQuery->latest()->get();
 
         $leaders = AboutLeadership::with('milestones')
-            ->latest()
+            ->orderBy('position', 'asc')
             ->get();
 
         $ourUnit = DB::table('our_units')->first();

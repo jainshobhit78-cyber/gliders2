@@ -108,7 +108,7 @@
 
     <section class="linear-background">
         <section class="our-products-section">
-            <div class="container-fluid px-5">
+            <div class="container-fluid px-3 px-md-5">
                 
                 @php
                     $homeSetting = \App\Models\GeneralSetting::first();
