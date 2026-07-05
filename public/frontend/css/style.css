@@ -9176,3 +9176,122 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
         display: flex !important;
     }
 }
+
+/* Mobile Header Layout Enhancements (max-width: 768px) */
+@media (max-width: 768px) {
+    /* 1. Swap positions of topbar sections */
+    .gov-bar-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        align-items: center !important;
+    }
+    
+    .gov-center-section {
+        order: 1 !important;
+        width: 100% !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        margin: 0 !important;
+    }
+    
+    .gov-right-section {
+        order: 2 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 15px !important;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    .gov-left-section {
+        order: 3 !important;
+        display: flex !important;
+        flex-direction: row-reverse !important; /* Emblem on the right, text on the left */
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+        padding-top: 10px !important;
+        margin-top: 5px !important;
+        gap: 10px !important;
+    }
+    
+    .gov-left-section img {
+        height: 48px !important;
+        width: auto !important;
+        max-width: 100% !important;
+        object-fit: contain !important;
+        margin: 0 !important;
+        order: 2 !important;
+    }
+    
+    .gov-left-section .gov-text {
+        order: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        text-align: left !important;
+        gap: 3px !important;
+        white-space: normal !important;
+        width: auto !important;
+    }
+    
+    .gov-left-section .gov-text a {
+        display: block !important;
+        text-decoration: none !important;
+    }
+    
+    .gov-left-section .gov-text a span,
+    .gov-left-section .gov-text span {
+        font-size: 11.5px !important;
+        line-height: 1.35 !important;
+        color: #ffffff !important;
+        font-weight: 500 !important;
+        display: inline-block !important;
+        text-align: left !important;
+    }
+    
+    .gov-left-section .gov-text > span {
+        display: none !important; /* Hide separator pipes */
+    }
+
+    /* 2. Brand & Partner Logos Mobile Sizing & Alignment */
+    .logo-header {
+        padding: 8px 0 !important;
+    }
+    .logo-header .d-flex {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 10px !important;
+        padding: 0 10px !important;
+        width: 100% !important;
+    }
+    
+    /* Company Logo: Big, revealing, non-stretched */
+    .navbar-brand .header-logo {
+        height: 52px !important;
+        width: auto !important;
+        max-width: 100% !important;
+        object-fit: contain !important;
+        display: block !important;
+    }
+    
+    /* Partner Logos: OPF & PIA */
+    .logo-header .logo:not(.header-logo) {
+        height: 38px !important;
+        width: auto !important;
+        max-width: 100% !important;
+        object-fit: contain !important;
+        display: inline-block !important;
+    }
+
+    /* Adjust the spacing of the logos container wrapper */
+    .logo-header .gov-text-box {
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+}
