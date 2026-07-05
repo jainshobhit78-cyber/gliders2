@@ -9178,8 +9178,8 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     }
 }
 
-/* Mobile Header Layout Enhancements (max-width: 768px) */
-@media (max-width: 768px) {
+/* Mobile Header Layout Enhancements (max-width: 991px) */
+@media (max-width: 991px) {
     /* 1. Swap positions of topbar sections: Emblem and Text at Row 1 */
     .gov-bar-wrapper {
         display: flex !important;
@@ -9273,7 +9273,7 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     
     /* Company Logo: Big, revealing, non-stretched */
     .logo-header img.header-logo {
-        height: 130px !important;
+        height: 120px !important;
         width: auto !important;
         max-width: 100% !important;
         object-fit: contain !important;
@@ -9282,7 +9282,7 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     
     /* Partner Logos: OPF & PIA */
     .logo-header img.logo:not(.header-logo) {
-        height: 90px !important;
+        height: 80px !important;
         width: auto !important;
         max-width: 100% !important;
         object-fit: contain !important;
