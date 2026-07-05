@@ -7555,9 +7555,10 @@ table td {
     /* Hero Banner Video Mobile Optimization */
     .hero-banner {
         min-height: 60vh !important;
-        height: 60vh !important;
+        height: auto !important;
         margin-top: -80px !important;
         padding-top: 80px !important;
+        overflow: visible !important;
     }
     .hero-video {
         height: 100% !important;
