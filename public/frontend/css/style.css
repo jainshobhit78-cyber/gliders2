@@ -9271,18 +9271,18 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
         width: 100% !important;
     }
     
-    /* Company Logo: Big, revealing, non-stretched (doubled size to 104px) */
-    .navbar-brand .header-logo {
-        height: 104px !important;
+    /* Company Logo: Big, revealing, non-stretched */
+    .logo-header img.header-logo {
+        height: 130px !important;
         width: auto !important;
         max-width: 100% !important;
         object-fit: contain !important;
         display: block !important;
     }
     
-    /* Partner Logos: OPF & PIA (doubled size to 76px) */
-    .logo-header .logo:not(.header-logo) {
-        height: 76px !important;
+    /* Partner Logos: OPF & PIA */
+    .logo-header img.logo:not(.header-logo) {
+        height: 90px !important;
         width: auto !important;
         max-width: 100% !important;
         object-fit: contain !important;
