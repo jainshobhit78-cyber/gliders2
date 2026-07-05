@@ -6780,6 +6780,7 @@ table td {
 /* Homepage Announcement Ticker Mobile Adjustments */
 @media (max-width: 768px) {
     .announcement-bar {
+        display: flex !important;
         flex-direction: column !important;
         height: auto !important;
         position: relative !important;
@@ -6787,17 +6788,33 @@ table td {
     .announce-left {
         width: 100% !important;
         justify-content: center !important;
-        padding: 10px 15px !important;
-        font-size: 14px !important;
+        padding: 8px 10px !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        background-color: #EE6802 !important; /* Vibrant orange to stand out beautifully */
+        color: #fff !important;
         clip-path: none !important;
+        text-align: center !important;
     }
     .announce-right {
         width: 100% !important;
-        padding: 10px 0 !important;
-        height: 38px !important;
+        background-color: #001137 !important;
+        padding: 6px 0 !important;
+        height: 34px !important;
+        overflow: hidden !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+    .ticker-wrap {
+        width: 100% !important;
+        overflow: hidden !important;
     }
     .ticker-scroll {
-        font-size: 14px !important;
+        display: inline-block !important;
+        white-space: nowrap !important;
+        padding-left: 100% !important;
+        animation: tickerMove 20s linear infinite !important;
+        font-size: 13px !important;
     }
     .ticker-divider {
         font-size: 11px !important;
