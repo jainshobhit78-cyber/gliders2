@@ -7508,6 +7508,8 @@ table td {
     .logo-header .logo {
         height: 42px !important;
         width: auto !important;
+        max-width: 100% !important;
+        object-fit: contain !important;
     }
     .logo-header .gov-text-box {
         display: flex !important;
@@ -7524,6 +7526,9 @@ table td {
     }
     .navbar-brand .header-logo {
         height: 60px !important;
+        width: auto !important;
+        max-width: 100% !important;
+        object-fit: contain !important;
     }
     .navbar-toggler {
         padding: 4px 8px !important;
@@ -9107,5 +9112,50 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     
     .caps-section-title {
         font-size: 32px;
+    }
+}
+
+/* Social Media Responsive Grouping */
+.social-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.social-links-list {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.social-toggle-btn {
+    display: none;
+}
+
+@media (max-width: 991px) {
+    .social-toggle-btn {
+        display: inline-block !important;
+        padding: 2px 8px;
+        font-size: 13px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .social-links-list {
+        display: none !important;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 8px;
+        background-color: #001137;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+        padding: 10px 15px !important;
+        z-index: 1050;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        gap: 15px !important;
+    }
+    .social-container.active .social-links-list {
+        display: flex !important;
     }
 }
