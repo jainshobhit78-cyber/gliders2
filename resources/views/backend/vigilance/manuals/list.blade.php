@@ -48,7 +48,7 @@
 
                                     <td>{{ $key + 1 }}</td>
 
-                                    <td>{!! \Str::limit(strip_tags($item->info_text), 120) !!}</td>
+                                    <td>{{ \Str::limit(strip_tags($item->info_text), 120) }}</td>
 
                                     <td>
 

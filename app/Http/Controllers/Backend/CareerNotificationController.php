@@ -36,8 +36,7 @@ class CareerNotificationController extends Controller
 
         if ($request->hasFile('pdfs')) {
             foreach ($request->file('pdfs') as $pdf) {
-                $name = time() . '_' . $pdf->getClientOriginalName();
-
+                $name = $pdf->hashName();
                 $pdf->move(public_path('uploads/careers'), $name);
 
                 CareerNotificationFile::create([
@@ -74,8 +73,7 @@ class CareerNotificationController extends Controller
 
         if ($request->hasFile('pdfs')) {
             foreach ($request->file('pdfs') as $pdf) {
-                $name = time() . '_' . $pdf->getClientOriginalName();
-
+                $name = $pdf->hashName();
                 $pdf->move(public_path('uploads/careers'), $name);
 
                 CareerNotificationFile::create([
@@ -125,3 +123,4 @@ class CareerNotificationController extends Controller
             ->with('success', 'Deleted Successfully');
     }
 }
+

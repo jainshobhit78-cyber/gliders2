@@ -45,7 +45,7 @@
                                 </h4>
 
                                 <div class="raj-description">
-                                    {!! $item->description !!}
+                                    {!! \App\Support\Security::cleanHtml($item->description) !!}
                                 </div>
 
                                 @if($item->pdf)

@@ -244,7 +244,7 @@
                             </div>
 
                             <div class="premium-body">
-                                {!! $article->content !!}
+                                {!! \App\Support\Security::cleanHtml($article->content) !!}
                             </div>
                         </div>
                     </div>

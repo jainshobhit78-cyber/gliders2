@@ -45,7 +45,7 @@
 
                     <textarea name="description" class="editor form-control">
 
-{!! $vision->description !!}
+{{ $vision->description }}
 
 </textarea>
 

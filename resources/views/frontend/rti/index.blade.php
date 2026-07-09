@@ -159,7 +159,7 @@
                             <div class="rti-info-item mb-4">
 
                                 <div class="rti-info-content">
-                                    {!! $item->info_text !!}
+                                    {!! \App\Support\Security::cleanHtml($item->info_text) !!}
                                 </div>
 
                                 @if($item->pdf)

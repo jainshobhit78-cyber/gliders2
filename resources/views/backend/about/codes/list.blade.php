@@ -47,7 +47,7 @@
 
                                     <td>{{ $code->title }}</td>
 
-                                    <td>{!! \Str::limit(strip_tags($code->description), 100) !!}</td>
+                                    <td>{{ \Str::limit(strip_tags($code->description), 100) }}</td>
 
                                     <td>
 

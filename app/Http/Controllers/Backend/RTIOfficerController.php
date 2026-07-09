@@ -46,8 +46,7 @@ class RTIOfficerController extends Controller
 
             $file = $request->file('image');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/rti'), $filename);
 
             $item->image = $filename;
@@ -97,8 +96,7 @@ class RTIOfficerController extends Controller
 
             $file = $request->file('image');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/rti'), $filename);
 
             $item->image = $filename;
@@ -132,3 +130,4 @@ class RTIOfficerController extends Controller
     }
 
 }
+

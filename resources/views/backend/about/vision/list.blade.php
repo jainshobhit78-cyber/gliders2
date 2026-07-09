@@ -47,7 +47,7 @@
 
                                     <td>
 
-                                        {!! \Str::limit(strip_tags($vision->description), 100) !!}
+                                        {{ \Str::limit(strip_tags($vision->description), 100) }}
 
                                     </td>
 

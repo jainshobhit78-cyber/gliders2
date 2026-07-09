@@ -29,7 +29,7 @@
 
                     <textarea name="description" class="editor form-control">
 
-                    {!! $setup->description !!}
+                    {{ $setup->description }}
 
                     </textarea>
 

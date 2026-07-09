@@ -50,7 +50,7 @@
 
                                     <td>
 
-                                        {!! \Str::limit(strip_tags($history->description), 80) !!}
+                                        {{ \Str::limit(strip_tags($history->description), 80) }}
 
                                     </td>
 

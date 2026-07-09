@@ -336,6 +336,39 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('a[href*="delete"]').forEach(function (link) {
+                const needsConfirm = link.hasAttribute('onclick');
+
+                link.addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    if (needsConfirm && !window.confirm('Delete this record?')) {
+                        return;
+                    }
+
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = link.href;
+                    form.style.display = 'none';
+
+                    const token = document.createElement('input');
+                    token.type = 'hidden';
+                    token.name = '_token';
+                    token.value = document.querySelector('meta[name="csrf-token"]')?.content || '';
+
+                    const method = document.createElement('input');
+                    method.type = 'hidden';
+                    method.name = '_method';
+                    method.value = 'DELETE';
+
+                    form.appendChild(token);
+                    form.appendChild(method);
+                    document.body.appendChild(form);
+                    form.submit();
+                });
+
+                link.removeAttribute('onclick');
+            });
 
             const sidebar = document.querySelector('.sidebar-wrapper');
             const page = document.querySelector('.page-body-wrapper');

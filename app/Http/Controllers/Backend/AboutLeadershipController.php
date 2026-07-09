@@ -33,7 +33,7 @@ class AboutLeadershipController extends Controller
         $pictureName = null;
         if ($request->hasFile('picture')) {
             $file = $request->file('picture');
-            $pictureName = time() . '_' . $file->getClientOriginalName();
+            $pictureName = $file->hashName();
             $file->move(public_path('uploads/leadership'), $pictureName);
         }
 
@@ -66,8 +66,7 @@ class AboutLeadershipController extends Controller
                 if ($request->hasFile("milestones.$index.image")) {
                     $file = $request->file("milestones.$index.image");
 
-                    $imageName = time() . '_' . $file->getClientOriginalName();
-
+                    $imageName = $file->hashName();
                     $file->move(public_path('uploads/milestones'), $imageName);
                 }
 
@@ -107,7 +106,7 @@ class AboutLeadershipController extends Controller
                 unlink(public_path('uploads/leadership/' . $leader->picture));
             }
             $file = $request->file('picture');
-            $pictureName = time() . '_' . $file->getClientOriginalName();
+            $pictureName = $file->hashName();
             $file->move(public_path('uploads/leadership'), $pictureName);
         }
 
@@ -149,7 +148,7 @@ class AboutLeadershipController extends Controller
                     }
 
                     $file = $request->file("milestones.$index.image");
-                    $imageName = time() . '_' . $file->getClientOriginalName();
+                    $imageName = $file->hashName();
                     $file->move(public_path('uploads/milestones'), $imageName);
                 }
 
@@ -218,3 +217,4 @@ class AboutLeadershipController extends Controller
     }
 
 }
+

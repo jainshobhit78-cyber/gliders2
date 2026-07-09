@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Middleware\AdminAuth;
+use App\Http\Middleware\SecurityHeaders;
+use App\Http\Middleware\ValidateCmsUploads;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -19,10 +21,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->append(\App\Http\Middleware\MaintenanceModeMiddleware::class);
         $middleware->append(\App\Http\Middleware\TrackVisitors::class);
+        $middleware->append(SecurityHeaders::class);
 
         $middleware->alias([
             'adminAuth' => AdminAuth::class,
             'ipWhitelist' => \App\Http\Middleware\IpWhitelistMiddleware::class,
+            'validateCmsUploads' => ValidateCmsUploads::class,
 
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,

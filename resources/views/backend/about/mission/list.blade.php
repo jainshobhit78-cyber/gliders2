@@ -51,7 +51,7 @@
 
                                     <td>
 
-                                        {!! \Str::limit(strip_tags($mission->description), 100) !!}
+                                        {{ \Str::limit(strip_tags($mission->description), 100) }}
 
                                     </td>
 

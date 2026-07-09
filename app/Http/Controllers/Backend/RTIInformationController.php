@@ -35,8 +35,7 @@ class RTIInformationController extends Controller
 
             $file = $request->file('pdf');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/rti'), $filename);
 
             $item->pdf = $filename;
@@ -76,8 +75,7 @@ class RTIInformationController extends Controller
 
             $file = $request->file('pdf');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/rti'), $filename);
 
             $item->pdf = $filename;
@@ -107,3 +105,4 @@ class RTIInformationController extends Controller
     }
 
 }
+

@@ -89,7 +89,7 @@
                                     </p>
 
                                     <div class="cvo-description">
-                                        {!! $item->description !!}
+                                        {!! \App\Support\Security::cleanHtml($item->description) !!}
                                     </div>
 
                                     @if($item->pdf)
@@ -146,7 +146,7 @@
                                     </div>
 
                                     <div class="text-muted">
-                                        {!! $item->description !!}
+                                        {!! \App\Support\Security::cleanHtml($item->description) !!}
                                     </div>
 
                                     @if($item->pdf)
@@ -240,7 +240,7 @@
                                     <div class="contact-section mt-4">
                                         <h6 class="contact-label">Address</h6>
                                         <div class="contact-address">
-                                            {!! $item->address !!}
+                                            {!! \App\Support\Security::cleanHtml($item->address) !!}
                                         </div>
                                     </div>
 
@@ -288,7 +288,7 @@
                                     </div>
 
                                     <div class="info-text">
-                                        {!! $item->info_text !!}
+                                        {!! \App\Support\Security::cleanHtml($item->info_text) !!}
                                     </div>
 
                                     @if($item->pdf)
@@ -326,7 +326,7 @@
                             </div>
 
                             <div class="info-text">
-                                {!! $monitor->address !!}
+                                {!! \App\Support\Security::cleanHtml($monitor->address) !!}
                             </div>
 
 
@@ -349,7 +349,7 @@
                             <div class="manual-item mb-4">
 
                                 <div class="info-text">
-                                    {!! $item->info_text !!}
+                                    {!! \App\Support\Security::cleanHtml($item->info_text) !!}
                                 </div>
 
                                 @if($item->pdf)
@@ -386,7 +386,7 @@
                             <div class="mb-4">
 
                                 <div class="info-text">
-                                    {!! $item->info_text !!}
+                                    {!! \App\Support\Security::cleanHtml($item->info_text) !!}
                                 </div>
 
                                 @if($item->pdf)

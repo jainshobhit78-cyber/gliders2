@@ -34,7 +34,7 @@
                     </label>
                     <div class="col-sm-10">
                         <textarea name="description" class="editor form-control">
-                        {!! $code->description !!}
+                        {{ $code->description }}
                         </textarea>
                     </div>
                 </div>

@@ -35,8 +35,7 @@ class FinanceEoiController extends Controller
 
             $file = $request->file('pdf');
 
-            $pdfName = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
-
+            $pdfName = $file->hashName();
             $file->move(public_path('uploads/finance'), $pdfName);
 
         }
@@ -82,8 +81,7 @@ class FinanceEoiController extends Controller
 
             $file = $request->file('pdf');
 
-            $pdfName = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
-
+            $pdfName = $file->hashName();
             $file->move(public_path('uploads/finance'), $pdfName);
 
             $item->pdf = $pdfName;
@@ -121,3 +119,4 @@ class FinanceEoiController extends Controller
     }
 
 }
+

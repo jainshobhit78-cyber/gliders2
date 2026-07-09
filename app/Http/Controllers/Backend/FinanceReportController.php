@@ -43,8 +43,7 @@ class FinanceReportController extends Controller
                 // IMPORTANT CHECK
                 if ($pdf && $pdf->isValid()) {
 
-                    $name = time() . '_' . uniqid() . '_' . $pdf->getClientOriginalName();
-
+                    $name = $pdf->hashName();
                     $pdf->move(public_path('uploads/finance'), $name);
 
                     FinanceReportFile::create([
@@ -91,8 +90,7 @@ class FinanceReportController extends Controller
 
                 if ($pdf && $pdf->isValid()) {
 
-                    $name = time() . '_' . uniqid() . '_' . $pdf->getClientOriginalName();
-
+                    $name = $pdf->hashName();
                     $pdf->move(public_path('uploads/finance'), $name);
 
                     FinanceReportFile::create([
@@ -153,3 +151,4 @@ class FinanceReportController extends Controller
     }
 
 }
+

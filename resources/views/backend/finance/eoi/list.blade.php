@@ -52,7 +52,7 @@
 
                                     <td>{{$item->title}}</td>
 
-                                    <td>{!! \Str::limit(strip_tags($item->description), 120) !!}</td>
+                                    <td>{{ \Str::limit(strip_tags($item->description), 120) }}</td>
 
                                     <td>
 

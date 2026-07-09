@@ -35,8 +35,7 @@ class VigilanceBulletinController extends Controller
 
             $file = $request->file('pdf');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/vigilance'), $filename);
 
             $item->pdf = $filename;
@@ -75,8 +74,7 @@ class VigilanceBulletinController extends Controller
 
             $file = $request->file('pdf');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/vigilance'), $filename);
 
             $item->pdf = $filename;
@@ -105,3 +103,4 @@ class VigilanceBulletinController extends Controller
     }
 
 }
+

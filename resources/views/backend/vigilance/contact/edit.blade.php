@@ -100,7 +100,7 @@
 
                     <textarea name="address" class="editor form-control">
 
-{!! $contact->address !!}
+{{ $contact->address }}
 
 </textarea>
 

@@ -37,7 +37,7 @@
                                 </h4>
 
                                 <div class="notification-description">
-                                    {!! $item->description !!}
+                                    {!! \App\Support\Security::cleanHtml($item->description) !!}
                                 </div>
 
                                 @if($item->files && count($item->files))

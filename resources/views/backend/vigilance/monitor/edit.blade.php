@@ -41,7 +41,7 @@
 
                     <textarea name="address" class="editor form-control">
 
-{!! $item->address !!}
+{{ $item->address }}
 
 </textarea>
 

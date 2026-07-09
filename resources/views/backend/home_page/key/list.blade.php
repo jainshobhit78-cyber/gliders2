@@ -59,7 +59,7 @@
 
                                     {{-- DESCRIPTION --}}
                                     <td>
-                                        {!! \Str::limit(strip_tags($offer->description), 100) !!}
+                                        {{ \Str::limit(strip_tags($offer->description), 100) }}
                                     </td>
 
                                     {{-- ACTION --}}

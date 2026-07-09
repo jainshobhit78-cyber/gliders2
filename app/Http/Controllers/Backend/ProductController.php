@@ -38,21 +38,21 @@ class ProductController extends Controller
         $wallpaperName = null;
         if ($request->hasFile('wallpaper')) {
             $wallpaper = $request->file('wallpaper');
-            $wallpaperName = time() . '_wallpaper_' . $wallpaper->getClientOriginalName();
+            $wallpaperName = $wallpaper->hashName();
             $wallpaper->move(public_path('uploads/products'), $wallpaperName);
         }
 
         $specsImageName = null;
         if ($request->hasFile('specs_image')) {
             $specsImage = $request->file('specs_image');
-            $specsImageName = time() . '_specs_' . $specsImage->getClientOriginalName();
+            $specsImageName = $specsImage->hashName();
             $specsImage->move(public_path('uploads/products'), $specsImageName);
         }
 
         $capsImageName = null;
         if ($request->hasFile('caps_image')) {
             $capsImage = $request->file('caps_image');
-            $capsImageName = time() . '_caps_' . $capsImage->getClientOriginalName();
+            $capsImageName = $capsImage->hashName();
             $capsImage->move(public_path('uploads/products'), $capsImageName);
         }
 
@@ -97,8 +97,7 @@ class ProductController extends Controller
 
         if ($request->hasFile('filepond')) {
             foreach ($request->file('filepond') as $image) {
-                $name = time() . '_' . $image->getClientOriginalName();
-
+                $name = $image->hashName();
                 $image->move(public_path('uploads/products'), $name);
 
                 ProductImage::create([
@@ -135,21 +134,21 @@ class ProductController extends Controller
         $wallpaperName = $product->wallpaper;
         if ($request->hasFile('wallpaper')) {
             $wallpaper = $request->file('wallpaper');
-            $wallpaperName = time() . '_wallpaper_' . $wallpaper->getClientOriginalName();
+            $wallpaperName = $wallpaper->hashName();
             $wallpaper->move(public_path('uploads/products'), $wallpaperName);
         }
 
         $specsImageName = $product->specs_image;
         if ($request->hasFile('specs_image')) {
             $specsImage = $request->file('specs_image');
-            $specsImageName = time() . '_specs_' . $specsImage->getClientOriginalName();
+            $specsImageName = $specsImage->hashName();
             $specsImage->move(public_path('uploads/products'), $specsImageName);
         }
 
         $capsImageName = $product->caps_image;
         if ($request->hasFile('caps_image')) {
             $capsImage = $request->file('caps_image');
-            $capsImageName = time() . '_caps_' . $capsImage->getClientOriginalName();
+            $capsImageName = $capsImage->hashName();
             $capsImage->move(public_path('uploads/products'), $capsImageName);
         }
 
@@ -194,8 +193,7 @@ class ProductController extends Controller
 
         if ($request->hasFile('filepond')) {
             foreach ($request->file('filepond') as $image) {
-                $name = time() . '_' . $image->getClientOriginalName();
-
+                $name = $image->hashName();
                 $image->move(public_path('uploads/products'), $name);
 
                 ProductImage::create([
@@ -223,3 +221,4 @@ class ProductController extends Controller
         return back()->with('success', 'Product Deleted');
     }
 }
+

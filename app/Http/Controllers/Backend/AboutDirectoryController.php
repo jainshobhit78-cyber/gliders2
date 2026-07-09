@@ -33,7 +33,7 @@ class AboutDirectoryController extends Controller
         if ($request->hasFile('profile_photo')) {
 
             $file = $request->file('profile_photo');
-            $name = time() . '_' . $file->getClientOriginalName();
+            $name = $file->hashName();
             $file->move(public_path('uploads/directory'), $name);
 
         } else {
@@ -89,7 +89,7 @@ class AboutDirectoryController extends Controller
             }
 
             $file = $request->file('profile_photo');
-            $name = time() . '_' . $file->getClientOriginalName();
+            $name = $file->hashName();
             $file->move(public_path('uploads/directory'), $name);
 
         } else {
@@ -136,3 +136,4 @@ class AboutDirectoryController extends Controller
     }
 
 }
+

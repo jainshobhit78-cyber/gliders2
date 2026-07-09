@@ -38,8 +38,7 @@ class VigilanceSexualHarassmentController extends Controller
 
             $file = $request->file('image');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/vigilance'), $filename);
 
             $item->image = $filename;
@@ -50,8 +49,7 @@ class VigilanceSexualHarassmentController extends Controller
 
             $file = $request->file('pdf');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/vigilance'), $filename);
 
             $item->pdf = $filename;
@@ -97,8 +95,7 @@ class VigilanceSexualHarassmentController extends Controller
 
             $file = $request->file('image');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/vigilance'), $filename);
 
             $item->image = $filename;
@@ -116,8 +113,7 @@ class VigilanceSexualHarassmentController extends Controller
 
             $file = $request->file('pdf');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/vigilance'), $filename);
 
             $item->pdf = $filename;
@@ -157,3 +153,4 @@ class VigilanceSexualHarassmentController extends Controller
     }
 
 }
+

@@ -52,7 +52,7 @@
                                     <td>{{ $cvo->title }}</td>
                                     <td>{{ $cvo->sub_title }}</td>
 
-                                    <td>{!! \Str::limit(strip_tags($cvo->description), 150) !!}</td>
+                                    <td>{{ \Str::limit(strip_tags($cvo->description), 150) }}</td>
 
                                     <td>
                                         @if($cvo->image)

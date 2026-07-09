@@ -59,8 +59,7 @@ class AboutProductionUnitController extends Controller
 
                     $video = $request->file("milestones.$index.video");
 
-                    $videoName = time() . '_' . $video->getClientOriginalName();
-
+                    $videoName = $video->hashName();
                     $videoPath = public_path('uploads/production/videos');
 
                     if (!file_exists($videoPath)) {
@@ -250,8 +249,7 @@ class AboutProductionUnitController extends Controller
                             continue;
                         }
 
-                        $imageName = uniqid() . '_' . $image->getClientOriginalName();
-
+                        $imageName = $image->hashName();
                         $image->move($imagePath, $imageName);
 
                         ProductionUnitMilestoneImage::create([
@@ -283,8 +281,7 @@ class AboutProductionUnitController extends Controller
 
                     $video = $request->file("milestones.$index.video");
 
-                    $videoName = uniqid() . '_' . $video->getClientOriginalName();
-
+                    $videoName = $video->hashName();
                     $videoPath = public_path('uploads/production/videos');
 
                     if (!file_exists($videoPath)) {
@@ -350,3 +347,4 @@ class AboutProductionUnitController extends Controller
     }
 
 }
+

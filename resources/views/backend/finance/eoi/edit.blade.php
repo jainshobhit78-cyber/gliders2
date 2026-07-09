@@ -53,7 +53,7 @@
 
                     <textarea name="description" class="editor form-control">
 
-{!! $item->description !!}
+{{ $item->description }}
 
 </textarea>
 

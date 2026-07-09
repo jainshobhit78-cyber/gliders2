@@ -505,7 +505,7 @@
                         <h3>{{ $ourUnit->sub_heading }}</h3>
 
                         <div class="unit-description">
-                            {!! $ourUnit->description !!}
+                            {!! \App\Support\Security::cleanHtml($ourUnit->description) !!}
                         </div>
 
                         <div class="unit-points">

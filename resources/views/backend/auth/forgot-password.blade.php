@@ -119,7 +119,7 @@
         <h2>Forgot Password</h2>
 
         @if(session('success'))
-            <div style="color:green;">{!! session('success') !!}</div>
+            <div style="color:green;">{{ session('success') }}</div>
         @endif
 
         <form method="POST">

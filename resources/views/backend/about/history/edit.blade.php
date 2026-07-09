@@ -48,7 +48,7 @@
 
                     <textarea name="description" class="editor form-control">
 
-{!! $history->description !!}
+{{ $history->description }}
 
 </textarea>
 

@@ -42,8 +42,7 @@ class AboutSocialResponsibilityController extends Controller
 
             $file = $request->file('photo');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/social'), $filename);
 
             $social->photo = $filename;
@@ -92,7 +91,7 @@ class AboutSocialResponsibilityController extends Controller
             }
 
             $file = $request->file('photo');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = $file->hashName();
             $file->move(public_path('uploads/social'), $filename);
 
             $social->photo = $filename;
@@ -122,3 +121,4 @@ class AboutSocialResponsibilityController extends Controller
     }
 
 }
+

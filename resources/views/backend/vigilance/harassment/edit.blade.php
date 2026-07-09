@@ -32,7 +32,7 @@
 
                     <textarea name="info_text" class="editor form-control">
 
-{!! $item->info_text !!}
+{{ $item->info_text }}
 
 </textarea>
 

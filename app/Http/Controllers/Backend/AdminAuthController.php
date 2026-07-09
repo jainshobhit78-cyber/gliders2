@@ -95,7 +95,7 @@ class AdminAuthController extends Controller
 
         PasswordReset::create([
             'email' => $request->email,
-            'token' => $token,
+            'token' => Hash::make($token),
             'created_at' => now()
         ]);
 
@@ -115,7 +115,8 @@ class AdminAuthController extends Controller
 
     public function showResetForm($token)
     {
-        $record = PasswordReset::where('token', $token)->first();
+        $record = PasswordReset::where('created_at', '>=', now()->subMinutes(60))->get()
+            ->first(fn ($reset) => Hash::check($token, $reset->token));
 
         if (!$record) {
             abort(404);
@@ -138,9 +139,8 @@ class AdminAuthController extends Controller
             ]
         ]);
 
-        $record = PasswordReset::where('token', $request->token)
-            ->where('created_at', '>=', now()->subMinutes(60))
-            ->first();
+        $record = PasswordReset::where('created_at', '>=', now()->subMinutes(60))->get()
+            ->first(fn ($reset) => Hash::check($request->token, $reset->token));
 
         if (!$record) {
             return back()->withErrors(['token' => 'Invalid or expired token']);

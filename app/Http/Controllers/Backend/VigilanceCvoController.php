@@ -37,7 +37,7 @@ class VigilanceCvoController extends Controller
         if ($request->hasFile('image')) {
 
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = $file->hashName();
             $file->move(public_path('uploads/cvo'), $filename);
 
             $cvo->image = $filename;
@@ -46,7 +46,7 @@ class VigilanceCvoController extends Controller
         if ($request->hasFile('pdf')) {
 
             $file = $request->file('pdf');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = $file->hashName();
             $file->move(public_path('uploads/cvo'), $filename);
 
             $cvo->pdf = $filename;
@@ -87,7 +87,7 @@ class VigilanceCvoController extends Controller
             }
 
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = $file->hashName();
             $file->move(public_path('uploads/cvo'), $filename);
 
             $cvo->image = $filename;
@@ -100,7 +100,7 @@ class VigilanceCvoController extends Controller
             }
 
             $file = $request->file('pdf');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = $file->hashName();
             $file->move(public_path('uploads/cvo'), $filename);
 
             $cvo->pdf = $filename;
@@ -129,3 +129,4 @@ class VigilanceCvoController extends Controller
     }
 
 }
+

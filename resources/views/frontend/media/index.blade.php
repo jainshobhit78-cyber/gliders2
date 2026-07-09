@@ -27,7 +27,7 @@
                 @endif
                 @if($selectedPlaylist->description)
                     <div class="playlist-desc mt-3 mx-auto" style="max-width: 800px; color: #555;">
-                        {!! $selectedPlaylist->description !!}
+                        {!! \App\Support\Security::cleanHtml($selectedPlaylist->description) !!}
                     </div>
                 @endif
 

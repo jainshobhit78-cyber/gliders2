@@ -37,11 +37,11 @@
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $hr->title }}</td>
-                                    <td>{!! \Str::limit(strip_tags($hr->description), 60) !!}</td>
-                                    <td>{!! \Str::limit(strip_tags($hr->vision), 60) !!}</td>
-                                    <td>{!! \Str::limit(strip_tags($hr->mission), 60) !!}</td>
-                                    <td>{!! \Str::limit(strip_tags($hr->objectives), 60) !!}</td>
-                                    <td>{!! \Str::limit(strip_tags($hr->strategy), 60) !!}</td>
+                                    <td>{{ \Str::limit(strip_tags($hr->description), 60) }}</td>
+                                    <td>{{ \Str::limit(strip_tags($hr->vision), 60) }}</td>
+                                    <td>{{ \Str::limit(strip_tags($hr->mission), 60) }}</td>
+                                    <td>{{ \Str::limit(strip_tags($hr->objectives), 60) }}</td>
+                                    <td>{{ \Str::limit(strip_tags($hr->strategy), 60) }}</td>
                                     <td>
                                         <ul class="table-action">
                                             @if(auth()->guard('admin')->user()->can('human_resources.edit'))

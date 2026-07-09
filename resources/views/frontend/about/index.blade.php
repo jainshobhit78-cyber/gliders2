@@ -89,7 +89,7 @@
                                                                     </p>
 
                                                                     <div class="bio">
-                                                                        {!! $leader->bio !!}
+                                                                        {!! \App\Support\Security::cleanHtml($leader->bio) !!}
                                                                     </div>
                                                                 </div>
 
@@ -131,7 +131,7 @@
                                                                                     </p>
 
                                                                                     <div class="text-muted">
-                                                                                        {!! $milestone->description !!}
+                                                                                        {!! \App\Support\Security::cleanHtml($milestone->description) !!}
                                                                                     </div>
 
                                                                                 </div>
@@ -188,7 +188,7 @@
                                                 <h3 class="leader-name">{{ $leader->leader_name }}</h3>
                                                 <h5 class="leader-title">{{ $leader->role }}</h5>
                                                 <div class="leader-bio">
-                                                    {!! $leader->bio !!}
+                                                    {!! \App\Support\Security::cleanHtml($leader->bio) !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -211,7 +211,7 @@
                                                                 </div>
                                                                 <h4>{{ $milestone->heading }}</h4>
                                                                 <div class="timeline-node-desc">
-                                                                    {!! $milestone->description !!}
+                                                                    {!! \App\Support\Security::cleanHtml($milestone->description) !!}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -318,7 +318,7 @@
                                     </p>
 
                                     <div class="bio">
-                                        {!! $item->bio !!}
+                                        {!! \App\Support\Security::cleanHtml($item->bio) !!}
                                     </div>
                                 </div>
 
@@ -366,7 +366,7 @@
                                                     </p>
 
                                                     <div class="text-muted pb-2">
-                                                        {!! $milestone->bio !!}
+                                                        {!! \App\Support\Security::cleanHtml($milestone->bio) !!}
                                                     </div>
 
                                                     {{-- ALL THUMBNAIL IMAGES --}}
@@ -424,7 +424,7 @@
                     @foreach($history as $item)
                         <div class="leader-card history-card">
                             <h4>{{ $item->title }}</h4>
-                            <p class="text-muted">{!! $item->description !!}</p>
+                            <p class="text-muted">{!! \App\Support\Security::cleanHtml($item->description) !!}</p>
                         </div>
                     @endforeach
 
@@ -455,7 +455,7 @@
                                 </div>
 
                                 <div class="social-description">
-                                    {!! $item->description !!}
+                                    {!! \App\Support\Security::cleanHtml($item->description) !!}
                                 </div>
                             @endforeach
 
@@ -527,7 +527,7 @@
                             <div class="hr-section mb-4">
                                 <h4 class="hr-heading">Description</h4>
                                 <div class="text-muted">
-                                    {!! $humanResources->description !!}
+                                    {!! \App\Support\Security::cleanHtml($humanResources->description) !!}
                                 </div>
                             </div>
 
@@ -537,28 +537,28 @@
                                 <div class="col-md-6">
                                     <div class="hr-box">
                                         <h4>Vision</h4>
-                                        <div class="text-muted">{!! $humanResources->vision !!}</div>
+                                        <div class="text-muted">{!! \App\Support\Security::cleanHtml($humanResources->vision) !!}</div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="hr-box">
                                         <h4>Mission</h4>
-                                        <div class="text-muted">{!! $humanResources->mission !!}</div>
+                                        <div class="text-muted">{!! \App\Support\Security::cleanHtml($humanResources->mission) !!}</div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="hr-box">
                                         <h4>Objectives</h4>
-                                        <div class="text-muted">{!! $humanResources->objectives !!}</div>
+                                        <div class="text-muted">{!! \App\Support\Security::cleanHtml($humanResources->objectives) !!}</div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="hr-box">
                                         <h4>Strategy</h4>
-                                        <div>{!! $humanResources->strategy !!}</div>
+                                        <div>{!! \App\Support\Security::cleanHtml($humanResources->strategy) !!}</div>
                                     </div>
                                 </div>
 
@@ -585,7 +585,7 @@
                             </div>
 
                             <div class="text-muted">
-                                {!! $vision->description !!}
+                                {!! \App\Support\Security::cleanHtml($vision->description) !!}
                             </div>
 
                         </div>
@@ -609,7 +609,7 @@
                             </div>
 
                             <div class="text-muted">
-                                {!! $mission->description !!}
+                                {!! \App\Support\Security::cleanHtml($mission->description) !!}
                             </div>
 
                         </div>
@@ -806,7 +806,7 @@
                                 </h4>
 
                                 <div class="text-muted pb-2">
-                                    {!! $item->description !!}
+                                    {!! \App\Support\Security::cleanHtml($item->description) !!}
                                 </div>
 
                                 @if($item->pdf)

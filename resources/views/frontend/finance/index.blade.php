@@ -42,7 +42,7 @@
                                 </h4>
 
                                 <div class="report-description">
-                                    {!! $item->description !!}
+                                    {!! \App\Support\Security::cleanHtml($item->description) !!}
                                 </div>
 
                                 @if($item->files->count())
@@ -89,7 +89,7 @@
                                 </h4>
 
                                 <div class="report-description">
-                                    {!! $item->description !!}
+                                    {!! \App\Support\Security::cleanHtml($item->description) !!}
                                 </div>
 
                                 @if($item->pdf)

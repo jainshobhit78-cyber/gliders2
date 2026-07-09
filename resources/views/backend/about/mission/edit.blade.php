@@ -41,7 +41,7 @@
 
                     <textarea name="description" class="editor form-control">
 
-{!! $mission->description !!}
+{{ $mission->description }}
 
 </textarea>
 

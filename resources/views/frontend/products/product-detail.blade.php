@@ -239,7 +239,7 @@
                         <h2 class="capabilities-section-title">
                             {{ $specs['title'] }} <span>{{ $specs['title_span'] ?? '' }}</span>
                         </h2>
-                        <p class="capabilities-subtext">{!! $specs['subtext'] !!}</p>
+                        <p class="capabilities-subtext">{!! \App\Support\Security::cleanHtml($specs['subtext']) !!}</p>
                         
                         <div class="accordion capabilities-accordion" id="specsAccordion">
                             @foreach($specs['items'] as $index => $item)

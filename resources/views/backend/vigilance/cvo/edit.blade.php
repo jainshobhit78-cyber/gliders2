@@ -41,7 +41,7 @@
 
                 <div class="mb-4">
                     <label class="form-label-title">Description</label>
-                    <textarea name="description" class="editor form-control">{!! $cvo->description !!}</textarea>
+                    <textarea name="description" class="editor form-control">{{ $cvo->description }}</textarea>
                 </div>
 
                 <div class="mb-4">

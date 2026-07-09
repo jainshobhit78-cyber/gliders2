@@ -25,27 +25,27 @@
 
                 <div class="mb-4">
                     <label class="form-label-title">Description</label>
-                    <textarea name="description" class="editor form-control">{!! $hr->description !!}</textarea>
+                    <textarea name="description" class="editor form-control">{{ $hr->description }}</textarea>
                 </div>
 
                 <div class="mb-4">
                     <label class="form-label-title">HR Vision</label>
-                    <textarea name="vision" class="editor form-control">{!! $hr->vision !!}</textarea>
+                    <textarea name="vision" class="editor form-control">{{ $hr->vision }}</textarea>
                 </div>
 
                 <div class="mb-4">
                     <label class="form-label-title">HR Mission</label>
-                    <textarea name="mission" class="editor form-control">{!! $hr->mission !!}</textarea>
+                    <textarea name="mission" class="editor form-control">{{ $hr->mission }}</textarea>
                 </div>
 
                 <div class="mb-4">
                     <label class="form-label-title">Objectives</label>
-                    <textarea name="objectives" class="editor form-control">{!! $hr->objectives !!}</textarea>
+                    <textarea name="objectives" class="editor form-control">{{ $hr->objectives }}</textarea>
                 </div>
 
                 <div class="mb-4">
                     <label class="form-label-title">Strategy</label>
-                    <textarea name="strategy" class="editor form-control">{!! $hr->strategy !!}</textarea>
+                    <textarea name="strategy" class="editor form-control">{{ $hr->strategy }}</textarea>
                 </div>
 
                 <div class="panel-footer">

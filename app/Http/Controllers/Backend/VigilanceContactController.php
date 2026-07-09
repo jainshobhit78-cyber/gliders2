@@ -40,7 +40,7 @@ class VigilanceContactController extends Controller
         if ($request->hasFile('photo')) {
 
             $file = $request->file('photo');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = $file->hashName();
             $file->move(public_path('uploads/vigilance'), $filename);
 
             $contact->photo = $filename;
@@ -83,7 +83,7 @@ class VigilanceContactController extends Controller
             }
 
             $file = $request->file('photo');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = $file->hashName();
             $file->move(public_path('uploads/vigilance'), $filename);
 
             $contact->photo = $filename;
@@ -114,3 +114,4 @@ class VigilanceContactController extends Controller
     }
 
 }
+

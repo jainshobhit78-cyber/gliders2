@@ -38,8 +38,7 @@ class AboutCodesConductController extends Controller
 
             $file = $request->file('pdf');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/codes'), $filename);
 
             $code->pdf = $filename;
@@ -89,8 +88,7 @@ class AboutCodesConductController extends Controller
             }
 
             $file = $request->file('pdf');
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/codes'), $filename);
 
             $code->pdf = $filename;
@@ -120,3 +118,4 @@ class AboutCodesConductController extends Controller
     }
 
 }
+

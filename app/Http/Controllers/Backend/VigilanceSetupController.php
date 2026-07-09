@@ -38,8 +38,7 @@ class VigilanceSetupController extends Controller
 
             $file = $request->file('image');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/vigilance'), $filename);
 
             $setup->image = $filename;
@@ -50,8 +49,7 @@ class VigilanceSetupController extends Controller
 
             $file = $request->file('pdf');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/vigilance'), $filename);
 
             $setup->pdf = $filename;
@@ -93,8 +91,7 @@ class VigilanceSetupController extends Controller
 
             $file = $request->file('image');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/vigilance'), $filename);
 
             $setup->image = $filename;
@@ -109,8 +106,7 @@ class VigilanceSetupController extends Controller
 
             $file = $request->file('pdf');
 
-            $filename = time() . '_' . $file->getClientOriginalName();
-
+            $filename = $file->hashName();
             $file->move(public_path('uploads/vigilance'), $filename);
 
             $setup->pdf = $filename;
@@ -146,3 +142,4 @@ class VigilanceSetupController extends Controller
     }
 
 }
+

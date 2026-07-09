@@ -29,12 +29,12 @@ class MediaController extends Controller
     public function uploadVideo(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimetypes:video/mp4,video/webm,video/ogg,video/quicktime|max:2048000',
+            'file' => 'required|file|mimetypes:video/mp4,video/webm,video/ogg|max:51200',
         ]);
 
         if ($request->hasFile('file')) {
             $video = $request->file('file');
-            $name = time() . '_' . \Illuminate\Support\Str::random(16) . '.' . $video->getClientOriginalExtension();
+            $name = $video->hashName();
             $video->move(public_path('uploads/media/videos'), $name);
             return response()->json(['name' => $name]);
         }
@@ -42,6 +42,15 @@ class MediaController extends Controller
     }
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'heading' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'nullable|in:Pending,Published,Draft',
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif,svg|max:5120',
+            'videos.*' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:51200',
+        ]);
+
         // Determine status based on role
         $status = 'Pending';
         if (auth()->guard('admin')->user()->hasRole('admin')) {
@@ -60,7 +69,7 @@ class MediaController extends Controller
 
             foreach ($request->file('images') as $key => $img) {
 
-                $name = time() . '_' . $img->getClientOriginalName();
+                $name = $img->hashName();
                 $img->move(public_path('uploads/media/images'), $name);
 
                 PlaylistImage::create([
@@ -76,7 +85,7 @@ class MediaController extends Controller
 
             foreach ($request->file('videos') as $key => $video) {
 
-                $name = time() . '_' . $video->getClientOriginalName();
+                $name = $video->hashName();
                 $video->move(public_path('uploads/media/videos'), $name);
 
                 PlaylistVideo::create([
@@ -102,6 +111,15 @@ class MediaController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'heading' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'nullable|in:Pending,Published,Draft',
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif,svg|max:5120',
+            'videos.*' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:51200',
+        ]);
+
         $playlist = Playlist::find($id);
 
         // Determine status based on role
@@ -122,7 +140,7 @@ class MediaController extends Controller
 
             foreach ($request->file('images') as $key => $img) {
 
-                $name = time() . '_' . $img->getClientOriginalName();
+                $name = $img->hashName();
                 $img->move(public_path('uploads/media/images'), $name);
 
                 PlaylistImage::create([
@@ -138,7 +156,7 @@ class MediaController extends Controller
 
             foreach ($request->file('videos') as $key => $video) {
 
-                $name = time() . '_' . $video->getClientOriginalName();
+                $name = $video->hashName();
                 $video->move(public_path('uploads/media/videos'), $name);
 
                 PlaylistVideo::create([
@@ -231,3 +249,4 @@ class MediaController extends Controller
     }
 
 }
+

@@ -15,6 +15,19 @@ class AdminRolePermissionSeeder extends Seeder
 
         $permissions = [
             'dashboard.view',
+            'settings.view',
+            'settings.edit',
+            'approvals.view',
+            'approvals.edit',
+            'inquiry.view',
+            'roles.view',
+            'roles.create',
+            'roles.edit',
+            'roles.delete',
+            'legacy.view',
+            'legacy.create',
+            'legacy.edit',
+            'legacy.delete',
 
             'about.view',
             'leadership.view',
@@ -155,7 +168,12 @@ class AdminRolePermissionSeeder extends Seeder
             'home_page.delete',
 
             'profile.view',
-            'profile.edit'
+            'profile.edit',
+
+            'chatbot.view',
+            'chatbot.create',
+            'chatbot.edit',
+            'chatbot.delete'
         ];
 
         foreach ($permissions as $permission) {
