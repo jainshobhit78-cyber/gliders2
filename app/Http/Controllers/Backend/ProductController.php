@@ -27,11 +27,11 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'wallpaper' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
-            'specs_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
-            'caps_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'wallpaper' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
+            'specs_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
+            'caps_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
             'filepond' => 'nullable|array',
-            'filepond.*' => 'image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'filepond.*' => 'image|mimes:jpg,jpeg,png,webp,svg',
             'delivery_tag' => 'nullable|string|max:100',
         ]);
 
@@ -122,11 +122,11 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'wallpaper' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
-            'specs_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
-            'caps_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'wallpaper' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
+            'specs_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
+            'caps_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
             'filepond' => 'nullable|array',
-            'filepond.*' => 'image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'filepond.*' => 'image|mimes:jpg,jpeg,png,webp,svg',
             'delivery_tag' => 'nullable|string|max:100',
         ]);
 

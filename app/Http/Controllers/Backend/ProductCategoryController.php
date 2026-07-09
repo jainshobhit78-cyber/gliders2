@@ -28,8 +28,8 @@ class ProductCategoryController extends Controller
             'category_title' => 'nullable|string',
             'category_subtitle' => 'nullable|string',
             'display_order' => 'nullable|integer|min:1',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
-            'wallpaper_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
+            'wallpaper_image' => 'nullable|image|mimes:jpg,jpeg,png,webp',
         ]);
 
         $imageName = null;
@@ -72,8 +72,8 @@ class ProductCategoryController extends Controller
             'category_title' => 'nullable|string',
             'category_subtitle' => 'nullable|string',
             'display_order' => 'nullable|integer|min:1',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
-            'wallpaper_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:3072',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
+            'wallpaper_image' => 'nullable|image|mimes:jpg,jpeg,png,webp',
         ]);
 
         $category = ProductCategory::find($id);

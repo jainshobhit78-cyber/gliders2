@@ -41,7 +41,7 @@ class LegacyController extends Controller
             'tenure_text' => 'nullable|string',
             'initials' => 'nullable|string|max:10',
             'color' => 'nullable|string|max:50',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
         ]);
 
         $data = $request->except(['image', 'focus_areas', 'stats', 'timeline']);
@@ -88,7 +88,7 @@ class LegacyController extends Controller
             'tenure_text' => 'nullable|string',
             'initials' => 'nullable|string|max:10',
             'color' => 'nullable|string|max:50',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp',
         ]);
 
         $data = $request->except(['image', 'focus_areas', 'stats', 'timeline']);

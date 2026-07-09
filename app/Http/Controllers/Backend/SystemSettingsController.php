@@ -36,7 +36,7 @@ class SystemSettingsController extends Controller
             'products_page_tagline' => 'nullable|string|max:255',
             'products_page_title' => 'nullable|string|max:255',
             'products_page_subtitle' => 'nullable|string',
-            'products_page_wallpaper' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:3072',
+            'products_page_wallpaper' => 'nullable|image|mimes:jpeg,png,jpg,webp',
         ]);
 
         $data = [

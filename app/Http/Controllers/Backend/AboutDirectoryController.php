@@ -26,7 +26,7 @@ class AboutDirectoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'profile_photo' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'profile_photo' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
         ]);
 
 
@@ -75,7 +75,7 @@ class AboutDirectoryController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'profile_photo' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'profile_photo' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
         ]);
 
         $directory = AboutDirectory::findOrFail($id);

@@ -26,7 +26,7 @@ class VigilanceSexualHarassmentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
             'pdf' => 'nullable|file|mimes:pdf|max:10240',
         ]);
 
@@ -79,7 +79,7 @@ class VigilanceSexualHarassmentController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
             'pdf' => 'nullable|file|mimes:pdf|max:10240',
         ]);
 

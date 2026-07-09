@@ -30,7 +30,7 @@ class RTIOfficerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
         ]);
 
         $item = new RTIOfficer();
@@ -75,7 +75,7 @@ class RTIOfficerController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
         ]);
 
         $item = RTIOfficer::findOrFail($id);
