@@ -6932,7 +6932,7 @@ table td {
 /* Logo Header Responsiveness */
 @media (max-width: 768px) {
     .logo-header {
-        padding: 5px 0 !important;
+        padding: 0 !important;
     }
     .logo-header > .container > .d-flex {
         flex-direction: row !important;
@@ -9299,7 +9299,7 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
 
     /* 2. Brand & Partner Logos Mobile Sizing & Alignment */
     .logo-header {
-        padding: 5px 0 !important;
+        padding: 0 !important;
         background-color: #ffffff !important;
     }
     .logo-header > .container > .d-flex {
