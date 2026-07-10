@@ -130,6 +130,9 @@
             <div class="form-group">
                 <label>New Password</label>
                 <input type="password" name="password" class="form-control" placeholder="Enter new password" required>
+                <small style="color: #64748b; font-size: 11px; display: block; margin-top: 5px; line-height: 1.4;">
+                    <strong>Requirements:</strong> At least 10 characters, including 1 uppercase, 1 lowercase, 1 number, and 1 special character (e.g., @$!%*?&#).
+                </small>
                 @error('password')
                     <div class="error">{{ $message }}</div>
                 @enderror
