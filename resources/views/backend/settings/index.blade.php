@@ -1,6 +1,52 @@
 @extends('backend.layout.app')
 
 @section('content')
+<style>
+    .nav-tabs {
+        border-bottom: 2px solid #e2e8f0 !important;
+        margin-bottom: 30px !important;
+        gap: 10px;
+    }
+    .nav-tabs .nav-link {
+        font-weight: 600 !important;
+        color: #64748b !important;
+        border: none !important;
+        padding: 12px 20px !important;
+        border-bottom: 3px solid transparent !important;
+        background: none !important;
+        transition: all 0.2s ease !important;
+        border-radius: 0 !important;
+    }
+    .nav-tabs .nav-link:hover {
+        color: #13235b !important;
+    }
+    .nav-tabs .nav-link.active {
+        color: #f5821f !important;
+        border-bottom: 3px solid #f5821f !important;
+    }
+    .tab-pane {
+        animation: fadeIn 0.25s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(4px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .settings-section-title {
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: #13235b;
+        margin-bottom: 8px;
+        display: block;
+    }
+    .form-group-wrapper {
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 25px;
+    }
+</style>
+
 <div class="about-section">
     <div class="title-header d-flex align-items-center justify-content-between">
         <h5 class="mb-0 page-title">System Settings</h5>
@@ -11,194 +57,232 @@
             <div class="card-body">
                 @include('_message')
 
+                <!-- Settings Tab Menu -->
+                <ul class="nav nav-tabs" id="settingsTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">
+                            <i class="fa fa-cogs me-2"></i>General & Security
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="homepage-tab" data-bs-toggle="tab" data-bs-target="#homepage" type="button" role="tab" aria-controls="homepage" aria-selected="false">
+                            <i class="fa fa-home me-2"></i>Homepage Customize
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="products-tab" data-bs-toggle="tab" data-bs-target="#products" type="button" role="tab" aria-controls="products" aria-selected="false">
+                            <i class="fa fa-shopping-bag me-2"></i>Products Page
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="footer-tab" data-bs-toggle="tab" data-bs-target="#footer" type="button" role="tab" aria-controls="footer" aria-selected="false">
+                            <i class="fa fa-info-circle me-2"></i>Footer Details
+                        </button>
+                    </li>
+                </ul>
+
                 <form method="POST" action="{{ route('admin.settings.update') }}" class="theme-form" enctype="multipart/form-data">
                     @csrf
 
-                    <!-- Maintenance Mode -->
-                    <div class="mb-4">
-                        <label class="form-label-title" style="font-weight: 700;">Maintenance Mode</label>
-                        <div class="form-check form-switch mt-2">
-                            <input class="form-check-input" type="checkbox" name="maintenance_mode" id="maintenance_mode" style="width: 40px; height: 20px; cursor: pointer;" {{ $setting->maintenance_mode ? 'checked' : '' }}>
-                            <label class="form-check-label ms-2 align-middle" for="maintenance_mode" style="cursor: pointer;">
-                                Enable Maintenance Mode
-                            </label>
-                        </div>
-                        <small class="text-muted d-block mt-2">
-                            When active, the public website will show an "Under Maintenance" page. Administrators will still be able to access the admin panel normally.
-                        </small>
-
-                        <div class="mt-3" id="maintenance_timer_wrapper" style="display: {{ $setting->maintenance_mode ? 'block' : 'none' }};">
-                            <label class="form-label" style="font-weight: 600;">Maintenance Countdown Until (Optional)</label>
-                            <input type="datetime-local" name="maintenance_until" class="form-control" style="max-width: 300px;" value="{{ $setting->maintenance_until ? \Carbon\Carbon::parse($setting->maintenance_until)->format('Y-m-d\TH:i') : '' }}">
-                            <small class="text-muted d-block mt-1">Select the date and time when the website is expected to be back online.</small>
-                        </div>
-                    </div>
-
-                    <!-- Election Mode -->
-                    <div class="mb-4 mt-4">
-                        <label class="form-label-title" style="font-weight: 700;">Election Period Filter</label>
-                        <div class="form-check form-switch mt-2">
-                            <input class="form-check-input" type="checkbox" name="election_mode" id="election_mode" style="width: 40px; height: 20px; cursor: pointer;" {{ $setting->election_mode ? 'checked' : '' }}>
-                            <label class="form-check-label ms-2 align-middle" for="election_mode" style="cursor: pointer;">
-                                Hide politically sensitive content
-                            </label>
-                        </div>
-                        <small class="text-muted d-block mt-2">
-                            When active, any news or media post marked as "hide during election periods" will be hidden from public visitors on the website.
-                        </small>
-                    </div>
-
-                    <!-- IP Whitelist -->
-                    <div class="mb-4 mt-4">
-                        <label class="form-label-title" style="font-weight: 700;">IP Address Whitelisting</label>
-                        <textarea name="ip_whitelist" class="form-control mt-2" rows="3" placeholder="e.g. 127.0.0.1, 192.168.1.100">{{ old('ip_whitelist', $setting->ip_whitelist) }}</textarea>
-                        <small class="text-muted d-block mt-2">
-                            Enter comma-separated IP addresses that are allowed to access the CMS admin panel. <b>Leave blank to disable IP whitelisting</b> and allow all IPs. Your current IP is: <b>{{ request()->ip() }}</b>.
-                        </small>
-                    </div>
-
-                    <!-- Dynamic Footer Settings -->
-                    <div class="mb-4 mt-4 border-top pt-3">
-                        <label class="form-label-title" style="font-weight: 700; font-size: 1.15rem; color: #13235b;">Dynamic Footer Settings</label>
+                    <!-- Tab Contents -->
+                    <div class="tab-content" id="settingsTabContent">
                         
-                        <div class="mt-3">
-                            <label class="form-label" style="font-weight: 600;">Footer Description</label>
-                            <textarea name="footer_description" class="form-control mt-1" rows="2" placeholder="Enter footer description text...">{{ old('footer_description', $setting->footer_description) }}</textarea>
-                        </div>
-                        
-                        <div class="mt-3">
-                            <label class="form-label" style="font-weight: 600;">Footer Address</label>
-                            <input type="text" name="footer_address" class="form-control mt-1" placeholder="e.g. Headquarters kanpur, Uttar pradesh" value="{{ old('footer_address', $setting->footer_address) }}">
-                        </div>
-                        
-                        <div class="mt-3">
-                            <label class="form-label" style="font-weight: 600;">Footer Phone Numbers</label>
-                            <input type="text" name="footer_phone" class="form-control mt-1" placeholder="e.g. Corporate: +91 512 2984548" value="{{ old('footer_phone', $setting->footer_phone) }}">
-                        </div>
-                        
-                        <div class="mt-3">
-                            <label class="form-label" style="font-weight: 600;">Footer Email</label>
-                            <input type="email" name="footer_email" class="form-control mt-1" placeholder="e.g. support@glidersindia.in" value="{{ old('footer_email', $setting->footer_email) }}">
-                        </div>
-                        
-                        <div class="mt-3">
-                            <label class="form-label" style="font-weight: 600;">Visitor Counter Value</label>
-                            <input type="number" name="visitor_count" class="form-control mt-1" style="max-width: 250px;" placeholder="e.g. 1025" value="{{ old('visitor_count', $setting->visitor_count) }}">
-                            <small class="text-muted d-block mt-1">Directly overrides or initializes the website's live visitor count.</small>
-                        </div>
-                        
-                        <div class="mt-4 border-top pt-3">
-                            <label class="form-label-title" style="font-weight: 700; font-size: 1.15rem; color: #13235b; display: block; margin-bottom: 5px;">Google Analytics Integration</label>
-                            <label class="form-label" style="font-weight: 600;">Google Analytics Measurement ID (GA4 Tag)</label>
-                            <input type="text" name="google_analytics_id" class="form-control mt-1" style="max-width: 400px;" placeholder="e.g. G-XXXXXXXXXX" value="{{ old('google_analytics_id', $setting->google_analytics_id) }}">
-                            <small class="text-muted d-block mt-1">
-                                Enter your Google Analytics 4 Measurement ID (starting with "G-"). Once saved, the tracking tag will automatically run on the public pages.
-                            </small>
-                        </div>
-
-                        <div class="mt-4 border-top pt-3">
-                            <label class="form-label-title" style="font-weight: 700; font-size: 1.15rem; color: #13235b; display: block; margin-bottom: 5px;">Homepage Headings & Fonts Customization</label>
+                        <!-- TAB 1: GENERAL & SECURITY -->
+                        <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
                             
-                            <div class="row mt-3">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label" style="font-weight: 600;">Products Heading Prefix (Blue/Black color)</label>
-                                    <input type="text" name="products_title_prefix" class="form-control" placeholder="e.g. Our" value="{{ old('products_title_prefix', $setting->products_title_prefix ?? 'Our') }}">
+                            <!-- Maintenance Settings -->
+                            <div class="form-group-wrapper">
+                                <span class="settings-section-title"><i class="fa fa-wrench me-2"></i>Maintenance Mode</span>
+                                <small class="text-muted d-block mb-3">When active, public visitors will see an "Under Maintenance" holding screen. Admin users can access normally.</small>
+                                
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" name="maintenance_mode" id="maintenance_mode" style="width: 40px; height: 20px; cursor: pointer;" {{ $setting->maintenance_mode ? 'checked' : '' }}>
+                                    <label class="form-check-label ms-2 align-middle" for="maintenance_mode" style="cursor: pointer; font-weight: 600;">
+                                        Enable Maintenance Mode
+                                    </label>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label" style="font-weight: 600;">Products Heading Suffix (Orange color)</label>
-                                    <input type="text" name="products_title_suffix" class="form-control" placeholder="e.g. Products" value="{{ old('products_title_suffix', $setting->products_title_suffix ?? 'Products') }}">
+
+                                <div class="mt-3" id="maintenance_timer_wrapper" style="display: {{ $setting->maintenance_mode ? 'block' : 'none' }};">
+                                    <label class="form-label">Maintenance Countdown Until (Optional)</label>
+                                    <input type="datetime-local" name="maintenance_until" class="form-control" style="max-width: 300px;" value="{{ $setting->maintenance_until ? \Carbon\Carbon::parse($setting->maintenance_until)->format('Y-m-d\TH:i') : '' }}">
                                 </div>
                             </div>
 
-                            <div class="mt-3">
-                                <label class="form-label" style="font-weight: 600;">Products Subtitle text</label>
-                                <textarea name="products_subtitle" class="form-control mt-1" rows="3" placeholder="Enter paragraph text beneath products heading...">{{ old('products_subtitle', $setting->products_subtitle ?? 'Advanced parachute systems and specialized aerial delivery equipment engineered for absolute precision, safety, and mission success.') }}</textarea>
-                            </div>
-
-                            <div class="mt-3">
-                                <label class="form-label" style="font-weight: 600;">Solutions Typing Heading</label>
-                                <input type="text" name="solutions_title" class="form-control mt-1" placeholder="e.g. Parachute Solutions that Ensure" value="{{ old('solutions_title', $setting->solutions_title ?? 'Parachute Solutions that Ensure') }}">
-                            </div>
-
-                            <div class="row mt-3">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label" style="font-weight: 600;">Products Cards Title Font</label>
-                                    <select name="products_font_family" class="form-control">
-                                        @php $pFont = $setting->products_font_family ?? 'Outfit'; @endphp
-                                        <option value="Outfit" {{ $pFont == 'Outfit' ? 'selected' : '' }}>Outfit (Default Modern)</option>
-                                        <option value="Inter" {{ $pFont == 'Inter' ? 'selected' : '' }}>Inter (Sleek Tech)</option>
-                                        <option value="Kumbh Sans" {{ $pFont == 'Kumbh Sans' ? 'selected' : '' }}>Kumbh Sans</option>
-                                        <option value="Roboto" {{ $pFont == 'Roboto' ? 'selected' : '' }}>Roboto</option>
-                                        <option value="Montserrat" {{ $pFont == 'Montserrat' ? 'selected' : '' }}>Montserrat</option>
-                                        <option value="Playfair Display" {{ $pFont == 'Playfair Display' ? 'selected' : '' }}>Playfair Display (Serif Elegance)</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label" style="font-weight: 600;">Headings Font Family</label>
-                                    <select name="headings_font_family" class="form-control">
-                                        @php $hFont = $setting->headings_font_family ?? 'Outfit'; @endphp
-                                        <option value="Outfit" {{ $hFont == 'Outfit' ? 'selected' : '' }}>Outfit (Default Modern)</option>
-                                        <option value="Inter" {{ $hFont == 'Inter' ? 'selected' : '' }}>Inter</option>
-                                        <option value="Kumbh Sans" {{ $hFont == 'Kumbh Sans' ? 'selected' : '' }}>Kumbh Sans</option>
-                                        <option value="Roboto" {{ $hFont == 'Roboto' ? 'selected' : '' }}>Roboto</option>
-                                        <option value="Montserrat" {{ $hFont == 'Montserrat' ? 'selected' : '' }}>Montserrat</option>
-                                    </select>
+                            <!-- Election Mode -->
+                            <div class="form-group-wrapper">
+                                <span class="settings-section-title"><i class="fa fa-shield me-2"></i>Election Period Filter</span>
+                                <small class="text-muted d-block mb-3">Filter politically sensitive items automatically from home page modules.</small>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" name="election_mode" id="election_mode" style="width: 40px; height: 20px; cursor: pointer;" {{ $setting->election_mode ? 'checked' : '' }}>
+                                    <label class="form-check-label ms-2 align-middle" for="election_mode" style="cursor: pointer; font-weight: 600;">
+                                        Hide politically sensitive content
+                                    </label>
                                 </div>
                             </div>
+
+                            <!-- Security Email & Whitelists -->
+                            <div class="form-group-wrapper">
+                                <span class="settings-section-title"><i class="fa fa-envelope me-2"></i>Security & Password Reset OTP</span>
+                                <div class="mb-3">
+                                    <label class="form-label">OTP Recipient Email</label>
+                                    <input type="email" name="otp_recipient_email" class="form-control" placeholder="e.g. security-otp@glidersindia.in" value="{{ old('otp_recipient_email', $setting->otp_recipient_email) }}">
+                                    <small class="text-muted d-block mt-1">If left blank, OTP emails default directly to the requesting administrator's email.</small>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <label class="form-label">IP Address Whitelisting</label>
+                                    <textarea name="ip_whitelist" class="form-control" rows="2" placeholder="e.g. 127.0.0.1, 192.168.1.100">{{ old('ip_whitelist', $setting->ip_whitelist) }}</textarea>
+                                    <small class="text-muted d-block mt-1">
+                                        Enter comma-separated IP addresses that are allowed to access the CMS admin panel. Leave blank to disable filter. Your current IP is: <b>{{ request()->ip() }}</b>
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Google Analytics -->
+                            <div class="form-group-wrapper">
+                                <span class="settings-section-title"><i class="fa fa-bar-chart me-2"></i>Google Analytics Integration</span>
+                                <label class="form-label">Google Analytics Measurement ID (GA4 Tag)</label>
+                                <input type="text" name="google_analytics_id" class="form-control" style="max-width: 400px;" placeholder="e.g. G-XXXXXXXXXX" value="{{ old('google_analytics_id', $setting->google_analytics_id) }}">
+                                <small class="text-muted d-block mt-1">Enter your GA4 Measurement ID (starting with "G-") to enable tracking live traffic.</small>
+                            </div>
+
                         </div>
+
+                        <!-- TAB 2: HOMEPAGE CUSTOMIZATION -->
+                        <div class="tab-pane fade" id="homepage" role="tabpanel" aria-labelledby="homepage-tab">
+                            
+                            <div class="form-group-wrapper">
+                                <span class="settings-section-title"><i class="fa fa-font me-2"></i>Homepage Headers & Fonts</span>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Products Heading Prefix</label>
+                                        <input type="text" name="products_title_prefix" class="form-control" placeholder="e.g. Our" value="{{ old('products_title_prefix', $setting->products_title_prefix ?? 'Our') }}">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Products Heading Suffix</label>
+                                        <input type="text" name="products_title_suffix" class="form-control" placeholder="e.g. Products" value="{{ old('products_title_suffix', $setting->products_title_suffix ?? 'Products') }}">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 mt-2">
+                                    <label class="form-label">Products Subtitle Text</label>
+                                    <textarea name="products_subtitle" class="form-control" rows="3" placeholder="Enter paragraph text beneath products heading...">{{ old('products_subtitle', $setting->products_subtitle ?? 'Advanced parachute systems and specialized aerial delivery equipment engineered for absolute precision, safety, and mission success.') }}</textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Solutions Typing Heading</label>
+                                    <input type="text" name="solutions_title" class="form-control" placeholder="e.g. Parachute Solutions that Ensure" value="{{ old('solutions_title', $setting->solutions_title ?? 'Parachute Solutions that Ensure') }}">
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Products Card Font Family</label>
+                                        <select name="products_font_family" class="form-select">
+                                            @php $pFont = $setting->products_font_family ?? 'Outfit'; @endphp
+                                            <option value="Outfit" {{ $pFont == 'Outfit' ? 'selected' : '' }}>Outfit (Default Modern)</option>
+                                            <option value="Inter" {{ $pFont == 'Inter' ? 'selected' : '' }}>Inter (Sleek Tech)</option>
+                                            <option value="Kumbh Sans" {{ $pFont == 'Kumbh Sans' ? 'selected' : '' }}>Kumbh Sans</option>
+                                            <option value="Roboto" {{ $pFont == 'Roboto' ? 'selected' : '' }}>Roboto</option>
+                                            <option value="Montserrat" {{ $pFont == 'Montserrat' ? 'selected' : '' }}>Montserrat</option>
+                                            <option value="Playfair Display" {{ $pFont == 'Playfair Display' ? 'selected' : '' }}>Playfair Display (Serif Elegance)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Headings Font Family</label>
+                                        <select name="headings_font_family" class="form-select">
+                                            @php $hFont = $setting->headings_font_family ?? 'Outfit'; @endphp
+                                            <option value="Outfit" {{ $hFont == 'Outfit' ? 'selected' : '' }}>Outfit (Default Modern)</option>
+                                            <option value="Inter" {{ $hFont == 'Inter' ? 'selected' : '' }}>Inter</option>
+                                            <option value="Kumbh Sans" {{ $hFont == 'Kumbh Sans' ? 'selected' : '' }}>Kumbh Sans</option>
+                                            <option value="Roboto" {{ $hFont == 'Roboto' ? 'selected' : '' }}>Roboto</option>
+                                            <option value="Montserrat" {{ $hFont == 'Montserrat' ? 'selected' : '' }}>Montserrat</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- TAB 3: PRODUCTS PAGE CUSTOMIZATION -->
+                        <div class="tab-pane fade" id="products" role="tabpanel" aria-labelledby="products-tab">
+                            
+                            <div class="form-group-wrapper">
+                                <span class="settings-section-title"><i class="fa fa-shopping-bag me-2"></i>Products Page Header</span>
+                                <small class="text-muted d-block mb-3">Customize details shown on the main <b>/products</b> listing template.</small>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Page Tagline (Top Badge)</label>
+                                        <input type="text" name="products_page_tagline" class="form-control" placeholder="e.g. MISSION READY. ALWAYS." value="{{ old('products_page_tagline', $setting->products_page_tagline ?? 'MISSION READY. ALWAYS.') }}">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Page Title</label>
+                                        <input type="text" name="products_page_title" class="form-control" placeholder="e.g. Our Products" value="{{ old('products_page_title', $setting->products_page_title ?? 'Our Products') }}">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 mt-2">
+                                    <label class="form-label">Page Subtitle</label>
+                                    <textarea name="products_page_subtitle" class="form-control" rows="3" placeholder="Enter description text...">{{ old('products_page_subtitle', $setting->products_page_subtitle ?? 'Engineered with precision. Trusted by the forces. Built for every mission and environment.') }}</textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Background Wallpaper Banner</label>
+                                    <input type="file" name="products_page_wallpaper" class="form-control" accept="image/jpeg,image/png,image/webp">
+                                    <small class="text-muted d-block mt-1">Upload a high-res wallpaper image (JPEG/PNG/WEBP, max 3 MB).</small>
+                                    @if($setting->products_page_wallpaper)
+                                        <div class="mt-3 p-2 border rounded d-inline-block" style="background: #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.02);">
+                                            <img src="{{ asset('frontend/images/' . $setting->products_page_wallpaper) }}" alt="Current Wallpaper" style="max-height: 110px; border-radius: 8px; display: block;">
+                                            <small class="text-muted d-block mt-1 text-center">Current: {{ $setting->products_page_wallpaper }}</small>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- TAB 4: FOOTER DETAILS -->
+                        <div class="tab-pane fade" id="footer" role="tabpanel" aria-labelledby="footer-tab">
+                            
+                            <div class="form-group-wrapper">
+                                <span class="settings-section-title"><i class="fa fa-info-circle me-2"></i>Dynamic Footer Customization</span>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Footer Description</label>
+                                    <textarea name="footer_description" class="form-control" rows="2" placeholder="Enter description details...">{{ old('footer_description', $setting->footer_description) }}</textarea>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Footer Office Address</label>
+                                    <input type="text" name="footer_address" class="form-control" placeholder="e.g. Headquarters kanpur, Uttar pradesh" value="{{ old('footer_address', $setting->footer_address) }}">
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Footer Phone Numbers</label>
+                                        <input type="text" name="footer_phone" class="form-control" placeholder="e.g. +91 512 2984548" value="{{ old('footer_phone', $setting->footer_phone) }}">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Footer Support Email</label>
+                                        <input type="email" name="footer_email" class="form-control" placeholder="e.g. info@glidersindia.in" value="{{ old('footer_email', $setting->footer_email) }}">
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3 mt-2">
+                                    <label class="form-label">Visitor Counter Offset Value</label>
+                                    <input type="number" name="visitor_count" class="form-control" style="max-width: 250px;" placeholder="e.g. 1000" value="{{ old('visitor_count', $setting->visitor_count) }}">
+                                    <small class="text-muted d-block mt-1">Sets the initial starting value for the public website hit counter.</small>
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
 
-                    <!-- Products Landing Page Customization -->
-                    <div class="mb-4 mt-4 border-top pt-3">
-                        <label class="form-label-title" style="font-weight: 700; font-size: 1.15rem; color: #13235b; display: block; margin-bottom: 5px;">Products Landing Page Customization</label>
-                        <small class="text-muted d-block mb-3">Customize the tagline, heading, subtitle text, and background wallpaper displayed on the <b>/products</b> category listing page.</small>
-
-                        <div class="row mt-3">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" style="font-weight: 600;">Page Tagline (Top Badge)</label>
-                                <input type="text" name="products_page_tagline" class="form-control" placeholder="e.g. MISSION READY. ALWAYS." value="{{ old('products_page_tagline', $setting->products_page_tagline ?? 'MISSION READY. ALWAYS.') }}">
-                                <small class="text-muted d-block mt-1">Small uppercase text shown above the main heading.</small>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" style="font-weight: 600;">Page Title</label>
-                                <input type="text" name="products_page_title" class="form-control" placeholder="e.g. Our Products" value="{{ old('products_page_title', $setting->products_page_title ?? 'Our Products') }}">
-                                <small class="text-muted d-block mt-1">Main heading displayed prominently on the page.</small>
-                            </div>
-                        </div>
-
-                        <div class="mt-3">
-                            <label class="form-label" style="font-weight: 600;">Page Subtitle</label>
-                            <textarea name="products_page_subtitle" class="form-control mt-1" rows="3" placeholder="Enter descriptive paragraph text...">{{ old('products_page_subtitle', $setting->products_page_subtitle ?? 'Engineered with precision. Trusted by the forces. Built for every mission and environment.') }}</textarea>
-                            <small class="text-muted d-block mt-1">Descriptive text shown below the heading on the products page.</small>
-                        </div>
-
-                        <div class="mt-3">
-                            <label class="form-label" style="font-weight: 600;">Background Wallpaper</label>
-                            <input type="file" name="products_page_wallpaper" class="form-control mt-1" accept="image/jpeg,image/png,image/webp">
-                            <small class="text-muted d-block mt-1">Upload a high-resolution image (JPEG/PNG/WEBP, max 3 MB). A faded overlay will be applied automatically for readability.</small>
-                            @if($setting->products_page_wallpaper)
-                                <div class="mt-2 p-2 border rounded d-inline-block" style="background: #f8f9fa;">
-                                    <img src="{{ asset('frontend/images/' . $setting->products_page_wallpaper) }}" alt="Current Wallpaper" style="max-height: 120px; border-radius: 8px; display: block;">
-                                    <small class="text-muted d-block mt-1 text-center">Current: {{ $setting->products_page_wallpaper }}</small>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-
-                    <!-- OTP Settings -->
-                    <div class="mb-4 mt-4 border-top pt-3">
-                        <label class="form-label-title" style="font-weight: 700; font-size: 1.15rem; color: #13235b; display: block; margin-bottom: 5px;">Security & Password Reset OTP</label>
-                        <small class="text-muted d-block mb-3">Specify the email address where all password reset OTP verification codes will be sent.</small>
-                        
-                        <div class="mt-3">
-                            <label class="form-label" style="font-weight: 600;">OTP Recipient Email</label>
-                            <input type="email" name="otp_recipient_email" class="form-control mt-1" placeholder="e.g. security-otp@glidersindia.in" value="{{ old('otp_recipient_email', $setting->otp_recipient_email) }}">
-                            <small class="text-muted d-block mt-1">If left empty, OTPs will default to the standard user's email address requesting the reset.</small>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 border-top pt-3">
-                        <button type="submit" class="btn btn-theme">Save Settings</button>
+                    <!-- Save Button -->
+                    <div class="mt-4 border-top pt-3 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-theme px-4 py-2" style="font-weight: 600; border-radius: 8px;">Save Settings</button>
                     </div>
                 </form>
             </div>

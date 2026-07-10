@@ -265,8 +265,13 @@
                     @endif
 
                     <li class="sidebar-list">
-                        <a class="sidebar-link sidebar-title link-nav
-                            @if(Request::is('admin/home*')) active @endif" href="{{ url('admin/home') }}">
+                        <a class="linear-icon-link sidebar-link sidebar-title has-sub
+                            @if(
+                                Request::is('admin/home*') ||
+                                Request::is('admin/video_banner*') ||
+                                Request::is('admin/state_counter*') ||
+                                Request::is('admin/our_units*')
+                            ) open @endif">
 
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-house-door" viewBox="0 0 16 16">
@@ -275,7 +280,65 @@
                             </svg>
 
                             <span>Home Page</span>
+                            <i class="arrow" data-feather="chevron-right"></i>
                         </a>
+
+                        <ul class="sidebar-submenu
+                            @if(
+                                Request::is('admin/home*') ||
+                                Request::is('admin/video_banner*') ||
+                                Request::is('admin/state_counter*') ||
+                                Request::is('admin/our_units*')
+                            ) open @endif">
+                            <li>
+                                <a href="{{ url('admin/home') }}"
+                                    class="{{ Request::is('admin/home') ? 'active' : '' }}">
+                                    General Layout
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('admin/home/video_banner/edit') }}"
+                                    class="{{ Request::is('admin/home/video_banner*') ? 'active' : '' }}">
+                                    Video Banner / Slider
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('admin/home/key_offerings') }}"
+                                    class="{{ Request::is('admin/home/key_offerings*') ? 'active' : '' }}">
+                                    Key Offerings
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('admin/home/our_units/edit') }}"
+                                    class="{{ Request::is('admin/home/our_units*') ? 'active' : '' }}">
+                                    Our Units
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('admin/home/state_counter/edit') }}"
+                                    class="{{ Request::is('admin/home/state_counter*') ? 'active' : '' }}">
+                                    State Counter
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('admin/home/marquee/edit') }}"
+                                    class="{{ Request::is('admin/home/marquee*') ? 'active' : '' }}">
+                                    Ticker & Marquee
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('admin/home/image_gallery') }}"
+                                    class="{{ Request::is('admin/home/image_gallery*') ? 'active' : '' }}">
+                                    Image Gallery / Slider
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('admin/home/partner_logo') }}"
+                                    class="{{ Request::is('admin/home/partner_logo*') ? 'active' : '' }}">
+                                    Partner Logos
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
                     <li class="sidebar-list">
