@@ -9,8 +9,6 @@ use App\Models\AboutLeadership;
 use App\Models\NewsArticle;
 use App\Models\GeneralSetting;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class ChatbotController extends Controller
 {
@@ -21,117 +19,112 @@ class ChatbotController extends Controller
             return response()->json(['reply' => 'Please type a valid question.']);
         }
 
-        $apiKey = env('GEMINI_API_KEY');
+        $cleanMsg = strtolower($message);
 
-        // LOCAL FALLBACK MODE: Token-matching NLP (No API Key)
-        if (empty($apiKey)) {
-            return $this->handleLocalFuzzyMatch($message);
+        // 1. TOPIC: CMD / LEADERSHIP / JOURNEY
+        if ($this->hasKeywords($cleanMsg, ['cmd', 'chairman', 'managing director', 'leadership', 'journey', 'message', 'leader', 'leaders'])) {
+            $leaders = AboutLeadership::orderBy('position', 'asc')->get();
+            if ($leaders->isNotEmpty()) {
+                $cmd = $leaders->first(); // The CMD is typically first in position
+                $reply = "Our Chairman & Managing Director (CMD) is <strong>{$cmd->name}</strong>.<br>";
+                if (!empty($cmd->message)) {
+                    $cleanMsgText = strip_tags($cmd->message);
+                    if (strlen($cleanMsgText) > 250) {
+                        $cleanMsgText = substr($cleanMsgText, 0, 250) . "...";
+                    }
+                    $reply .= "<strong>His Message & Journey:</strong> \"<i>{$cleanMsgText}</i>\"";
+                }
+                return response()->json(['reply' => $reply, 'redirect' => false]);
+            }
         }
 
-        // SMART GENERATIVE AI MODE: Google Gemini with full Database Context
-        try {
-            // 1. Gather general company profile settings
-            $settings = GeneralSetting::first();
-            $companyName = $settings->company_name ?? 'Gliders India Limited';
-            $generalContext = "Company Name: " . $companyName . "\n";
-            if (!empty($settings->footer_address)) {
-                $generalContext .= "Address: " . strip_tags($settings->footer_address) . "\n";
-            }
-            if (!empty($settings->contact_email)) {
-                $generalContext .= "Email: " . $settings->contact_email . "\n";
-            }
-
-            // 2. Gather CMD & Leadership Journey / Messages
-            $leaders = AboutLeadership::orderBy('position', 'asc')->get();
-            $leadershipContext = "";
-            foreach ($leaders as $leader) {
-                $leadershipContext .= "- **" . $leader->name . "** (" . $leader->designation . "): ";
-                if (!empty($leader->message)) {
-                    $leadershipContext .= strip_tags($leader->message);
-                }
-                $leadershipContext .= "\n";
-            }
-
-            // 3. Gather Products and Specifications
-            $products = Product::with('category')->get();
-            $productsContext = "";
-            foreach ($products as $product) {
+        // 2. TOPIC: SPECIFIC PRODUCT DETECT & DYNAMIC INFO
+        $products = Product::with('category')->get();
+        foreach ($products as $product) {
+            $productTitle = strtolower($product->title);
+            // If the query mentions a specific product name
+            if (str_contains($cleanMsg, $productTitle) || $this->hasCommonKeywords($cleanMsg, $productTitle)) {
                 $categoryName = $product->category->name ?? 'Defense Systems';
                 $desc = strip_tags($product->description);
                 if (strlen($desc) > 200) {
                     $desc = substr($desc, 0, 200) . "...";
                 }
-                $productsContext .= "- **" . $product->title . "** (Category: " . $categoryName . "): " . $desc . "\n";
+                $reply = "Here is the dynamic info for <strong>{$product->title}</strong>:<br>";
+                $reply .= "Category: <strong>{$categoryName}</strong><br>";
+                $reply .= "Specifications: {$desc}<br>";
+                $reply .= "You can view its details under our Products page!";
+                return response()->json(['reply' => $reply, 'redirect' => false]);
             }
-
-            // 4. Gather Latest News Articles
-            $news = NewsArticle::where('status', 'Published')->latest()->take(5)->get();
-            $newsContext = "";
-            foreach ($news as $article) {
-                $content = strip_tags($article->content);
-                if (strlen($content) > 150) {
-                    $content = substr($content, 0, 150) . "...";
-                }
-                $newsContext .= "- **News: " . $article->title . "** (Published: " . $article->created_at->format('d M Y') . "): " . $content . "\n";
-            }
-
-            // 5. Construct System Instructions
-            $systemPrompt = "You are the official AI Assistant for Gliders India Limited (GIL), a premier Government of India Enterprise under the Ministry of Defence, based in Kanpur, Uttar Pradesh.\n";
-            $systemPrompt .= "Answer the user's questions politely, professionally, and dynamically based ONLY on the following real-time website database contents:\n\n";
-            
-            $systemPrompt .= "### WEBSITE GENERAL PROFILE:\n" . $generalContext . "\n";
-            $systemPrompt .= "### LEADERSHIP, LEADER PROFILE & CMD JOURNEY/MESSAGES:\n" . $leadershipContext . "\n";
-            $systemPrompt .= "### REAL-TIME PRODUCT CATALOG & SPECIFICATIONS:\n" . $productsContext . "\n";
-            $systemPrompt .= "### LATEST PUBLISHED NEWS ARTICLES:\n" . $newsContext . "\n\n";
-            
-            $systemPrompt .= "### INSTRUCTIONS:\n";
-            $systemPrompt .= "- Frame your answers naturally and dynamically in conversational sentences based on the context above.\n";
-            $systemPrompt .= "- Format your output cleanly (use bold tags like **bold** for key words, and bullet points if presenting lists).\n";
-            $systemPrompt .= "- Keep the response concise, engaging, and perfect for a website chat window (1-3 sentences average).\n";
-            $systemPrompt .= "- If the information is not present in the context, politely state that you don't have that specific record, and offer to direct them to the support form.\n";
-
-            // 6. Request Gemini API
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json'
-            ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}", [
-                'contents' => [
-                    [
-                        'role' => 'user',
-                        'parts' => [
-                            ['text' => "System instructions:\n" . $systemPrompt . "\n\nUser Question: " . $message]
-                        ]
-                    ]
-                ],
-                'generationConfig' => [
-                    'temperature' => 0.3,
-                    'maxOutputTokens' => 350
-                ]
-            ]);
-
-            if ($response->successful()) {
-                $result = $response->json();
-                $replyText = $result['candidates'][0]['content']['parts'][0]['text'] ?? '';
-                
-                if (!empty($replyText)) {
-                    // Convert markdown bold and lists to HTML
-                    $replyHtml = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong>', $replyText);
-                    $replyHtml = preg_replace('/^\*\s(.*?)$/m', '<li>$1</li>', $replyHtml);
-                    $replyHtml = str_replace("\n", "<br>", $replyHtml);
-                    
-                    return response()->json([
-                        'reply' => $replyHtml,
-                        'redirect' => false
-                    ]);
-                }
-            }
-
-            Log::error("Gemini connection error: " . $response->body());
-            return $this->handleLocalFuzzyMatch($message);
-
-        } catch (\Exception $e) {
-            Log::error("Gemini failed, falling back: " . $e->getMessage());
-            return $this->handleLocalFuzzyMatch($message);
         }
+
+        // 3. TOPIC: GENERAL PRODUCTS / CATALOG
+        if ($this->hasKeywords($cleanMsg, ['product', 'products', 'parachute', 'parachutes', 'catalog', 'make', 'manufacture', 'specs', 'specifications'])) {
+            $productsList = Product::take(4)->get();
+            if ($productsList->isNotEmpty()) {
+                $reply = "Gliders India Limited manufactures premium parachute systems. Our featured products include:<br><ul>";
+                foreach ($productsList as $p) {
+                    $reply .= "<li><strong>{$p->title}</strong></li>";
+                }
+                $reply .= "</ul>You can check the full specifications on our Products page!";
+                return response()->json(['reply' => $reply, 'redirect' => false]);
+            }
+        }
+
+        // 4. TOPIC: LATEST NEWS / UPDATES
+        if ($this->hasKeywords($cleanMsg, ['news', 'update', 'updates', 'article', 'articles', 'latest', 'event', 'events'])) {
+            $news = NewsArticle::where('status', 'Published')->latest()->take(3)->get();
+            if ($news->isNotEmpty()) {
+                $reply = "Here are the latest updates from Gliders India:<br><ul style='padding-left: 15px;'>";
+                foreach ($news as $article) {
+                    $reply .= "<li style='margin-bottom: 8px;'><strong>{$article->title}</strong> (Published: {$article->created_at->format('d M Y')})</li>";
+                }
+                $reply .= "</ul>";
+                return response()->json(['reply' => $reply, 'redirect' => false]);
+            }
+        }
+
+        // 5. TOPIC: CONTACT / ADDRESS / EMAIL / HEADQUARTERS
+        if ($this->hasKeywords($cleanMsg, ['contact', 'address', 'email', 'phone', 'location', 'headquarters', 'hq', 'office', 'where'])) {
+            $settings = GeneralSetting::first();
+            $reply = "You can contact Gliders India Limited through the following channels:<br>";
+            if ($settings) {
+                if (!empty($settings->contact_email)) {
+                    $reply .= "Email: <strong>{$settings->contact_email}</strong><br>";
+                }
+                if (!empty($settings->footer_address)) {
+                    $reply .= "Headquarters: " . strip_tags($settings->footer_address) . "<br>";
+                }
+            } else {
+                $reply .= "Email: <strong>contact@glidersindia.in</strong><br>";
+                $reply .= "Headquarters: Kanpur, Uttar Pradesh, India.<br>";
+            }
+            return response()->json(['reply' => $reply, 'redirect' => false]);
+        }
+
+        // 6. GENERAL STATIC FAQ FUZZY MATCH
+        return $this->handleLocalFuzzyMatch($message);
+    }
+
+    private function hasKeywords($text, $keywords)
+    {
+        foreach ($keywords as $keyword) {
+            if (str_contains($text, $keyword)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function hasCommonKeywords($text1, $text2)
+    {
+        $words1 = explode(' ', preg_replace('/[^\w\s]/', '', $text1));
+        $words2 = explode(' ', preg_replace('/[^\w\s]/', '', $text2));
+        $intersect = array_intersect($words1, $words2);
+        
+        // Remove common short noise words
+        $intersect = array_filter($intersect, fn($w) => strlen($w) > 3);
+        
+        return count($intersect) > 0;
     }
 
     private function handleLocalFuzzyMatch($message)
@@ -139,7 +132,7 @@ class ChatbotController extends Controller
         $userTokens = $this->tokenize($message);
         if (empty($userTokens)) {
             return response()->json([
-                'reply' => 'I didn\'t quite catch that. Could you please rephrase or select one of the questions below?',
+                'reply' => 'I didn\'t quite catch that. Could you please select one of the common questions below?',
                 'suggestions' => $this->getGeneralSuggestions()
             ]);
         }
@@ -189,14 +182,14 @@ class ChatbotController extends Controller
             $questionsList = array_map(fn($item) => $item['faq']->question, $topSuggestions);
 
             return response()->json([
-                'reply' => 'I couldn\'t find an exact match for that locally. Did you mean one of these questions?',
+                'reply' => 'I couldn\'t find an exact match for that. Did you mean one of these questions?',
                 'suggestions' => $questionsList,
                 'redirect' => false
             ]);
         }
 
         return response()->json([
-            'reply' => 'I couldn\'t find any matching answers. To enable dynamic AI conversational support, please configure the <code>GEMINI_API_KEY</code> in the site\'s settings!',
+            'reply' => 'I couldn\'t find any matching answers in our database. Let me scroll you down to our support inquiry form below so you can write to us directly!',
             'suggestions' => $this->getGeneralSuggestions(),
             'redirect' => true
         ]);
