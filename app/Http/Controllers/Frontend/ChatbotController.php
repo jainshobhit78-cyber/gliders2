@@ -58,7 +58,7 @@ class ChatbotController extends Controller
         }
 
         // threshold for direct reply
-        if ($bestMatch && $highestScore >= 0.5) {
+        if ($bestMatch && $highestScore >= 0.25) {
             return response()->json([
                 'reply' => $bestMatch->answer,
                 'redirect' => false
