@@ -6938,39 +6938,37 @@ table td {
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         gap: 6px !important;
-        text-align: center !important;
         justify-content: space-between !important;
         align-items: center !important;
         padding: 0 10px !important;
     }
+    /* Left container: take up to 55% */
+    .logo-header .d-flex > .gov-text-box:first-child {
+        flex: 0 1 55% !important;
+        max-width: 55% !important;
+    }
+    /* Right container: take up to 40% */
+    .logo-header .d-flex > .d-flex:last-child {
+        flex: 0 0 auto !important;
+    }
     .logo-header .gov-text-box {
         margin: 0 !important;
-        justify-content: center !important;
-        text-align: center !important;
     }
     .logo-header .gov-text-box p {
-        font-size: 16px !important;
-        line-height: 1.4 !important;
-        margin: 0 !important;
-        color: #333 !important;
-        font-weight: 700 !important;
-    }
-    .logo-header .gov-text-box span {
-        font-size: 13px !important;
-        font-weight: 500 !important;
+        display: none !important;
     }
     .logo-header img.header-logo,
     .navbar-brand .header-logo {
-        height: 100px !important;
-        width: auto !important;
-        max-width: none !important;
+        height: 75px !important;
+        width: 100% !important;
+        max-width: 100% !important;
         object-fit: contain !important;
     }
     .logo-header img.logo:not(.header-logo),
     .logo-header img.partner-logo {
-        height: 75px !important;
+        height: 55px !important;
         width: auto !important;
-        max-width: none !important;
+        max-width: 100% !important;
         object-fit: contain !important;
     }
 }
@@ -9329,24 +9327,33 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
         padding: 0 10px !important;
         width: 100% !important;
     }
+    /* Left container: take up to 55% */
+    .logo-header .d-flex > .gov-text-box:first-child {
+        flex: 0 1 55% !important;
+        max-width: 55% !important;
+    }
+    /* Right container */
+    .logo-header .d-flex > .d-flex:last-child {
+        flex: 0 0 auto !important;
+    }
     
-    /* Left Company Logo: Large and filling the white strip */
+    /* Left Company Logo */
     .logo-header img.header-logo,
     .navbar-brand .header-logo {
-        height: 100px !important;
-        width: auto !important;
-        max-width: none !important;
+        height: 75px !important;
+        width: 100% !important;
+        max-width: 100% !important;
         object-fit: contain !important;
         display: block !important;
         margin: 0 !important;
     }
     
-    /* Right Partner Logos: Sized to balance the layout */
+    /* Right Partner Logos */
     .logo-header img.logo:not(.header-logo),
     .logo-header img.partner-logo {
-        height: 75px !important;
+        height: 55px !important;
         width: auto !important;
-        max-width: none !important;
+        max-width: 100% !important;
         object-fit: contain !important;
         display: inline-block !important;
     }
