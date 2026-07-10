@@ -57,6 +57,16 @@ use Illuminate\Support\Facades\Route;
 
 // Backend ROUTES
 
+Route::get('run-local-setup', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate');
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'AdminUserSeeder']);
+        return "Setup Success! Migrations run and Admin seeded successfully.";
+    } catch (\Exception $e) {
+        return "Error running setup: " . $e->getMessage();
+    }
+});
+
 Route::redirect('admin', 'admin/dashboard');
 
 Route::get('admin/login', [AdminAuthController::class, 'login']);
@@ -65,6 +75,9 @@ Route::post('admin/login', [AdminAuthController::class, 'loginPost']);
 
 Route::get('admin/forgot-password', [AdminAuthController::class, 'forgotPassword']);
 Route::post('admin/forgot-password', [AdminAuthController::class, 'forgotPasswordPost'])->middleware('throttle:3,5');
+
+Route::get('admin/verify-otp', [AdminAuthController::class, 'verifyOtpForm']);
+Route::post('admin/verify-otp', [AdminAuthController::class, 'verifyOtpPost'])->middleware('throttle:3,5');
 
 Route::get('admin/reset-password/{token}', [AdminAuthController::class, 'showResetForm']);
 Route::post('admin/reset-password', [AdminAuthController::class, 'resetPasswordPost']);

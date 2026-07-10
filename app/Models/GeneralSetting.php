@@ -13,6 +13,7 @@ class GeneralSetting extends Model
         'maintenance_until',
         'election_mode',
         'ip_whitelist',
+        'otp_recipient_email',
         'footer_description',
         'footer_address',
         'footer_phone',
@@ -34,21 +35,33 @@ class GeneralSetting extends Model
 
     public static function isElectionMode()
     {
-        $settings = self::first();
-        return $settings ? (bool)$settings->election_mode : false;
+        try {
+            $settings = self::first();
+            return $settings ? (bool)$settings->election_mode : false;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     public static function isMaintenanceMode()
     {
-        $settings = self::first();
-        return $settings ? (bool)$settings->maintenance_mode : false;
+        try {
+            $settings = self::first();
+            return $settings ? (bool)$settings->maintenance_mode : false;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     public static function getIpWhitelist()
     {
-        $settings = self::first();
-        if ($settings && $settings->ip_whitelist) {
-            return array_map('trim', explode(',', $settings->ip_whitelist));
+        try {
+            $settings = self::first();
+            if ($settings && $settings->ip_whitelist) {
+                return array_map('trim', explode(',', $settings->ip_whitelist));
+            }
+        } catch (\Exception $e) {
+            // Fail silently
         }
         return [];
     }

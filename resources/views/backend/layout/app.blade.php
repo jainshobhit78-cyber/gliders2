@@ -95,6 +95,111 @@
         .toast-close-button:hover {
             color: #fff;
         }
+
+        /* --- Premium Aesthetic & Uncluttered Styling --- */
+        body {
+            font-family: 'Outfit', sans-serif !important;
+            background-color: #f6f8fb !important;
+        }
+        
+        .card {
+            border: none !important;
+            border-radius: 16px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
+            background-color: #ffffff !important;
+            margin-bottom: 25px !important;
+            transition: all 0.3s ease;
+        }
+        
+        .card-body {
+            padding: 30px !important;
+        }
+        
+        /* Clean and Unclutter form controls */
+        .form-control, .form-select {
+            border-radius: 10px !important;
+            border: 1px solid #e2e8f0 !important;
+            padding: 11px 16px !important;
+            font-size: 14.5px !important;
+            color: #334155 !important;
+            background-color: #ffffff !important;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #f5821f !important;
+            box-shadow: 0 0 0 4px rgba(245, 130, 31, 0.12) !important;
+        }
+        
+        .form-label-title, label {
+            font-weight: 600 !important;
+            color: #1e293b !important;
+            font-size: 14.5px !important;
+            letter-spacing: 0.2px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn {
+            border-radius: 10px !important;
+            padding: 10px 20px !important;
+            font-weight: 600 !important;
+            font-size: 14.5px !important;
+            transition: all 0.2s ease !important;
+        }
+        
+        /* Modern popover styling */
+        .popover {
+            font-family: 'Outfit', sans-serif !important;
+            border-radius: 14px !important;
+            border: 1px solid rgba(0, 0, 0, 0.08) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
+            background: #ffffff !important;
+            max-width: 280px !important;
+            z-index: 1060 !important;
+        }
+        .popover-header {
+            background-color: #f8fafc !important;
+            border-bottom: 1px solid #f1f5f9 !important;
+            font-weight: 700 !important;
+            color: #0f172a !important;
+            border-top-left-radius: 14px !important;
+            border-top-right-radius: 14px !important;
+            padding: 12px 16px !important;
+            font-size: 14px !important;
+        }
+        .popover-body {
+            color: #475569 !important;
+            font-size: 13px !important;
+            line-height: 1.6 !important;
+            padding: 14px 16px !important;
+        }
+        
+        /* Floating question mark helper icon */
+        .helper-tooltip-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            background: #f1f5f9;
+            color: #64748b;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            margin-left: 6px;
+            border: 1px solid #e2e8f0;
+            user-select: none;
+        }
+        
+        .helper-tooltip-btn:hover {
+            background: #f5821f;
+            color: #ffffff;
+            border-color: #f5821f;
+            transform: scale(1.15);
+        }
     </style>
 </head>
 
@@ -406,6 +511,134 @@
                 }
 
             });
+
+            // 1. Tooltip Dictionary for Admin Fields
+            const fieldTooltips = {
+                // Leadership
+                'role': 'Enter the primary administrative designation of the employee or officer (e.g. Chairman & Managing Director).',
+                'sub_title': 'Secondary title or additional department description under the main role.',
+                'leader_name': 'Provide the full name of the leader (e.g. Shri ...).',
+                'bio': 'A short professional biography highlighting the leader\'s background, achievements, and credentials.',
+                'position': 'Display priority sorting number. Enter <strong>1</strong> to prioritize this leader as the primary focus (CMD).',
+                'picture': 'Select a professional photo. Recommended formats: JPEG, PNG, WEBP.',
+                'profile_photo': 'Select a professional portrait image for the directory entry.',
+                
+                // Products
+                'wallpaper': 'The main banner image displayed at the top of the details page.',
+                'specs_image': 'Upload the technical specifications drawing or chart image for this product.',
+                'caps_image': 'Upload the capability, testing, or performance data sheet image.',
+                'filepond': 'Select and upload multiple gallery images for the showcase slider.',
+                'delivery_tag': 'Status badge text displayed on the product card (e.g. \'In Stock\', \'Made to Order\').',
+                
+                // News
+                'title': 'Enter the main heading or title for this entry.',
+                'category_id': 'Select the category under which this record should be listed.',
+                'content': 'Provide the detailed text content for this page. Rich formatting is supported.',
+                'publish_date': 'Choose the date when this content is officially marked as published.',
+                'status': 'Set to Active to show on the live website, or Pending to save as a draft.',
+                'hide_during_election': 'Check this box to temporarily hide the record from public view during official election periods.',
+                
+                // Directory
+                'sr_no': 'Display sorting number (lower numbers appear first on the list).',
+                'org': 'The department, division, or unit name (e.g. OPF, GCF).',
+                'designation': 'Official work designation or job title.',
+                'sub_designation': 'Detailed department or field of duty designation.',
+                'deals_in': 'Enter products or subjects handled by this division.',
+                'telephone_number': 'Direct office landline telephone number.',
+                'fax': 'Office fax number.',
+                'email': 'Office email address.',
+                'mobile_no': 'Mobile phone number.',
+                'mobiles': 'Add one or more mobile contact numbers.',
+                'emails': 'Add one or more email addresses for direct contact.',
+                
+                // General settings
+                'ip_whitelist': 'Comma-separated list of IP addresses allowed to bypass the site maintenance screen.',
+                'maintenance_until': 'The date and time until which maintenance mode remains active.',
+                'google_analytics_id': 'Google Analytics 4 Measurement ID (e.g., G-XXXXXX).',
+                'products_title_prefix': 'Text prefix displayed before product titles in the store grid.',
+                'products_title_suffix': 'Text suffix displayed after product titles in the store grid.',
+                'products_subtitle': 'Subtitle text shown on the products page header.',
+                'headings_font_family': 'Choose the font typeface used for titles and headings.',
+                'products_font_family': 'Choose the font typeface used for product listings.',
+                'visitor_count': 'Initial visitor count offset shown on the homepage counter.',
+                'ticker_speed': 'Scrolling speed of the home announcement marquee in seconds (lower is faster, e.g. 20s).',
+                
+                // Vigilance & RTI
+                'pdf': 'Upload the official PDF document (max size 10MB).',
+                'info_text': 'Explanatory information text shown to visitors.',
+                'address': 'Complete office/unit postal address details.',
+                'name': 'The display name for this record.',
+                
+                // Category
+                'category_title': 'Page banner main header title for this category.',
+                'category_subtitle': 'Page banner secondary tagline text for this category.',
+                'display_order': 'Number representing the sorting order (lower values display first).',
+                'wallpaper_image': 'Select a background wallpaper banner image for this category page.'
+            };
+
+            // 2. Scan form elements and inject question marks
+            if (typeof $ !== 'undefined') {
+                $('form :input').each(function() {
+                    const input = $(this);
+                    const inputName = input.attr('name');
+                    if (!inputName || input.attr('type') === 'hidden') return;
+
+                    // Find label
+                    const formGroup = input.closest('.mb-4, .mb-3, .form-group, .row');
+                    let label = formGroup.find('.form-label-title, .form-label, label').first();
+
+                    if (label.length === 0) {
+                        label = input.parent().prev('label');
+                    }
+
+                    if (label.length > 0 && label.find('.helper-tooltip-btn').length === 0) {
+                        const cleanName = inputName.replace(/[\[\]\s\d]/g, '').toLowerCase();
+                        const labelText = label.text().trim().replace(/[:*]/g, '');
+                        
+                        let helpText = fieldTooltips[cleanName] || fieldTooltips[inputName];
+                        if (!helpText) {
+                            // Fallback matching
+                            for (const key in fieldTooltips) {
+                                if (cleanName.includes(key)) {
+                                    helpText = fieldTooltips[key];
+                                    break;
+                                }
+                            }
+                        }
+                        if (!helpText) {
+                            helpText = 'Fill in the <strong>' + labelText + '</strong> field for this record.';
+                        }
+
+                        // Create popover button
+                        const helpBtn = $('<span class="helper-tooltip-btn ms-2" ' +
+                                          'data-bs-toggle="popover" ' +
+                                          'data-bs-trigger="hover focus click" ' +
+                                          'data-bs-placement="top" ' +
+                                          'data-bs-html="true" ' +
+                                          'title="Field Help: ' + labelText + '" ' +
+                                          'data-bs-content="' + helpText.replace(/"/g, '&quot;') + '">' +
+                                          '<i class="fa fa-question-circle"></i>' +
+                                          '</span>');
+                        
+                        helpBtn.on('click', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        });
+                        
+                        label.append(helpBtn);
+                    }
+                });
+
+                // Initialize Bootstrap Popovers
+                if (typeof bootstrap !== 'undefined' && bootstrap.Popover) {
+                    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+                    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                        return new bootstrap.Popover(popoverTriggerEl, {
+                            sanitize: false
+                        });
+                    });
+                }
+            }
 
         });
     </script>

@@ -21,6 +21,7 @@ class SystemSettingsController extends Controller
         $request->validate([
             'ip_whitelist' => 'nullable|string',
             'maintenance_until' => 'nullable|date',
+            'otp_recipient_email' => 'nullable|email',
             'footer_description' => 'nullable|string',
             'footer_address' => 'nullable|string',
             'footer_phone' => 'nullable|string',
@@ -44,6 +45,7 @@ class SystemSettingsController extends Controller
             'maintenance_until' => $request->maintenance_until,
             'election_mode' => $request->has('election_mode'),
             'ip_whitelist' => $request->ip_whitelist,
+            'otp_recipient_email' => $request->otp_recipient_email,
             'footer_description' => $request->footer_description,
             'footer_address' => $request->footer_address,
             'footer_phone' => $request->footer_phone,

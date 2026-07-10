@@ -3,21 +3,19 @@
 @section('content')
 
     <section class="hero-banner">
-        <!-- <video autoplay muted loop playsinline class="hero-video">
-                                                            <source src="{{ asset('uploads/video_banner/' . $videoBanner->banner_video) }}" type="video/mp4">
-                                                        </video> -->
-
-        <video id="heroVideo" class="hero-video" autoplay muted loop playsinline>
-            <source src="{{ asset('uploads/video_banner/' . $videoBanner->banner_video) }}" type="video/mp4">
-        </video>
+        @if($videoBanner?->banner_video)
+            <video id="heroVideo" class="hero-video" autoplay muted loop playsinline>
+                <source src="{{ asset('uploads/video_banner/' . $videoBanner->banner_video) }}" type="video/mp4">
+            </video>
+        @endif
 
 
         <div class="hero-overlay"></div>
 
         <!-- VIDEO CONTROL -->
-        <button id="videoToggleBtn" class="video-toggle-btn" type="button">
-            ▶
-        </button>
+        @if($videoBanner?->banner_video)
+            <button id="videoToggleBtn" class="video-toggle-btn" type="button">Play</button>
+        @endif
 
         <div class="container hero-content">
             <div class="row align-items-center">
@@ -486,26 +484,26 @@
                 <!-- LEFT VIDEO -->
                 <div class="col-lg-7 mt-0">
                     <div class="unit-video-box" id="unitVideoBox">
-                        <video id="unitMainVideo" preload="metadata" autoplay muted playsinline>
-                            <source src="{{ asset('uploads/our_units/' . $ourUnit->video) }}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+                        @if($ourUnit?->video)
+                            <video id="unitMainVideo" preload="metadata" autoplay muted playsinline>
+                                <source src="{{ asset('uploads/our_units/' . $ourUnit->video) }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
 
-                        <button id="unitPlayBtn" class="unit-play-btn" aria-label="Play Video">
-                            ▶
-                        </button>
+                            <button id="unitPlayBtn" class="unit-play-btn" aria-label="Play Video">Play</button>
+                        @endif
                     </div>
                 </div>
 
                 <!-- RIGHT CONTENT -->
                 <div class="col-lg-5 mt-0">
                     <div class="unit-content">
-                        <small>{{ $ourUnit->heading }}</small>
+                        <small>{{ $ourUnit?->heading }}</small>
 
-                        <h3>{{ $ourUnit->sub_heading }}</h3>
+                        <h3>{{ $ourUnit?->sub_heading }}</h3>
 
                         <div class="unit-description">
-                            {!! \App\Support\Security::cleanHtml($ourUnit->description) !!}
+                            {!! \App\Support\Security::cleanHtml($ourUnit?->description) !!}
                         </div>
 
                         <div class="unit-points">
@@ -1461,3 +1459,4 @@
     </script>
 
 @endsection
+

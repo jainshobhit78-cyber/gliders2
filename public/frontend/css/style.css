@@ -6951,11 +6951,17 @@ table td {
         font-size: 13px !important;
         font-weight: 500 !important;
     }
-    .navbar-brand .header-logo {
-        height: 70px !important;
+    .logo-header img.header-logo {
+        height: 155px !important;
+        width: auto !important;
+        max-width: 100% !important;
+        object-fit: contain !important;
     }
-    .logo-header .logo {
-        height: 45px !important;
+    .logo-header img.logo:not(.header-logo) {
+        height: 115px !important;
+        width: auto !important;
+        max-width: 100% !important;
+        object-fit: contain !important;
     }
 }
 
@@ -7513,7 +7519,7 @@ table td {
 @media (max-width: 768px) {
     /* 1. Header & Logo Slimming */
     .logo-header {
-        padding: 5px 0 !important;
+        padding: 2px 0 !important;
     }
     .logo-header .d-flex {
         flex-direction: row !important;
@@ -7522,11 +7528,19 @@ table td {
         gap: 10px !important;
         padding: 0 10px !important;
     }
-    .logo-header .logo {
-        height: 42px !important;
+    .logo-header img.header-logo {
+        height: 155px !important;
         width: auto !important;
         max-width: 100% !important;
         object-fit: contain !important;
+        display: block !important;
+    }
+    .logo-header img.logo:not(.header-logo) {
+        height: 115px !important;
+        width: auto !important;
+        max-width: 100% !important;
+        object-fit: contain !important;
+        display: inline-block !important;
     }
     .logo-header .gov-text-box {
         display: flex !important;
@@ -9260,7 +9274,7 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
 
     /* 2. Brand & Partner Logos Mobile Sizing & Alignment - Doubled Size */
     .logo-header {
-        padding: 15px 0 !important;
+        padding: 2px 0 !important;
     }
     .logo-header .d-flex {
         flex-direction: row !important;
@@ -9273,7 +9287,7 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     
     /* Company Logo: Big, revealing, non-stretched */
     .logo-header img.header-logo {
-        height: 120px !important;
+        height: 155px !important;
         width: auto !important;
         max-width: 100% !important;
         object-fit: contain !important;
@@ -9282,7 +9296,7 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     
     /* Partner Logos: OPF & PIA */
     .logo-header img.logo:not(.header-logo) {
-        height: 80px !important;
+        height: 115px !important;
         width: auto !important;
         max-width: 100% !important;
         object-fit: contain !important;

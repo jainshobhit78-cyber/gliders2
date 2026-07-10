@@ -86,31 +86,76 @@ class AdminAuthController extends Controller
 
         $admin = Admin::where('email', $request->email)->first();
         if (!$admin) {
-            return back()->with('success', 'If this email is registered, a reset link has been sent.');
+            return back()->with('success', 'If this email is registered, a reset OTP has been sent.');
         }
 
-        $token = Str::random(64);
+        // Generate a 6-digit numeric OTP
+        $otp = rand(100000, 999999);
 
         PasswordReset::where('email', $request->email)->delete();
 
         PasswordReset::create([
             'email' => $request->email,
-            'token' => Hash::make($token),
+            'token' => Hash::make($otp),
             'created_at' => now()
         ]);
 
-        $resetLink = url('admin/reset-password/' . $token);
+        // Get OTP recipient email from settings
+        $settings = \App\Models\GeneralSetting::first();
+        $recipientEmail = ($settings && $settings->otp_recipient_email) ? $settings->otp_recipient_email : $request->email;
 
-        // ✅ Send Mail
-        Mail::send('backend.auth.reset-password-mail', [
-            'link' => $resetLink,
+        // ✅ Send OTP Mail
+        Mail::send('backend.auth.otp-mail', [
+            'otp' => $otp,
             'admin' => $admin
-        ], function ($message) use ($request) {
-            $message->to($request->email);
-            $message->subject('Reset Your Password');
+        ], function ($message) use ($recipientEmail) {
+            $message->to($recipientEmail);
+            $message->subject('Your Password Reset OTP');
         });
 
-        return back()->with('success', 'Password Reset Link sent to your email.');
+        // Store reset email in session for verify-otp page
+        session(['reset_email' => $request->email]);
+
+        return redirect('admin/verify-otp')->with('success', 'Password reset OTP has been sent to the configured security email.');
+    }
+
+    public function verifyOtpForm()
+    {
+        return view('backend.auth.verify-otp');
+    }
+
+    public function verifyOtpPost(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required|string|size:6',
+            'password' => [
+                'required', 'confirmed', 'min:10',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&#]/',
+            ]
+        ]);
+
+        $record = PasswordReset::where('email', $request->email)
+            ->where('created_at', '>=', now()->subMinutes(60))
+            ->first();
+
+        if (!$record || !Hash::check($request->otp, $record->token)) {
+            return back()->withErrors(['otp' => 'Invalid or expired OTP code.'])->withInput();
+        }
+
+        // ✅ Update password
+        Admin::where('email', $request->email)->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        // ✅ Delete OTP after use
+        PasswordReset::where('email', $request->email)->delete();
+        session()->forget('reset_email');
+
+        return redirect('admin/login')->with('success', 'Password reset successfully! You can now log in.');
     }
 
     public function showResetForm($token)

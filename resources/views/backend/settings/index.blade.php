@@ -185,6 +185,18 @@
                         </div>
                     </div>
 
+                    <!-- OTP Settings -->
+                    <div class="mb-4 mt-4 border-top pt-3">
+                        <label class="form-label-title" style="font-weight: 700; font-size: 1.15rem; color: #13235b; display: block; margin-bottom: 5px;">Security & Password Reset OTP</label>
+                        <small class="text-muted d-block mb-3">Specify the email address where all password reset OTP verification codes will be sent.</small>
+                        
+                        <div class="mt-3">
+                            <label class="form-label" style="font-weight: 600;">OTP Recipient Email</label>
+                            <input type="email" name="otp_recipient_email" class="form-control mt-1" placeholder="e.g. security-otp@glidersindia.in" value="{{ old('otp_recipient_email', $setting->otp_recipient_email) }}">
+                            <small class="text-muted d-block mt-1">If left empty, OTPs will default to the standard user's email address requesting the reset.</small>
+                        </div>
+                    </div>
+
                     <div class="mt-4 border-top pt-3">
                         <button type="submit" class="btn btn-theme">Save Settings</button>
                     </div>
