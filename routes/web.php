@@ -57,15 +57,7 @@ use Illuminate\Support\Facades\Route;
 
 // Backend ROUTES
 
-Route::get('run-local-setup', function () {
-    try {
-        \Illuminate\Support\Facades\Artisan::call('migrate');
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'AdminUserSeeder']);
-        return "Setup Success! Migrations run and Admin seeded successfully.";
-    } catch (\Exception $e) {
-        return "Error running setup: " . $e->getMessage();
-    }
-});
+
 
 Route::redirect('admin', 'admin/dashboard');
 
