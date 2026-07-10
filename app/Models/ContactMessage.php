@@ -7,9 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class ContactMessage extends Model
 {
     protected $fillable = [
+        'product_id',
         'name',
         'email',
+        'subject',
         'phone',
-        'message'
+        'message',
+        'reply_text',
+        'replied_at',
+        'status'
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

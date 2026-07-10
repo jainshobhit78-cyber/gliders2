@@ -434,6 +434,8 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
 
     Route::get('admin/inquiry', [HomeController::class, 'adminIndex'])
         ->name('admin.inquiry')->middleware('permission:inquiry.view,admin');
+    Route::post('admin/inquiry/reply/{id}', [HomeController::class, 'replyContact'])
+        ->name('admin.inquiry.reply')->middleware('permission:inquiry.edit,admin');
 
     Route::get('/chatbot', [ChatbotFaqController::class, 'index'])->name('chatbot.index')->middleware('permission:chatbot.view,admin');
     Route::get('/chatbot/create', [ChatbotFaqController::class, 'create'])->name('chatbot.create')->middleware('permission:chatbot.create,admin');

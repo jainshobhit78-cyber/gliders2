@@ -410,6 +410,8 @@
 
                         <form action="{{ route('contact.store') }}" method="POST">
                             @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="subject" value="Enquiry about Product: {{ $product->title }}">
 
                             <input type="text" name="name" placeholder="Your Name" required>
                             <input type="email" name="email" placeholder="Your Email" required>

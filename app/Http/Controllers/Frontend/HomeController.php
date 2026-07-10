@@ -13,6 +13,8 @@ use App\Models\Product;
 use App\Models\StateCounter;
 use App\Models\VideoBanner;
 use Illuminate\Http\Request;
+use App\Mail\InquiryReplyMail;
+use Illuminate\Support\Facades\Mail;
 use DB;
 
 class HomeController extends Controller
@@ -74,6 +76,8 @@ class HomeController extends Controller
     public function storeContact(Request $request)
     {
         $request->validate([
+            'product_id' => 'nullable|integer|exists:products,id',
+            'subject' => 'nullable|string|max:255',
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'required|string|max:20',
@@ -94,15 +98,51 @@ class HomeController extends Controller
             'captcha_num2' => rand(1, 10)
         ]);
 
-        ContactMessage::create($request->only(['name', 'email', 'phone', 'message']));
+        ContactMessage::create([
+            'product_id' => $request->product_id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'subject' => $request->subject ?? 'General Inquiry',
+            'phone' => $request->phone,
+            'message' => $request->message,
+            'status' => 'pending'
+        ]);
 
         return back()->with('success', 'Message sent successfully!');
     }
 
     public function adminIndex()
     {
-        $messages = ContactMessage::latest()->get();
+        $messages = ContactMessage::with('product')->latest()->get();
 
         return view('backend.inquiry.index', compact('messages'));
+    }
+
+    public function replyContact(Request $request, $id)
+    {
+        $request->validate([
+            'reply_subject' => 'required|string|max:255',
+            'reply_body' => 'required|string',
+        ]);
+
+        $message = ContactMessage::findOrFail($id);
+
+        try {
+            Mail::to($message->email)->send(new InquiryReplyMail(
+                $request->reply_subject,
+                $request->reply_body,
+                $message
+            ));
+
+            $message->update([
+                'reply_text' => $request->reply_body,
+                'replied_at' => now(),
+                'status' => 'replied'
+            ]);
+
+            return back()->with('success', 'Reply sent successfully to ' . $message->email . '!');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Failed to send email: ' . $e->getMessage()]);
+        }
     }
 }
