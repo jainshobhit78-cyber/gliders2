@@ -218,34 +218,21 @@
                     <a class="navbar-brand" href="{{ route('home') }}">
                         <img src="{{ asset('frontend/images/logo/gliders.png') }}" class="header-logo logo">
                     </a>
-
-                    <!-- <h4 class="text-dark ps-5" style="font-size: 40px; font-weight: 700;">Gliders India Limited</h4> -->
                 </div>
 
-                <!-- <div class="d-flex"> -->
-                <span class="text-white"></span>
+                <span class="text-white d-none d-lg-inline"></span>
 
-
-                <!-- <div class="gov-text-box text-white text-start d-flex align-items-center">
-                        <a class="navbar-brand" href="{{ route('home') }}">
-                            <img src="{{ asset('frontend/images/logo/OPF.jpg') }}" class="logo">
-                        </a>
-                        <p class="ms-2">Ordnance parachute factory</p>
-                    </div> -->
-
-                <div class="gov-text-box text-white text-start d-flex align-items-center">
+                <div class="gov-text-box text-white text-start d-none d-lg-flex align-items-center">
                     <p class="ms-2 text-center mb-0" style="text-transform: uppercase; margin: 0 !important; position: relative; top: 14px;">
                         GLIDERS INDIA LIMITED <br>
                         <span style="font-size: 15px; text-transform: none; font-weight: normal; display: block; margin-top: 4px;">(A Government of India Enterprise)</span>
                     </p>
                 </div>
 
-                <span class="text-white"></span>
-
+                <span class="text-white d-none d-lg-inline"></span>
 
                 <!-- RIGHT GOVT TEXT -->
                 <div class="d-flex align-items-center">
-
                     <div class="gov-text-box text-white text-start ms-2">
                         <a class="navbar-brand me-3" href="{{ route('home') }}">
                             <img src="{{ asset('frontend/images/logo/OPF.jpg') }}" class="logo" style="height: 68px;">

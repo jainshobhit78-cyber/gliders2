@@ -9272,9 +9272,10 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
         display: none !important; /* Hide separator pipes */
     }
 
-    /* 2. Brand & Partner Logos Mobile Sizing & Alignment - Doubled Size */
+    /* 2. Brand & Partner Logos Mobile Sizing & Alignment */
     .logo-header {
-        padding: 2px 0 !important;
+        padding: 5px 0 !important;
+        background-color: #ffffff !important;
     }
     .logo-header .d-flex {
         flex-direction: row !important;
@@ -9285,25 +9286,26 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
         width: 100% !important;
     }
     
-    /* Company Logo: Big, revealing, non-stretched */
+    /* Left Company Logo: Large and filling the white strip */
     .logo-header img.header-logo {
-        height: 155px !important;
+        height: 60px !important;
         width: auto !important;
         max-width: 100% !important;
         object-fit: contain !important;
         display: block !important;
+        margin: 0 !important;
     }
     
-    /* Partner Logos: OPF & PIA */
+    /* Right Partner Logos: Large and aligned */
     .logo-header img.logo:not(.header-logo) {
-        height: 115px !important;
+        height: 50px !important;
         width: auto !important;
         max-width: 100% !important;
         object-fit: contain !important;
         display: inline-block !important;
     }
 
-    /* Adjust the spacing of the logos container wrapper */
+    /* Adjust container layouts */
     .logo-header .gov-text-box {
         margin: 0 !important;
         display: flex !important;
