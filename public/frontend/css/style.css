@@ -9301,7 +9301,7 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     }
     
     .accessibility-header-btn img {
-        height: 16px !important;
+        height: 28px !important;
         width: auto !important;
     }
 
@@ -9321,7 +9321,7 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     
     /* Left Company Logo: Large, prominent, and highly visible */
     .logo-header img.header-logo {
-        height: 85px !important;
+        height: 95px !important;
         width: auto !important;
         max-width: 100% !important;
         object-fit: contain !important;
@@ -9331,7 +9331,7 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     
     /* Right Partner Logos: Sized up to balance the layout */
     .logo-header img.logo:not(.header-logo) {
-        height: 70px !important;
+        height: 80px !important;
         width: auto !important;
         max-width: 100% !important;
         object-fit: contain !important;
