@@ -339,6 +339,23 @@
                     botMsg.innerHTML = data.reply;
 
                     chatBody.appendChild(botMsg);
+
+                    if (data.suggestions && data.suggestions.length > 0) {
+                        let sugContainer = document.createElement("div");
+                        sugContainer.className = "faq-questions mt-2 animate-fade-in";
+                        data.suggestions.forEach(sug => {
+                            let btn = document.createElement("button");
+                            btn.className = "faq-btn";
+                            btn.innerText = sug;
+                            btn.onclick = function() {
+                                userInput.value = sug;
+                                sendMessage();
+                            };
+                            sugContainer.appendChild(btn);
+                        });
+                        chatBody.appendChild(sugContainer);
+                    }
+
                     chatBody.scrollTop = chatBody.scrollHeight;
 
                     if (data.redirect) {

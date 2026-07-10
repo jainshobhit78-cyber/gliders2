@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ChatbotFaq;
-use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class ChatbotController extends Controller
 {
@@ -15,106 +12,97 @@ class ChatbotController extends Controller
     {
         $message = trim($request->message);
         if (empty($message)) {
-            return response()->json(['reply' => 'Please type a valid message.']);
+            return response()->json(['reply' => 'Please type a valid question.']);
         }
 
-        $apiKey = env('GEMINI_API_KEY');
+        $userTokens = $this->tokenize($message);
+        if (empty($userTokens)) {
+            return response()->json([
+                'reply' => 'I didn\'t quite catch that. Could you please rephrase or select one of the questions below?',
+                'suggestions' => $this->getGeneralSuggestions()
+            ]);
+        }
 
-        // FALLBACK: Offline Mode if GEMINI_API_KEY is not configured
-        if (empty($apiKey)) {
-            $faq = ChatbotFaq::whereRaw('LOWER(question) = ?', [strtolower($message)])
-                ->orWhereRaw('LOWER(question) LIKE ?', ["%".strtolower($message)."%"])
-                ->first();
+        $faqs = ChatbotFaq::all();
+        $bestMatch = null;
+        $highestScore = 0;
+        $suggestions = [];
 
-            if ($faq) {
-                return response()->json([
-                    'reply' => $faq->answer,
-                    'redirect' => false
-                ]);
+        foreach ($faqs as $faq) {
+            $questionTokens = $this->tokenize($faq->question);
+            
+            // Calculate Jaccard similarity score (token overlap)
+            $intersect = array_intersect($userTokens, $questionTokens);
+            $union = array_unique(array_merge($userTokens, $questionTokens));
+            
+            $score = count($union) > 0 ? (count($intersect) / count($union)) : 0;
+
+            // Extra weight for exact keyword matches
+            foreach ($userTokens as $token) {
+                if (str_contains(strtolower($faq->question), $token)) {
+                    $score += 0.25;
+                }
             }
+
+            if ($score > 0) {
+                $suggestions[] = [
+                    'faq' => $faq,
+                    'score' => $score
+                ];
+            }
+
+            if ($score > $highestScore) {
+                $highestScore = $score;
+                $bestMatch = $faq;
+            }
+        }
+
+        // threshold for direct reply
+        if ($bestMatch && $highestScore >= 0.5) {
+            return response()->json([
+                'reply' => $bestMatch->answer,
+                'redirect' => false
+            ]);
+        }
+
+        // If score is low but we have partial matches, suggest them
+        if (!empty($suggestions)) {
+            // Sort by score descending
+            usort($suggestions, fn($a, $b) => $b['score'] <=> $a['score']);
+            
+            $topSuggestions = array_slice($suggestions, 0, 3);
+            $questionsList = array_map(fn($item) => $item['faq']->question, $topSuggestions);
 
             return response()->json([
-                'reply' => "I am currently running in <strong>Standard Mode</strong>. To enable my live, interactive AI Assistant mode, please configure the <code>GEMINI_API_KEY</code> inside the website's <code>.env</code> file!",
-                'redirect' => true
+                'reply' => 'I couldn\'t find an exact match for that. Did you mean one of these questions?',
+                'suggestions' => $questionsList,
+                'redirect' => false
             ]);
         }
 
-        // SMART AI MODE: Query Google Gemini API with Context
-        try {
-            // 1. Gather all products for dynamic context
-            $products = Product::select('title', 'description')->get();
-            $productsContext = "";
-            foreach ($products as $product) {
-                $desc = strip_tags($product->description);
-                if (strlen($desc) > 150) {
-                    $desc = substr($desc, 0, 150) . "...";
-                }
-                $productsContext .= "- **" . $product->title . "**: " . $desc . "\n";
-            }
+        // Absolute fallback
+        return response()->json([
+            'reply' => 'I couldn\'t find any matching questions in our database. Let me scroll you down to our support inquiry form below so you can write to us directly!',
+            'suggestions' => $this->getGeneralSuggestions(),
+            'redirect' => true
+        ]);
+    }
 
-            // 2. Gather manually entered FAQs
-            $faqs = ChatbotFaq::select('question', 'answer')->get();
-            $faqContext = "";
-            foreach ($faqs as $faq) {
-                $faqContext .= "Q: " . $faq->question . " | A: " . $faq->answer . "\n";
-            }
+    private function tokenize($text)
+    {
+        // Lowercase and strip punctuation
+        $clean = preg_replace('/[^\w\s]/', '', strtolower($text));
+        $words = explode(' ', $clean);
 
-            // 3. Construct System Prompt
-            $systemPrompt = "You are a professional, helpful, and friendly AI Assistant for Gliders India Limited (GIL).\n";
-            $systemPrompt .= "GIL is a Government of India Enterprise under the Ministry of Defence, based in Kanpur, Uttar Pradesh. We specialize in manufacturing high-quality military, sports, and emergency parachutes and inflatable systems.\n\n";
-            
-            $systemPrompt .= "Here is the live data from our database to help you answer questions accurately:\n";
-            $systemPrompt .= "### OUR PRODUCTS:\n" . $productsContext . "\n";
-            $systemPrompt .= "### OFFICIAL FAQ DIRECTIVES:\n" . $faqContext . "\n";
-            
-            $systemPrompt .= "### RULES:\n";
-            $systemPrompt .= "- Provide direct, helpful, and concise answers suitable for a small chat box.\n";
-            $systemPrompt .= "- Use formatting (like bold text or bullet points) to make answers easily readable.\n";
-            $systemPrompt .= "- If asked about pricing or bulk orders, guide the user to fill out the contact form or email us at contact@glidersindia.in.\n";
-            $systemPrompt .= "- Be extremely polite. If a question is completely unrelated to our company or defense/aviation/parachutes, politely request the user to ask questions related to Gliders India Limited.\n";
+        // Stop words to ignore
+        $stopWords = ['is', 'a', 'the', 'what', 'how', 'who', 'where', 'why', 'of', 'in', 'on', 'at', 'to', 'for', 'with', 'about', 'our', 'your', 'you', 'me', 'i', 'please', 'can'];
 
-            // 4. Send API request to Google Gemini
-            $response = Http::withHeaders([
-                'Content-Type' => 'application/json'
-            ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}", [
-                'contents' => [
-                    [
-                        'role' => 'user',
-                        'parts' => [
-                            ['text' => "System instructions:\n" . $systemPrompt . "\n\nUser query: " . $message]
-                        ]
-                    ]
-                ],
-                'generationConfig' => [
-                    'temperature' => 0.3,
-                    'maxOutputTokens' => 350
-                ]
-            ]);
+        return array_filter($words, fn($word) => strlen($word) > 1 && !in_array($word, $stopWords));
+    }
 
-            if ($response->successful()) {
-                $result = $response->json();
-                $replyText = $result['candidates'][0]['content']['parts'][0]['text'] ?? '';
-                
-                if (!empty($replyText)) {
-                    // Convert markdown-style bold and bullet points to HTML
-                    $replyHtml = preg_replace('/\*\*(.*?)\*\*/', '<strong>$1</strong>', $replyText);
-                    $replyHtml = preg_replace('/^\*\s(.*?)$/m', '<li>$1</li>', $replyHtml);
-                    $replyHtml = str_replace("\n", "<br>", $replyHtml);
-                    
-                    return response()->json([
-                        'reply' => $replyHtml,
-                        'redirect' => false
-                    ]);
-                }
-            }
-
-            Log::error("Gemini API Error details: " . $response->body());
-            return response()->json(['reply' => 'I am experiencing a slight connectivity issue. Please try again in a moment.']);
-
-        } catch (\Exception $e) {
-            Log::error("Chatbot Gemini integration failed: " . $e->getMessage());
-            return response()->json(['reply' => 'Sorry, I encountered an internal error. Please try again.']);
-        }
+    private function getGeneralSuggestions()
+    {
+        return ChatbotFaq::select('question')->latest()->take(3)->pluck('question')->toArray();
     }
 
     public function questions()
