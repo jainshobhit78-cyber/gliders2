@@ -30,7 +30,7 @@
                 <li><a class="dropdown-item" href="{{ url('admin/profile') }}"><i class="fa fa-user"></i> Profile</a>
                 </li>
 
-                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i
+                <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); if(confirm('Are you sure you want to logout?')) { document.getElementById('logout-form').submit(); }"><i
                             class="fa fa-power-off"></i> Logout</a></li>
             </ul>
         </div>

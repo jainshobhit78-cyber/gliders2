@@ -343,14 +343,12 @@
                     @endif
 
                     <li class="sidebar-list">
-                        <a class="sidebar-link sidebar-title link-nav" href="{{ url('admin/logout') }}"
-                            onclick="return confirm('Are you sure you want to logout?')">
-
+                        <a class="sidebar-link sidebar-title link-nav" href="#"
+                            onclick="event.preventDefault(); if(confirm('Are you sure you want to logout?')) { document.getElementById('logout-form').submit(); }">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <path
-                                    d="M17 16L21 12L17 8V11H9V13H17V16ZM5 5H13V3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H13V19H5V5Z" />
+                                    d="M17 16L21 12L17 8V11H9V13H17V16ZM5 5H13V3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H13V19H5V5Z" fill="currentColor"/>
                             </svg>
-
                             <span>Logout</span>
                         </a>
                     </li>
