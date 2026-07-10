@@ -9196,13 +9196,13 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
 @media (max-width: 991px) {
     /* 1. Swap positions of topbar sections: Emblem and Text at Row 1 */
     .gov-topbar {
-        padding: 5px 10px !important;
+        padding: 4px 10px !important;
     }
     
     .gov-bar-wrapper {
         display: flex !important;
         flex-direction: column !important;
-        gap: 6px !important;
+        gap: 4px !important;
         align-items: center !important;
     }
     
@@ -9214,24 +9214,43 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
         align-items: center !important;
         width: 100% !important;
         border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
-        padding-bottom: 6px !important;
+        padding-bottom: 4px !important;
         margin-bottom: 0 !important;
         gap: 8px !important;
     }
     
-    /* Hide the cluttered center row (Skip to Content, Font buttons) on mobile */
+    /* Make the center row (Skip to Content, Font buttons) extremely small and compact */
     .gov-center-section {
-        display: none !important;
+        order: 2 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+        gap: 5px !important;
+        margin: 0 !important;
+        padding-bottom: 4px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+    }
+    
+    .gov-center-section button,
+    .gov-center-section a,
+    .social-toggle-btn {
+        font-size: 9px !important;
+        padding: 2px 5px !important;
+        height: auto !important;
+        min-height: auto !important;
+        line-height: 1 !important;
+        border-radius: 3px !important;
     }
     
     .gov-right-section {
-        order: 2 !important;
+        order: 3 !important;
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
         gap: 12px !important;
         width: 100% !important;
-        margin: 0 !important;
+        margin: 2px 0 0 0 !important;
     }
     
     .gov-left-section img {
@@ -9275,14 +9294,14 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
 
     /* Make language switch dropdown and accessibility button small and clean */
     .language-switch {
-        height: 25px !important;
-        font-size: 11px !important;
+        height: 24px !important;
+        font-size: 10px !important;
         padding: 0 4px !important;
         border-radius: 4px !important;
     }
     
     .accessibility-header-btn img {
-        height: 18px !important;
+        height: 16px !important;
         width: auto !important;
     }
 
