@@ -113,6 +113,32 @@ class HomeController extends Controller
 
     public function adminIndex()
     {
+        // Self-healing database check to automatically add missing columns
+        try {
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('contact_messages', 'reply_text')) {
+                \Illuminate\Support\Facades\Schema::table('contact_messages', function ($table) {
+                    if (!\Illuminate\Support\Facades\Schema::hasColumn('contact_messages', 'product_id')) {
+                        $table->integer('product_id')->nullable()->after('id');
+                        $table->foreign('product_id')->references('id')->on('products')->nullOnDelete();
+                    }
+                    if (!\Illuminate\Support\Facades\Schema::hasColumn('contact_messages', 'subject')) {
+                        $table->string('subject')->nullable()->after('email');
+                    }
+                    if (!\Illuminate\Support\Facades\Schema::hasColumn('contact_messages', 'reply_text')) {
+                        $table->text('reply_text')->nullable()->after('message');
+                    }
+                    if (!\Illuminate\Support\Facades\Schema::hasColumn('contact_messages', 'replied_at')) {
+                        $table->timestamp('replied_at')->nullable()->after('reply_text');
+                    }
+                    if (!\Illuminate\Support\Facades\Schema::hasColumn('contact_messages', 'status')) {
+                        $table->string('status')->default('pending')->after('replied_at');
+                    }
+                });
+            }
+        } catch (\Exception $e) {
+            // Silently catch to avoid disrupting page render
+        }
+
         $messages = ContactMessage::with('product')->latest()->get();
 
         return view('backend.inquiry.index', compact('messages'));
