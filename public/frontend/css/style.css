@@ -5654,73 +5654,190 @@ table td {
 
 .chat-box {
     width: 350px;
-    height: 450px;
+    height: 480px;
     background: #fff;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
     display: none;
     flex-direction: column;
     overflow: hidden;
     position: absolute;
-    bottom: 80px;
+    bottom: 90px;
     left: 0;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.chat-box[style*="display: flex"] {
+    animation: chatbotSlideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes chatbotSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .chat-header {
-    background: #1e40af;
+    background: linear-gradient(135deg, #0b2a5b 0%, #1e40af 100%);
     color: #fff;
-    padding: 15px;
+    padding: 18px 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 2px solid #f5821f;
+}
+
+.chat-header h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.chat-header h4::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #10b981;
+    margin-right: 8px;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
 }
 
 .chat-body {
     padding: 15px;
-    height: 320px;
+    height: 350px;
     overflow-y: auto;
     background: #f8fafc;
+    scroll-behavior: smooth;
 }
 
 .bot-message,
 .user-message {
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    max-width: 80%;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    max-width: 82%;
+    font-size: 13.5px;
+    line-height: 1.5;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .bot-message {
-    background: #e2e8f0;
+    background: #ffffff;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+    border-top-left-radius: 2px;
 }
 
 .user-message {
-    background: #1e40af;
+    background: #0b2a5b;
     color: white;
     margin-left: auto;
+    border-top-right-radius: 2px;
+}
+
+.animate-fade-in {
+    animation: chatMessageFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes chatMessageFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Typing Indicator Animation */
+.typing-indicator-container {
+    background: #ffffff;
+    width: fit-content;
+    min-width: 60px;
+    padding: 10px 14px;
+    border: 1px solid #e2e8f0;
+}
+
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 14px;
+    justify-content: center;
+}
+
+.typing-indicator span {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #94a3b8;
+    animation: typingBounce 1.2s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typingBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 .chat-footer {
     display: flex;
     padding: 10px;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #f1f5f9;
+    background: #ffffff;
 }
 
 .chat-footer input {
     flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 10px 14px;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.chat-footer input:focus {
+    border-color: #0b2a5b;
 }
 
 .chat-footer button {
-    margin-left: 10px;
-    padding: 10px 15px;
-    background: #1e40af;
+    margin-left: 8px;
+    padding: 8px 16px;
+    background: #0b2a5b;
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: opacity 0.2s;
+}
+
+.chat-footer button:hover {
+    opacity: 0.9;
 }
 
 .faq-questions {

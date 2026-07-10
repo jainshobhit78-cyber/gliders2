@@ -314,8 +314,8 @@
 
             // Typing loader
             let typingMsg = document.createElement("div");
-            typingMsg.className = "bot-message typing";
-            typingMsg.innerText = "Typing...";
+            typingMsg.className = "bot-message typing-indicator-container";
+            typingMsg.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
             chatBody.appendChild(typingMsg);
 
             chatBody.scrollTop = chatBody.scrollHeight;
@@ -335,8 +335,8 @@
                     typingMsg.remove();
 
                     let botMsg = document.createElement("div");
-                    botMsg.className = "bot-message";
-                    botMsg.innerText = data.reply;
+                    botMsg.className = "bot-message animate-fade-in";
+                    botMsg.innerHTML = data.reply;
 
                     chatBody.appendChild(botMsg);
                     chatBody.scrollTop = chatBody.scrollHeight;
