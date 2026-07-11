@@ -51,9 +51,9 @@ class MediaController extends Controller
             'videos.*' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:51200',
         ]);
 
-        // Determine status based on role
+        // Determine status based on role or permissions
         $status = 'Pending';
-        if (auth()->guard('admin')->user()->hasRole('admin')) {
+        if (auth()->guard('admin')->user()->hasRole('admin') || auth()->guard('admin')->user()->can('media.edit') || auth()->guard('admin')->user()->can('media.create')) {
             $status = $request->status ?? 'Published';
         }
 
@@ -96,7 +96,10 @@ class MediaController extends Controller
             }
         }
 
-        return redirect('admin/media')->with('success', 'Playlist Created');
+        if (auth()->guard('admin')->user()->can('media.view')) {
+            return redirect('admin/media')->with('success', 'Playlist Created');
+        }
+        return redirect('admin/dashboard')->with('success', 'Playlist Created');
 
     }
 
@@ -122,9 +125,9 @@ class MediaController extends Controller
 
         $playlist = Playlist::find($id);
 
-        // Determine status based on role
+        // Determine status based on role or edit permissions
         $status = $playlist->status;
-        if (auth()->guard('admin')->user()->hasRole('admin')) {
+        if (auth()->guard('admin')->user()->hasRole('admin') || auth()->guard('admin')->user()->can('media.edit')) {
             $status = $request->status ?? $playlist->status;
         }
 
@@ -218,7 +221,10 @@ class MediaController extends Controller
             }
         }
 
-        return redirect('admin/media')->with('success', 'Playlist Updated');
+        if (auth()->guard('admin')->user()->can('media.view')) {
+            return redirect('admin/media')->with('success', 'Playlist Updated');
+        }
+        return redirect('admin/dashboard')->with('success', 'Playlist Updated');
     }
 
     public function delete($id)

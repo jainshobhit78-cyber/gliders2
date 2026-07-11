@@ -91,14 +91,13 @@ class NewsController extends Controller
             $request->wallpaper->move(public_path('uploads/news'), $image);
         }
 
-        // Determine status based on role
+        // Determine status based on role or permissions
         $status = 'Pending';
-        if (auth()->guard('admin')->user()->hasRole('admin')) {
+        if (auth()->guard('admin')->user()->hasRole('admin') || auth()->guard('admin')->user()->can('news.edit') || auth()->guard('admin')->user()->can('news.create')) {
             $status = $request->status ?? 'Published';
         }
 
         NewsArticle::create([
-
             'category_id' => $request->category_id,
             'title' => $request->title,
             'subtitle' => $request->subtitle,
@@ -108,10 +107,12 @@ class NewsController extends Controller
             'publish_date' => $request->publish_date,
             'status' => $status,
             'hide_during_election' => $request->has('hide_during_election')
-
         ]);
 
-        return redirect('admin/news')->with('success', 'News Article created successfully.');
+        if (auth()->guard('admin')->user()->can('news.view')) {
+            return redirect('admin/news')->with('success', 'News Article created successfully.');
+        }
+        return redirect('admin/dashboard')->with('success', 'News Article created successfully.');
     }
 
 
@@ -161,14 +162,13 @@ class NewsController extends Controller
             $request->wallpaper->move(public_path('uploads/news'), $image);
         }
 
-        // Determine status based on role
+        // Determine status based on role or edit permissions
         $status = $item->status;
-        if (auth()->guard('admin')->user()->hasRole('admin')) {
+        if (auth()->guard('admin')->user()->hasRole('admin') || auth()->guard('admin')->user()->can('news.edit')) {
             $status = $request->status ?? $item->status;
         }
 
         $item->update([
-
             'category_id' => $request->category_id,
             'title' => $request->title,
             'subtitle' => $request->subtitle,
@@ -178,10 +178,12 @@ class NewsController extends Controller
             'publish_date' => $request->publish_date,
             'status' => $status,
             'hide_during_election' => $request->has('hide_during_election')
-
         ]);
 
-        return redirect('admin/news')->with('success', 'News Article updated successfully.');
+        if (auth()->guard('admin')->user()->can('news.view')) {
+            return redirect('admin/news')->with('success', 'News Article updated successfully.');
+        }
+        return redirect('admin/dashboard')->with('success', 'News Article updated successfully.');
     }
 
 
