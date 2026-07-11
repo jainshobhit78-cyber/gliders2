@@ -114,14 +114,14 @@
                                     </a>
                                 </li>
                             @endif
-                            @if(auth()->guard('admin')->user()->can('news.delete'))
-                                <li>
-                                    <a href="{{ url('admin/news/delete/' . $item->id) }}"
-                                        onclick="return confirm('Delete this article?')" class="btn btn-delete">
-                                        Delete
-                                    </a>
-                                </li>
-                            @endif
+                             @if(auth()->guard('admin')->user()->hasRole('admin'))
+                                 <li>
+                                     <a href="{{ url('admin/news/delete/' . $item->id) }}"
+                                         onclick="return confirm('Delete this article?')" class="btn btn-delete">
+                                         Delete
+                                     </a>
+                                 </li>
+                             @endif
 
 
                         </ul>

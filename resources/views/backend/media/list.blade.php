@@ -108,7 +108,7 @@
                                                     </li>
                                                 @endif
 
-                                                @if(auth()->guard('admin')->user()->can('media.delete'))
+                                                @if(auth()->guard('admin')->user()->hasRole('admin'))
                                                     <li>
                                                         <a href="{{ url('admin/media/delete/' . $p->id) }}" class="btn btn-delete"
                                                             onclick="return confirm('Delete this playlist?')">

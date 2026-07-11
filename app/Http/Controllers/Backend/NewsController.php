@@ -109,10 +109,14 @@ class NewsController extends Controller
             'hide_during_election' => $request->has('hide_during_election')
         ]);
 
+        $msg = auth()->guard('admin')->user()->hasRole('admin') 
+            ? 'News Article created successfully.' 
+            : 'News Article sent for approval successfully.';
+
         if (auth()->guard('admin')->user()->can('news.view')) {
-            return redirect('admin/news')->with('success', 'News Article created successfully.');
+            return redirect('admin/news')->with('success', $msg);
         }
-        return redirect('admin/dashboard')->with('success', 'News Article created successfully.');
+        return redirect('admin/dashboard')->with('success', $msg);
     }
 
 
@@ -180,10 +184,14 @@ class NewsController extends Controller
             'hide_during_election' => $request->has('hide_during_election')
         ]);
 
+        $msg = auth()->guard('admin')->user()->hasRole('admin') 
+            ? 'News Article updated successfully.' 
+            : 'News Article updates sent for approval successfully.';
+
         if (auth()->guard('admin')->user()->can('news.view')) {
-            return redirect('admin/news')->with('success', 'News Article updated successfully.');
+            return redirect('admin/news')->with('success', $msg);
         }
-        return redirect('admin/dashboard')->with('success', 'News Article updated successfully.');
+        return redirect('admin/dashboard')->with('success', $msg);
     }
 
 

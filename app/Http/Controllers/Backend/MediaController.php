@@ -96,10 +96,14 @@ class MediaController extends Controller
             }
         }
 
+        $msg = auth()->guard('admin')->user()->hasRole('admin') 
+            ? 'Playlist created successfully.' 
+            : 'Playlist sent for approval successfully.';
+
         if (auth()->guard('admin')->user()->can('media.view')) {
-            return redirect('admin/media')->with('success', 'Playlist Created');
+            return redirect('admin/media')->with('success', $msg);
         }
-        return redirect('admin/dashboard')->with('success', 'Playlist Created');
+        return redirect('admin/dashboard')->with('success', $msg);
 
     }
 
@@ -221,10 +225,14 @@ class MediaController extends Controller
             }
         }
 
+        $msg = auth()->guard('admin')->user()->hasRole('admin') 
+            ? 'Playlist updated successfully.' 
+            : 'Playlist updates sent for approval successfully.';
+
         if (auth()->guard('admin')->user()->can('media.view')) {
-            return redirect('admin/media')->with('success', 'Playlist Updated');
+            return redirect('admin/media')->with('success', $msg);
         }
-        return redirect('admin/dashboard')->with('success', 'Playlist Updated');
+        return redirect('admin/dashboard')->with('success', $msg);
     }
 
     public function delete($id)
