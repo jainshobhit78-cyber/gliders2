@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('contact_messages', function (Blueprint $table) {
-            $table->integer('product_id')->nullable()->after('id');
+            $table->unsignedBigInteger('product_id')->nullable()->after('id');
             $table->foreign('product_id')->references('id')->on('products')->nullOnDelete();
             $table->string('subject')->nullable()->after('email');
             $table->text('reply_text')->nullable()->after('message');
