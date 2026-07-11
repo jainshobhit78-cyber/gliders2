@@ -78,12 +78,12 @@ Route::post('admin/logout', [AdminAuthController::class, 'logout'])->name('admin
 
 Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(function () {
 
-    Route::post('admin/run-migrations', function () {
+    Route::get('admin/run-migrations', function () {
         \Illuminate\Support\Facades\Artisan::call('migrate');
         return "Database migrations successfully executed!";
     })->middleware('permission:roles.edit,admin');
 
-    Route::post('admin/fix-permissions', function () {
+    Route::get('admin/fix-permissions', function () {
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\AdminRolePermissionSeeder']);
         return "Permissions successfully populated inside the database!";
     })->middleware('permission:roles.edit,admin');
