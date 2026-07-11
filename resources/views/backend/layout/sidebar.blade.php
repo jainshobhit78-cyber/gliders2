@@ -51,6 +51,9 @@
                                 <span>About</span>
                             </a>
                         </li>
+                    @endif
+
+                    @if(auth()->guard('admin')->user()->can('legacy.view'))
                         <li class="sidebar-list">
                             <a class="sidebar-link sidebar-title link-nav
                                 @if(Request::is('admin/legacy*')) active @endif"
@@ -247,7 +250,7 @@
                         </li>
                     @endif
 
-                    @if(auth()->guard('admin')->user()->can('vendors.view'))
+                    @if(auth()->guard('admin')->user()->can('profile.view'))
                         <li class="sidebar-list">
                             <a class="sidebar-link sidebar-title link-nav
                                                                                                 @if(Request::is('admin/profile*')) active @endif"
@@ -264,112 +267,118 @@
                         </li>
                     @endif
 
-                    <li class="sidebar-list">
-                        <a class="linear-icon-link sidebar-link sidebar-title has-sub
-                            @if(
-                                Request::is('admin/home*') ||
-                                Request::is('admin/video_banner*') ||
-                                Request::is('admin/state_counter*') ||
-                                Request::is('admin/our_units*')
-                            ) open @endif">
+                    @if(auth()->guard('admin')->user()->can('home_page.view'))
+                        <li class="sidebar-list">
+                            <a class="linear-icon-link sidebar-link sidebar-title has-sub
+                                @if(
+                                    Request::is('admin/home*') ||
+                                    Request::is('admin/video_banner*') ||
+                                    Request::is('admin/state_counter*') ||
+                                    Request::is('admin/our_units*')
+                                ) open @endif">
 
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-house-door" viewBox="0 0 16 16">
-                                <path
-                                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z" />
-                            </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-house-door" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z" />
+                                </svg>
 
-                            <span>Home Page</span>
-                            <i class="arrow" data-feather="chevron-right"></i>
-                        </a>
+                                <span>Home Page</span>
+                                <i class="arrow" data-feather="chevron-right"></i>
+                            </a>
 
-                        <ul class="sidebar-submenu
-                            @if(
-                                Request::is('admin/home*') ||
-                                Request::is('admin/video_banner*') ||
-                                Request::is('admin/state_counter*') ||
-                                Request::is('admin/our_units*')
-                            ) open @endif">
-                            <li>
-                                <a href="{{ url('admin/home') }}"
-                                    class="{{ Request::is('admin/home') ? 'active' : '' }}">
-                                    General Layout
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ url('admin/home/video_banner/edit') }}"
-                                    class="{{ Request::is('admin/home/video_banner*') ? 'active' : '' }}">
-                                    Video Banner / Slider
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ url('admin/home/key_offerings') }}"
-                                    class="{{ Request::is('admin/home/key_offerings*') ? 'active' : '' }}">
-                                    Key Offerings
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ url('admin/home/our_units/edit') }}"
-                                    class="{{ Request::is('admin/home/our_units*') ? 'active' : '' }}">
-                                    Our Units
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ url('admin/home/state_counter/edit') }}"
-                                    class="{{ Request::is('admin/home/state_counter*') ? 'active' : '' }}">
-                                    State Counter
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ url('admin/home/marquee/edit') }}"
-                                    class="{{ Request::is('admin/home/marquee*') ? 'active' : '' }}">
-                                    Ticker & Marquee
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ url('admin/home/image_gallery') }}"
-                                    class="{{ Request::is('admin/home/image_gallery*') ? 'active' : '' }}">
-                                    Image Gallery / Slider
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ url('admin/home/partner_logo') }}"
-                                    class="{{ Request::is('admin/home/partner_logo*') ? 'active' : '' }}">
-                                    Partner Logos
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                            <ul class="sidebar-submenu
+                                @if(
+                                    Request::is('admin/home*') ||
+                                    Request::is('admin/video_banner*') ||
+                                    Request::is('admin/state_counter*') ||
+                                    Request::is('admin/our_units*')
+                                ) open @endif">
+                                <li>
+                                    <a href="{{ url('admin/home') }}"
+                                        class="{{ Request::is('admin/home') ? 'active' : '' }}">
+                                        General Layout
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('admin/home/video_banner/edit') }}"
+                                        class="{{ Request::is('admin/home/video_banner*') ? 'active' : '' }}">
+                                        Video Banner / Slider
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('admin/home/key_offerings') }}"
+                                        class="{{ Request::is('admin/home/key_offerings*') ? 'active' : '' }}">
+                                        Key Offerings
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('admin/home/our_units/edit') }}"
+                                        class="{{ Request::is('admin/home/our_units*') ? 'active' : '' }}">
+                                        Our Units
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('admin/home/state_counter/edit') }}"
+                                        class="{{ Request::is('admin/home/state_counter*') ? 'active' : '' }}">
+                                        State Counter
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('admin/home/marquee/edit') }}"
+                                        class="{{ Request::is('admin/home/marquee*') ? 'active' : '' }}">
+                                        Ticker & Marquee
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('admin/home/image_gallery') }}"
+                                        class="{{ Request::is('admin/home/image_gallery*') ? 'active' : '' }}">
+                                        Image Gallery / Slider
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('admin/home/partner_logo') }}"
+                                        class="{{ Request::is('admin/home/partner_logo*') ? 'active' : '' }}">
+                                        Partner Logos
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
 
-                    <li class="sidebar-list">
-                        <a class="sidebar-link sidebar-title link-nav
-                            @if(Request::is('admin/inquiry*')) active @endif" href="{{ url('admin/inquiry') }}">
+                    @if(auth()->guard('admin')->user()->can('inquiry.view'))
+                        <li class="sidebar-list">
+                            <a class="sidebar-link sidebar-title link-nav
+                                @if(Request::is('admin/inquiry*')) active @endif" href="{{ url('admin/inquiry') }}">
 
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M4 4H20C20.5523 4 21 4.44772 21 5V19C21 19.5523 20.5523 20 20 20H4C3.44772 20 3 19.5523 3 19V5C3 4.44772 3.44772 4 4 4ZM5 6V18H19V6H5ZM7 8H17V10H7V8ZM7 12H14V14H7V12Z" />
-                            </svg>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4 4H20C20.5523 4 21 4.44772 21 5V19C21 19.5523 20.5523 20 20 20H4C3.44772 20 3 19.5523 3 19V5C3 4.44772 3.44772 4 4 4ZM5 6V18H19V6H5ZM7 8H17V10H7V8ZM7 12H14V14H7V12Z" />
+                                </svg>
 
-                            <span>Contact Inquiry</span>
-                        </a>
-                    </li>
+                                <span>Contact Inquiry</span>
+                            </a>
+                        </li>
+                    @endif
 
-                    <li class="sidebar-list">
-                        <a class="sidebar-link sidebar-title link-nav
-                            @if(Request::is('chatbot*')) active @endif" href="{{ route('chatbot.index') }}">
+                    @if(auth()->guard('admin')->user()->can('chatbot.view'))
+                        <li class="sidebar-list">
+                            <a class="sidebar-link sidebar-title link-nav
+                                @if(Request::is('chatbot*')) active @endif" href="{{ route('chatbot.index') }}">
 
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-chat-dots" viewBox="0 0 16 16">
-                                <path
-                                    d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
-                                <path
-                                    d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9 9 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.4 10.4 0 0 1-.524 2.318l-.003.011a11 11 0 0 1-.244.637c-.079.186.074.394.273.362a22 22 0 0 0 .693-.125m.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6-3.004 6-7 6a8 8 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a11 11 0 0 0 .398-2" />
-                            </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-chat-dots" viewBox="0 0 16 16">
+                                    <path
+                                        d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+                                    <path
+                                        d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9 9 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.4 10.4 0 0 1-.524 2.318l-.003.011a11 11 0 0 1-.244.637c-.079.186.074.394.273.362a22 22 0 0 0 .693-.125m.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6-3.004 6-7 6a8 8 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a11 11 0 0 0 .398-2" />
+                                </svg>
 
-                            <span>Chatbot FAQ</span>
-                        </a>
-                    </li>
+                                <span>Chatbot FAQ</span>
+                            </a>
+                        </li>
+                    @endif
 
                     @if(auth()->guard('admin')->user()->hasRole('admin'))
                         <li class="sidebar-list">

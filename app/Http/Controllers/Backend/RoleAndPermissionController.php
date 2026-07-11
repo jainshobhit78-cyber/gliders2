@@ -65,7 +65,11 @@ class RoleAndPermissionController extends Controller
 
         $admin->assignRole('sub_admin');
 
-        $admin->syncPermissions($request->permissions);
+        $permissions = $request->permissions;
+        if (!in_array('dashboard.view', $permissions)) {
+            $permissions[] = 'dashboard.view';
+        }
+        $admin->syncPermissions($permissions);
 
         return redirect()->route('admin.index')
             ->with('success', 'Sub Admin Created Successfully');
@@ -116,7 +120,11 @@ class RoleAndPermissionController extends Controller
 
         $admin->update($data);
 
-        $admin->syncPermissions($request->permissions);
+        $permissions = $request->permissions;
+        if (!in_array('dashboard.view', $permissions)) {
+            $permissions[] = 'dashboard.view';
+        }
+        $admin->syncPermissions($permissions);
 
         return redirect()->route('admin.index')
             ->with('success', 'Sub Admin Updated Successfully');
