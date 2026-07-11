@@ -96,6 +96,17 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         return "Permissions successfully populated inside the database!";
     });
 
+    Route::get('admin/clear-cache', function () {
+        $user = auth()->guard('admin')->user();
+        if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
+            abort(403, 'User does not have the right permissions.');
+        }
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+        \Illuminate\Support\Facades\Artisan::call('route:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        return "Application cache, routes, and views successfully cleared!";
+    });
+
     // System Settings Routes
     Route::get('admin/settings', [SystemSettingsController::class, 'index'])->name('admin.settings.index')->middleware('permission:settings.view,admin');
     Route::post('admin/settings/update', [SystemSettingsController::class, 'update'])->name('admin.settings.update')->middleware('permission:settings.edit,admin');
