@@ -64,48 +64,49 @@
         function initLeadershipScripts() {
 
             if (typeof tinymce !== "undefined") {
+                try {
+                    if (tinymce.editors && tinymce.editors.length > 0) {
+                        for (let i = tinymce.editors.length - 1; i >= 0; i--) {
+                            try {
+                                tinymce.editors[i].destroy();
+                            } catch (e) {
+                                console.warn("Error destroying tinymce editor: ", e);
+                            }
+                        }
+                    }
 
-                if (tinymce.editors && tinymce.editors.length > 0) {
-                    tinymce.remove();
-                }
-
-                if (document.querySelector('.editor')) {
-
-                    tinymce.init({
-                        selector: '.editor',
-                        height: 400,
-                        menubar: false,
-
-                        plugins: [
-                            'advlist autolink lists charmap preview anchor paste', // ❌ removed link, image
-                            'searchreplace visualblocks code fullscreen',
-                            'insertdatetime media table code wordcount'
-                        ],
-
-                        toolbar: [
-                            "bullist numlist outdent indent | fontsizeselect | undo redo | styleselect | bold italic",
-                            "alignleft aligncenter alignright alignjustify | forecolor backcolor | code fullscreen preview"
-                        ],
-
-                        elementpath: false,
-                        statusbar: false,
-
-                        content_style: `
-                                                                    body {
-                                                                        font-family: Kumbh Sans, sans-serif !important;
-                                                                        background: transparent !important;
-                                                                    }
-                                                                    p {
-                                                                        background: transparent !important;
-                                                                    }
-
-                                                                `,
-
-                        paste_remove_styles: true,
-                        paste_remove_spans: true,
-                        paste_strip_class_attributes: "all"
-                    });
-
+                    if (document.querySelector('.editor')) {
+                        tinymce.init({
+                            selector: '.editor',
+                            height: 400,
+                            menubar: false,
+                            plugins: [
+                                'advlist autolink lists charmap preview anchor paste',
+                                'searchreplace visualblocks code fullscreen',
+                                'insertdatetime media table code wordcount'
+                            ],
+                            toolbar: [
+                                "bullist numlist outdent indent | fontsizeselect | undo redo | styleselect | bold italic",
+                                "alignleft aligncenter alignright alignjustify | forecolor backcolor | code fullscreen preview"
+                            ],
+                            elementpath: false,
+                            statusbar: false,
+                            content_style: `
+                                body {
+                                    font-family: Kumbh Sans, sans-serif !important;
+                                    background: transparent !important;
+                                }
+                                p {
+                                    background: transparent !important;
+                                }
+                            `,
+                            paste_remove_styles: true,
+                            paste_remove_spans: true,
+                            paste_strip_class_attributes: "all"
+                        });
+                    }
+                } catch (err) {
+                    console.error("TinyMCE init error: ", err);
                 }
             }
 
@@ -183,7 +184,6 @@
             $.get("{{ url('admin/news/list') }}", function (res) {
 
                 $("#ajaxContent").html(res)
-                initLeadershipScripts()
 
             })
 
