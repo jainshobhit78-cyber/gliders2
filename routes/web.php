@@ -113,8 +113,8 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
 
     // Approvals Dashboard Routes
     Route::get('admin/approvals', [ApprovalController::class, 'index'])->name('admin.approvals.index')->middleware('permission:approvals.view,admin');
-    Route::post('admin/approvals/news/approve/{id}', [ApprovalController::class, 'approveNews'])->name('admin.approvals.news.approve')->middleware('permission:approvals.edit,admin');
-    Route::post('admin/approvals/media/approve/{id}', [ApprovalController::class, 'approveMedia'])->name('admin.approvals.media.approve')->middleware('permission:approvals.edit,admin');
+    Route::get('admin/approvals/news/approve/{id}', [ApprovalController::class, 'approveNews'])->name('admin.approvals.news.approve')->middleware('permission:approvals.edit,admin');
+    Route::get('admin/approvals/media/approve/{id}', [ApprovalController::class, 'approveMedia'])->name('admin.approvals.media.approve')->middleware('permission:approvals.edit,admin');
 
     Route::get('admin/dashboard', function () {
         return view('backend.dashboard.list');
