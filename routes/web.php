@@ -79,14 +79,22 @@ Route::post('admin/logout', [AdminAuthController::class, 'logout'])->name('admin
 Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(function () {
 
     Route::get('admin/run-migrations', function () {
+        $user = auth()->guard('admin')->user();
+        if (!$user || (!$user->hasRole('admin') && !$user->hasPermissionTo('roles.edit', 'admin'))) {
+            abort(403, 'User does not have the right permissions.');
+        }
         \Illuminate\Support\Facades\Artisan::call('migrate');
         return "Database migrations successfully executed!";
-    })->middleware('permission:roles.edit,admin');
+    });
 
     Route::get('admin/fix-permissions', function () {
+        $user = auth()->guard('admin')->user();
+        if (!$user || (!$user->hasRole('admin') && !$user->hasPermissionTo('roles.edit', 'admin'))) {
+            abort(403, 'User does not have the right permissions.');
+        }
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\AdminRolePermissionSeeder']);
         return "Permissions successfully populated inside the database!";
-    })->middleware('permission:roles.edit,admin');
+    });
 
     // System Settings Routes
     Route::get('admin/settings', [SystemSettingsController::class, 'index'])->name('admin.settings.index')->middleware('permission:settings.view,admin');
