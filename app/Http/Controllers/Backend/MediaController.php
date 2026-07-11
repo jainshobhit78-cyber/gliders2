@@ -51,9 +51,9 @@ class MediaController extends Controller
             'videos.*' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:51200',
         ]);
 
-        // Determine status based on role or permissions
+        // Determine status based on role: only Super Admins can publish directly
         $status = 'Pending';
-        if (auth()->guard('admin')->user()->hasRole('admin') || auth()->guard('admin')->user()->can('media.edit') || auth()->guard('admin')->user()->can('media.create')) {
+        if (auth()->guard('admin')->user()->hasRole('admin')) {
             $status = $request->status ?? 'Published';
         }
 
@@ -125,9 +125,9 @@ class MediaController extends Controller
 
         $playlist = Playlist::find($id);
 
-        // Determine status based on role or edit permissions
-        $status = $playlist->status;
-        if (auth()->guard('admin')->user()->hasRole('admin') || auth()->guard('admin')->user()->can('media.edit')) {
+        // Determine status: edits by sub-admins must be re-approved (Pending), while admins can publish directly
+        $status = 'Pending';
+        if (auth()->guard('admin')->user()->hasRole('admin')) {
             $status = $request->status ?? $playlist->status;
         }
 

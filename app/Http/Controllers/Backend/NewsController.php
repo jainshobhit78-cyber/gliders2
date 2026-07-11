@@ -91,9 +91,9 @@ class NewsController extends Controller
             $request->wallpaper->move(public_path('uploads/news'), $image);
         }
 
-        // Determine status based on role or permissions
+        // Determine status based on role: only Super Admins can publish directly
         $status = 'Pending';
-        if (auth()->guard('admin')->user()->hasRole('admin') || auth()->guard('admin')->user()->can('news.edit') || auth()->guard('admin')->user()->can('news.create')) {
+        if (auth()->guard('admin')->user()->hasRole('admin')) {
             $status = $request->status ?? 'Published';
         }
 
@@ -162,9 +162,9 @@ class NewsController extends Controller
             $request->wallpaper->move(public_path('uploads/news'), $image);
         }
 
-        // Determine status based on role or edit permissions
-        $status = $item->status;
-        if (auth()->guard('admin')->user()->hasRole('admin') || auth()->guard('admin')->user()->can('news.edit')) {
+        // Determine status: edits by sub-admins must be re-approved (Pending), while admins can publish directly
+        $status = 'Pending';
+        if (auth()->guard('admin')->user()->hasRole('admin')) {
             $status = $request->status ?? $item->status;
         }
 

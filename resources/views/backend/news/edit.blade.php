@@ -90,7 +90,7 @@
                 </div>
             </div>
 
-            @if(auth()->guard('admin')->user()->hasRole('admin') || auth()->guard('admin')->user()->can('news.edit'))
+            @if(auth()->guard('admin')->user()->hasRole('admin'))
                 <div class="mb-4">
                     <label>Status</label>
 
