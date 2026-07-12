@@ -31,6 +31,12 @@ class GeneralSetting extends Model
         'products_page_title',
         'products_page_subtitle',
         'products_page_wallpaper',
+        'social_facebook',
+        'social_twitter',
+        'social_instagram',
+        'social_linkedin',
+        'social_youtube',
+        'twitter_feed_url',
     ];
 
     public static function isElectionMode()

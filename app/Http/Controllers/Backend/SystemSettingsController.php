@@ -38,6 +38,12 @@ class SystemSettingsController extends Controller
             'products_page_title' => 'nullable|string|max:255',
             'products_page_subtitle' => 'nullable|string',
             'products_page_wallpaper' => 'nullable|image|mimes:jpeg,png,jpg,webp',
+            'social_facebook' => 'nullable|string|max:255',
+            'social_twitter' => 'nullable|string|max:255',
+            'social_instagram' => 'nullable|string|max:255',
+            'social_linkedin' => 'nullable|string|max:255',
+            'social_youtube' => 'nullable|string|max:255',
+            'twitter_feed_url' => 'nullable|string|max:255',
         ]);
 
         $data = [
@@ -61,6 +67,12 @@ class SystemSettingsController extends Controller
             'products_page_tagline' => $request->products_page_tagline,
             'products_page_title' => $request->products_page_title,
             'products_page_subtitle' => $request->products_page_subtitle,
+            'social_facebook' => $request->social_facebook,
+            'social_twitter' => $request->social_twitter,
+            'social_instagram' => $request->social_instagram,
+            'social_linkedin' => $request->social_linkedin,
+            'social_youtube' => $request->social_youtube,
+            'twitter_feed_url' => $request->twitter_feed_url,
         ];
 
         if ($request->hasFile('products_page_wallpaper')) {

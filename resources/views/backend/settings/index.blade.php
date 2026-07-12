@@ -79,6 +79,11 @@
                             <i class="fa fa-info-circle me-2"></i>Footer Details
                         </button>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false">
+                            <i class="fa fa-share-alt me-2"></i>Social Media & Feeds
+                        </button>
+                    </li>
                 </ul>
 
                 <form method="POST" action="{{ route('admin.settings.update') }}" class="theme-form" enctype="multipart/form-data">
@@ -273,6 +278,54 @@
                                     <label class="form-label">Visitor Counter Offset Value</label>
                                     <input type="number" name="visitor_count" class="form-control" style="max-width: 250px;" placeholder="e.g. 1000" value="{{ old('visitor_count', $setting->visitor_count) }}">
                                     <small class="text-muted d-block mt-1">Sets the initial starting value for the public website hit counter.</small>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- TAB 5: SOCIAL MEDIA & FEEDS -->
+                        <div class="tab-pane fade" id="social" role="tabpanel" aria-labelledby="social-tab">
+                            
+                            <div class="form-group-wrapper">
+                                <span class="settings-section-title"><i class="fa fa-share-alt me-2"></i>Social Media Handles & Links</span>
+                                <small class="text-muted d-block mb-3">Provide the URLs to your official social media pages. These will update the links across the entire website footer and header.</small>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Facebook Page Link</label>
+                                        <input type="text" name="social_facebook" class="form-control" placeholder="https://facebook.com/yourpage" value="{{ old('social_facebook', $setting->social_facebook) }}">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Twitter / X Profile Link</label>
+                                        <input type="text" name="social_twitter" class="form-control" placeholder="https://twitter.com/yourprofile" value="{{ old('social_twitter', $setting->social_twitter) }}">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Instagram Link</label>
+                                        <input type="text" name="social_instagram" class="form-control" placeholder="https://instagram.com/yourprofile" value="{{ old('social_instagram', $setting->social_instagram) }}">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">LinkedIn Company Page Link</label>
+                                        <input type="text" name="social_linkedin" class="form-control" placeholder="https://linkedin.com/company/yourpage" value="{{ old('social_linkedin', $setting->social_linkedin) }}">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">YouTube Channel Link</label>
+                                    <input type="text" name="social_youtube" class="form-control" placeholder="https://youtube.com/c/yourchannel" value="{{ old('social_youtube', $setting->social_youtube) }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group-wrapper">
+                                <span class="settings-section-title"><i class="fa fa-twitter me-2"></i>Live Twitter/X Homepage Feed</span>
+                                <small class="text-muted d-block mb-3">Provide the Twitter/X username or full profile URL to pull dynamic live posts directly onto the website homepage widget.</small>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Twitter/X Username or Feed URL</label>
+                                    <input type="text" name="twitter_feed_url" class="form-control" placeholder="e.g. GlidersIndia or https://twitter.com/GlidersIndia" value="{{ old('twitter_feed_url', $setting->twitter_feed_url) }}">
+                                    <small class="text-muted d-block mt-1">If left blank, it will default to fetching feeds from the Twitter profile link provided above.</small>
                                 </div>
                             </div>
 
