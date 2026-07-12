@@ -14,7 +14,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at center, #111a2e 0%, #070b12 100%);
+            background-color: #f4f6f9;
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -24,33 +24,34 @@
             position: relative;
         }
 
-        /* Tactical HUD Grid Overlay */
+        /* Light Tactical HUD Grid Overlay */
         body::before {
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             background-image: 
-                linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
+                linear-gradient(rgba(42, 83, 142, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(42, 83, 142, 0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
             pointer-events: none;
             z-index: 1;
         }
 
-        /* Ambient scanline scan effect */
-        body::after {
-            content: "";
+        /* Large Faded Watermark Text in Background */
+        .bg-watermark {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.1), transparent);
-            animation: scan 8s linear infinite;
-            z-index: 2;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 6.5vw;
+            font-weight: 900;
+            color: rgba(42, 83, 142, 0.03);
+            text-transform: uppercase;
+            white-space: nowrap;
             pointer-events: none;
-        }
-
-        @keyframes scan {
-            0% { top: -5%; }
-            100% { top: 105%; }
+            z-index: 0;
+            user-select: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-12deg);
         }
 
         /* Top Header Area outside the card */
@@ -62,21 +63,20 @@
         }
 
         .portal-logo {
-            width: 130px;
+            width: 140px;
             height: auto;
             display: block;
-            margin: 0 auto 15px auto;
+            margin: 0 auto 12px auto;
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
         }
 
         .portal-header h1 {
-            color: #ffffff;
+            color: #1e293b;
             font-size: 24px;
             font-weight: 700;
             margin: 0 0 5px 0;
             letter-spacing: 0.5px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .portal-subtitle {
@@ -86,7 +86,6 @@
             text-transform: uppercase;
             letter-spacing: 3px;
             margin: 0;
-            text-shadow: 0 0 8px rgba(255, 159, 10, 0.4);
         }
 
         .login-wrapper {
@@ -102,7 +101,7 @@
             position: absolute;
             width: 16px;
             height: 16px;
-            border: 2px solid #00f0ff;
+            border: 2px solid #2563eb;
             z-index: 15;
             pointer-events: none;
         }
@@ -112,21 +111,18 @@
         .bottom-right { bottom: 0; right: 0; border-left: none; border-top: none; }
 
         .login-container {
-            background: rgba(13, 22, 38, 0.85);
-            border: 1px solid rgba(0, 240, 255, 0.25);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(37, 99, 235, 0.2);
             padding: 30px 30px;
             border-radius: 4px;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             box-shadow: 
-                0 15px 35px rgba(0, 0, 0, 0.6),
-                0 0 30px rgba(0, 240, 255, 0.05),
-                inset 0 0 15px rgba(0, 240, 255, 0.05);
+                0 15px 35px rgba(30, 41, 59, 0.1),
+                0 0 30px rgba(37, 99, 235, 0.02);
             transition: border-color 0.3s;
         }
 
         .login-container:hover {
-            border-color: rgba(0, 240, 255, 0.45);
+            border-color: rgba(37, 99, 235, 0.45);
         }
 
         /* Top Security Bar */
@@ -136,9 +132,9 @@
             justify-content: space-between;
             align-items: center;
             font-size: 11px;
-            color: #8a99ad;
+            color: #64748b;
             margin-bottom: 25px;
-            border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+            border-bottom: 1px solid rgba(37, 99, 235, 0.15);
             padding-bottom: 8px;
         }
 
@@ -149,7 +145,7 @@
             border-radius: 50%;
             display: inline-block;
             margin-right: 6px;
-            box-shadow: 0 0 8px #ff9f0a;
+            box-shadow: 0 0 6px #ff9f0a;
             animation: pulse 2s infinite;
         }
 
@@ -163,7 +159,7 @@
             font-family: 'Share Tech Mono', monospace;
             text-align: center;
             margin: 0 0 20px 0;
-            color: #ffffff;
+            color: #1e293b;
             font-size: 18px;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -178,7 +174,7 @@
             font-weight: 600;
             display: block;
             margin-bottom: 8px;
-            color: #8a99ad;
+            color: #475569;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -186,29 +182,29 @@
         .form-control {
             width: 100%;
             padding: 12px 15px;
-            background: rgba(8, 14, 25, 0.9);
-            border: 1px solid #2b3e5c;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
             border-radius: 4px;
-            color: #ffffff;
+            color: #1e293b;
             font-size: 14px;
             font-family: 'Inter', sans-serif;
             transition: all 0.3s;
         }
 
         .form-control::placeholder {
-            color: #4f647f;
+            color: #94a3b8;
         }
 
         .form-control:focus {
-            border-color: #00f0ff;
+            border-color: #2563eb;
             outline: none;
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
-            background: rgba(8, 14, 25, 1);
+            box-shadow: 0 0 8px rgba(37, 99, 235, 0.15);
+            background: #ffffff;
         }
 
         .btn-login {
             width: 100%;
-            background: linear-gradient(135deg, #00bfff 0%, #007acc 100%);
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: #ffffff;
             padding: 14px;
             border: none;
@@ -220,12 +216,12 @@
             letter-spacing: 2px;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(0, 122, 204, 0.4);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
         }
 
         .btn-login:hover {
-            background: linear-gradient(135deg, #00f0ff 0%, #0099ff 100%);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
             transform: translateY(-1px);
         }
 
@@ -234,23 +230,23 @@
             justify-content: center;
             font-size: 12px;
             margin-top: 20px;
-            color: #8a99ad;
+            color: #64748b;
         }
 
         .extra a {
-            color: #00f0ff;
+            color: #2563eb;
             text-decoration: none;
             transition: color 0.2s;
             font-family: 'Share Tech Mono', monospace;
         }
 
         .extra a:hover {
-            color: #ffffff;
-            text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+            color: #1d4ed8;
+            text-shadow: 0 0 2px rgba(37, 99, 235, 0.2);
         }
 
         .error {
-            color: #ff3b30;
+            color: #dc2626;
             font-family: 'Share Tech Mono', monospace;
             font-size: 12px;
             margin-top: 6px;
@@ -280,10 +276,10 @@
         .system-warning {
             font-family: 'Share Tech Mono', monospace;
             font-size: 9px;
-            color: #ff9f0a;
+            color: #d97706;
             text-align: center;
             margin-top: 25px;
-            border-top: 1px solid rgba(255, 159, 10, 0.15);
+            border-top: 1px solid rgba(217, 119, 6, 0.15);
             padding-top: 12px;
             letter-spacing: 1px;
             line-height: 1.4;
@@ -291,6 +287,9 @@
     </style>
 </head>
 <body>
+
+    <!-- Faded watermark background text -->
+    <div class="bg-watermark">GLIDERS INDIA LIMITED</div>
 
     <!-- Header area with logo and title outside the login container -->
     <div class="portal-header">
