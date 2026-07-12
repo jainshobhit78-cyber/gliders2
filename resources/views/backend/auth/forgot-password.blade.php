@@ -512,9 +512,6 @@
         <div>
             IP: 10.89.0.21 | LOCATION: INDIA
         </div>
-        <div class="hud-footer-center">
-            POWERED & PROTECTED BY GIL DEFENCE NETWORK
-        </div>
         <div id="live-datetime">
             18 JUN 2025 | 14:52:31 IST
         </div>
