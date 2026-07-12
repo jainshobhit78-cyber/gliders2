@@ -569,12 +569,63 @@
                         </span>
                     </div>
                     <div class="desktop-header-right">
-                        <!-- Notification icon -->
-                        <div class="header-notification-dropdown">
-                            <button class="notification-btn">
+                        @php
+                            $pendingInquiries = \App\Models\ContactMessage::where('status', 'pending')->count();
+                            $pendingNews = \App\Models\NewsArticle::where('status', 'Pending')->count();
+                            $pendingMedia = \App\Models\Playlist::where('status', 'Pending')->count();
+                            $totalNotifications = $pendingInquiries + $pendingNews + $pendingMedia;
+                        @endphp
+                        <div class="header-notification-dropdown dropdown">
+                            <button class="notification-btn" data-bs-toggle="dropdown" aria-expanded="false" style="background: none; border: none; padding: 0;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                                <span class="notification-badge">3</span>
+                                @if($totalNotifications > 0)
+                                    <span class="notification-badge">{{ $totalNotifications }}</span>
+                                @endif
                             </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm py-2" style="min-width: 280px; border-radius: 12px; border-color: #f1f5f9;">
+                                <li class="dropdown-header text-dark font-weight-bold text-start" style="font-size: 13px; border-bottom: 1px solid #f1f5f9; padding: 8px 16px; margin-bottom: 8px;">
+                                    System Alerts
+                                </li>
+                                @if($totalNotifications > 0)
+                                    @if($pendingInquiries > 0)
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center justify-content-between py-2 text-start" href="{{ route('admin.inquiry') }}">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span style="font-size: 15px;">✉</span>
+                                                    <span style="font-size: 12.5px; font-weight: 500;">New Contact Inquiries</span>
+                                                </div>
+                                                <span class="badge bg-primary rounded-pill">{{ $pendingInquiries }}</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if($pendingNews > 0)
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center justify-content-between py-2 text-start" href="{{ url('admin/approvals') }}">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span style="font-size: 15px;">📄</span>
+                                                    <span style="font-size: 12.5px; font-weight: 500;">News Pending Approval</span>
+                                                </div>
+                                                <span class="badge bg-warning text-dark rounded-pill">{{ $pendingNews }}</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                    @if($pendingMedia > 0)
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center justify-content-between py-2 text-start" href="{{ url('admin/approvals') }}">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span style="font-size: 15px;">🎥</span>
+                                                    <span style="font-size: 12.5px; font-weight: 500;">Media Pending Approval</span>
+                                                </div>
+                                                <span class="badge bg-warning text-dark rounded-pill">{{ $pendingMedia }}</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                @else
+                                    <li class="px-3 py-3 text-muted text-center" style="font-size: 12px; font-weight: 500;">
+                                        No pending notifications
+                                    </li>
+                                @endif
+                            </ul>
                         </div>
                         
                         <!-- User profile card -->
