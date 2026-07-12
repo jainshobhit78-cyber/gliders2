@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gliders India Limited - Reset Credentials</title>
+    <title>Tactical Command - Reset Credentials</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -14,86 +14,201 @@
             margin: 0;
             padding: 0;
             font-family: 'Inter', sans-serif;
-            background-color: #f4f6f9;
+            background-color: #06090e;
             height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             position: relative;
         }
 
-        /* Light Tactical HUD Grid Overlay */
+        /* Tactical HUD Grid Overlay */
         body::before {
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             background-image: 
-                linear-gradient(rgba(42, 83, 142, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(42, 83, 142, 0.04) 1px, transparent 1px);
-            background-size: 40px 40px;
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
             pointer-events: none;
-            z-index: 1;
+            z-index: 2;
         }
 
-        /* Large Faded Watermark Text in Background */
-        .bg-watermark {
+        /* Ambient scanline scan effect */
+        body::after {
+            content: "";
             position: absolute;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 6.5vw;
-            font-weight: 900;
-            color: rgba(42, 83, 142, 0.03);
-            text-transform: uppercase;
-            white-space: nowrap;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.08), transparent);
+            animation: scan 10s linear infinite;
+            z-index: 3;
             pointer-events: none;
-            z-index: 0;
-            user-select: none;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-12deg);
         }
 
-        /* Top Header Area outside the card */
-        .portal-header {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            margin-bottom: 25px;
+        @keyframes scan {
+            0% { top: -5%; }
+            100% { top: 105%; }
         }
 
-        .portal-logo {
-            width: 140px;
-            height: auto;
-            display: block;
-            margin: 0 auto 12px auto;
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
-        }
-
-        .portal-header h1 {
-            color: #1e293b;
-            font-size: 24px;
-            font-weight: 700;
-            margin: 0 0 5px 0;
-            letter-spacing: 0.5px;
-        }
-
-        .portal-subtitle {
+        /* Top Header Navigation */
+        .hud-header {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 20;
             font-family: 'Share Tech Mono', monospace;
-            color: #ff9f0a;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin: 0;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+            background: rgba(6, 9, 14, 0.65);
+            backdrop-filter: blur(5px);
         }
 
+        .hud-header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .hud-header-left img {
+            height: 35px;
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        .system-meta {
+            font-size: 11px;
+            color: #5f728c;
+            line-height: 1.3;
+        }
+
+        .system-meta span {
+            display: block;
+        }
+
+        .system-meta .active-node {
+            color: #ff9f0a;
+        }
+
+        .hud-header-center {
+            font-size: 13px;
+            color: #ff9f0a;
+            text-align: center;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px rgba(255, 159, 10, 0.4);
+        }
+
+        .hud-header-right {
+            font-size: 11px;
+            color: #5f728c;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Bottom Footer Navigation */
+        .hud-footer {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 20;
+            font-family: 'Share Tech Mono', monospace;
+            border-top: 1px solid rgba(0, 240, 255, 0.1);
+            background: rgba(6, 9, 14, 0.65);
+            backdrop-filter: blur(5px);
+            font-size: 11px;
+            color: #5f728c;
+        }
+
+        .hud-footer-center {
+            color: #ff9f0a;
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+
+        /* Tactical Side Panels */
+        .hud-panel {
+            position: absolute;
+            top: 60px;
+            bottom: 50px;
+            width: 28%;
+            z-index: 10;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #5f728c;
+        }
+
+        .panel-left {
+            left: 0;
+            border-right: 1px solid rgba(0, 240, 255, 0.05);
+            background: 
+                linear-gradient(to right, rgba(6, 9, 14, 0.3) 0%, rgba(6, 9, 14, 0.98) 100%),
+                url('{{ asset('uploads/products/1778848830_HEAVY DROP  P7.jpg') }}') no-repeat center center/cover;
+        }
+
+        .panel-right {
+            right: 0;
+            border-left: 1px solid rgba(0, 240, 255, 0.05);
+            background: 
+                linear-gradient(to left, rgba(6, 9, 14, 0.3) 0%, rgba(6, 9, 14, 0.98) 100%),
+                url('{{ asset('uploads/products/1778765201_Brake Parachute (HYBRID) for LCA (TEJAS) Aircraft.jpg') }}') no-repeat center center/cover;
+        }
+
+        .panel-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 13px;
+            color: #00f0ff;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .panel-desc {
+            font-size: 11px;
+            line-height: 1.5;
+            color: #8a99ad;
+        }
+
+        .panel-tech-specs {
+            margin-top: auto;
+            border-top: 1px solid rgba(0, 240, 255, 0.1);
+            padding-top: 15px;
+        }
+
+        .specs-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            color: #ff9f0a;
+            margin-bottom: 5px;
+        }
+
+        .specs-value {
+            font-size: 10px;
+            color: #5f728c;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 1200px) {
+            .hud-panel {
+                display: none;
+            }
+        }
+
+        /* Central Login Box Wrapper */
         .login-wrapper {
             position: relative;
-            z-index: 10;
+            z-index: 15;
             width: 100%;
-            max-width: 420px;
-            padding: 10px;
+            max-width: 440px;
+            padding: 15px;
         }
 
         /* Corner Brackets for Tech Aesthetic */
@@ -102,7 +217,7 @@
             width: 16px;
             height: 16px;
             border: 2px solid #2563eb;
-            z-index: 15;
+            z-index: 20;
             pointer-events: none;
         }
         .top-left { top: 0; left: 0; border-right: none; border-bottom: none; }
@@ -111,13 +226,15 @@
         .bottom-right { bottom: 0; right: 0; border-left: none; border-top: none; }
 
         .login-container {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(37, 99, 235, 0.2);
-            padding: 30px 30px;
+            background: rgba(10, 16, 28, 0.92);
+            border: 1px solid rgba(37, 99, 235, 0.25);
+            padding: 35px 30px;
             border-radius: 4px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             box-shadow: 
-                0 15px 35px rgba(30, 41, 59, 0.1),
-                0 0 30px rgba(37, 99, 235, 0.02);
+                0 20px 45px rgba(0, 0, 0, 0.8),
+                inset 0 0 20px rgba(0, 240, 255, 0.05);
             transition: border-color 0.3s;
         }
 
@@ -125,44 +242,35 @@
             border-color: rgba(37, 99, 235, 0.45);
         }
 
-        /* Top Security Bar */
-        .security-header {
-            font-family: 'Share Tech Mono', monospace;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11px;
-            color: #64748b;
-            margin-bottom: 25px;
-            border-bottom: 1px solid rgba(37, 99, 235, 0.15);
-            padding-bottom: 8px;
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            background-color: #ff9f0a;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 6px;
-            box-shadow: 0 0 6px #ff9f0a;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.4; }
-            50% { opacity: 1; }
-            100% { opacity: 0.4; }
-        }
-
-        h2 {
-            font-family: 'Share Tech Mono', monospace;
+        /* Inner Header */
+        .inner-header {
             text-align: center;
-            margin: 0 0 20px 0;
-            color: #1e293b;
-            font-size: 18px;
-            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
+
+        .inner-logo {
+            width: 130px;
+            height: auto;
+            margin-bottom: 12px;
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        .inner-header h1 {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
+        }
+
+        .inner-subtitle {
+            font-family: 'Share Tech Mono', monospace;
+            color: #ff9f0a;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 4px 0 0 0;
         }
 
         .form-group {
@@ -170,11 +278,11 @@
         }
 
         label {
-            font-size: 12px;
-            font-weight: 600;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
             display: block;
             margin-bottom: 8px;
-            color: #475569;
+            color: #8a99ad;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -186,47 +294,49 @@
         .form-control {
             width: 100%;
             padding: 12px 15px;
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
+            background: rgba(8, 14, 25, 0.8);
+            border: 1px solid #2b3e5c;
             border-radius: 4px;
-            color: #1e293b;
-            font-size: 14px;
+            color: #ffffff;
+            font-size: 13px;
             font-family: 'Inter', sans-serif;
             transition: all 0.3s;
         }
 
         .form-control::placeholder {
-            color: #94a3b8;
+            color: #4f647f;
         }
 
         .form-control:focus {
             border-color: #2563eb;
             outline: none;
-            box-shadow: 0 0 8px rgba(37, 99, 235, 0.15);
-            background: #ffffff;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.2);
+            background: rgba(8, 14, 25, 0.95);
         }
 
         .btn-login {
             width: 100%;
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            background: rgba(37, 99, 235, 0.08);
+            border: 1px solid #2563eb;
             color: #ffffff;
             padding: 14px;
-            border: none;
             border-radius: 4px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             font-family: 'Share Tech Mono', monospace;
             text-transform: uppercase;
             letter-spacing: 2px;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn-login:hover {
-            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
-            transform: translateY(-1px);
+            background: rgba(37, 99, 235, 0.18);
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
         }
 
         .extra {
@@ -234,7 +344,7 @@
             justify-content: center;
             font-size: 12px;
             margin-top: 20px;
-            color: #64748b;
+            color: #8a99ad;
         }
 
         .extra a {
@@ -245,12 +355,12 @@
         }
 
         .extra a:hover {
-            color: #1d4ed8;
-            text-shadow: 0 0 2px rgba(37, 99, 235, 0.2);
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(37, 99, 235, 0.5);
         }
 
         .error {
-            color: #dc2626;
+            color: #ff3b30;
             font-family: 'Share Tech Mono', monospace;
             font-size: 12px;
             margin-top: 6px;
@@ -272,7 +382,7 @@
             transform: translateY(-50%);
             cursor: pointer;
             color: #2563eb;
-            font-size: 16px;
+            font-size: 15px;
             opacity: 0.7;
             transition: opacity 0.2s;
             user-select: none;
@@ -282,34 +392,88 @@
             opacity: 1;
         }
 
-        /* Warning Banner at Bottom */
-        .system-warning {
+        /* Bottom warning */
+        .bottom-warning {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            margin-top: 25px;
+            border-top: 1px solid rgba(255, 159, 10, 0.15);
+            padding-top: 15px;
+        }
+
+        .warning-icon {
+            flex-shrink: 0;
+            color: #ff9f0a;
+            margin-top: 2px;
+        }
+
+        .warning-text {
             font-family: 'Share Tech Mono', monospace;
             font-size: 9px;
-            color: #d97706;
-            text-align: center;
-            margin-top: 25px;
-            border-top: 1px solid rgba(217, 119, 6, 0.15);
-            padding-top: 12px;
-            letter-spacing: 1px;
+            color: #ff9f0a;
+            letter-spacing: 0.5px;
             line-height: 1.4;
         }
     </style>
 </head>
 <body>
 
-    <!-- Faded watermark background text -->
-    <div class="bg-watermark">GLIDERS INDIA LIMITED</div>
-
-    <!-- Header area with logo and title outside the login container -->
-    <div class="portal-header">
-        <a href="{{ url('admin/login') }}">
-            <img src="{{ url('backend/assets/images/logo/gliders.png') }}" class="portal-logo" alt="Gliders India Logo">
-        </a>
-        <h1>Gliders India Limited</h1>
-        <div class="portal-subtitle">Website Management</div>
+    <!-- HUD Header -->
+    <div class="hud-header">
+        <div class="hud-header-left">
+            <a href="{{ url('admin/login') }}">
+                <img src="{{ url('backend/assets/images/logo/gliders.png') }}" alt="Gliders India Logo">
+            </a>
+            <div class="system-meta">
+                <span>SYSTEM: DEFENCE GRADE PORTAL</span>
+                <span class="active-node">ACCESS NODE: GIL-ADMIN-01</span>
+            </div>
+        </div>
+        <div class="hud-header-center">
+            [ SECURE PASSWORD RESET ]
+        </div>
+        <div class="hud-header-right">
+            <span>SECURE LINK ENCRYPTED</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5f728c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
     </div>
 
+    <!-- HUD Left Side Panel -->
+    <div class="hud-panel panel-left">
+        <div>
+            <div class="panel-title">PARACHUTE SYSTEMS</div>
+            <div class="panel-desc">AIRCRAFT • CARGO • PERSONAL</div>
+            <div class="panel-desc" style="margin-top: 8px; opacity: 0.8;">Engineered for extreme environments and tactical operations. Trusted by defence forces globally.</div>
+        </div>
+        
+        <div class="panel-tech-specs">
+            <div class="specs-label">MIL-STD COMPLIANCE</div>
+            <div class="specs-value">MIL-STD-810H / DEF STAN 00-970<br>Tactical Drop Certified</div>
+        </div>
+    </div>
+
+    <!-- HUD Right Side Panel -->
+    <div class="hud-panel panel-right">
+        <div style="text-align: right; width: 100%;">
+            <div class="panel-title">FLIGHT TELEMETRY</div>
+            <div class="panel-desc" style="font-family: 'Share Tech Mono', monospace; letter-spacing: 1px;">
+                ALT: 04500 FT<br>
+                SPD: 420 KTS<br>
+                HDG: 225°
+            </div>
+        </div>
+        
+        <div class="panel-tech-specs" style="text-align: right; width: 100%;">
+            <div class="specs-label">ENCRYPTION STATUS</div>
+            <div class="specs-value" style="color: #ff9f0a;">
+                AUTHENTICATION IN PROGRESS<br>
+                PENDING SIGNAL VALIDATION
+            </div>
+        </div>
+    </div>
+
+    <!-- Central Login Box Wrapper -->
     <div class="login-wrapper">
         <!-- Corner brackets for style -->
         <div class="corner-bracket top-left"></div>
@@ -318,15 +482,11 @@
         <div class="corner-bracket bottom-right"></div>
 
         <div class="login-container">
-            <div class="security-header">
-                <div>
-                    <span class="status-dot"></span>
-                    <span>SECURE NODE: GLD-09</span>
-                </div>
-                <div>SYS_AUTH_v4.2</div>
+            <div class="inner-header">
+                <img src="{{ url('backend/assets/images/logo/gliders.png') }}" class="inner-logo" alt="Gliders India Logo">
+                <h1>Gliders India Limited</h1>
+                <div class="inner-subtitle">Key Reset</div>
             </div>
-
-            <h2>Key Reset</h2>
 
             <form method="POST" action="{{ url('admin/reset-password') }}">
                 @csrf
@@ -352,16 +512,37 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn-login">Execute Key Reset</button>
+                <button type="submit" class="btn-login">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    Execute Key Reset
+                </button>
             </form>
 
             <div class="extra">
                 <a href="{{ url('admin/login') }}">◄ Back to Secure Terminal</a>
             </div>
 
-            <div class="system-warning">
-                WARNING: YOU ARE ACCESSING A SECURE SYSTEM. UNSANCTIONED ACCESS OR ATTEMPTS ARE LOGGED AND SUBJECT TO IMMEDIATE TERMINATION AND PROSECUTION.
+            <div class="bottom-warning">
+                <div class="warning-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                </div>
+                <div class="warning-text">
+                    UNAUTHORIZED ACCESS OR ATTEMPTS ARE LOGGED AND SUBJECT TO IMMEDIATE TERMINATION AND PROSECUTION.
+                </div>
             </div>
+        </div>
+    </div>
+
+    <!-- HUD Footer -->
+    <div class="hud-footer">
+        <div>
+            IP: 10.89.0.21 | LOCATION: INDIA
+        </div>
+        <div class="hud-footer-center">
+            POWERED & PROTECTED BY GIL DEFENCE NETWORK
+        </div>
+        <div id="live-datetime">
+            18 JUN 2025 | 14:52:31 IST
         </div>
     </div>
 
@@ -378,6 +559,17 @@
                 btn.textContent = "👁";
             }
         }
+
+        // Live HUD Clock
+        function updateClock() {
+            const now = new Date();
+            const options = { day: '2-digit', month: 'short', year: 'numeric' };
+            const dateStr = now.toLocaleDateString('en-GB', options).toUpperCase();
+            const timeStr = now.toLocaleTimeString('en-GB', { hour12: false });
+            document.getElementById('live-datetime').textContent = `${dateStr} | ${timeStr} IST`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
     </script>
 </body>
 </html>
