@@ -56,72 +56,82 @@
         <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4 mb-4">
             <!-- Product Categories -->
             <div class="col">
-                <div class="kpi-card shadow-sm border rounded-4 p-3 bg-white d-flex align-items-center gap-3">
-                    <div class="kpi-icon-container" style="background-color: #eff6ff; color: #2563eb;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10a9 9 0 0 0-18 0v2a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-2z"></path><path d="M12 2v13"></path><path d="M12 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path><path d="m4 10 8 7 8-7"></path></svg>
+                <a href="{{ url('admin/category/list') }}" class="text-decoration-none">
+                    <div class="kpi-card shadow-sm border rounded-4 p-3 bg-white d-flex align-items-center gap-3">
+                        <div class="kpi-icon-container" style="background-color: #eff6ff; color: #2563eb;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10a9 9 0 0 0-18 0v2a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-2z"></path><path d="M12 2v13"></path><path d="M12 21a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path><path d="m4 10 8 7 8-7"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-uppercase text-muted mb-1" style="font-size: 10px; font-weight: 700; letter-spacing: 0.5px;">Categories</p>
+                            <h4 class="mb-0" style="font-weight: 800; color: #0f172a;">{{ $productCategoriesCount }}</h4>
+                            <span class="kpi-status text-success">Active Categories</span>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-uppercase text-muted mb-1" style="font-size: 10px; font-weight: 700; letter-spacing: 0.5px;">Categories</p>
-                        <h4 class="mb-0" style="font-weight: 800; color: #0f172a;">{{ $productCategoriesCount }}</h4>
-                        <span class="kpi-status text-success">Active Categories</span>
-                    </div>
-                </div>
+                </a>
             </div>
 
             <!-- Product Systems -->
             <div class="col">
-                <div class="kpi-card shadow-sm border rounded-4 p-3 bg-white d-flex align-items-center gap-3">
-                    <div class="kpi-icon-container" style="background-color: #eff6ff; color: #2563eb;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><polygon points="12 22.08 12 12 3 6.92 3 17.08 12 22.08"></polygon><polygon points="12 22.08 12 12 21 6.92 21 17.08 12 22.08"></polygon><polygon points="12 12 3 6.92 12 1.84 21 6.92 12 12"></polygon></svg>
+                <a href="{{ url('admin/product/list') }}" class="text-decoration-none">
+                    <div class="kpi-card shadow-sm border rounded-4 p-3 bg-white d-flex align-items-center gap-3">
+                        <div class="kpi-icon-container" style="background-color: #eff6ff; color: #2563eb;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><polygon points="12 22.08 12 12 3 6.92 3 17.08 12 22.08"></polygon><polygon points="12 22.08 12 12 21 6.92 21 17.08 12 22.08"></polygon><polygon points="12 12 3 6.92 12 1.84 21 6.92 12 12"></polygon></svg>
+                        </div>
+                        <div>
+                            <p class="text-uppercase text-muted mb-1" style="font-size: 10px; font-weight: 700; letter-spacing: 0.5px;">Products</p>
+                            <h4 class="mb-0" style="font-weight: 800; color: #0f172a;">{{ $productSystemsCount }}</h4>
+                            <span class="kpi-status text-success">Total Listed</span>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-uppercase text-muted mb-1" style="font-size: 10px; font-weight: 700; letter-spacing: 0.5px;">Products</p>
-                        <h4 class="mb-0" style="font-weight: 800; color: #0f172a;">{{ $productSystemsCount }}</h4>
-                        <span class="kpi-status text-success">Total Listed</span>
-                    </div>
-                </div>
+                </a>
             </div>
 
             <!-- Production Units -->
             <div class="col">
-                <div class="kpi-card shadow-sm border rounded-4 p-3 bg-white d-flex align-items-center gap-3">
-                    <div class="kpi-icon-container" style="background-color: #f0fdf4; color: #16a34a;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 21H2V3l7 4v3l7-4v3l6-4v18z"></path><path d="M17 13h2v4h-2z"></path><path d="M12 13h2v4h-2z"></path></svg>
+                <a href="{{ url('admin/about/production-unit') }}" class="text-decoration-none">
+                    <div class="kpi-card shadow-sm border rounded-4 p-3 bg-white d-flex align-items-center gap-3">
+                        <div class="kpi-icon-container" style="background-color: #f0fdf4; color: #16a34a;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 21H2V3l7 4v3l7-4v3l6-4v18z"></path><path d="M17 13h2v4h-2z"></path><path d="M12 13h2v4h-2z"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-uppercase text-muted mb-1" style="font-size: 10px; font-weight: 700; letter-spacing: 0.5px;">Production Units</p>
+                            <h4 class="mb-0" style="font-weight: 800; color: #0f172a;">{{ $productionUnitsCount }}</h4>
+                            <span class="kpi-status text-success">Active Facilities</span>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-uppercase text-muted mb-1" style="font-size: 10px; font-weight: 700; letter-spacing: 0.5px;">Production Units</p>
-                        <h4 class="mb-0" style="font-weight: 800; color: #0f172a;">{{ $productionUnitsCount }}</h4>
-                        <span class="kpi-status text-success">Active Facilities</span>
-                    </div>
-                </div>
+                </a>
             </div>
 
             <!-- Inquiries -->
             <div class="col">
-                <div class="kpi-card shadow-sm border rounded-4 p-3 bg-white d-flex align-items-center gap-3">
-                    <div class="kpi-icon-container" style="background-color: #eff6ff; color: #2563eb;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <a href="{{ route('admin.inquiry') }}" class="text-decoration-none">
+                    <div class="kpi-card shadow-sm border rounded-4 p-3 bg-white d-flex align-items-center gap-3">
+                        <div class="kpi-icon-container" style="background-color: #eff6ff; color: #2563eb;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        </div>
+                        <div>
+                            <p class="text-uppercase text-muted mb-1" style="font-size: 10px; font-weight: 700; letter-spacing: 0.5px;">Messages</p>
+                            <h4 class="mb-0" style="font-weight: 800; color: #0f172a;">{{ $messagesCount }}</h4>
+                            <span class="kpi-status text-success">Contact Inquiries</span>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-uppercase text-muted mb-1" style="font-size: 10px; font-weight: 700; letter-spacing: 0.5px;">Messages</p>
-                        <h4 class="mb-0" style="font-weight: 800; color: #0f172a;">{{ $messagesCount }}</h4>
-                        <span class="kpi-status text-success">Contact Inquiries</span>
-                    </div>
-                </div>
+                </a>
             </div>
 
             <!-- News Articles -->
             <div class="col">
-                <div class="kpi-card shadow-sm border rounded-4 p-3 bg-white d-flex align-items-center gap-3">
-                    <div class="kpi-icon-container" style="background-color: #f0fdf4; color: #16a34a;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><line x1="9" y1="9" x2="15" y2="9"></line><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="13" y2="17"></line></svg>
+                <a href="{{ url('admin/news/list') }}" class="text-decoration-none">
+                    <div class="kpi-card shadow-sm border rounded-4 p-3 bg-white d-flex align-items-center gap-3">
+                        <div class="kpi-icon-container" style="background-color: #f0fdf4; color: #16a34a;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><line x1="9" y1="9" x2="15" y2="9"></line><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="13" y2="17"></line></svg>
+                        </div>
+                        <div>
+                            <p class="text-uppercase text-muted mb-1" style="font-size: 10px; font-weight: 700; letter-spacing: 0.5px;">News Articles</p>
+                            <h4 class="mb-0" style="font-weight: 800; color: #0f172a;">{{ $newsCount }}</h4>
+                            <span class="kpi-status text-success">Published Posts</span>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-uppercase text-muted mb-1" style="font-size: 10px; font-weight: 700; letter-spacing: 0.5px;">News Articles</p>
-                        <h4 class="mb-0" style="font-weight: 800; color: #0f172a;">{{ $newsCount }}</h4>
-                        <span class="kpi-status text-success">Published Posts</span>
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -152,17 +162,19 @@
                         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 text-center">
                             @foreach($categories as $category)
                                 <div class="col">
-                                    <div class="parachute-item p-3 border rounded-3 d-flex flex-column align-items-center justify-content-between" style="height: 100%;">
-                                        <div class="parachute-icon" style="color: #2563eb;">
-                                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10a9 9 0 0 0-18 0v2a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-2z"></path><path d="M12 2v13"></path><path d="m4 10 8 7 8-7"></path></svg>
+                                    <a href="{{ url('admin/category/edit/' . $category->id) }}" class="text-decoration-none">
+                                        <div class="parachute-item p-3 border rounded-3 d-flex flex-column align-items-center justify-content-between" style="height: 100%;">
+                                            <div class="parachute-icon" style="color: #2563eb;">
+                                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10a9 9 0 0 0-18 0v2a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-2z"></path><path d="M12 2v13"></path><path d="m4 10 8 7 8-7"></path></svg>
+                                            </div>
+                                            <div class="parachute-label" style="font-weight: 700; font-size: 12px; margin-top: 10px; color: #1e293b;">
+                                                {{ $category->name }}
+                                            </div>
+                                            <div class="parachute-value" style="font-size: 18px; font-weight: 800; color: #2563eb; margin-top: 5px;">
+                                                {{ $category->products_count }} <small style="font-size: 10px; color: #64748b; font-weight: 600;">Systems</small>
+                                            </div>
                                         </div>
-                                        <div class="parachute-label" style="font-weight: 700; font-size: 12px; margin-top: 10px; color: #1e293b;">
-                                            {{ $category->name }}
-                                        </div>
-                                        <div class="parachute-value" style="font-size: 18px; font-weight: 800; color: #2563eb; margin-top: 5px;">
-                                            {{ $category->products_count }} <small style="font-size: 10px; color: #64748b; font-weight: 600;">Systems</small>
-                                        </div>
-                                    </div>
+                                    </a>
                                 </div>
                             @endforeach
                         </div>
