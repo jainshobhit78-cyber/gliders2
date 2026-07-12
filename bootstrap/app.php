@@ -22,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(\App\Http\Middleware\MaintenanceModeMiddleware::class);
         $middleware->append(\App\Http\Middleware\TrackVisitors::class);
         $middleware->append(SecurityHeaders::class);
+        $middleware->append(\App\Http\Middleware\PurifyHtmlInput::class);
 
         $middleware->alias([
             'adminAuth' => AdminAuth::class,

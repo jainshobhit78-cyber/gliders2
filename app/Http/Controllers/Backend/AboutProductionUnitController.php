@@ -270,7 +270,7 @@ class AboutProductionUnitController extends Controller
                     // delete old video
                     if ($savedMilestone->video) {
 
-                        $oldVideoPath = base_path(
+                        $oldVideoPath = public_path(
                             'uploads/production/videos/' . $savedMilestone->video
                         );
 
