@@ -200,6 +200,348 @@
             border-color: #f5821f;
             transform: scale(1.15);
         }
+
+        /* --- Premium Layout Desktop Theme Overrides --- */
+        @media (min-width: 992px) {
+            .page-wrapper.compact-wrapper .page-body-wrapper .sidebar-wrapper {
+                background: #ffffff !important;
+                border-right: 1px solid #eef2f6 !important;
+                box-shadow: none !important;
+                width: 270px !important;
+                z-index: 99 !important;
+                height: 100vh !important;
+                position: fixed !important;
+            }
+            
+            .logo-wrapper {
+                padding: 25px !important;
+                border-bottom: 1px solid #f1f5f9 !important;
+            }
+            
+            .logo-wrapper img {
+                height: 40px !important;
+                width: auto !important;
+                object-fit: contain !important;
+            }
+            
+            .page-wrapper.compact-wrapper .page-body-wrapper .page-body {
+                margin-left: 270px !important;
+                background-color: #f8fafc !important;
+                padding: 0 !important;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh !important;
+            }
+            
+            /* Styles for our custom Desktop Top Header */
+            .desktop-header {
+                height: 70px;
+                background: #ffffff;
+                border-bottom: 1px solid #eef2f6;
+                padding: 0 35px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: sticky;
+                top: 0;
+                z-index: 90;
+            }
+            
+            .secure-node-indicator {
+                font-family: 'Outfit', sans-serif;
+                font-size: 12.5px;
+                font-weight: 700;
+                color: #475569;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                background: #f1f5f9;
+                padding: 6px 14px;
+                border-radius: 99px;
+            }
+            
+            .secure-dot {
+                width: 7px;
+                height: 7px;
+                background-color: #10b981;
+                border-radius: 50%;
+                box-shadow: 0 0 6px #10b981;
+                animation: pulse-green 2s infinite;
+            }
+            
+            @keyframes pulse-green {
+                0% { opacity: 0.4; }
+                50% { opacity: 1; }
+                100% { opacity: 0.4; }
+            }
+            
+            .desktop-header-right {
+                display: flex;
+                align-items: center;
+                gap: 25px;
+            }
+            
+            .notification-btn {
+                background: none;
+                border: none;
+                color: #64748b;
+                position: relative;
+                cursor: pointer;
+                padding: 5px;
+                transition: color 0.2s;
+            }
+            
+            .notification-btn:hover {
+                color: #0f172a;
+            }
+            
+            .notification-badge {
+                position: absolute;
+                top: 0;
+                right: 0;
+                background: #ef4444;
+                color: #ffffff;
+                font-size: 9px;
+                font-weight: 700;
+                border-radius: 50%;
+                width: 14px;
+                height: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .profile-trigger {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                cursor: pointer;
+                padding: 5px;
+            }
+            
+            .profile-avatar {
+                width: 36px;
+                height: 36px;
+                background: #eff6ff;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #2563eb;
+            }
+            
+            .profile-info {
+                display: flex;
+                flex-direction: column;
+                line-height: 1.2;
+                text-align: left;
+            }
+            
+            .profile-name {
+                font-size: 13px;
+                font-weight: 700;
+                color: #1e293b;
+            }
+            
+            .profile-role {
+                font-size: 11px;
+                color: #64748b;
+            }
+            
+            .profile-chevron {
+                color: #64748b;
+                transition: transform 0.2s;
+            }
+            
+            /* Sidebar navigation list styling */
+            .sidebar-main {
+                height: calc(100vh - 250px) !important;
+                overflow-y: auto !important;
+                padding-bottom: 20px !important;
+            }
+            
+            .sidebar-main .sidebar-links {
+                padding: 20px 0 !important;
+            }
+            
+            .sidebar-main .sidebar-links .sidebar-list {
+                margin: 2px 15px !important;
+                padding: 0 !important;
+            }
+            
+            .sidebar-main .sidebar-links .sidebar-link {
+                color: #475569 !important;
+                border-radius: 10px !important;
+                padding: 11px 16px !important;
+                transition: all 0.2s ease !important;
+                font-weight: 600 !important;
+                font-size: 13.5px !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 12px !important;
+                text-decoration: none !important;
+                border: none !important;
+                background: transparent !important;
+            }
+            
+            .sidebar-main .sidebar-links .sidebar-link svg {
+                width: 18px !important;
+                height: 18px !important;
+                fill: none !important;
+                stroke: #64748b !important;
+                stroke-width: 1.8 !important;
+                stroke-linecap: round !important;
+                stroke-linejoin: round !important;
+                transition: all 0.2s ease !important;
+            }
+            
+            .sidebar-main .sidebar-links .sidebar-link:hover {
+                background: #f1f5f9 !important;
+                color: #0f172a !important;
+            }
+            
+            .sidebar-main .sidebar-links .sidebar-link:hover svg {
+                stroke: #0f172a !important;
+                transform: translateX(2px);
+            }
+            
+            .sidebar-main .sidebar-links .sidebar-link.active {
+                background: #2563eb !important;
+                color: #ffffff !important;
+                box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15) !important;
+            }
+            
+            .sidebar-main .sidebar-links .sidebar-link.active svg {
+                stroke: #ffffff !important;
+            }
+            
+            /* Sidebar Submenu */
+            .sidebar-submenu {
+                padding-left: 30px !important;
+                margin-top: 5px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            .sidebar-submenu li a {
+                color: #64748b !important;
+                font-size: 13px !important;
+                font-weight: 500 !important;
+                padding: 8px 0 !important;
+                display: block !important;
+                text-decoration: none !important;
+                transition: color 0.2s !important;
+            }
+            
+            .sidebar-submenu li a:hover, .sidebar-submenu li a.active {
+                color: #2563eb !important;
+            }
+            
+            /* Sidebar Status Widget & Watermark styling */
+            .sidebar-status-widget-container {
+                position: absolute !important;
+                bottom: 20px !important;
+                left: 15px !important;
+                right: 15px !important;
+                border-radius: 12px !important;
+                background: #f8fafc !important;
+                border: 1px solid #e2e8f0 !important;
+                padding: 14px !important;
+                overflow: hidden !important;
+                z-index: 10 !important;
+            }
+            
+            .sidebar-faded-illustration {
+                position: absolute !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                height: 100% !important;
+                background: 
+                    linear-gradient(to top, rgba(248, 250, 252, 0.98) 30%, rgba(248, 250, 252, 0.6) 100%),
+                    url('{{ asset('uploads/products/1778848830_HEAVY DROP  P7.jpg') }}') no-repeat center center/cover !important;
+                opacity: 0.12 !important;
+                pointer-events: none !important;
+                z-index: 1 !important;
+            }
+            
+            .sidebar-status-card {
+                position: relative !important;
+                z-index: 2 !important;
+            }
+            
+            .status-card-header {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                margin-bottom: 10px !important;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+                padding-bottom: 6px !important;
+            }
+            
+            .status-title {
+                font-family: 'Share Tech Mono', monospace !important;
+                font-size: 10px !important;
+                font-weight: 700 !important;
+                color: #64748b !important;
+                letter-spacing: 0.5px !important;
+            }
+            
+            .status-badge {
+                font-size: 8.5px !important;
+                font-weight: 700 !important;
+                color: #ffffff !important;
+                background: #10b981 !important;
+                padding: 1px 8px !important;
+                border-radius: 99px !important;
+            }
+            
+            .status-row {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                margin-bottom: 5px !important;
+                font-size: 10.5px !important;
+            }
+            
+            .row-label {
+                color: #64748b !important;
+                font-weight: 600 !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 5px !important;
+            }
+            
+            .row-icon {
+                color: #94a3b8 !important;
+            }
+            
+            .row-value {
+                color: #334155 !important;
+                font-weight: 700 !important;
+            }
+            
+            #sidebar-uptime {
+                font-family: 'Share Tech Mono', monospace !important;
+                color: #2563eb !important;
+            }
+            
+            /* General page layout overrides */
+            .page-body {
+                padding: 30px !important;
+            }
+            
+            .title-header {
+                margin-bottom: 25px !important;
+                border-bottom: none !important;
+                padding-bottom: 0 !important;
+            }
+            
+            .title-header h5 {
+                font-size: 20px !important;
+                font-weight: 700 !important;
+                color: #0f172a !important;
+            }
+        }
     </style>
 </head>
 
@@ -218,6 +560,53 @@
             {{-- Page Content --}}
             <div class="page-body">
 
+                <!-- Desktop top header bar -->
+                <div class="desktop-header d-none d-lg-flex">
+                    <div class="desktop-header-left">
+                        <span class="secure-node-indicator">
+                            <span class="secure-dot"></span>
+                            SECURE NODE: GLD-89
+                        </span>
+                    </div>
+                    <div class="desktop-header-right">
+                        <!-- Notification icon -->
+                        <div class="header-notification-dropdown">
+                            <button class="notification-btn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                                <span class="notification-badge">3</span>
+                            </button>
+                        </div>
+                        
+                        <!-- User profile card -->
+                        <div class="header-profile-dropdown dropdown">
+                            <div class="profile-trigger" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="profile-avatar">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                </div>
+                                <div class="profile-info">
+                                    <span class="profile-name">{{ auth()->guard('admin')->user()->name ?? 'Administrator' }}</span>
+                                    <span class="profile-role">Super Admin</span>
+                                </div>
+                                <svg class="profile-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </div>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                <li>
+                                    <a class="dropdown-item" href="{{ url('admin/profile') }}">
+                                        <svg class="dropdown-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                        Profile
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="#" onclick="event.preventDefault(); if(confirm('Are you sure you want to logout?')) { document.getElementById('logout-form').submit(); }">
+                                        <svg class="dropdown-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                                        Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
                 @yield('content')
 
