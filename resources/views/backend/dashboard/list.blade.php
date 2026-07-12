@@ -175,6 +175,75 @@
             </div>
         </div>
 
+        <!-- GOOGLE ANALYTICS (GA4 INTEGRATION) SECTION -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card border rounded-4 shadow-sm p-4 bg-white">
+                    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                        <div class="text-start">
+                            <h5 class="mb-1" style="font-weight: 800; color: #0f172a; font-size: 16px;">Google Analytics (GA4 Integration)</h5>
+                            <p class="text-muted mb-0" style="font-size: 12.5px;">User sessions, acquisition, page views, and geographic distribution (API integration pending)</p>
+                        </div>
+                        <div class="badge rounded-pill bg-light text-dark border px-3 py-2" style="font-size: 11.5px; font-weight: 600; border-color: #e2e8f0 !important;">
+                            @if($gaId)
+                                🟢 GA4 ID Configured: <strong>{{ $gaId }}</strong>
+                            @else
+                                🟡 GA4 ID Pending Configuration
+                            @endif
+                        </div>
+                    </div>
+
+                    <!-- Placeholder metrics row -->
+                    <div class="row g-3 mb-4 text-center">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="p-3 border rounded-3" style="background-color: #f8fafc; border-color: #e2e8f0 !important;">
+                                <span class="d-block text-muted text-uppercase mb-1" style="font-size: 10px; font-weight: 700; letter-spacing: 0.5px;">Average Session Duration</span>
+                                <span style="font-size: 18px; font-weight: 800; color: #2563eb;">2m 14s</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="p-3 border rounded-3" style="background-color: #f8fafc; border-color: #e2e8f0 !important;">
+                                <span class="d-block text-muted text-uppercase mb-1" style="font-size: 10px; font-weight: 700; letter-spacing: 0.5px;">Bounce Rate</span>
+                                <span style="font-size: 18px; font-weight: 800; color: #10b981;">42.5%</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="p-3 border rounded-3" style="background-color: #f8fafc; border-color: #e2e8f0 !important;">
+                                <span class="d-block text-muted text-uppercase mb-1" style="font-size: 10px; font-weight: 700; letter-spacing: 0.5px;">Active Users (30m)</span>
+                                <span style="font-size: 18px; font-weight: 800; color: #f59e0b;">24</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="p-3 border rounded-3" style="background-color: #f8fafc; border-color: #e2e8f0 !important;">
+                                <span class="d-block text-muted text-uppercase mb-1" style="font-size: 10px; font-weight: 700; letter-spacing: 0.5px;">New Users (Monthly)</span>
+                                <span style="font-size: 18px; font-weight: 800; color: #7c3aed;">1,025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Placement of two Google Analytics sub-graphs -->
+                    <div class="row g-4">
+                        <div class="col-lg-7">
+                            <div class="p-3 border rounded-3" style="background-color: #f8fafc; border-color: #e2e8f0 !important; height: 100%;">
+                                <div class="mb-3 text-start">
+                                    <span class="d-block text-dark" style="font-size: 13.5px; font-weight: 700;">Sessions & Views by Country</span>
+                                </div>
+                                <div id="gaGeoChart" style="min-height: 250px;"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="p-3 border rounded-3" style="background-color: #f8fafc; border-color: #e2e8f0 !important; height: 100%;">
+                                <div class="mb-3 text-start">
+                                    <span class="d-block text-dark" style="font-size: 13.5px; font-weight: 700;">Acquisition Traffic Distribution</span>
+                                </div>
+                                <div id="gaAcquisitionChart" style="min-height: 250px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- FOOTER BAR -->
         <div class="dashboard-footer mt-5 border-top pt-3 d-flex justify-content-between align-items-center flex-wrap gap-2 text-muted" style="font-size: 12px; font-weight: 500;">
             <div>© {{ date('Y') }} Gliders India Limited. All Rights Reserved.</div>
@@ -322,6 +391,73 @@
             };
             var chartAnalytics = new ApexCharts(document.querySelector("#analyticsChart"), optionsAnalytics);
             chartAnalytics.render();
+
+            // 3. GA4 Geographic Bar Chart (Page Views by country/city)
+            var optionsGaGeo = {
+                chart: {
+                    type: 'bar',
+                    height: 250,
+                    toolbar: { show: false },
+                    fontFamily: 'Outfit, sans-serif'
+                },
+                series: [{
+                    name: 'Page Views',
+                    data: [656, 143, 102, 61, 48]
+                }],
+                colors: ['#2563eb'],
+                plotOptions: {
+                    bar: {
+                        borderRadius: 6,
+                        horizontal: true,
+                        barHeight: '55%'
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                grid: {
+                    borderColor: '#e2e8f0',
+                    strokeDashArray: 4
+                },
+                xaxis: {
+                    categories: ['India', 'Germany', 'United States', 'United Kingdom', 'Others'],
+                    labels: { style: { colors: '#94a3b8', fontSize: '11px' } }
+                },
+                yaxis: {
+                    labels: { style: { colors: '#94a3b8', fontSize: '11px', fontWeight: 600 } }
+                }
+            };
+            var chartGaGeo = new ApexCharts(document.querySelector("#gaGeoChart"), optionsGaGeo);
+            chartGaGeo.render();
+
+            // 4. GA4 Acquisition Traffic Donut Chart
+            var optionsGaAcquisition = {
+                chart: {
+                    type: 'donut',
+                    height: 250,
+                    fontFamily: 'Outfit, sans-serif'
+                },
+                series: [42, 28, 20, 10],
+                labels: ['Direct', 'Referral', 'Organic Search', 'Social Media'],
+                colors: ['#2563eb', '#10b981', '#f59e0b', '#7c3aed'],
+                dataLabels: { enabled: false },
+                legend: { position: 'bottom', labels: { colors: '#475569' } },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: '70%',
+                            labels: {
+                                show: true,
+                                name: { show: true, fontSize: '13px', fontWeight: 600, color: '#64748b' },
+                                value: { show: true, fontSize: '18px', fontWeight: 800, color: '#0f172a', formatter: val => val + "%" },
+                                total: { show: true, label: 'Search', formatter: () => '20%' }
+                            }
+                        }
+                    }
+                }
+            };
+            var chartGaAcquisition = new ApexCharts(document.querySelector("#gaAcquisitionChart"), optionsGaAcquisition);
+            chartGaAcquisition.render();
         });
     </script>
 @endsection
