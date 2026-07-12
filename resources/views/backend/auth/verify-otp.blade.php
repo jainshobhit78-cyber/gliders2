@@ -466,13 +466,6 @@
             <a href="{{ url('admin/login') }}">
                 <img src="{{ url('backend/assets/images/logo/gliders.png') }}" alt="Gliders India Logo">
             </a>
-            <div class="system-meta">
-                <span>SYSTEM: DEFENCE GRADE PORTAL</span>
-                <span class="active-node">ACCESS NODE: GIL-ADMIN-01</span>
-            </div>
-        </div>
-        <div class="hud-header-center">
-            [ SECURE OTP VERIFICATION ]
         </div>
         <div class="hud-header-right">
             <span>SECURE LINK ENCRYPTED</span>

@@ -486,13 +486,6 @@
     <div class="hud-header">
         <div class="hud-header-left">
             <img src="{{ url('backend/assets/images/logo/gliders.png') }}" alt="Gliders India Logo">
-            <div class="system-meta">
-                <span>SYSTEM: DEFENCE GRADE PORTAL</span>
-                <span class="active-node">ACCESS NODE: GIL-ADMIN-01</span>
-            </div>
-        </div>
-        <div class="hud-header-center">
-            [ CLASSIFIED - DEFCON 3 ]
         </div>
         <div class="hud-header-right">
             <span>SECURE LINK ENCRYPTED</span>
