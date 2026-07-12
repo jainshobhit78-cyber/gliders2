@@ -139,6 +139,12 @@ class HomeController extends Controller
             // Silently catch to avoid disrupting page render
         }
 
+        try {
+            ContactMessage::where('status', 'pending')->update(['status' => 'read']);
+        } catch (\Exception $e) {
+            // Silently catch in case table columns are still migrating
+        }
+
         $messages = ContactMessage::with('product')->latest()->get();
 
         return view('backend.inquiry.index', compact('messages'));
