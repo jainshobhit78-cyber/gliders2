@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tactical Command - Admin Login</title>
+    <title>Gliders India Limited - Website Management</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -14,11 +14,10 @@
             margin: 0;
             padding: 0;
             font-family: 'Inter', sans-serif;
-            background: 
-                radial-gradient(circle at center, rgba(16, 24, 40, 0.4) 0%, rgba(5, 8, 15, 0.95) 100%),
-                url('{{ url('backend/assets/images/su-30.jpg') }}') no-repeat center center/cover;
+            background: radial-gradient(circle at center, #111a2e 0%, #070b12 100%);
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             overflow: hidden;
@@ -31,9 +30,9 @@
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             background-image: 
-                linear-gradient(rgba(18, 30, 49, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(18, 30, 49, 0.15) 1px, transparent 1px);
-            background-size: 40px 40px;
+                linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
             pointer-events: none;
             z-index: 1;
         }
@@ -43,7 +42,7 @@
             content: "";
             position: absolute;
             top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.15), transparent);
+            background: linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.1), transparent);
             animation: scan 8s linear infinite;
             z-index: 2;
             pointer-events: none;
@@ -52,6 +51,42 @@
         @keyframes scan {
             0% { top: -5%; }
             100% { top: 105%; }
+        }
+
+        /* Top Header Area outside the card */
+        .portal-header {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .portal-logo {
+            width: 130px;
+            height: auto;
+            display: block;
+            margin: 0 auto 15px auto;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+
+        .portal-header h1 {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 0 5px 0;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .portal-subtitle {
+            font-family: 'Share Tech Mono', monospace;
+            color: #00f0ff;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin: 0;
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
         }
 
         .login-wrapper {
@@ -77,9 +112,9 @@
         .bottom-right { bottom: 0; right: 0; border-left: none; border-top: none; }
 
         .login-container {
-            background: rgba(10, 16, 28, 0.85);
-            border: 1px solid rgba(0, 240, 255, 0.2);
-            padding: 35px 30px;
+            background: rgba(13, 22, 38, 0.85);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            padding: 30px 30px;
             border-radius: 4px;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -91,7 +126,7 @@
         }
 
         .login-container:hover {
-            border-color: rgba(0, 240, 255, 0.4);
+            border-color: rgba(0, 240, 255, 0.45);
         }
 
         /* Top Security Bar */
@@ -124,34 +159,14 @@
             100% { opacity: 0.4; }
         }
 
-        .logo-area {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .logo-area img {
-            max-width: 140px;
-            filter: drop-shadow(0 0 12px rgba(0, 240, 255, 0.25));
-        }
-
         h2 {
             font-family: 'Share Tech Mono', monospace;
             text-align: center;
-            margin: 0 0 5px 0;
+            margin: 0 0 20px 0;
             color: #ffffff;
-            font-size: 20px;
+            font-size: 18px;
             letter-spacing: 1px;
             text-transform: uppercase;
-        }
-
-        .subtitle {
-            text-align: center;
-            font-size: 11px;
-            color: #00f0ff;
-            font-family: 'Share Tech Mono', monospace;
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
         }
 
         .form-group {
@@ -175,7 +190,7 @@
         .form-control {
             width: 100%;
             padding: 12px 15px;
-            background: rgba(13, 20, 35, 0.9);
+            background: rgba(8, 14, 25, 0.9);
             border: 1px solid #2b3e5c;
             border-radius: 4px;
             color: #ffffff;
@@ -192,7 +207,7 @@
             border-color: #00f0ff;
             outline: none;
             box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
-            background: rgba(13, 20, 35, 1);
+            background: rgba(8, 14, 25, 1);
         }
 
         /* Password eye */
@@ -304,6 +319,13 @@
 </head>
 <body>
 
+    <!-- Header area with logo and title outside the login container -->
+    <div class="portal-header">
+        <img src="{{ url('backend/assets/images/logo/gliders.png') }}" class="portal-logo" alt="Gliders India Logo">
+        <h1>Gliders India Limited</h1>
+        <div class="portal-subtitle">Website Management</div>
+    </div>
+
     <div class="login-wrapper">
         <!-- Corner brackets for style -->
         <div class="corner-bracket top-left"></div>
@@ -320,12 +342,7 @@
                 <div>SYS_AUTH_v4.2</div>
             </div>
 
-            <div class="logo-area">
-                <img src="{{ url('backend/assets/images/logo/gliders.png') }}" alt="Gliders India">
-            </div>
-
             <h2>Access Control</h2>
-            <div class="subtitle">Official Personnel Only</div>
 
             <form method="POST" action="{{ url('admin/login') }}">
                 @csrf
