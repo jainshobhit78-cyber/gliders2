@@ -32,7 +32,7 @@ class AdminAuthController extends Controller
             'captcha' => 'required|integer'
         ]);
 
-        $key = 'login-attempts:' . $request->ip();
+        $key = 'login-attempts:' . Str::lower($request->email) . '|' . $request->ip();
 
         if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts($key, 5)) {
             $seconds = \Illuminate\Support\Facades\RateLimiter::availableIn($key);
