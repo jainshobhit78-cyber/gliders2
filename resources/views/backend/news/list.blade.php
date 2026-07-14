@@ -114,14 +114,17 @@
                                     </a>
                                 </li>
                             @endif
-                             @if(auth()->guard('admin')->user()->hasRole('admin'))
-                                 <li>
-                                     <a href="{{ url('admin/news/delete/' . $item->id) }}"
-                                         onclick="return confirm('Delete this article?')" class="btn btn-delete">
-                                         Delete
-                                     </a>
-                                 </li>
-                             @endif
+                              @if(auth()->guard('admin')->user()->hasRole('admin'))
+                                  <li>
+                                      <form action="{{ url('admin/news/delete/' . $item->id) }}" method="POST" onsubmit="return confirm('Delete this article?')" style="display: inline;">
+                                          @csrf
+                                          @method('DELETE')
+                                          <button type="submit" class="btn btn-delete" style="border: none; background: none; padding: 0; margin: 0; width: 100%; text-align: left; color: inherit; font: inherit;">
+                                              Delete
+                                          </button>
+                                      </form>
+                                  </li>
+                              @endif
 
 
                         </ul>

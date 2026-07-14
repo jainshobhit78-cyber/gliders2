@@ -78,13 +78,16 @@
                                                 @endif
 
                                                 @if(auth()->guard('admin')->user()->can('product_categories.delete'))
-                                                    <li>
-                                                        <a href="{{ url('admin/category/delete/' . $cat->id) }}"
-                                                            class="btn btn-delete" onclick="return confirm('Delete this record?')">
-                                                            Delete
-                                                        </a>
-                                                    </li>
-                                                @endif
+                                                     <li>
+                                                         <form action="{{ url('admin/category/delete/' . $cat->id) }}" method="POST" onsubmit="return confirm('Delete this record?')" style="display: inline;">
+                                                             @csrf
+                                                             @method('DELETE')
+                                                             <button type="submit" class="btn btn-delete" style="border: none; background: none; padding: 0; margin: 0; width: 100%; text-align: left; color: inherit; font: inherit;">
+                                                                 Delete
+                                                             </button>
+                                                         </form>
+                                                     </li>
+                                                 @endif
 
                                             </ul>
 
