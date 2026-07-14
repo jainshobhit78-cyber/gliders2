@@ -58,10 +58,13 @@
                             @endif
                             @if(auth()->guard('admin')->user()->can('leadership.delete'))
 
-                                <a href="{{ url('admin/about/leadership/delete/' . $leader->id) }}"
-                                    onclick="return confirm('Are you sure?')" class="btn btn-delete">
-                                    Delete
-                                </a>
+                                <form action="{{ url('admin/about/leadership/delete/' . $leader->id) }}"
+                                    method="POST" class="d-inline"
+                                    onsubmit="return confirm('Are you sure?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-delete">Delete</button>
+                                </form>
                             @endif
                         </div>
 
