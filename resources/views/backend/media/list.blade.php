@@ -110,10 +110,7 @@
 
                                                 @if(auth()->guard('admin')->user()->hasRole('admin'))
                                                     <li>
-                                                        <a href="{{ url('admin/media/delete/' . $p->id) }}" class="btn btn-delete"
-                                                            onclick="return confirm('Delete this playlist?')">
-                                                            Delete
-                                                        </a>
+                                                        <x-delete-form :action="url('admin/media/delete/' . $p->id)" class="btn btn-delete" confirm="Delete this playlist?" />
                                                     </li>
                                                 @endif
 

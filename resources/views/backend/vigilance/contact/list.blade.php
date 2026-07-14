@@ -95,12 +95,7 @@
                                             @if(auth()->guard('admin')->user()->can('vigilance_contact_details.delete'))
                                                 <li>
 
-                                                    <a href="{{ url('admin/vigilance/contact/delete/' . $contact->id) }}"
-                                                        class="btn btn-delete" onclick="return confirm('Delete this record?')">
-
-                                                        Delete
-
-                                                    </a>
+                                                    <x-delete-form :action="url('admin/vigilance/contact/delete/' . $contact->id)" class="btn btn-delete" confirm="Delete this record?" />
 
                                                 </li>
                                             @endif

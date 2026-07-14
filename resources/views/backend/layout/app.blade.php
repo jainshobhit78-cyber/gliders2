@@ -881,40 +881,21 @@
 
 
     <script>
-        $(document).on('click', 'a[href*="delete"]', function (event) {
-            event.preventDefault();
+        $(document).ready(function () {
+            $(document).on('submit', '.js-delete-form', function (event) {
+                const isSuperAdmin = {{ auth()->guard('admin')->user()->hasRole('admin') ? 'true' : 'false' }};
 
-            // Check if user is super admin
-            let isSuperAdmin = {{ auth()->guard('admin')->user()->hasRole('admin') ? 'true' : 'false' }};
-            if (!isSuperAdmin) {
-                alert("Action Denied: Sub-admins are not authorized to delete records. This action is restricted to Super Admins only.");
-                return false;
-            }
+                if (!isSuperAdmin) {
+                    event.preventDefault();
+                    alert('Action Denied: Sub-admins are not authorized to delete records. This action is restricted to Super Admins only.');
+                    return;
+                }
 
-            if (!confirm('Are you sure you want to delete this record?')) {
-                return;
-            }
-
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = this.href;
-            form.style.display = 'none';
-
-            const token = document.createElement('input');
-            token.type = 'hidden';
-            token.name = '_token';
-            token.value = document.querySelector('meta[name="csrf-token"]')?.content || '';
-
-            const method = document.createElement('input');
-            method.type = 'hidden';
-            method.name = '_method';
-            method.value = 'DELETE';
-
-            form.appendChild(token);
-            form.appendChild(method);
-            document.body.appendChild(form);
-            form.submit();
-        });
+                const message = this.dataset.confirm || 'Delete this record? This action cannot be undone.';
+                if (!confirm(message)) {
+                    event.preventDefault();
+                }
+            });
 
             const sidebar = document.querySelector('.sidebar-wrapper');
             const page = document.querySelector('.page-body-wrapper');
@@ -1080,52 +1061,6 @@
                     });
                 }
             }
-
-            // Intercept all clicks on delete links during the capturing phase (before inline onclick attributes run)
-            document.addEventListener('click', function(e) {
-                const link = e.target.closest('a');
-                if (!link) return;
-                
-                const href = link.getAttribute('href');
-                if (!href) return;
-                
-                // Match links that perform delete/destroy operations
-                if (href.includes('/delete/') || href.includes('/destroy/')) {
-                    e.preventDefault();
-                    e.stopPropagation(); // Stop event propagation to prevent inline onclick from running
-                    
-                    // Parse the confirmation message from the inline onclick attribute if present
-                    let confirmMsg = "Confirm deletion? This action cannot be undone.";
-                    const onclickAttr = link.getAttribute('onclick');
-                    if (onclickAttr && onclickAttr.includes('confirm(')) {
-                        const match = onclickAttr.match(/confirm\(['"](.*?)['"]\)/);
-                        if (match && match[1]) {
-                            confirmMsg = match[1];
-                        }
-                    }
-                    
-                    if (confirm(confirmMsg)) {
-                        const form = document.createElement('form');
-                        form.method = 'POST';
-                        form.action = href;
-                        
-                        const csrfInput = document.createElement('input');
-                        csrfInput.type = 'hidden';
-                        csrfInput.name = '_token';
-                        csrfInput.value = '{{ csrf_token() }}';
-                        form.appendChild(csrfInput);
-                        
-                        const methodInput = document.createElement('input');
-                        methodInput.type = 'hidden';
-                        methodInput.name = '_method';
-                        methodInput.value = 'DELETE';
-                        form.appendChild(methodInput);
-                        
-                        document.body.appendChild(form);
-                        form.submit();
-                    }
-                }
-            }, true);
 
         });
     </script>

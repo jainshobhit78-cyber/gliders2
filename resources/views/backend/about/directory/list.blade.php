@@ -118,10 +118,7 @@
                                             @if(auth()->guard('admin')->user()->can('directory.delete'))
                                                 <li>
 
-                                                    <a href="{{ url('admin/about/directory/delete/' . $dir->id) }}"
-                                                        class="btn btn-delete" onclick="return confirm('Delete this record?')">
-                                                        Delete
-                                                    </a>
+                                                    <x-delete-form :action="url('admin/about/directory/delete/' . $dir->id)" />
                                                 </li>
                                             @endif
 

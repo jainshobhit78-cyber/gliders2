@@ -68,10 +68,8 @@
 
                                             @if(auth()->guard('admin')->user()->can('history.delete'))
                                                 <li>
-                                                    <a href="{{ url('admin/about/history/delete/' . $history->id) }}"
-                                                        class="btn btn-delete" onclick="return confirm('Delete this history?')">
-                                                        Delete
-                                                    </a>
+                                                    <x-delete-form :action="url('admin/about/history/delete/' . $history->id)"
+                                                        confirm="Delete this history?" />
                                                 </li>
                                             @endif
 

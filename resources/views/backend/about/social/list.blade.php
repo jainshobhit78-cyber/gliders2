@@ -76,10 +76,8 @@
 
                                             @if(auth()->guard('admin')->user()->can('social_responsibility.delete'))
                                                 <li>
-                                                    <a href="{{ url('admin/about/social-responsibility/delete/' . $social->id) }}"
-                                                        class="btn btn-delete" onclick="return confirm('Delete?')">
-                                                        Delete
-                                                    </a>
+                                                    <x-delete-form :action="url('admin/about/social-responsibility/delete/' . $social->id)"
+                                                        confirm="Delete?" />
                                                 </li>
                                             @endif
 

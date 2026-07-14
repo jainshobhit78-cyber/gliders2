@@ -27,7 +27,14 @@ class AboutLeadershipController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'leader_name' => 'required|string|max:255',
+            'role' => 'nullable|string|max:255',
+            'sub_title' => 'required|string|max:255',
+            'bio' => 'nullable|string',
+            'position' => 'required|integer|min:1',
             'picture' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
+            'milestones' => 'nullable|array',
+            'milestones.*.image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
         ]);
 
         $pictureName = null;
@@ -95,7 +102,14 @@ class AboutLeadershipController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'leader_name' => 'required|string|max:255',
+            'role' => 'nullable|string|max:255',
+            'sub_title' => 'required|string|max:255',
+            'bio' => 'nullable|string',
+            'position' => 'required|integer|min:1',
             'picture' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
+            'milestones' => 'nullable|array',
+            'milestones.*.image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
         ]);
 
         $leader = AboutLeadership::findOrFail($id);
@@ -217,4 +231,3 @@ class AboutLeadershipController extends Controller
     }
 
 }
-

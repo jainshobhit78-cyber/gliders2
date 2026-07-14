@@ -82,12 +82,7 @@
                                             @if(auth()->guard('admin')->user()->can('niyam_pustak.delete'))
                                                 <li>
 
-                                                    <a href="{{ url('admin/rajshabha/niyam/delete/' . $item->id) }}"
-                                                        class="btn btn-delete" onclick="return confirm('Delete this record?')">
-
-                                                        Delete
-
-                                                    </a>
+                                                    <x-delete-form :action="url('admin/rajshabha/niyam/delete/' . $item->id)" class="btn btn-delete" confirm="Delete this record?" />
 
                                                 </li>
                                             @endif

@@ -83,12 +83,7 @@
                                             @if(auth()->guard('admin')->user()->can('careers.delete'))
                                                 <li>
 
-                                                    <a href="{{ url('admin/careers/notifications/delete/' . $item->id) }}"
-                                                        class="btn btn-delete" onclick="return confirm('Delete this record?')">
-
-                                                        Delete
-
-                                                    </a>
+                                                    <x-delete-form :action="url('admin/careers/notifications/delete/' . $item->id)" class="btn btn-delete" confirm="Delete this record?" />
 
                                                 </li>
                                             @endif

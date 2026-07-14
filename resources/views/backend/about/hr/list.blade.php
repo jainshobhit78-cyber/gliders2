@@ -56,10 +56,7 @@
                                             @if(auth()->guard('admin')->user()->can('human_resources.delete'))
 
                                                 <li>
-                                                    <a href="{{ url('admin/about/human-resources/delete/' . $hr->id) }}"
-                                                        class="btn btn-delete" onclick="return confirm('Delete this record?')">
-                                                        Delete
-                                                    </a>
+                                                    <x-delete-form :action="url('admin/about/human-resources/delete/' . $hr->id)" />
                                                 </li>
                                             @endif
                                         </ul>

@@ -142,105 +142,35 @@
 
 @section('script')
     <script>
-
         $(document).ready(function () {
-
             $('.theme-form').on('submit', function () {
-
                 if (typeof tinymce !== "undefined") {
                     tinymce.triggerSave();
                 }
-
                 $('#submitBtn').prop('disabled', true);
-
                 $('.btnText').addClass('d-none');
                 $('.btnLoader').removeClass('d-none');
-
             });
-
-
-                </select>
-
-            </div>
-
-            <div class="panel-footer">
-
-                <button class="btn btn-primary" id="submitBtn">
-
-                    <span class="btnText">
-
-                        Update Category
-
-                    </span>
-
-                    <span class="btnLoader d-none">
-
-                        <i class="fa fa-spinner fa-spin"></i>
-                        Saving...
-
-                    </span>
-
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-@endsection
-
-@section('script')
-    <script>
-
-        $(document).ready(function () {
-
-            $('.theme-form').on('submit', function () {
-
-                if (typeof tinymce !== "undefined") {
-                    tinymce.triggerSave();
-                }
-
-                $('#submitBtn').prop('disabled', true);
-
-                $('.btnText').addClass('d-none');
-                $('.btnLoader').removeClass('d-none');
-
-            });
-
-        });
-
-    </script>
-
-    <script>
-
-        $(document).ready(function () {
 
             $('#imageInput').change(function () {
-
+                if (!this.files[0]) return;
                 let reader = new FileReader();
-
                 reader.onload = function (e) {
-
                     $('#imagePreview')
                         .attr('src', e.target.result)
                         .show();
-
-                }
-
+                };
                 reader.readAsDataURL(this.files[0]);
-
             });
 
             $('#wallpaperInput').change(function () {
+                if (!this.files[0]) return;
                 let reader = new FileReader();
                 reader.onload = function (e) {
                     $('#wallpaperPreview').attr('src', e.target.result).show();
-                }
+                };
                 reader.readAsDataURL(this.files[0]);
             });
-
         });
-
     </script>
 @endsection

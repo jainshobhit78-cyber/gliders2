@@ -47,12 +47,7 @@
 
                                             <li>
 
-                                                <a href="{{ route('chatbot.delete', $faq->id) }}"
-                                                    class="btn btn-delete" onclick="return confirm('Delete this record?')">
-
-                                                    Delete
-
-                                                </a>
+                                                <x-delete-form :action="route('chatbot.delete', $faq->id)" class="btn btn-delete" confirm="Delete this record?" />
 
                                             </li>
                                         </ul>

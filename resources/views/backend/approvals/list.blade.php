@@ -64,7 +64,7 @@
                                                     <div class="d-flex gap-2">
                                                         <a href="{{ route('admin.approvals.news.approve', $article->id) }}" class="btn btn-sm btn-success" style="background: #2ecc71; color: #fff;">Approve & Publish</a>
                                                         <a href="{{ url('admin/news/edit/' . $article->id) }}" class="btn btn-sm btn-edit" style="background: #e8f0fb; color: #2A538E;">Edit</a>
-                                                        <a href="{{ url('admin/news/delete/' . $article->id) }}" class="btn btn-sm btn-delete" style="background: #fde8e8; color: #c0392b;" onclick="return confirm('Delete this record?')">Delete</a>
+                                                        <x-delete-form :action="url('admin/news/delete/' . $article->id)" class="btn btn-sm btn-delete" style="background: #fde8e8; color: #c0392b;" confirm="Delete this record?" />
                                                     </div>
                                                 </td>
                                             </tr>
@@ -108,7 +108,7 @@
                                                     <div class="d-flex gap-2">
                                                         <a href="{{ route('admin.approvals.media.approve', $playlist->id) }}" class="btn btn-sm btn-success" style="background: #2ecc71; color: #fff;">Approve & Publish</a>
                                                         <a href="{{ url('admin/media/edit/' . $playlist->id) }}" class="btn btn-sm btn-edit" style="background: #e8f0fb; color: #2A538E;">Edit</a>
-                                                        <a href="{{ url('admin/media/delete/' . $playlist->id) }}" class="btn btn-sm btn-delete" style="background: #fde8e8; color: #c0392b;" onclick="return confirm('Delete this record?')">Delete</a>
+                                                        <x-delete-form :action="url('admin/media/delete/' . $playlist->id)" class="btn btn-sm btn-delete" style="background: #fde8e8; color: #c0392b;" confirm="Delete this record?" />
                                                     </div>
                                                 </td>
                                             </tr>

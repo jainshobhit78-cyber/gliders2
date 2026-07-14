@@ -69,10 +69,7 @@
                                             @if(auth()->guard('admin')->user()->can('vision.delete'))
                                                 <li>
 
-                                                    <a href="{{ url('admin/about/vision/delete/' . $vision->id) }}"
-                                                        class="btn btn-delete" onclick="return confirm('Delete this vision?')">
-                                                        Delete
-                                                    </a>
+                                                    <x-delete-form :action="url('admin/about/vision/delete/' . $vision->id)" class="btn btn-delete" confirm="Delete this vision?" />
 
                                                 </li>
                                             @endif

@@ -79,12 +79,7 @@
                                             @if(auth()->guard('admin')->user()->can('rti_information.delete'))
                                                 <li>
 
-                                                    <a href="{{ url('admin/rti/information/delete/' . $item->id) }}"
-                                                        class="btn btn-delete" onclick="return confirm('Delete this record?')">
-
-                                                        Delete
-
-                                                    </a>
+                                                    <x-delete-form :action="url('admin/rti/information/delete/' . $item->id)" class="btn btn-delete" confirm="Delete this record?" />
 
                                                 </li>
                                             @endif

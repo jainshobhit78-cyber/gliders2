@@ -77,10 +77,7 @@
                                             @endif
                                             @if(auth()->guard('admin')->user()->can('codes_of_conduct.delete'))
                                                 <li>
-                                                    <a href="{{ url('admin/about/codes/delete/' . $code->id) }}"
-                                                        class="btn btn-delete" onclick="return confirm('Delete this record?')">
-                                                        Delete
-                                                    </a>
+                                                    <x-delete-form :action="url('admin/about/codes/delete/' . $code->id)" />
                                                 </li>
                                             @endif
 

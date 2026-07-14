@@ -76,10 +76,7 @@
 
                                             @if(auth()->guard('admin')->user()->can('vigilance_bulletin.create'))
                                                 <li>
-                                                    <a href="{{ url('admin/vigilance/bulletin/delete/' . $item->id) }}"
-                                                        class="btn btn-delete" onclick="return confirm('Delete this record?')">
-                                                        Delete
-                                                    </a>
+                                                    <x-delete-form :action="url('admin/vigilance/bulletin/delete/' . $item->id)" class="btn btn-delete" confirm="Delete this record?" />
 
                                                 </li>
                                             @endif

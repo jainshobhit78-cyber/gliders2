@@ -89,10 +89,7 @@
 
                                             @if(auth()->guard('admin')->user()->can('sexual_harassment_of_women_at_workplace.delete'))
                                                 <li>
-                                                    <a href="{{ url('admin/vigilance/harassment/delete/' . $item->id) }}"
-                                                        class="btn btn-delete" onclick="return confirm('Delete this record?')">
-                                                        Delete
-                                                    </a>
+                                                    <x-delete-form :action="url('admin/vigilance/harassment/delete/' . $item->id)" class="btn btn-delete" confirm="Delete this record?" />
                                                 </li>
                                             @endif
 

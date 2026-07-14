@@ -215,34 +215,22 @@
                 }
             }
 
-            // Image preview
-            const input = document.getElementById("pictureInput");
-
-            if (input) {
-
-                input.addEventListener("change", function (e) {
-
+            $(document)
+                .off('change.leadershipPreview', '.milestone-image-input')
+                .on('change.leadershipPreview', '.milestone-image-input', function (e) {
                     const file = e.target.files[0];
                     if (!file) return;
 
+                    const preview = this.closest('.milestone-item')?.querySelector('.milestone-image-preview');
+                    if (!preview) return;
+
                     const reader = new FileReader();
-
                     reader.onload = function (event) {
-
-                        const img = document.getElementById("imagePreview");
-
-                        if (img) {
-                            img.src = event.target.result;
-                            img.style.display = "block";
-                        }
-
+                        preview.src = event.target.result;
+                        preview.style.display = 'block';
                     };
-
                     reader.readAsDataURL(file);
-
                 });
-
-            }
 
         }
 

@@ -113,13 +113,21 @@
 
                     </div>
 
+                    <div class="mb-4 row align-items-center">
+                        <label class="form-label-title col-sm-2">Display Position</label>
+                        <div class="col-sm-10">
+                            <input type="number" name="position" value="{{ old('position', 999) }}"
+                                class="form-control" min="1" required>
+                        </div>
+                    </div>
+
                     <div class="mb-3 row align-items-center">
 
                         <label class="form-label-title col-sm-2">Bio</label>
 
                         <div class="col-sm-10">
 
-                            <textarea name="bio" id="bioEditor" class="editor form-control"
+                            <textarea name="bio" id="leaderBioEditor" class="editor form-control"
                                 placeholder="Enter Bio"></textarea>
 
                         </div>
@@ -155,7 +163,7 @@
 
                                 <div class="col-sm-10">
 
-                                    <textarea name="milestones[0][description]" id="bioEditor"
+                                    <textarea name="milestones[0][description]" id="milestoneDescription_0"
                                         class="editor form-control" placeholder="Enter Description"></textarea>
 
                                 </div>
@@ -164,10 +172,10 @@
 
                             <div class="mb-3 d-flex align-items-center">
                                 <label for="" class="col-sm-2">Image</label>
-                                <input type="file" name="milestones[0][image]" id="pictureInput" class="form-control"
+                                <input type="file" name="milestones[0][image]" class="form-control milestone-image-input"
                                     accept="image/jpeg,image/png,image/jpg,image/webp,image/svg+xml">
 
-                                <img id="imagePreview"
+                                <img class="milestone-image-preview"
                                     style="display:none;margin-top:10px;height:120px;border:1px solid #ddd;padding:4px;">
                             </div>
 
@@ -201,24 +209,6 @@
 </div>
 
 <script>
-    document.getElementById('pictureInput').addEventListener('change', function (e) {
-        const file = e.target.files[0];
-
-        if (file) {
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#imagePreview')
-                    .attr('src', e.target.result)
-                    .show();
-            };
-
-            reader.readAsDataURL(file);
-        }
-    });
-</script>
-
-<script>
     $(document).on('submit', '.theme-form', function () {
 
         $('#submitBtn').prop('disabled', true);
@@ -226,14 +216,6 @@
         $('.btnText').addClass('d-none');
         $('.btnLoader').removeClass('d-none');
 
-    });
-</script>
-
-<script>
-    document.querySelector('input[name="position"]').addEventListener('input', function () {
-        if (this.value < 1) {
-            this.value = 1;
-        }
     });
 </script>
 
@@ -265,7 +247,7 @@
 
             <div class="col-sm-10">
 
-                <textarea name="milestones[${count}][description]" id="bioEditor"
+                <textarea name="milestones[${count}][description]" id="milestoneDescription_${count}"
                     class="editor form-control" placeholder="Enter Description"></textarea>
 
             </div>
@@ -274,10 +256,10 @@
 
         <div class="mb-3 d-flex align-items-center">
             <label for="" class="col-sm-2">Image</label>
-            <input type="file" name="milestones[${count}][image]" id="pictureInput" class="form-control"
+            <input type="file" name="milestones[${count}][image]" class="form-control milestone-image-input"
             accept="image/jpeg,image/png,image/jpg,image/webp,image/svg+xml">
 
-            <img id="imagePreview"
+            <img class="milestone-image-preview"
                 style="display:none;margin-top:10px;height:120px;border:1px solid #ddd;padding:4px;">
         </div>
 
@@ -292,5 +274,6 @@
         document.getElementById('milestone-wrapper').insertAdjacentHTML('beforeend', html);
 
         count++;
+        initLeadershipScripts();
     }
 </script>

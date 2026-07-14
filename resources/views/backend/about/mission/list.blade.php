@@ -69,10 +69,8 @@
 
                                             @if(auth()->guard('admin')->user()->can('mission.delete'))
                                                 <li>
-                                                    <a href="{{ url('admin/about/mission/delete/' . $mission->id) }}"
-                                                        class="btn btn-delete" onclick="return confirm('Delete this mission?')">
-                                                        Delete
-                                                    </a>
+                                                    <x-delete-form :action="url('admin/about/mission/delete/' . $mission->id)"
+                                                        confirm="Delete this mission?" />
                                                 </li>
                                             @endif
 

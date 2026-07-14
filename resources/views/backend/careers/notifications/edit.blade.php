@@ -65,12 +65,7 @@
 
                                 </a>
 
-                                <a href="{{ url('admin/careers/notifications/file/delete/' . $file->id) }}"
-                                    class="btn btn-sm btn-danger ms-2">
-
-                                    Delete
-
-                                </a>
+                                <x-delete-form :action="url('admin/careers/notifications/file/delete/' . $file->id)" class="btn btn-sm btn-danger ms-2" />
 
                             </div>
 

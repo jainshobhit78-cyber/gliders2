@@ -116,13 +116,21 @@
 
                     </div>
 
+                    <div class="mb-4 row align-items-center">
+                        <label class="form-label-title col-sm-2">Display Position</label>
+                        <div class="col-sm-10">
+                            <input type="number" name="position" value="{{ old('position', $leader->position) }}"
+                                class="form-control" min="1" required>
+                        </div>
+                    </div>
+
                     <div class="mb-3 row align-items-center">
 
                         <label class="form-label-title col-sm-2">Bio</label>
 
                         <div class="col-sm-10">
 
-                            <textarea name="bio" id="bioEditor" class="editor form-control" placeholder="Enter Bio">
+                            <textarea name="bio" id="leaderBioEditor" class="editor form-control" placeholder="Enter Bio">
                                 {{ $leader->bio }}
                             </textarea>
 
@@ -162,7 +170,7 @@
 
                                     <div class="col-sm-10">
 
-                                        <textarea name="milestones[{{ $index }}][description]" id="bioEditor"
+                                        <textarea name="milestones[{{ $index }}][description]" id="milestoneDescription_{{ $index }}"
                                             class="editor form-control" placeholder="Enter Description">
                                                                         {{ $milestone->description }}</textarea>
 
@@ -172,17 +180,14 @@
 
                                 <div class="mb-3 d-flex align-items-center">
                                     <label for="" class="col-sm-2">Image</label>
-                                    <input type="file" name="milestones[{{ $index }}][image]" id="pictureInput"
-                                        class="form-control"
+                                    <input type="file" name="milestones[{{ $index }}][image]"
+                                        class="form-control milestone-image-input"
                                         accept="image/jpeg,image/png,image/jpg,image/webp,image/svg+xml">
 
                                     @if($milestone->image)
                                         <img src="{{ asset('uploads/milestones/' . $milestone->image) }}"
-                                            style="height:100px;margin-top:10px;" id="imagePreview">
+                                            style="height:100px;margin-top:10px;" class="milestone-image-preview">
                                     @endif
-
-                                    <!-- <img id="imagePreview"
-                                                                style="display:none;margin-top:10px;height:120px;border:1px solid #ddd;padding:4px;"> -->
                                 </div>
 
                                 <div class="milestone-actions">
@@ -235,14 +240,6 @@
 </script>
 
 <script>
-    document.querySelector('input[name="position"]').addEventListener('input', function () {
-        if (this.value < 1) {
-            this.value = 1;
-        }
-    });
-</script>
-
-<script>
     let count = {{ $leader->milestones->count() }};
 
     function addMilestone() {
@@ -271,7 +268,7 @@
 
             <div class="col-sm-10">
 
-                <textarea name="milestones[${count}][description]" id="bioEditor"
+                <textarea name="milestones[${count}][description]" id="milestoneDescription_${count}"
                     class="editor form-control" placeholder="Enter Description"></textarea>
 
             </div>
@@ -280,10 +277,10 @@
 
         <div class="mb-3 d-flex align-items-center">
             <label for="" class="col-sm-2">Image</label>
-            <input type="file" name="milestones[${count}][image]" id="pictureInput" class="form-control"
+            <input type="file" name="milestones[${count}][image]" class="form-control milestone-image-input"
             accept="image/jpeg,image/png,image/jpg,image/webp,image/svg+xml">
 
-            <img id="imagePreview"
+            <img class="milestone-image-preview"
                 style="display:none;margin-top:10px;height:120px;border:1px solid #ddd;padding:4px;">
         </div>
 
@@ -299,5 +296,6 @@
         document.getElementById('milestone-wrapper').insertAdjacentHTML('beforeend', html);
 
         count++;
+        initLeadershipScripts();
     }
 </script>

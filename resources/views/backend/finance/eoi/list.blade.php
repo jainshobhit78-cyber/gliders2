@@ -87,12 +87,7 @@
                                             @if(auth()->guard('admin')->user()->can('eoi_for_banks.delete'))
                                                 <li>
 
-                                                    <a href="{{ url('admin/finance/eoi/delete/' . $item->id) }}"
-                                                        class="btn btn-delete" onclick="return confirm('Delete this record?')">
-
-                                                        Delete
-
-                                                    </a>
+                                                    <x-delete-form :action="url('admin/finance/eoi/delete/' . $item->id)" class="btn btn-delete" confirm="Delete this record?" />
 
                                                 </li>
                                             @endif

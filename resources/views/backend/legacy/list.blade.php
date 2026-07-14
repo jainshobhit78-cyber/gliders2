@@ -61,7 +61,7 @@
                                             <td>
                                                 <div class="d-flex gap-2">
                                                     <a href="{{ $type === 'opf' ? route('admin.opf_legacy.edit', $leader->id) : route('admin.legacy.edit', $leader->id) }}" class="btn btn-sm btn-edit" style="background: #e8f0fb; color: #2A538E;">Edit</a>
-                                                    <a href="{{ $type === 'opf' ? route('admin.opf_legacy.delete', $leader->id) : route('admin.legacy.delete', $leader->id) }}" class="btn btn-sm btn-delete" style="background: #fde8e8; color: #c0392b;" onclick="return confirm('Are you sure you want to delete this leader?')">Delete</a>
+                                                    <x-delete-form :action="$type === 'opf' ? route('admin.opf_legacy.delete', $leader->id) : route('admin.legacy.delete', $leader->id)" class="btn btn-sm btn-delete" style="background: #fde8e8; color: #c0392b;" confirm="Are you sure you want to delete this leader?" />
                                                 </div>
                                             </td>
                                         </tr>

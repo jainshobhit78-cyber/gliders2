@@ -115,12 +115,7 @@
                                                     style="background: #e2dd6151; border: 1px solid #c2b53b; color: #7f6e10; padding: 2px 8px; border-radius: 4px;">
                                                 Edit
                                             </button>
-                                            <a href="{{ url('admin/home/marquee/delete/' . $item->id) }}" 
-                                               onclick="return confirm('Are you sure you want to delete this notification?')" 
-                                               class="btn btn-sm btn-delete"
-                                               style="background: #ff000018; border: 1px solid #ff000040; color: #ff0000; padding: 2px 8px; border-radius: 4px;">
-                                                Delete
-                                            </a>
+                                            <x-delete-form :action="url('admin/home/marquee/delete/' . $item->id)" class="btn btn-sm btn-delete" style="background: #ff000018; border: 1px solid #ff000040; color: #ff0000; padding: 2px 8px; border-radius: 4px;" confirm="Are you sure you want to delete this notification?" />
                                         </td>
                                     </tr>
                                 @empty

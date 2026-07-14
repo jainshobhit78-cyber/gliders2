@@ -76,10 +76,7 @@
 
                                             @if(auth()->guard('admin')->user()->can('rajshabha_rules.delete'))
                                                 <li>
-                                                    <a href="{{ url('admin/rajshabha/rules/delete/' . $item->id) }}"
-                                                        class="btn btn-delete" onclick="return confirm('Delete this record?')">
-                                                        Delete
-                                                    </a>
+                                                    <x-delete-form :action="url('admin/rajshabha/rules/delete/' . $item->id)" class="btn btn-delete" confirm="Delete this record?" />
                                                 </li>
                                             @endif
 

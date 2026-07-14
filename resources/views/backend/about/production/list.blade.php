@@ -115,10 +115,7 @@
                                 </a>
                             @endif
                             @if(auth()->guard('admin')->user()->can('production_unit.delete'))
-                                <a href="{{ url('admin/about/production-unit/delete/' . $unit->id) }}"
-                                    onclick="return confirm('Are you sure?')" class="btn btn-delete">
-                                    Delete
-                                </a>
+                                <x-delete-form :action="url('admin/about/production-unit/delete/' . $unit->id)" class="btn btn-delete" confirm="Are you sure?" />
                             @endif
                         </div>
 

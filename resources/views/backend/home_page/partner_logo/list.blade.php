@@ -92,10 +92,7 @@
 
                                             {{-- @if(auth()->guard('admin')->user()->can('key_offering.delete')) --}}
                                             <li>
-                                                <a href="{{ url('admin/home/partner_logo/delete/' . $offer->id) }}"
-                                                    class="btn btn-delete" onclick="return confirm('Delete this record?')">
-                                                    Delete
-                                                </a>
+                                                <x-delete-form :action="url('admin/home/partner_logo/delete/' . $offer->id)" class="btn btn-delete" confirm="Delete this record?" />
                                             </li>
                                             {{-- @endif --}}
 
