@@ -1081,8 +1081,8 @@
                 }
             }
 
-            // Intercept all clicks on delete links and submit them via POST with DELETE method spoofing
-            document.body.addEventListener('click', function(e) {
+            // Intercept all clicks on delete links during the capturing phase (before inline onclick attributes run)
+            document.addEventListener('click', function(e) {
                 const link = e.target.closest('a');
                 if (!link) return;
                 
@@ -1092,10 +1092,17 @@
                 // Match links that perform delete/destroy operations
                 if (href.includes('/delete/') || href.includes('/destroy/')) {
                     e.preventDefault();
+                    e.stopPropagation(); // Stop event propagation to prevent inline onclick from running
                     
-                    const confirmMsg = link.getAttribute('onclick') 
-                        ? "Are you sure you want to delete this record?" 
-                        : "Confirm deletion? This action cannot be undone.";
+                    // Parse the confirmation message from the inline onclick attribute if present
+                    let confirmMsg = "Confirm deletion? This action cannot be undone.";
+                    const onclickAttr = link.getAttribute('onclick');
+                    if (onclickAttr && onclickAttr.includes('confirm(')) {
+                        const match = onclickAttr.match(/confirm\(['"](.*?)['"]\)/);
+                        if (match && match[1]) {
+                            confirmMsg = match[1];
+                        }
+                    }
                     
                     if (confirm(confirmMsg)) {
                         const form = document.createElement('form');
@@ -1118,7 +1125,7 @@
                         form.submit();
                     }
                 }
-            });
+            }, true);
 
         });
     </script>
