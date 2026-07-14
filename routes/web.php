@@ -138,7 +138,11 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         \Illuminate\Support\Facades\Artisan::call('view:clear');
         \Illuminate\Support\Facades\Artisan::call('route:clear');
         \Illuminate\Support\Facades\Artisan::call('cache:clear');
-        return "Application cache, routes, and views successfully cleared!";
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
+        if (function_exists('opcache_reset')) {
+            @opcache_reset();
+        }
+        return "Application cache, config, routes, views, and OPcache successfully cleared!";
     });
 
     // System Settings Routes
