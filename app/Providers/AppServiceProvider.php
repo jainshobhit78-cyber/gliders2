@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Support\SystemStatus;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -50,6 +51,16 @@ class AppServiceProvider extends ServiceProvider
                     'captcha_num2' => rand(1, 10)
                 ]);
             }
+        });
+
+        view()->composer([
+            'backend.auth.forgot-password',
+            'backend.auth.login',
+            'backend.auth.reset-password',
+            'backend.auth.verify-otp',
+            'backend.layout.sidebar',
+        ], function ($view) {
+            $view->with('systemStatus', app(SystemStatus::class)->snapshot(request()));
         });
     }
 }

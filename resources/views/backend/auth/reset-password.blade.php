@@ -427,7 +427,7 @@
             </a>
         </div>
         <div class="hud-header-right">
-            <span>SECURE LINK ENCRYPTED</span>
+            <span>{{ $systemStatus['secure'] ? 'SECURE LINK ENCRYPTED' : 'CONNECTION NOT ENCRYPTED' }}</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5f728c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
         </div>
     </div>
@@ -529,10 +529,10 @@
     <!-- HUD Footer -->
     <div class="hud-footer">
         <div>
-            IP: 10.89.0.21 | LOCATION: INDIA
+            IP: {{ $systemStatus['client_ip'] }} | CONNECTION: {{ strtoupper($systemStatus['connection_label']) }}
         </div>
         <div id="live-datetime">
-            18 JUN 2025 | 14:52:31 IST
+            {{ now('Asia/Kolkata')->format('d M Y | H:i:s') }} IST
         </div>
     </div>
 
@@ -553,9 +553,9 @@
         // Live HUD Clock
         function updateClock() {
             const now = new Date();
-            const options = { day: '2-digit', month: 'short', year: 'numeric' };
+            const options = { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' };
             const dateStr = now.toLocaleDateString('en-GB', options).toUpperCase();
-            const timeStr = now.toLocaleTimeString('en-GB', { hour12: false });
+            const timeStr = now.toLocaleTimeString('en-GB', { hour12: false, timeZone: 'Asia/Kolkata' });
             document.getElementById('live-datetime').textContent = `${dateStr} | ${timeStr} IST`;
         }
         setInterval(updateClock, 1000);

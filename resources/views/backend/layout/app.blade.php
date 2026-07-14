@@ -495,6 +495,10 @@
                 padding: 1px 8px !important;
                 border-radius: 99px !important;
             }
+
+            .status-badge.status-badge-warning {
+                background: #f59e0b !important;
+            }
             
             .status-row {
                 display: flex !important;
@@ -519,6 +523,18 @@
             .row-value {
                 color: #334155 !important;
                 font-weight: 700 !important;
+            }
+
+            .row-value.status-value-online {
+                color: #059669 !important;
+            }
+
+            .row-value.status-value-warning {
+                color: #d97706 !important;
+            }
+
+            .row-value.status-value-offline {
+                color: #dc2626 !important;
             }
             
             #sidebar-uptime {
