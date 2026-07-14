@@ -24,12 +24,13 @@ class SystemStatusDisplayTest extends TestCase
         $response->assertDontSee('18 JUN 2025');
     }
 
-    public function test_uptime_is_formatted_for_the_status_card(): void
+    public function test_system_snapshot_contains_the_current_deployment_time(): void
     {
-        $seconds = (2 * 86400) + (3 * 3600) + (4 * 60) + 5;
+        $status = app(SystemStatus::class)->snapshot(request());
 
-        $this->assertSame('02D : 03H : 04M', SystemStatus::formatUptime($seconds));
-        $this->assertSame('Unavailable', SystemStatus::formatUptime(null));
+        $this->assertNotEmpty($status['deployed_at_iso']);
+        $this->assertMatchesRegularExpression('/^\d{2} [A-Z]{3} \d{2}:\d{2}$/', $status['deployed_at_label']);
+        $this->assertStringEndsWith(' IST', $status['deployed_at_title']);
     }
 
     public function test_sidebar_no_longer_contains_placeholder_status_values(): void
@@ -38,6 +39,7 @@ class SystemStatusDisplayTest extends TestCase
 
         $this->assertStringNotContainsString('15D : 04H : 32M', $sidebar);
         $this->assertStringContainsString("$"."systemStatus['database_online']", $sidebar);
-        $this->assertStringContainsString('data-uptime-seconds', $sidebar);
+        $this->assertStringContainsString('LAST DEPLOY', $sidebar);
+        $this->assertStringContainsString("$"."systemStatus['deployed_at_label']", $sidebar);
     }
 }

@@ -537,7 +537,7 @@
                 color: #dc2626 !important;
             }
             
-            #sidebar-uptime {
+            #sidebar-last-deploy {
                 font-family: 'Share Tech Mono', monospace !important;
                 color: #2563eb !important;
             }

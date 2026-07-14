@@ -470,14 +470,11 @@
                 <div class="status-row">
                     <span class="row-label">
                         <svg class="row-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                        UPTIME
+                        LAST DEPLOY
                     </span>
-                    <span class="row-value" id="sidebar-uptime"
-                        @if($systemStatus['uptime_seconds'] !== null)
-                            data-uptime-seconds="{{ $systemStatus['uptime_seconds'] }}"
-                        @endif
-                        title="Hosting server uptime">
-                        {{ $systemStatus['uptime_label'] }}
+                    <span class="row-value" id="sidebar-last-deploy"
+                        title="{{ $systemStatus['deployed_at_title'] }}">
+                        {{ $systemStatus['deployed_at_label'] }}
                     </span>
                 </div>
             </div>
@@ -500,23 +497,6 @@
 
 <script>
     (function () {
-        const uptimeElement = document.getElementById('sidebar-uptime');
-        const initialUptime = Number(uptimeElement?.dataset.uptimeSeconds);
-
-        if (uptimeElement && Number.isFinite(initialUptime) && initialUptime >= 0) {
-            const loadedAt = Date.now();
-            const renderUptime = () => {
-                const seconds = initialUptime + Math.floor((Date.now() - loadedAt) / 1000);
-                const days = Math.floor(seconds / 86400);
-                const hours = Math.floor((seconds % 86400) / 3600);
-                const minutes = Math.floor((seconds % 3600) / 60);
-                uptimeElement.textContent = `${String(days).padStart(2, '0')}D : ${String(hours).padStart(2, '0')}H : ${String(minutes).padStart(2, '0')}M`;
-            };
-
-            renderUptime();
-            window.setInterval(renderUptime, 60000);
-        }
-
         const btn = document.getElementById('userFooterToggle');
         const menu = document.getElementById('userFooterMenu');
 
