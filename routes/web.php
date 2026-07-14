@@ -83,8 +83,42 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
             abort(403, 'User does not have the right permissions.');
         }
-        \Illuminate\Support\Facades\Artisan::call('migrate');
-        return "Database migrations successfully executed!";
+        
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', [
+                '--path' => 'database/migrations/2026_07_11_010000_add_social_fields_to_general_settings.php',
+                '--force' => true
+            ]);
+            $output = "Database migrations successfully executed!";
+        } catch (\Exception $e) {
+            $output = "Artisan migration failed, attempting manual schema update. Error: " . $e->getMessage();
+        }
+
+        // Self-healing fallback: directly alter the table if migrations table is out of sync
+        try {
+            \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'social_facebook')) {
+                    $table->string('social_facebook')->nullable();
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'social_twitter')) {
+                    $table->string('social_twitter')->nullable();
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'social_instagram')) {
+                    $table->string('social_instagram')->nullable();
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'social_linkedin')) {
+                    $table->string('social_linkedin')->nullable();
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'social_youtube')) {
+                    $table->string('social_youtube')->nullable();
+                }
+            });
+            $output .= " | Schema checks and column additions successfully verified!";
+        } catch (\Exception $ex) {
+            $output .= " | Manual schema update failed: " . $ex->getMessage();
+        }
+
+        return $output;
     });
 
     Route::get('admin/fix-permissions', function () {
