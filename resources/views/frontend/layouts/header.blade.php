@@ -55,7 +55,7 @@
                             Social <span class="arrow">&#9662;</span>
                         </button>
                         <div class="social-links-list">
-<a href="{{ $headerSetting->social_facebook ?? '#' }}" target="_blank" rel="noopener noreferrer">
+<a href="{{ !empty($headerSetting->social_facebook) ? $headerSetting->social_facebook : 'https://www.facebook.com' }}" target="_blank" rel="noopener noreferrer">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="16" height="16" fill="url(#pattern0_2613_20)" />
@@ -69,7 +69,7 @@
                             </defs>
                         </svg>
                     </a>
-                    <a href="{{ $headerSetting->social_twitter ?? '#' }}" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ !empty($headerSetting->social_twitter) ? $headerSetting->social_twitter : 'https://twitter.com' }}" target="_blank" rel="noopener noreferrer">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="16" height="16" fill="url(#pattern0_2613_21)" />
@@ -86,7 +86,7 @@
 
                     </a>
 
-                    <a href="{{ $headerSetting->social_instagram ?? '#' }}" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ !empty($headerSetting->social_instagram) ? $headerSetting->social_instagram : 'https://www.instagram.com' }}" target="_blank" rel="noopener noreferrer">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="16" height="16" fill="url(#pattern0_2613_22)" />
@@ -101,7 +101,7 @@
                         </svg>
 
                     </a>
-                    <a href="{{ $headerSetting->social_linkedin ?? '#' }}" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ !empty($headerSetting->social_linkedin) ? $headerSetting->social_linkedin : 'https://www.linkedin.com' }}" target="_blank" rel="noopener noreferrer">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="16" height="16" fill="url(#pattern0_2613_23)" />
@@ -116,7 +116,7 @@
                         </svg>
 
                     </a>
-                    <a href="{{ $headerSetting->social_youtube ?? '#' }}" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ !empty($headerSetting->social_youtube) ? $headerSetting->social_youtube : 'https://www.youtube.com' }}" target="_blank" rel="noopener noreferrer">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="16" height="16" fill="url(#pattern0_2613_24)" />

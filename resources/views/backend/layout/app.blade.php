@@ -1081,6 +1081,45 @@
                 }
             }
 
+            // Intercept all clicks on delete links and submit them via POST with DELETE method spoofing
+            document.body.addEventListener('click', function(e) {
+                const link = e.target.closest('a');
+                if (!link) return;
+                
+                const href = link.getAttribute('href');
+                if (!href) return;
+                
+                // Match links that perform delete/destroy operations
+                if (href.includes('/delete/') || href.includes('/destroy/')) {
+                    e.preventDefault();
+                    
+                    const confirmMsg = link.getAttribute('onclick') 
+                        ? "Are you sure you want to delete this record?" 
+                        : "Confirm deletion? This action cannot be undone.";
+                    
+                    if (confirm(confirmMsg)) {
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = href;
+                        
+                        const csrfInput = document.createElement('input');
+                        csrfInput.type = 'hidden';
+                        csrfInput.name = '_token';
+                        csrfInput.value = '{{ csrf_token() }}';
+                        form.appendChild(csrfInput);
+                        
+                        const methodInput = document.createElement('input');
+                        methodInput.type = 'hidden';
+                        methodInput.name = '_method';
+                        methodInput.value = 'DELETE';
+                        form.appendChild(methodInput);
+                        
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                }
+            });
+
         });
     </script>
     <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
