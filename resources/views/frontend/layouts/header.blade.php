@@ -55,7 +55,8 @@
                             Social <span class="arrow">&#9662;</span>
                         </button>
                         <div class="social-links-list">
-<a href="{{ !empty($headerSetting->social_facebook) ? $headerSetting->social_facebook : 'https://www.facebook.com' }}" target="_blank" rel="noopener noreferrer">
+<a class="social-link social-link--facebook" href="{{ !empty($headerSetting->social_facebook) ? $headerSetting->social_facebook : 'https://www.facebook.com' }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
+                        <svg class="social-icon-correct" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M22 12.07C22 6.51 17.52 2 12 2S2 6.51 2 12.07C2 17.09 5.66 21.25 10.44 22v-7.02H7.9v-2.91h2.54V9.86c0-2.52 1.49-3.91 3.77-3.91 1.09 0 2.23.2 2.23.2v2.47h-1.26c-1.24 0-1.63.78-1.63 1.57v1.88h2.77l-.44 2.91h-2.33V22C18.34 21.25 22 17.09 22 12.07Z"/></svg>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="16" height="16" fill="url(#pattern0_2613_20)" />
@@ -69,7 +70,8 @@
                             </defs>
                         </svg>
                     </a>
-                    <a href="{{ !empty($headerSetting->social_twitter) ? $headerSetting->social_twitter : 'https://twitter.com' }}" target="_blank" rel="noopener noreferrer">
+                    <a class="social-link social-link--x" href="{{ !empty($headerSetting->social_twitter) ? $headerSetting->social_twitter : 'https://x.com' }}" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
+                        <svg class="social-icon-correct" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.24 2.25h3.31l-7.23 8.26 8.51 11.24h-6.66l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23Zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64Z"/></svg>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="16" height="16" fill="url(#pattern0_2613_21)" />
@@ -101,7 +103,8 @@
                         </svg>
 
                     </a>
-                    <a href="{{ !empty($headerSetting->social_linkedin) ? $headerSetting->social_linkedin : 'https://www.linkedin.com' }}" target="_blank" rel="noopener noreferrer">
+                    <a class="social-link social-link--linkedin" href="{{ !empty($headerSetting->social_linkedin) ? $headerSetting->social_linkedin : 'https://www.linkedin.com' }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+                        <svg class="social-icon-correct" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.5 8.25H3V21h3.5V8.25ZM4.75 3A2.03 2.03 0 1 0 4.75 7.06 2.03 2.03 0 0 0 4.75 3ZM21 13.69c0-3.84-2.05-5.63-4.79-5.63-2.2 0-3.19 1.21-3.74 2.06V8.25H9V21h3.47v-6.31c0-1.66.31-3.27 2.37-3.27 2.03 0 2.06 1.9 2.06 3.38V21H21v-7.31Z"/></svg>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="16" height="16" fill="url(#pattern0_2613_23)" />

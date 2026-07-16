@@ -79,4 +79,23 @@ class UploadedDocumentTest extends TestCase
         $this->assertStringContainsString('<a href="" hidden aria-hidden="true">', $header);
         $this->assertStringContainsString('.social-links-list > a:not([hidden]) svg', $styles);
     }
+
+    public function test_each_visible_social_icon_uses_its_matching_url_field(): void
+    {
+        $header = file_get_contents(resource_path('views/frontend/layouts/header.blade.php'));
+
+        $this->assertMatchesRegularExpression(
+            '/social-link--facebook.*?social_facebook.*?aria-label="Facebook"/s',
+            $header
+        );
+        $this->assertMatchesRegularExpression(
+            '/social-link--x.*?social_twitter.*?https:\/\/x\.com.*?aria-label="X"/s',
+            $header
+        );
+        $this->assertMatchesRegularExpression(
+            '/social-link--linkedin.*?social_linkedin.*?aria-label="LinkedIn"/s',
+            $header
+        );
+        $this->assertSame(3, substr_count($header, 'class="social-icon-correct"'));
+    }
 }

@@ -9274,11 +9274,15 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     flex: 1 1 0;
     align-items: center;
     justify-content: center;
+    color: #fff;
 }
 .social-links-list > a:not([hidden]) svg {
     width: clamp(18px, 1.35vw, 22px);
     height: auto;
     aspect-ratio: 1;
+}
+.social-links-list > a:not([hidden]) > svg:not(.social-icon-correct) {
+    display: none;
 }
 .social-toggle-btn {
     display: none;
