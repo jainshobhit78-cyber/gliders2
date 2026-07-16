@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,9 +19,9 @@ class HomeBusinessOfferingsTest extends TestCase
         $response->assertSee('Parachutes');
         $response->assertSee('Rubber Inflatables');
         $response->assertSee('Technical Clothing');
-        $response->assertSee(route('products.offering', 'parachutes'));
-        $response->assertSee(route('products.offering', 'rubber-inflatables'));
-        $response->assertSee(route('products.offering', 'technical-clothing'));
+        $response->assertSee(route('products.index', ['offering' => 'parachutes']));
+        $response->assertSee(route('products.index', ['offering' => 'rubber-inflatables']));
+        $response->assertSee(route('products.index', ['offering' => 'technical-clothing']));
         $response->assertSee('Our Business');
         $response->assertSee('Partners');
         $response->assertDontSee('Trusted by Forces,');
@@ -30,49 +29,67 @@ class HomeBusinessOfferingsTest extends TestCase
 
     public function test_rubber_offering_contains_floats_and_inflatable_boats_only(): void
     {
-        $rubber = ProductCategory::create(['name' => 'Rubber Products', 'status' => 'Active']);
-        $parachutes = ProductCategory::create(['name' => 'Parachute Systems', 'status' => 'Active']);
+        ProductCategory::create(['name' => 'KM Floats', 'status' => 'Active']);
+        ProductCategory::create(['name' => 'Inflatable Boats', 'status' => 'Active']);
+        ProductCategory::create(['name' => 'Parachute Systems', 'status' => 'Active']);
 
-        Product::create(['category_id' => $rubber->id, 'title' => 'KM Float Assembly']);
-        Product::create(['category_id' => $rubber->id, 'title' => 'Inflatable Assault Boat']);
-        Product::create(['category_id' => $parachutes->id, 'title' => 'Personnel Parachute']);
-
-        $response = $this->get(route('products.offering', 'rubber-inflatables'));
+        $response = $this->get(route('products.index', ['offering' => 'rubber-inflatables']));
 
         $response->assertOk();
-        $response->assertSee('KM Float Assembly');
-        $response->assertSee('Inflatable Assault Boat');
-        $response->assertDontSee('Personnel Parachute');
+        $response->assertSee('Rubber Inflatables');
+        $response->assertSee('KM Floats');
+        $response->assertSee('Inflatable Boats');
+        $response->assertDontSee('Parachute Systems');
     }
 
     public function test_parachute_offering_contains_parachute_products(): void
     {
-        $category = ProductCategory::create(['name' => 'Aerial Systems', 'status' => 'Active']);
-        Product::create(['category_id' => $category->id, 'title' => 'Brake Parachute']);
-        Product::create(['category_id' => $category->id, 'title' => 'Unrelated Navigation Unit']);
+        ProductCategory::create(['name' => 'Brake Parachutes', 'status' => 'Active']);
+        ProductCategory::create(['name' => 'Man Carrying Parachutes', 'status' => 'Active']);
+        ProductCategory::create(['name' => 'Rubber Products', 'status' => 'Active']);
 
-        $response = $this->get(route('products.offering', 'parachutes'));
+        $response = $this->get(route('products.index', ['offering' => 'parachutes']));
 
         $response->assertOk();
-        $response->assertSee('Brake Parachute');
-        $response->assertDontSee('Unrelated Navigation Unit');
+        $response->assertSee('Parachutes');
+        $response->assertSee('Brake Parachutes');
+        $response->assertSee('Man Carrying Parachutes');
+        $response->assertDontSee('Rubber Products');
     }
 
     public function test_technical_clothing_shows_coming_soon_until_products_are_added(): void
     {
-        $response = $this->get(route('products.offering', 'technical-clothing'));
+        $response = $this->get(route('products.index', ['offering' => 'technical-clothing']));
 
         $response->assertOk();
         $response->assertSee('Technical Clothing');
         $response->assertSee('Coming Soon');
 
-        $category = ProductCategory::create(['name' => 'Technical Clothing', 'status' => 'Active']);
-        Product::create(['category_id' => $category->id, 'title' => 'Protective Flight Suit']);
+        ProductCategory::create(['name' => 'Technical Clothing', 'status' => 'Active']);
 
-        $response = $this->get(route('products.offering', 'technical-clothing'));
+        $response = $this->get(route('products.index', ['offering' => 'technical-clothing']));
 
         $response->assertOk();
-        $response->assertSee('Protective Flight Suit');
-        $response->assertDontSee('Our team is preparing this product range.');
+        $response->assertSee('Technical Clothing');
+        $response->assertDontSee('New technical clothing will appear here when they are added.');
+    }
+
+    public function test_legacy_offering_url_redirects_to_the_products_page_filter(): void
+    {
+        $this->get(route('products.offering', 'parachutes'))
+            ->assertRedirect(route('products.index', ['offering' => 'parachutes']));
+    }
+
+    public function test_unfiltered_products_page_keeps_its_original_heading_and_all_categories(): void
+    {
+        ProductCategory::create(['name' => 'Brake Parachutes', 'status' => 'Active']);
+        ProductCategory::create(['name' => 'KM Floats', 'status' => 'Active']);
+
+        $response = $this->get(route('products.index'));
+
+        $response->assertOk();
+        $response->assertSee('Our Products');
+        $response->assertSee('Brake Parachutes');
+        $response->assertSee('KM Floats');
     }
 }

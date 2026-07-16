@@ -9,6 +9,14 @@
         $tagline = ($setting && $setting->products_page_tagline) ? $setting->products_page_tagline : 'MISSION READY. ALWAYS.';
         $pageTitle = ($setting && $setting->products_page_title) ? $setting->products_page_title : 'Our Products';
         $pageSubtitle = ($setting && $setting->products_page_subtitle) ? $setting->products_page_subtitle : 'Engineered with precision. Trusted by the forces. Built for every mission and environment.';
+
+        if ($definition) {
+            $tagline = 'OUR OFFERINGS';
+            $pageTitle = $definition['title'];
+            $pageSubtitle = $definition['description'];
+        }
+
+        $exploreLabel = $definition ? 'Explore ' . $definition['title'] : 'Explore All Products';
     @endphp
 
     <section class="products-directory-section py-5" style="background: url('{{ $wallpaper }}?v={{ time() }}') no-repeat center center / cover !important;">
@@ -36,14 +44,21 @@
                 </div>
                 <div class="col-lg-4 text-lg-end mb-3">
                     <a href="#categories-grid" class="mockup-explore-btn">
-                        Explore All Products
+                        {{ $exploreLabel }}
                         <span class="arrow-circle">→</span>
                     </a>
                 </div>
             </div>
 
-            <!-- CATEGORY CARD GRID (MATCHING MOCKUP PIXEL-PERFECT) -->
-            <div class="row g-4" id="categories-grid" style="position: relative; z-index: 5;">
+            @if($categories->isEmpty() && $definition)
+                <div class="products-coming-soon-panel" id="categories-grid">
+                    <span class="products-coming-soon-eyebrow">{{ $definition['title'] }}</span>
+                    <h2>Coming Soon</h2>
+                    <p>New {{ strtolower($definition['title']) }} will appear here when they are added.</p>
+                </div>
+            @else
+                <!-- CATEGORY CARD GRID (MATCHING MOCKUP PIXEL-PERFECT) -->
+                <div class="row g-4" id="categories-grid" style="position: relative; z-index: 5;">
                 
                 @foreach($categories as $category)
                     @php
@@ -118,7 +133,8 @@
                     </div>
                 @endforeach
 
-            </div>
+                </div>
+            @endif
 
         </div>
     </section>

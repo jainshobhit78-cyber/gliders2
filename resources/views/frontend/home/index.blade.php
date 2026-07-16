@@ -269,7 +269,7 @@
                                     @foreach($businessOfferings as $offering)
                                         <div class="swiper-slide">
                                             <div class="offering-card">
-                                                <a href="{{ route('products.offering', $offering['slug']) }}">
+                                                <a href="{{ route('products.index', ['offering' => $offering['slug']]) }}">
                                                     @if($offering['image'])
                                                         <img src="{{ $offering['image'] }}" alt="{{ $offering['title'] }}">
                                                     @else

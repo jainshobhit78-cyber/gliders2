@@ -519,7 +519,9 @@ Route::get('/vendors/{tab?}', [VendorController::class, 'index'])
 
 Route::prefix('products')->group(function () {
     Route::get('/', [ProductFController::class, 'index'])->name('products.index');
-    Route::get('/offering/{offering}', [ProductFController::class, 'offering'])->name('products.offering');
+    Route::get('/offering/{offering}', function (string $offering) {
+        return redirect()->route('products.index', ['offering' => $offering]);
+    })->name('products.offering');
     Route::get('/category/{id}', [ProductFController::class, 'category'])->name('products.category');
     Route::get('/category/{categoryId}/product/{productId}', [ProductFController::class, 'productDetail'])
         ->name('products.detail');

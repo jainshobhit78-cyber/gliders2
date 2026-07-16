@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\GeneralSetting;
+use Illuminate\Http\Request;
 
 class ProductFController extends Controller
 {
@@ -28,16 +29,41 @@ class ProductFController extends Controller
     ];
 
     // CATEGORY LIST PAGE
-    public function index()
+    public function index(Request $request)
     {
-        $categories = ProductCategory::where('status', 'active')
+        $offering = $request->query('offering');
+        $definition = $offering ? (self::OFFERINGS[$offering] ?? null) : null;
+
+        abort_if($offering && ! $definition, 404);
+
+        $categoriesQuery = ProductCategory::whereRaw('LOWER(status) = ?', ['active']);
+
+        if ($definition) {
+            $categoriesQuery->where(function ($query) use ($definition) {
+                foreach ($definition['keywords'] as $keyword) {
+                    $like = '%'.strtolower($keyword).'%';
+
+                    $query->orWhereRaw('LOWER(name) LIKE ?', [$like])
+                        ->orWhereRaw("LOWER(COALESCE(category_title, '')) LIKE ?", [$like])
+                        ->orWhereRaw("LOWER(COALESCE(category_subtitle, '')) LIKE ?", [$like])
+                        ->orWhereHas('products', function ($productQuery) use ($like) {
+                            $productQuery->where(function ($matchQuery) use ($like) {
+                                $matchQuery->whereRaw('LOWER(title) LIKE ?', [$like])
+                                    ->orWhereRaw("LOWER(COALESCE(description, '')) LIKE ?", [$like]);
+                            });
+                        });
+                }
+            });
+        }
+
+        $categories = $categoriesQuery
             ->orderBy('display_order', 'asc')
             ->orderBy('id', 'asc')
             ->get();
 
         $setting = GeneralSetting::first();
 
-        return view('frontend.products.index', compact('categories', 'setting'));
+        return view('frontend.products.index', compact('categories', 'setting', 'offering', 'definition'));
     }
 
     // CATEGORY PRODUCTS PAGE
@@ -51,41 +77,6 @@ class ProductFController extends Controller
             ->get();
 
         return view('frontend.products.category-products', compact('category', 'products'));
-    }
-
-    public function offering(string $offering)
-    {
-        abort_unless(array_key_exists($offering, self::OFFERINGS), 404);
-
-        $definition = self::OFFERINGS[$offering];
-        $products = Product::with(['images', 'category'])
-            ->whereHas('category', function ($query) {
-                $query->whereRaw('LOWER(status) = ?', ['active']);
-            })
-            ->where(function ($query) use ($definition) {
-                foreach ($definition['keywords'] as $keyword) {
-                    $like = '%'.strtolower($keyword).'%';
-
-                    $query->orWhereRaw('LOWER(title) LIKE ?', [$like])
-                        ->orWhereRaw("LOWER(COALESCE(description, '')) LIKE ?", [$like])
-                        ->orWhereHas('category', function ($categoryQuery) use ($like) {
-                            $categoryQuery->whereRaw('LOWER(name) LIKE ?', [$like])
-                                ->orWhereRaw("LOWER(COALESCE(category_title, '')) LIKE ?", [$like])
-                                ->orWhereRaw("LOWER(COALESCE(category_subtitle, '')) LIKE ?", [$like]);
-                        });
-                }
-            })
-            ->latest()
-            ->get();
-
-        $categories = $products->pluck('category')->filter()->unique('id')->values();
-
-        return view('frontend.products.offering-products', compact(
-            'offering',
-            'definition',
-            'products',
-            'categories'
-        ));
     }
 
     public function productDetail($categoryId, $productId)
