@@ -70,6 +70,11 @@
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="launch-tab" data-bs-toggle="tab" data-bs-target="#launch" type="button" role="tab" aria-controls="launch" aria-selected="false">
+                            <i class="fa fa-flag me-2"></i>Launch Experience
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
                         <button class="nav-link" id="products-tab" data-bs-toggle="tab" data-bs-target="#products" type="button" role="tab" aria-controls="products" aria-selected="false">
                             <i class="fa fa-shopping-bag me-2"></i>Products Page
                         </button>
@@ -207,6 +212,75 @@
                                 </div>
                             </div>
 
+                        </div>
+
+                        <!-- TAB: INDEPENDENCE DAY LAUNCH EXPERIENCE -->
+                        <div class="tab-pane fade" id="launch" role="tabpanel" aria-labelledby="launch-tab">
+                            <div class="form-group-wrapper" style="background: linear-gradient(135deg, #fff8f1 0%, #ffffff 48%, #f2fbf5 100%); border-color: #f4c89f;">
+                                <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-3">
+                                    <div>
+                                        <span class="settings-section-title"><i class="fa fa-flag me-2"></i>Independence Day Launch Experience</span>
+                                        <small class="text-muted">Show an animated tricolour welcome, Gliders India branding and a live countdown before the homepage is revealed.</small>
+                                    </div>
+                                    <span class="badge {{ $setting->launch_animation_enabled ? 'bg-success' : 'bg-secondary' }} px-3 py-2">
+                                        {{ $setting->launch_animation_enabled ? 'LIVE' : 'OFF' }}
+                                    </span>
+                                </div>
+
+                                <div class="form-check form-switch mb-4">
+                                    <input class="form-check-input" type="checkbox" name="launch_animation_enabled" id="launch_animation_enabled" style="width: 48px; height: 24px; cursor: pointer;" {{ old('launch_animation_enabled', $setting->launch_animation_enabled) ? 'checked' : '' }}>
+                                    <label class="form-check-label ms-2 align-middle" for="launch_animation_enabled" style="cursor: pointer; font-weight: 700; color: #13235b;">
+                                        Start the launch experience on the homepage
+                                    </label>
+                                </div>
+
+                                <div id="launch_experience_fields">
+                                    <div class="alert alert-info py-2 mb-4" role="alert">
+                                        Visitors see the experience once per browser session. It automatically reveals the website, and they can enter immediately using the button.
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Countdown Target <span class="text-muted">(India time)</span></label>
+                                            <input type="datetime-local" name="launch_animation_target_at" class="form-control"
+                                                value="{{ old('launch_animation_target_at', $setting->launch_animation_target_at ? $setting->launch_animation_target_at->copy()->setTimezone('Asia/Kolkata')->format('Y-m-d\TH:i') : '2026-08-15T00:00') }}">
+                                            <small class="text-muted d-block mt-1">Recommended: 15 August 2026, 12:00 AM IST.</small>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Automatically Reveal Website After</label>
+                                            <div class="input-group">
+                                                <input type="number" min="3" max="30" name="launch_animation_auto_reveal_seconds" class="form-control"
+                                                    value="{{ old('launch_animation_auto_reveal_seconds', $setting->launch_animation_auto_reveal_seconds ?? 8) }}">
+                                                <span class="input-group-text">seconds</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Main Celebration Heading</label>
+                                        <input type="text" name="launch_animation_title" class="form-control" maxlength="120"
+                                            value="{{ old('launch_animation_title', $setting->launch_animation_title ?? 'Happy Independence Day') }}">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Celebration Message</label>
+                                        <textarea name="launch_animation_message" class="form-control" rows="3" maxlength="300">{{ old('launch_animation_message', $setting->launch_animation_message ?? 'Honouring the spirit of freedom, courage and self-reliance.') }}</textarea>
+                                    </div>
+
+                                    <div class="row align-items-end">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Enter Button Text</label>
+                                            <input type="text" name="launch_animation_button_text" class="form-control" maxlength="40"
+                                                value="{{ old('launch_animation_button_text', $setting->launch_animation_button_text ?? 'Enter the Website') }}">
+                                        </div>
+                                        <div class="col-md-6 mb-3 text-md-end">
+                                            <a href="{{ route('home', ['launch_preview' => 1]) }}" target="_blank" rel="noopener" class="btn btn-outline-primary px-4">
+                                                <i class="fa fa-play me-2"></i>Preview Animation
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- TAB 3: PRODUCTS PAGE CUSTOMIZATION -->
@@ -351,6 +425,16 @@
             switchBtn.addEventListener("change", function() {
                 timerWrapper.style.display = this.checked ? "block" : "none";
             });
+        }
+
+        const launchSwitch = document.getElementById("launch_animation_enabled");
+        const launchFields = document.getElementById("launch_experience_fields");
+        if (launchSwitch && launchFields) {
+            const updateLaunchFields = function() {
+                launchFields.style.opacity = launchSwitch.checked ? "1" : "0.58";
+            };
+            launchSwitch.addEventListener("change", updateLaunchFields);
+            updateLaunchFields();
         }
     });
 </script>

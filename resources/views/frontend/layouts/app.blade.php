@@ -32,7 +32,13 @@
     @php
         $trackingSetting = \App\Models\GeneralSetting::first();
         $gaMeasurementId = $trackingSetting->google_analytics_id ?? null;
+        $launchPreview = request()->boolean('launch_preview');
+        $showLaunchExperience = request()->routeIs('home')
+            && ($launchPreview || (bool) ($trackingSetting->launch_animation_enabled ?? false));
     @endphp
+    @if($showLaunchExperience)
+        <link rel="stylesheet" href="{{ asset('frontend/css/launch-experience.css') }}?v=1">
+    @endif
     @if(!empty($gaMeasurementId))
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaMeasurementId }}"></script>
@@ -63,7 +69,10 @@
     @yield('style')
 </head>
 
-<body class="{{ request()->routeIs('home') ? 'home-page' : '' }}">
+<body class="{{ request()->routeIs('home') ? 'home-page' : '' }} {{ $showLaunchExperience ? 'launch-experience-active' : '' }}">
+    @if($showLaunchExperience)
+        @include('frontend.partials.launch-experience')
+    @endif
     <div id="root">
         @include('frontend.layouts.header')
 

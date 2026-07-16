@@ -37,6 +37,20 @@ class GeneralSetting extends Model
         'social_linkedin',
         'social_youtube',
         'twitter_feed_url',
+        'launch_animation_enabled',
+        'launch_animation_target_at',
+        'launch_animation_title',
+        'launch_animation_message',
+        'launch_animation_button_text',
+        'launch_animation_auto_reveal_seconds',
+    ];
+
+    protected $casts = [
+        'maintenance_mode' => 'boolean',
+        'election_mode' => 'boolean',
+        'launch_animation_enabled' => 'boolean',
+        'launch_animation_target_at' => 'datetime',
+        'launch_animation_auto_reveal_seconds' => 'integer',
     ];
 
     public static function isElectionMode()
