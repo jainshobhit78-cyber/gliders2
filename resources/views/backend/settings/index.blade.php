@@ -249,8 +249,8 @@
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label">Automatically Reveal Website After</label>
                                             <div class="input-group">
-                                                <input type="number" min="3" max="30" name="launch_animation_auto_reveal_seconds" class="form-control"
-                                                    value="{{ old('launch_animation_auto_reveal_seconds', $setting->launch_animation_auto_reveal_seconds ?? 8) }}">
+                                                <input type="number" min="10" max="30" name="launch_animation_auto_reveal_seconds" class="form-control"
+                                                    value="{{ old('launch_animation_auto_reveal_seconds', max(10, (int) ($setting->launch_animation_auto_reveal_seconds ?? 10))) }}">
                                                 <span class="input-group-text">seconds</span>
                                             </div>
                                         </div>

@@ -10,13 +10,16 @@
         var root = document.getElementById("root");
         var enterButton = document.getElementById("launchEnterButton");
         var autoNote = document.getElementById("launchAutoNote");
+        var ceremonySeconds = document.getElementById("launchCeremonySeconds");
         var countdown = document.getElementById("launchCountdown");
-        var autoSeconds = Math.max(3, parseInt(experience.dataset.autoReveal || "8", 10));
+        var autoSeconds = Math.max(10, parseInt(experience.dataset.autoReveal || "10", 10));
         var targetTime = Date.parse(experience.dataset.target || "");
         var countdownTimer;
         var revealTimer;
+        var celebrationTimer;
         var noteTimer;
         var revealed = false;
+        var celebrating = false;
         var targetCompleted = false;
 
         function hasBeenSeen() {
@@ -47,6 +50,7 @@
             window.clearInterval(countdownTimer);
             window.clearInterval(noteTimer);
             window.clearTimeout(revealTimer);
+            window.clearTimeout(celebrationTimer);
             markAsSeen();
             experience.classList.add("is-revealing");
             document.body.classList.add("launch-experience-revealing");
@@ -56,6 +60,17 @@
                 experience.remove();
                 document.body.classList.remove("launch-experience-active", "launch-experience-revealing");
             }, 1750);
+        }
+
+        function beginCelebration() {
+            if (revealed || celebrating) return;
+            celebrating = true;
+            window.clearInterval(noteTimer);
+            window.clearTimeout(revealTimer);
+            if (ceremonySeconds) ceremonySeconds.textContent = "0";
+            if (autoNote) autoNote.textContent = "Ribbon cut — launching now";
+            experience.classList.add("is-celebrating");
+            celebrationTimer = window.setTimeout(revealWebsite, 2600);
         }
 
         function pad(value) {
@@ -87,8 +102,6 @@
             if (distance === 0 && !targetCompleted) {
                 targetCompleted = true;
                 experience.classList.add("countdown-complete");
-                if (autoNote) autoNote.textContent = "The celebration begins now";
-                window.setTimeout(revealWebsite, 2800);
             }
         }
 
@@ -106,17 +119,22 @@
         countdownTimer = window.setInterval(updateCountdown, 1000);
 
         var remaining = autoSeconds;
+        if (ceremonySeconds) ceremonySeconds.textContent = remaining;
         noteTimer = window.setInterval(function () {
             remaining -= 1;
-            if (remaining > 0 && autoNote && !targetCompleted) {
+            if (ceremonySeconds) ceremonySeconds.textContent = Math.max(0, remaining);
+            if (remaining > 0 && autoNote) {
                 autoNote.innerHTML = "Website opens automatically in <b>" + remaining + "</b>s";
+            } else if (remaining <= 0) {
+                window.clearInterval(noteTimer);
+                beginCelebration();
             }
         }, 1000);
 
-        revealTimer = window.setTimeout(revealWebsite, autoSeconds * 1000);
-        enterButton.addEventListener("click", revealWebsite);
+        revealTimer = window.setTimeout(beginCelebration, autoSeconds * 1000);
+        enterButton.addEventListener("click", beginCelebration);
         document.addEventListener("keydown", function (event) {
-            if (event.key === "Escape") revealWebsite();
+            if (event.key === "Escape") beginCelebration();
         }, { once: true });
     });
 }());

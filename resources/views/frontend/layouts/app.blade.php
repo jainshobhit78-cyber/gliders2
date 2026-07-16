@@ -37,7 +37,7 @@
             && ($launchPreview || (bool) ($trackingSetting->launch_animation_enabled ?? false));
     @endphp
     @if($showLaunchExperience)
-        <link rel="stylesheet" href="{{ asset('frontend/css/launch-experience.css') }}?v=1">
+        <link rel="stylesheet" href="{{ asset('frontend/css/launch-experience.css') }}?v=2">
     @endif
     @if(!empty($gaMeasurementId))
         <!-- Global site tag (gtag.js) - Google Analytics -->

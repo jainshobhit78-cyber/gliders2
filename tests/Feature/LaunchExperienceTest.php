@@ -28,7 +28,10 @@ class LaunchExperienceTest extends TestCase
         $response->assertSee('Freedom Takes Flight');
         $response->assertSee('A special Independence Day message from Gliders India.');
         $response->assertSee('Experience the Website');
-        $response->assertSee('data-auto-reveal="9"', false);
+        $response->assertSee('data-auto-reveal="10"', false);
+        $response->assertSee('id="launchCeremonySeconds">10', false);
+        $response->assertSee('id="launchRibbon"', false);
+        $response->assertSee('launch-fireworks', false);
         $response->assertSee('2026-08-15T00:00:00+05:30', false);
         $response->assertSee('frontend/images/logo/gliders.png');
     }
@@ -64,9 +67,13 @@ class LaunchExperienceTest extends TestCase
 
         $this->assertStringContainsString('window.sessionStorage', $script);
         $this->assertStringContainsString('updateCountdown', $script);
+        $this->assertStringContainsString('beginCelebration', $script);
+        $this->assertStringContainsString('is-celebrating', $script);
         $this->assertStringContainsString('revealWebsite', $script);
         $this->assertStringContainsString('@media (prefers-reduced-motion: reduce)', $styles);
         $this->assertStringContainsString('launch-reveal__saffron', $styles);
+        $this->assertStringContainsString('launchRibbonCutLeft', $styles);
+        $this->assertStringContainsString('launchFireworkRay', $styles);
         $this->assertStringContainsString('name="launch_animation_enabled"', $settings);
         $this->assertStringContainsString('Preview Animation', $settings);
     }

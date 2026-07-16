@@ -49,7 +49,7 @@ class SystemSettingsController extends Controller
             'launch_animation_title' => 'nullable|string|max:120',
             'launch_animation_message' => 'nullable|string|max:300',
             'launch_animation_button_text' => 'nullable|string|max:40',
-            'launch_animation_auto_reveal_seconds' => 'nullable|integer|min:3|max:30',
+            'launch_animation_auto_reveal_seconds' => 'nullable|integer|min:10|max:30',
         ]);
 
         $launchTargetAt = $request->filled('launch_animation_target_at')
@@ -88,7 +88,7 @@ class SystemSettingsController extends Controller
             'launch_animation_title' => $request->launch_animation_title ?: 'Happy Independence Day',
             'launch_animation_message' => $request->launch_animation_message ?: 'Honouring the spirit of freedom, courage and self-reliance.',
             'launch_animation_button_text' => $request->launch_animation_button_text ?: 'Enter the Website',
-            'launch_animation_auto_reveal_seconds' => $request->launch_animation_auto_reveal_seconds ?: 8,
+            'launch_animation_auto_reveal_seconds' => $request->launch_animation_auto_reveal_seconds ?: 10,
         ];
 
         if ($request->hasFile('products_page_wallpaper')) {

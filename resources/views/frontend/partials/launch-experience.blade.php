@@ -5,7 +5,7 @@
     $launchTitle = $trackingSetting->launch_animation_title ?: 'Happy Independence Day';
     $launchMessage = $trackingSetting->launch_animation_message ?: 'Honouring the spirit of freedom, courage and self-reliance.';
     $launchButton = $trackingSetting->launch_animation_button_text ?: 'Enter the Website';
-    $launchDuration = $trackingSetting->launch_animation_auto_reveal_seconds ?: 8;
+    $launchDuration = max(10, (int) ($trackingSetting->launch_animation_auto_reveal_seconds ?: 10));
     $launchVersion = optional($trackingSetting->updated_at)->timestamp ?: 1;
 @endphp
 
@@ -44,6 +44,12 @@
                     <div class="launch-countdown__item"><strong data-launch-minutes>00</strong><span>Minutes</span></div>
                     <div class="launch-countdown__separator">:</div>
                     <div class="launch-countdown__item"><strong data-launch-seconds>00</strong><span>Seconds</span></div>
+                </div>
+
+                <div class="launch-ceremony-counter" aria-live="polite">
+                    <span>Website launch in</span>
+                    <strong id="launchCeremonySeconds">{{ $launchDuration }}</strong>
+                    <em>seconds</em>
                 </div>
 
                 <div class="launch-actions">
@@ -88,6 +94,40 @@
         </div>
     </div>
 
+    <div class="launch-ribbon" id="launchRibbon" aria-hidden="true">
+        <div class="launch-ribbon__half launch-ribbon__half--left">
+            <span class="launch-ribbon__saffron"></span><span class="launch-ribbon__white"></span><span class="launch-ribbon__green"></span>
+        </div>
+        <div class="launch-ribbon__medallion">
+            <svg class="launch-ribbon__chakra" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="39"/>
+                @for($i = 0; $i < 24; $i++)
+                    <line x1="50" y1="50" x2="50" y2="11" transform="rotate({{ $i * 15 }} 50 50)"/>
+                @endfor
+            </svg>
+            <svg class="launch-ribbon__scissors" viewBox="0 0 64 64">
+                <circle cx="15" cy="49" r="9"/><circle cx="49" cy="49" r="9"/>
+                <path d="M21 43L47 12M43 43L17 12"/>
+            </svg>
+        </div>
+        <div class="launch-ribbon__half launch-ribbon__half--right">
+            <span class="launch-ribbon__saffron"></span><span class="launch-ribbon__white"></span><span class="launch-ribbon__green"></span>
+        </div>
+    </div>
+
+    <div class="launch-fireworks" aria-hidden="true">
+        @for($burst = 1; $burst <= 5; $burst++)
+            <div class="launch-firework launch-firework--{{ $burst }}">
+                @for($ray = 0; $ray < 16; $ray++)
+                    <span style="--ray: {{ $ray }}"></span>
+                @endfor
+            </div>
+        @endfor
+        @for($confetti = 1; $confetti <= 28; $confetti++)
+            <i class="launch-confetti launch-confetti--{{ $confetti }}" style="--piece: {{ $confetti }}"></i>
+        @endfor
+    </div>
+
     <div class="launch-reveal" aria-hidden="true">
         <span class="launch-reveal__saffron"></span>
         <span class="launch-reveal__white"></span>
@@ -95,4 +135,4 @@
     </div>
 </section>
 
-<script src="{{ asset('frontend/js/launch-experience.js') }}?v=1" defer></script>
+<script src="{{ asset('frontend/js/launch-experience.js') }}?v=2" defer></script>
