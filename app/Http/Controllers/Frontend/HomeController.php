@@ -29,9 +29,58 @@ class HomeController extends Controller
 
         $products = Product::with('images')->latest()->get();
 
-        $keyOfferings = KeyOffering::where('is_home', 1)
+        $keyOfferings = KeyOffering::with('category')
+            ->where('is_home', 1)
             ->latest()
             ->get();
+
+        $offeringImage = function (array $keywords, ?string $fallback = null) use ($keyOfferings): ?string {
+            $match = $keyOfferings->first(function (KeyOffering $offering) use ($keywords): bool {
+                $searchable = strtolower(strip_tags(implode(' ', [
+                    $offering->title,
+                    $offering->description,
+                    optional($offering->category)->name,
+                ])));
+
+                foreach ($keywords as $keyword) {
+                    if (str_contains($searchable, strtolower($keyword))) {
+                        return true;
+                    }
+                }
+
+                return false;
+            });
+
+            if ($match?->image) {
+                return asset('uploads/key_offerings/'.$match->image);
+            }
+
+            return $fallback ? asset($fallback) : null;
+        };
+
+        $businessOfferings = [
+            [
+                'title' => 'Parachutes',
+                'slug' => 'parachutes',
+                'image' => $offeringImage(
+                    ['parachute', 'aerial delivery'],
+                    'uploads/key_offerings/1776004316_parachutes-aerial-delivery.png'
+                ),
+            ],
+            [
+                'title' => 'Rubber Inflatables',
+                'slug' => 'rubber-inflatables',
+                'image' => $offeringImage(
+                    ['rubber', 'inflatable', 'float', 'boat'],
+                    'uploads/products/1778135338_wallpaper_Float Assembly for KM Bridge.jpg'
+                ),
+            ],
+            [
+                'title' => 'Technical Clothing',
+                'slug' => 'technical-clothing',
+                'image' => $offeringImage(['technical clothing', 'clothing', 'garment', 'apparel']),
+            ],
+        ];
 
         $isElectionMode = \App\Models\GeneralSetting::isElectionMode();
 
@@ -64,6 +113,7 @@ class HomeController extends Controller
             'stateCounter',
             'products',
             'keyOfferings',
+            'businessOfferings',
             'latestNews',
             'playlists',
             'ourUnit',

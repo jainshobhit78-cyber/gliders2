@@ -260,22 +260,31 @@
                     <div class="col-lg-5">
                         <div class="content-box">
                             <h2 class="section-heading">
-                                Our <span>Key Offerings</span>
+                                Our <span>Offerings</span>
                             </h2>
 
                             <div class="swiper offeringSlider">
                                 <div class="swiper-wrapper">
 
-                                    @foreach($keyOfferings as $offering)
+                                    @foreach($businessOfferings as $offering)
                                         <div class="swiper-slide">
                                             <div class="offering-card">
-                                                <a href="{{ $offering->category_id ? route('products.category', $offering->category_id) : route('products.index') }}">
-                                                    <img src="{{ asset('uploads/key_offerings/' . $offering->image) }}"
-                                                        alt="{{ $offering->title }}">
+                                                <a href="{{ route('products.offering', $offering['slug']) }}">
+                                                    @if($offering['image'])
+                                                        <img src="{{ $offering['image'] }}" alt="{{ $offering['title'] }}">
+                                                    @else
+                                                        <div class="offering-coming-soon-art" aria-hidden="true">
+                                                            <svg viewBox="0 0 64 64" fill="none">
+                                                                <path d="M22 13 32 18l10-5 10 9-8 9v23H20V31l-8-9 10-9Z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+                                                                <path d="M27 16c0 4 2 7 5 7s5-3 5-7M20 31h24" stroke="currentColor" stroke-width="3"/>
+                                                            </svg>
+                                                            <span>Coming Soon</span>
+                                                        </div>
+                                                    @endif
 
                                                     <div class="offering-content">
                                                         <div class="offering-title">
-                                                            {{ Str::limit($offering->title, 38) }}
+                                                            {{ $offering['title'] }}
                                                         </div>
                                                     </div>
                                                 </a>
@@ -695,7 +704,7 @@
             <div class="container">
                 <div class="section-heading-wrap">
                     <h2 class="trusted-title">
-                        <span class="text-white">Trusted by Forces,</span> <span>Proven in Mission</span>
+                        <span class="text-white">Our Business</span> <span>Partners</span>
                     </h2>
                 </div>
 
@@ -1426,4 +1435,3 @@
     </script>
 
 @endsection
-

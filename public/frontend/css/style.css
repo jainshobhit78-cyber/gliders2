@@ -3669,6 +3669,161 @@ table td {
     z-index: 1;
 }
 
+.offering-coming-soon-art {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.88);
+    background: radial-gradient(circle at 50% 25%, #174d84 0%, #08264a 48%, #03152d 100%);
+}
+
+.offering-coming-soon-art svg {
+    width: 70px;
+    height: 70px;
+}
+
+.offering-coming-soon-art span {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+/* BUSINESS OFFERING DIRECTORY */
+.offering-directory-hero {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(80px, 10vw, 140px) 0;
+    color: #fff;
+    background:
+        radial-gradient(circle at 80% 15%, rgba(238, 104, 2, 0.3), transparent 34%),
+        linear-gradient(135deg, #001137 0%, #052e62 58%, #071a34 100%);
+}
+
+.offering-directory-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.14;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+    background-size: 42px 42px;
+}
+
+.offering-directory-hero .container {
+    position: relative;
+    z-index: 1;
+}
+
+.offering-directory-kicker,
+.coming-soon-eyebrow {
+    display: inline-block;
+    margin-bottom: 16px;
+    color: #f58220;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+}
+
+.offering-directory-hero h1 {
+    margin: 0;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+}
+
+.offering-directory-hero p {
+    max-width: 780px;
+    margin: 24px auto 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: clamp(1rem, 1.8vw, 1.25rem);
+    line-height: 1.7;
+}
+
+.offering-coming-soon-section {
+    display: flex;
+    min-height: 560px;
+    align-items: center;
+    padding: 90px 0;
+    background: linear-gradient(180deg, #f7f9fc 0%, #fff 100%);
+}
+
+.offering-coming-soon-section h2 {
+    margin: 0;
+    color: #001137;
+    font-size: clamp(4rem, 13vw, 10rem);
+    font-weight: 900;
+    line-height: 0.86;
+    letter-spacing: -0.065em;
+    text-transform: uppercase;
+}
+
+.offering-coming-soon-section p {
+    max-width: 650px;
+    margin: 34px auto 28px;
+    color: #5b6677;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.coming-soon-back-link {
+    display: inline-flex;
+    padding: 13px 24px;
+    border-radius: 999px;
+    color: #fff;
+    background: #ee6802;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.coming-soon-back-link:hover {
+    color: #fff;
+    background: #c95500;
+}
+
+.offering-products-section {
+    padding-top: 80px;
+}
+
+.offering-category-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 35px;
+}
+
+.offering-category-list span {
+    padding: 8px 15px;
+    border: 1px solid #dce4ef;
+    border-radius: 999px;
+    color: #17375e;
+    background: #f7f9fc;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.offering-product-image-placeholder {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    color: rgba(255, 255, 255, 0.84);
+    background: linear-gradient(135deg, #082a57, #001137);
+    font-size: 18px;
+    font-weight: 800;
+    text-align: center;
+}
+
 /* ================================
    DARK BOTTOM OVERLAY
 ================================ */
