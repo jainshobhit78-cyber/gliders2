@@ -49,8 +49,7 @@ class VigilanceSetupController extends Controller
 
             $file = $request->file('pdf');
 
-            $filename = $file->hashName();
-            $file->move(public_path('uploads/vigilance'), $filename);
+            $filename = \App\Support\UploadedDocument::store($file, public_path('uploads/vigilance'));
 
             $setup->pdf = $filename;
 
@@ -106,8 +105,7 @@ class VigilanceSetupController extends Controller
 
             $file = $request->file('pdf');
 
-            $filename = $file->hashName();
-            $file->move(public_path('uploads/vigilance'), $filename);
+            $filename = \App\Support\UploadedDocument::store($file, public_path('uploads/vigilance'));
 
             $setup->pdf = $filename;
 
@@ -142,4 +140,3 @@ class VigilanceSetupController extends Controller
     }
 
 }
-

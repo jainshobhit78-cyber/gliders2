@@ -38,8 +38,7 @@ class AboutCodesConductController extends Controller
 
             $file = $request->file('pdf');
 
-            $filename = $file->hashName();
-            $file->move(public_path('uploads/codes'), $filename);
+            $filename = \App\Support\UploadedDocument::store($file, public_path('uploads/codes'));
 
             $code->pdf = $filename;
 
@@ -88,8 +87,7 @@ class AboutCodesConductController extends Controller
             }
 
             $file = $request->file('pdf');
-            $filename = $file->hashName();
-            $file->move(public_path('uploads/codes'), $filename);
+            $filename = \App\Support\UploadedDocument::store($file, public_path('uploads/codes'));
 
             $code->pdf = $filename;
         }
@@ -118,4 +116,3 @@ class AboutCodesConductController extends Controller
     }
 
 }
-

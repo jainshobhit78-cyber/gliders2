@@ -43,8 +43,7 @@ class FinanceReportController extends Controller
                 // IMPORTANT CHECK
                 if ($pdf && $pdf->isValid()) {
 
-                    $name = $pdf->hashName();
-                    $pdf->move(public_path('uploads/finance'), $name);
+                    $name = \App\Support\UploadedDocument::store($pdf, public_path('uploads/finance'));
 
                     FinanceReportFile::create([
                         'report_id' => $item->id,
@@ -90,8 +89,7 @@ class FinanceReportController extends Controller
 
                 if ($pdf && $pdf->isValid()) {
 
-                    $name = $pdf->hashName();
-                    $pdf->move(public_path('uploads/finance'), $name);
+                    $name = \App\Support\UploadedDocument::store($pdf, public_path('uploads/finance'));
 
                     FinanceReportFile::create([
                         'report_id' => $item->id,
@@ -151,4 +149,3 @@ class FinanceReportController extends Controller
     }
 
 }
-

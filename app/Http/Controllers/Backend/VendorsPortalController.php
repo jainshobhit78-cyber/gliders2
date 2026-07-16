@@ -37,9 +37,7 @@ class VendorsPortalController extends Controller
 
         if ($request->hasFile('pdf')) {
 
-            $pdf = time() . '.' . $request->pdf->extension();
-
-            $request->pdf->move(public_path('uploads/vendors'), $pdf);
+            $pdf = \App\Support\UploadedDocument::store($request->file('pdf'), public_path('uploads/vendors'));
 
         }
 
@@ -79,9 +77,7 @@ class VendorsPortalController extends Controller
                 unlink(public_path('uploads/vendors/' . $item->pdf));
             }
 
-            $pdf = time() . '.' . $request->pdf->extension();
-
-            $request->pdf->move(public_path('uploads/vendors'), $pdf);
+            $pdf = \App\Support\UploadedDocument::store($request->file('pdf'), public_path('uploads/vendors'));
 
         }
 

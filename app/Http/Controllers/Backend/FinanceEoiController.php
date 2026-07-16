@@ -35,8 +35,7 @@ class FinanceEoiController extends Controller
 
             $file = $request->file('pdf');
 
-            $pdfName = $file->hashName();
-            $file->move(public_path('uploads/finance'), $pdfName);
+            $pdfName = \App\Support\UploadedDocument::store($file, public_path('uploads/finance'));
 
         }
 
@@ -81,8 +80,7 @@ class FinanceEoiController extends Controller
 
             $file = $request->file('pdf');
 
-            $pdfName = $file->hashName();
-            $file->move(public_path('uploads/finance'), $pdfName);
+            $pdfName = \App\Support\UploadedDocument::store($file, public_path('uploads/finance'));
 
             $item->pdf = $pdfName;
 
@@ -119,4 +117,3 @@ class FinanceEoiController extends Controller
     }
 
 }
-

@@ -86,7 +86,7 @@
 
                     </a>
 
-                    <a href="{{ !empty($headerSetting->social_instagram) ? $headerSetting->social_instagram : 'https://www.instagram.com' }}" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ !empty($headerSetting->social_instagram) ? $headerSetting->social_instagram : 'https://www.instagram.com' }}" target="_blank" rel="noopener noreferrer" hidden aria-hidden="true">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="16" height="16" fill="url(#pattern0_2613_22)" />
@@ -116,7 +116,7 @@
                         </svg>
 
                     </a>
-                    <a href="{{ !empty($headerSetting->social_youtube) ? $headerSetting->social_youtube : 'https://www.youtube.com' }}" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ !empty($headerSetting->social_youtube) ? $headerSetting->social_youtube : 'https://www.youtube.com' }}" target="_blank" rel="noopener noreferrer" hidden aria-hidden="true">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="16" height="16" fill="url(#pattern0_2613_24)" />
@@ -131,7 +131,7 @@
                         </svg>
 
                     </a>
-                    <a href="">
+                    <a href="" hidden aria-hidden="true">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="16" height="16" fill="url(#pattern0_2613_25)" />

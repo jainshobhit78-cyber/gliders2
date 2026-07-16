@@ -35,8 +35,7 @@ class RTIInformationController extends Controller
 
             $file = $request->file('pdf');
 
-            $filename = $file->hashName();
-            $file->move(public_path('uploads/rti'), $filename);
+            $filename = \App\Support\UploadedDocument::store($file, public_path('uploads/rti'));
 
             $item->pdf = $filename;
         }
@@ -75,8 +74,7 @@ class RTIInformationController extends Controller
 
             $file = $request->file('pdf');
 
-            $filename = $file->hashName();
-            $file->move(public_path('uploads/rti'), $filename);
+            $filename = \App\Support\UploadedDocument::store($file, public_path('uploads/rti'));
 
             $item->pdf = $filename;
         }
@@ -105,4 +103,3 @@ class RTIInformationController extends Controller
     }
 
 }
-

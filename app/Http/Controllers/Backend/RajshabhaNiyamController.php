@@ -37,9 +37,7 @@ class RajshabhaNiyamController extends Controller
 
         if ($request->hasFile('pdf')) {
 
-            $pdf = time() . '.' . $request->pdf->extension();
-
-            $request->pdf->move(public_path('uploads/rajshabha'), $pdf);
+            $pdf = \App\Support\UploadedDocument::store($request->file('pdf'), public_path('uploads/rajshabha'));
 
         }
 
@@ -79,9 +77,7 @@ class RajshabhaNiyamController extends Controller
                 unlink(public_path('uploads/rajshabha/' . $item->pdf));
             }
 
-            $pdf = time() . '.' . $request->pdf->extension();
-
-            $request->pdf->move(public_path('uploads/rajshabha'), $pdf);
+            $pdf = \App\Support\UploadedDocument::store($request->file('pdf'), public_path('uploads/rajshabha'));
 
         }
 

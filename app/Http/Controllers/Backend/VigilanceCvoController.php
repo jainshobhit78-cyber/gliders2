@@ -46,8 +46,7 @@ class VigilanceCvoController extends Controller
         if ($request->hasFile('pdf')) {
 
             $file = $request->file('pdf');
-            $filename = $file->hashName();
-            $file->move(public_path('uploads/cvo'), $filename);
+            $filename = \App\Support\UploadedDocument::store($file, public_path('uploads/cvo'));
 
             $cvo->pdf = $filename;
         }
@@ -100,8 +99,7 @@ class VigilanceCvoController extends Controller
             }
 
             $file = $request->file('pdf');
-            $filename = $file->hashName();
-            $file->move(public_path('uploads/cvo'), $filename);
+            $filename = \App\Support\UploadedDocument::store($file, public_path('uploads/cvo'));
 
             $cvo->pdf = $filename;
         }
@@ -129,4 +127,3 @@ class VigilanceCvoController extends Controller
     }
 
 }
-

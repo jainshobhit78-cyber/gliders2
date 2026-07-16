@@ -9265,7 +9265,20 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
 .social-links-list {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-around;
+    gap: 0;
+    width: 144px;
+}
+.social-links-list > a:not([hidden]) {
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+}
+.social-links-list > a:not([hidden]) svg {
+    width: clamp(18px, 1.35vw, 22px);
+    height: auto;
+    aspect-ratio: 1;
 }
 .social-toggle-btn {
     display: none;
@@ -9292,9 +9305,10 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 6px;
         padding: 10px 15px !important;
+        width: 144px !important;
         z-index: 1050;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        gap: 15px !important;
+        gap: 0 !important;
     }
     .social-container.active .social-links-list {
         display: flex !important;
