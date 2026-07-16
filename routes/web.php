@@ -85,10 +85,18 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         }
         
         try {
-            \Illuminate\Support\Facades\Artisan::call('migrate', [
-                '--path' => 'database/migrations/2026_07_11_010000_add_social_fields_to_general_settings.php',
-                '--force' => true
-            ]);
+            $migrationPaths = [
+                'database/migrations/2026_07_11_010000_add_social_fields_to_general_settings.php',
+                'database/migrations/2026_07_17_010000_add_launch_experience_to_general_settings.php',
+            ];
+
+            foreach ($migrationPaths as $migrationPath) {
+                \Illuminate\Support\Facades\Artisan::call('migrate', [
+                    '--path' => $migrationPath,
+                    '--force' => true,
+                ]);
+            }
+
             $output = "Database migrations successfully executed!";
         } catch (\Exception $e) {
             $output = "Artisan migration failed, attempting manual schema update. Error: " . $e->getMessage();
@@ -111,6 +119,24 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                 }
                 if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'social_youtube')) {
                     $table->string('social_youtube')->nullable();
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'launch_animation_enabled')) {
+                    $table->boolean('launch_animation_enabled')->default(false);
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'launch_animation_target_at')) {
+                    $table->dateTime('launch_animation_target_at')->nullable();
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'launch_animation_title')) {
+                    $table->string('launch_animation_title')->nullable();
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'launch_animation_message')) {
+                    $table->text('launch_animation_message')->nullable();
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'launch_animation_button_text')) {
+                    $table->string('launch_animation_button_text')->nullable();
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'launch_animation_auto_reveal_seconds')) {
+                    $table->unsignedSmallInteger('launch_animation_auto_reveal_seconds')->default(8);
                 }
             });
             $output .= " | Schema checks and column additions successfully verified!";
