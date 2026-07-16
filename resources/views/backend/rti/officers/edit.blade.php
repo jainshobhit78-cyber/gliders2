@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label-title">Role</label>
+                    <label class="form-label-title">Organisation</label>
                     <br>
                     <label>
                         <input type="radio" name="role" value="OPF" {{ $item->role == 'OPF' ? 'checked' : '' }}> OPF

@@ -83,7 +83,7 @@
                                                 <p><strong>Post:</strong> {{ $item->post }}</p>
                                                 <p><strong>Email:</strong> {{ $item->email }}</p>
                                                 <p><strong>Phone:</strong> {{ $item->phone }}</p>
-                                                <p><strong>Role:</strong> {{ $item->role }}</p>
+                                                <p><strong>Organisation:</strong> {{ $item->role }}</p>
 
                                             </div>
 
@@ -124,7 +124,7 @@
                                                 <p><strong>Post:</strong> {{ $item->post }}</p>
                                                 <p><strong>Email:</strong> {{ $item->email }}</p>
                                                 <p><strong>Phone:</strong> {{ $item->phone }}</p>
-                                                <p><strong>Role:</strong> {{ $item->role }}</p>
+                                                <p><strong>Organisation:</strong> {{ $item->role }}</p>
 
                                             </div>
 
