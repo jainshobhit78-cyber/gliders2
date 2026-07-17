@@ -81,7 +81,7 @@
                                                 </h4>
 
                                                 @if($item->title)
-                                                    <p><strong>Title:</strong> {{ $item->title }}</p>
+                                                    <p class="officer-title text-muted mb-2" style="font-weight: 500; font-size: 1.05rem;">{{ $item->title }}</p>
                                                 @endif
                                                 <p><strong>Post:</strong> {{ $item->post }}</p>
                                                 <p><strong>Email:</strong> {{ $item->email }}</p>
@@ -125,7 +125,7 @@
                                                 </h4>
 
                                                 @if($item->title)
-                                                    <p><strong>Title:</strong> {{ $item->title }}</p>
+                                                    <p class="officer-title text-muted mb-2" style="font-weight: 500; font-size: 1.05rem;">{{ $item->title }}</p>
                                                 @endif
                                                 <p><strong>Post:</strong> {{ $item->post }}</p>
                                                 <p><strong>Email:</strong> {{ $item->email }}</p>
