@@ -10,6 +10,13 @@ class FinanceController extends Controller
 {
     public function index($tab = 'annual-report')
     {
+        $settings = \App\Models\GeneralSetting::first();
+        $eoiEnabled = $settings ? (bool)$settings->eoi_enabled : true;
+
+        if (!$eoiEnabled && $tab === 'eoi') {
+            return redirect()->route('finance', 'annual-report');
+        }
+
         $reports = FinanceReport::with('files')
             ->orderBy('display_order', 'asc')
             ->orderBy('id', 'desc')
@@ -21,7 +28,8 @@ class FinanceController extends Controller
         return view('frontend.finance.index', compact(
             'tab',
             'reports',
-            'eois'
+            'eois',
+            'eoiEnabled'
         ));
     }
 }

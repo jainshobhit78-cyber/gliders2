@@ -14,9 +14,11 @@
                         Annual Reports
                     </a>
 
-                    <a href="{{ route('finance', 'eoi') }}" class="sidebar-item {{ $tab == 'eoi' ? 'active' : '' }}">
-                        EOI for Banks
-                    </a>
+                    @if($eoiEnabled)
+                        <a href="{{ route('finance', 'eoi') }}" class="sidebar-item {{ $tab == 'eoi' ? 'active' : '' }}">
+                            EOI for Banks
+                        </a>
+                    @endif
 
                 </div>
             </div>

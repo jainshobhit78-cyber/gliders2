@@ -12,6 +12,17 @@
 
         </div>
 
+        <div class="d-flex align-items-center gap-2">
+            <span style="font-weight: 500; font-size: 14px;">EOI for Banks Tab:</span>
+            <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" role="switch" id="toggleEoiStatus" 
+                       {{ $eoiEnabled ? 'checked' : '' }} style="cursor: pointer; width: 45px; height: 22px;">
+                <label class="form-check-label" for="toggleEoiStatus" id="eoiStatusLabel" style="font-size: 14px; font-weight: 600; margin-left: 8px;">
+                    {{ $eoiEnabled ? 'Enabled' : 'Disabled' }}
+                </label>
+            </div>
+        </div>
+
     </div>
 
 
@@ -298,6 +309,34 @@
             })
 
         })
+
+        // AJAX Toggle handler for EOI status
+        $("#toggleEoiStatus").change(function() {
+            let isChecked = $(this).is(":checked");
+            let statusText = isChecked ? "Enabled" : "Disabled";
+            $("#eoiStatusLabel").text(statusText);
+            
+            fetch("{{ route('admin.finance.toggle-eoi') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ enabled: isChecked })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    toastr.success('EOI for Banks tab ' + statusText.toLowerCase() + ' successfully.');
+                } else {
+                    toastr.error('Failed to update EOI status.');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating EOI status:', error);
+                toastr.error('Error updating EOI status.');
+            });
+        });
     </script>
 
 

@@ -43,6 +43,7 @@ class GeneralSetting extends Model
         'launch_animation_message',
         'launch_animation_button_text',
         'launch_animation_auto_reveal_seconds',
+        'eoi_enabled',
     ];
 
     protected $casts = [
@@ -51,6 +52,7 @@ class GeneralSetting extends Model
         'launch_animation_enabled' => 'boolean',
         'launch_animation_target_at' => 'datetime',
         'launch_animation_auto_reveal_seconds' => 'integer',
+        'eoi_enabled' => 'boolean',
     ];
 
     public static function isElectionMode()

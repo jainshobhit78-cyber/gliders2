@@ -119,6 +119,17 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             $output .= "Finance display order migration failed: " . $e->getMessage() . ". ";
         }
 
+        // 4. Finance EOI status toggle migration
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', [
+                '--path' => 'database/migrations/2026_07_17_030000_add_eoi_enabled_to_general_settings_table.php',
+                '--force' => true
+            ]);
+            $output .= "Finance EOI toggle migration run completed. ";
+        } catch (\Exception $e) {
+            $output .= "Finance EOI toggle migration failed: " . $e->getMessage() . ". ";
+        }
+
         // Self-healing fallback: directly alter the tables if migrations table is out of sync
         try {
             \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
@@ -136,6 +147,9 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                 }
                 if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'social_youtube')) {
                     $table->string('social_youtube')->nullable();
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'eoi_enabled')) {
+                    $table->boolean('eoi_enabled')->default(true);
                 }
             });
 
@@ -359,8 +373,18 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
 
 
     Route::get('admin/finance', function () {
-        return view('backend.finance.index');
+        $settings = \App\Models\GeneralSetting::firstOrCreate([]);
+        $eoiEnabled = $settings ? (bool)$settings->eoi_enabled : true;
+        return view('backend.finance.index', compact('eoiEnabled'));
     })->middleware('permission:finance.view,admin');
+
+    Route::post('admin/finance/toggle-eoi', function (\Illuminate\Http\Request $request) {
+        $settings = \App\Models\GeneralSetting::firstOrCreate([]);
+        $settings->update([
+            'eoi_enabled' => (bool)$request->enabled
+        ]);
+        return response()->json(['status' => 'success']);
+    })->middleware('permission:finance.view,admin')->name('admin.finance.toggle-eoi');
 
     Route::get('admin/finance/reports', [FinanceReportController::class, 'list'])->middleware('permission:annual_reports.view,admin');
     Route::get('admin/finance/reports/add', [FinanceReportController::class, 'add'])->middleware('permission:annual_reports.create,admin');
