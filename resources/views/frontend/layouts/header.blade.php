@@ -301,21 +301,17 @@
                         </a>
                     </li>
 
-                    <!-- MEDIA -->
+                    <!-- RESOURCES -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button"
                             aria-expanded="false">
-                            Media
+                            Resources
                         </a>
 
                         <ul class="dropdown-menu">
-                            @foreach(\App\Models\Playlist::all() as $playlist)
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('media', $playlist->id) }}">
-                                        {{ $playlist->name }}
-                                    </a>
-                                </li>
-                            @endforeach
+                            <li><a class="dropdown-item" href="{{ route('media') }}">Media</a></li>
+                            <li><a class="dropdown-item" href="{{ route('vigilance', 'manuals') }}">Manual</a></li>
+                            <li><a class="dropdown-item" href="{{ route('vigilance', 'manuals') }}">Policies</a></li>
                         </ul>
                     </li>
 
