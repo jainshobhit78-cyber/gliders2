@@ -368,7 +368,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
     Route::get('admin/finance/reports/edit/{id}', [FinanceReportController::class, 'edit'])->middleware('permission:annual_reports.edit,admin');
     Route::post('admin/finance/reports/update/{id}', [FinanceReportController::class, 'update'])->middleware('permission:annual_reports.edit,admin');
     Route::delete('admin/finance/reports/delete/{id}', [FinanceReportController::class, 'delete'])->middleware('permission:annual_reports.delete,admin');
-    Route::post('admin/finance/reports/reorder', [FinanceReportController::class, 'reorder'])->middleware('permission:annual_reports.edit,admin'])->name('admin.finance.reports.reorder');
+    Route::post('admin/finance/reports/reorder', [FinanceReportController::class, 'reorder'])->middleware('permission:annual_reports.edit,admin')->name('admin.finance.reports.reorder');
     Route::delete(
         'admin/finance/reports/file/delete/{id}',
         [FinanceReportController::class, 'deleteFile']
@@ -380,7 +380,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
     Route::get('admin/finance/eoi/edit/{id}', [FinanceEoiController::class, 'edit'])->middleware('permission:eoi_for_banks.edit,admin');
     Route::post('admin/finance/eoi/update/{id}', [FinanceEoiController::class, 'update'])->middleware('permission:eoi_for_banks.edit,admin');
     Route::delete('admin/finance/eoi/delete/{id}', [FinanceEoiController::class, 'delete'])->middleware('permission:eoi_for_banks.delete,admin');
-    Route::post('admin/finance/eoi/reorder', [FinanceEoiController::class, 'reorder'])->middleware('permission:eoi_for_banks.edit,admin'])->name('admin.finance.eoi.reorder');
+    Route::post('admin/finance/eoi/reorder', [FinanceEoiController::class, 'reorder'])->middleware('permission:eoi_for_banks.edit,admin')->name('admin.finance.eoi.reorder');
 
     Route::get('admin/rajshabha', function () {
         return view('backend.rajshabha.index');
