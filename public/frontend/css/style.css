@@ -5641,7 +5641,7 @@ table td {
 .scroll-top-btn {
     position: fixed;
     bottom: 25px;
-    right: 25px;
+    left: 25px;
     width: 50px;
     height: 50px;
     padding: 0;
@@ -5681,7 +5681,8 @@ table td {
         width: 46px;
         height: 46px;
         bottom: 20px;
-        right: 20px;
+        left: 20px;
+        right: auto;
         font-size: 20px;
     }
 }
