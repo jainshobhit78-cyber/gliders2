@@ -33,11 +33,6 @@
                         Independent External Monitor
                     </a>
 
-                    <a href="{{ route('vigilance', 'manuals') }}"
-                        class="sidebar-item {{ $tab == 'manuals' ? 'active' : '' }}">
-                        Manuals and Policies
-                    </a>
-
                     <a href="{{ route('vigilance', 'bulletin') }}"
                         class="sidebar-item {{ $tab == 'bulletin' ? 'active' : '' }}">
                         Vigilance Bulletin

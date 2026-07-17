@@ -310,8 +310,7 @@
 
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ route('media') }}">Media</a></li>
-                            <li><a class="dropdown-item" href="{{ route('vigilance', 'manuals') }}">Manual</a></li>
-                            <li><a class="dropdown-item" href="{{ route('vigilance', 'manuals') }}">Policies</a></li>
+                            <li><a class="dropdown-item" href="{{ route('vigilance', 'manuals') }}">Manuals and Policies</a></li>
                         </ul>
                     </li>
 
