@@ -388,7 +388,22 @@
                                 <span class="ps-2">Latest Tweets</span>
                             </h5>
                             <div style="max-height: 440px; overflow-y: auto; border-radius: 8px;">
-                                <a class="twitter-timeline" data-chrome="noheader nofooter transparent" href="{{ $settings->twitter_feed_url ?? 'https://twitter.com/Twitter' }}" data-height="430" data-theme="dark">Tweets</a>
+                                @php
+                                    $twitterFeedUrl = $settings->twitter_feed_url ?? 'https://twitter.com/Twitter';
+                                    $twitterFeedUrl = trim($twitterFeedUrl);
+                                    if (!empty($twitterFeedUrl)) {
+                                        if (str_starts_with($twitterFeedUrl, '@')) {
+                                            $twitterFeedUrl = substr($twitterFeedUrl, 1);
+                                        }
+                                        if (!str_starts_with($twitterFeedUrl, 'http://') && !str_starts_with($twitterFeedUrl, 'https://')) {
+                                            $twitterFeedUrl = 'https://twitter.com/' . $twitterFeedUrl;
+                                        }
+                                        $twitterFeedUrl = str_replace('x.com', 'twitter.com', $twitterFeedUrl);
+                                    } else {
+                                        $twitterFeedUrl = 'https://twitter.com/Twitter';
+                                    }
+                                @endphp
+                                <a class="twitter-timeline" data-chrome="noheader nofooter transparent" href="{{ $twitterFeedUrl }}" data-height="430" data-theme="dark">Tweets</a>
                                 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                             </div>
                         </div>
