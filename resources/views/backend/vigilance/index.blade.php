@@ -7,7 +7,7 @@
         <div class="d-flex align-items-center gap-3">
 
             <h5 class="mb-0 page-title">
-                Vigilance
+                {{ request('tab') == 'manuals' ? 'Manuals & Policies' : 'Vigilance' }}
             </h5>
 
         </div>
@@ -20,7 +20,7 @@
 
         <div class="card">
 
-            <div class="tabs-menu">
+            <div class="tabs-menu" @if(request('tab') == 'manuals') style="display: none;" @endif>
 
                 @if(auth()->guard('admin')->user()->can('chief_vigilance_officer.view'))
                     <button class="tab-btn active" data-url="{{ url('admin/vigilance/cvo') }}">

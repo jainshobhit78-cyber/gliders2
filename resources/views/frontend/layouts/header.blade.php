@@ -296,6 +296,12 @@
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('products.index') }}">
+                            Products
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('news.categories') }}">
                             NEWS
                         </a>
@@ -312,13 +318,6 @@
                             <li><a class="dropdown-item" href="{{ route('media') }}">Media</a></li>
                             <li><a class="dropdown-item" href="{{ route('vigilance', 'manuals') }}">Manuals and Policies</a></li>
                         </ul>
-                    </li>
-
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('products.index') }}">
-                            Products
-                        </a>
                     </li>
 
                     <!-- <li class="nav-item dropdown">
