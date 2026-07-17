@@ -4664,7 +4664,7 @@ table td {
 /* SWIPER WRAPPER CENTER FIX */
 .managementSlider {
     padding: 70px 20px;
-    overflow: visible !important;
+    overflow: hidden !important;
 }
 
 .managementSlider .swiper-wrapper {
@@ -4683,7 +4683,7 @@ table td {
 /* MAIN CARD */
 .managementSlider .leader-card {
     width: 100%;
-    max-width: 420px;
+    max-width: 400px;
     min-height: 550px;
     height: 100%;
     background: #fff;
@@ -4711,7 +4711,7 @@ table td {
 
 /* CENTER CARD PREMIUM 3D */
 .center-card {
-    transform: scale(1.08) translateY(-10px);
+    transform: translateY(-10px);
     z-index: 5;
     border: 3px solid #173c85 !important;
     box-shadow:
@@ -4722,7 +4722,7 @@ table td {
 
 /* INTERACTIVE POP-OUT HOVER EFFECT */
 .managementSlider .leader-card:hover {
-    transform: scale(1.13) translateY(-22px) !important;
+    transform: scale(1.02) translateY(-16px) !important;
     border-color: #EE6802 !important;
     box-shadow: 
         0 20px 40px rgba(0, 0, 0, 0.35),
@@ -8738,10 +8738,10 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     transform: scale(1.08) translateY(-50%);
 }
 .management-section .swiper-button-prev {
-    left: -24px !important;
+    left: 14px !important;
 }
 .management-section .swiper-button-next {
-    right: -24px !important;
+    right: 14px !important;
 }
 .management-section .swiper-pagination {
     bottom: 25px !important;

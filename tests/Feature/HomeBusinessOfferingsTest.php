@@ -103,6 +103,8 @@ class HomeBusinessOfferingsTest extends TestCase
         $styles = file_get_contents(public_path('frontend/css/style.css'));
 
         $this->assertStringContainsString('align-items: stretch;', $styles);
+        $this->assertStringContainsString('overflow: hidden !important;', $styles);
+        $this->assertStringContainsString('max-width: 400px;', $styles);
         $this->assertStringContainsString('min-height: 550px;', $styles);
         $this->assertStringContainsString('.managementSlider .leader-img img', $styles);
         $this->assertStringContainsString('object-fit: cover;', $styles);
