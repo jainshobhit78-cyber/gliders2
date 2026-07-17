@@ -19,8 +19,8 @@
                             <span>Government of India</span>
                         </a>
                         <span>|</span>
-                        <a href="https://www.mod.gov.in/dod/en" target="_blank" rel="noopener noreferrer">
-                            <span>Department of Defence</span>
+                        <a href="https://www.ddpmod.gov.in/" target="_blank" rel="noopener noreferrer">
+                            <span>Department of Defence Production</span>
                         </a>
                         <span>|</span>
                         <a href="https://www.mod.gov.in/" target="_blank" rel="noopener noreferrer">
