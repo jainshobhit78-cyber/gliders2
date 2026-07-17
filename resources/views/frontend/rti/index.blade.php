@@ -80,6 +80,9 @@
                                                     {{ $item->name }}
                                                 </h4>
 
+                                                @if($item->title)
+                                                    <p><strong>Title:</strong> {{ $item->title }}</p>
+                                                @endif
                                                 <p><strong>Post:</strong> {{ $item->post }}</p>
                                                 <p><strong>Email:</strong> {{ $item->email }}</p>
                                                 <p><strong>Phone:</strong> {{ $item->phone }}</p>
@@ -121,6 +124,9 @@
                                                     {{ $item->name }}
                                                 </h4>
 
+                                                @if($item->title)
+                                                    <p><strong>Title:</strong> {{ $item->title }}</p>
+                                                @endif
                                                 <p><strong>Post:</strong> {{ $item->post }}</p>
                                                 <p><strong>Email:</strong> {{ $item->email }}</p>
                                                 <p><strong>Phone:</strong> {{ $item->phone }}</p>
