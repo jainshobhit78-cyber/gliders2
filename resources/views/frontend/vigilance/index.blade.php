@@ -5,44 +5,46 @@
     <div class="container py-5">
         <div class="row">
 
-            <!-- SIDEBAR -->
-            <div class="col-lg-3">
-                <div class="about-sidebar">
+            @if($tab != 'manuals')
+                <!-- SIDEBAR -->
+                <div class="col-lg-3">
+                    <div class="about-sidebar">
 
-                    <a href="{{ route('vigilance', 'chief-officer') }}"
-                        class="sidebar-item {{ $tab == 'chief-officer' ? 'active' : '' }}">
-                        Chief Vigilance Officer
-                    </a>
+                        <a href="{{ route('vigilance', 'chief-officer') }}"
+                            class="sidebar-item {{ $tab == 'chief-officer' ? 'active' : '' }}">
+                            Chief Vigilance Officer
+                        </a>
 
-                    <a href="{{ route('vigilance', 'setup') }}" class="sidebar-item {{ $tab == 'setup' ? 'active' : '' }}">
-                        Vigilance Setup
-                    </a>
+                        <a href="{{ route('vigilance', 'setup') }}" class="sidebar-item {{ $tab == 'setup' ? 'active' : '' }}">
+                            Vigilance Setup
+                        </a>
 
-                    <a href="{{ route('vigilance', 'contact') }}"
-                        class="sidebar-item {{ $tab == 'contact' ? 'active' : '' }}">
-                        Contact Details
-                    </a>
+                        <a href="{{ route('vigilance', 'contact') }}"
+                            class="sidebar-item {{ $tab == 'contact' ? 'active' : '' }}">
+                            Contact Details
+                        </a>
 
-                    <a href="{{ route('vigilance', 'harassment') }}"
-                        class="sidebar-item {{ $tab == 'harassment' ? 'active' : '' }}">
-                        Sexual Harassment
-                    </a>
+                        <a href="{{ route('vigilance', 'harassment') }}"
+                            class="sidebar-item {{ $tab == 'harassment' ? 'active' : '' }}">
+                            Sexual Harassment
+                        </a>
 
-                    <a href="{{ route('vigilance', 'monitor') }}"
-                        class="sidebar-item {{ $tab == 'monitor' ? 'active' : '' }}">
-                        Independent External Monitor
-                    </a>
+                        <a href="{{ route('vigilance', 'monitor') }}"
+                            class="sidebar-item {{ $tab == 'monitor' ? 'active' : '' }}">
+                            Independent External Monitor
+                        </a>
 
-                    <a href="{{ route('vigilance', 'bulletin') }}"
-                        class="sidebar-item {{ $tab == 'bulletin' ? 'active' : '' }}">
-                        Vigilance Bulletin
-                    </a>
+                        <a href="{{ route('vigilance', 'bulletin') }}"
+                            class="sidebar-item {{ $tab == 'bulletin' ? 'active' : '' }}">
+                            Vigilance Bulletin
+                        </a>
 
+                    </div>
                 </div>
-            </div>
+            @endif
 
             <!-- CONTENT -->
-            <div class="col-lg-9">
+            <div class="{{ $tab == 'manuals' ? 'col-lg-12' : 'col-lg-9' }}">
 
                 @if($tab == 'chief-officer')
 
