@@ -97,4 +97,15 @@ class HomeBusinessOfferingsTest extends TestCase
         $response->assertSee('Brake Parachutes');
         $response->assertSee('KM Floats');
     }
+
+    public function test_homepage_leadership_cards_use_a_uniform_layout(): void
+    {
+        $styles = file_get_contents(public_path('frontend/css/style.css'));
+
+        $this->assertStringContainsString('align-items: stretch;', $styles);
+        $this->assertStringContainsString('min-height: 550px;', $styles);
+        $this->assertStringContainsString('.managementSlider .leader-img img', $styles);
+        $this->assertStringContainsString('object-fit: cover;', $styles);
+        $this->assertStringContainsString('.managementSlider .leader-card .profile-btn', $styles);
+    }
 }

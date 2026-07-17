@@ -4668,13 +4668,15 @@ table td {
 }
 
 .managementSlider .swiper-wrapper {
-    align-items: center;
+    align-items: stretch;
     padding: 70px 0;
 }
 
 .managementSlider .swiper-slide {
     display: flex;
     justify-content: center;
+    align-items: stretch;
+    height: auto;
     transition: 0.4s ease;
 }
 
@@ -4682,10 +4684,16 @@ table td {
 .managementSlider .leader-card {
     width: 100%;
     max-width: 420px;
+    min-height: 550px;
+    height: 100%;
     background: #fff;
     border-radius: 22px;
     padding: 44px 38px 40px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+    box-sizing: border-box;
     transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.45s ease, border-color 0.45s ease;
     will-change: transform, box-shadow;
     border: 1px solid rgba(0, 0, 0, 0.18);
@@ -4835,15 +4843,42 @@ table td {
 .managementSlider .leader-img {
     width: 215px;
     height: 215px;
+    min-height: 215px;
     margin-bottom: 24px;
+    flex-shrink: 0;
+}
+
+.managementSlider .leader-img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
 }
 
 .managementSlider .leader-card h3 {
     font-size: 28px;
+    line-height: 1.2;
+    min-height: 68px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .managementSlider .leader-card h5 {
     font-size: 20px;
+    line-height: 1.3;
+    min-height: 78px;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.managementSlider .leader-card .profile-btn {
+    margin-top: auto;
+    flex-shrink: 0;
 }
 
 .milestone-box {
