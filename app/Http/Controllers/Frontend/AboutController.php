@@ -19,6 +19,10 @@ class AboutController extends Controller
 {
     public function index($tab = 'leadership')
     {
+        if ($tab === 'opf-legacy') {
+            return redirect()->route('about', 'legacy');
+        }
+
         $leaders = AboutLeadership::with('milestones')
             ->orderBy('position')
             ->get();

@@ -17,9 +17,7 @@
                     <a href="{{ route('about', 'leadership') }}"
                         class="sidebar-item {{ $tab == 'leadership' ? 'active' : '' }}">Leadership</a>
                     <a href="{{ route('about', 'legacy') }}"
-                        class="sidebar-item {{ $tab == 'legacy' ? 'active' : '' }}">Legacy</a>
-                    <a href="{{ route('about', 'opf-legacy') }}"
-                        class="sidebar-item {{ $tab == 'opf-legacy' ? 'active' : '' }}">OPF Legacy</a>
+                        class="sidebar-item {{ $tab == 'legacy' || $tab == 'opf-legacy' ? 'active' : '' }}">Legacy</a>
                     <a href="{{ route('about', 'production') }}"
                         class="sidebar-item {{ $tab == 'production' ? 'active' : '' }}">Production Unit</a>
                     <a href="{{ route('about', 'history') }}"
@@ -238,15 +236,20 @@
                             <div class="legacy-deco-mountain"></div>
                             <svg class="legacy-deco-chute" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#0b2a5b" stroke-width="1"><path d="M2 9a10 10 0 0 1 20 0Z"/><path d="M2 9l10 2M22 9l-10 2M7 9l5 2M17 9l-5 2"/><path d="M12 11v7"/><path d="M9 18h6"/></svg>
                             <svg class="legacy-deco-plane" width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#0b2a5b" stroke-width="1"><path d="M2 13l9-2 4-9 2 1-2 8 6 1v2l-6 1 2 8-2 1-4-9-9-2Z"/></svg>
-                            @if($tab == 'opf-legacy')
-                                <h1>{{ $legacySetting->hero_title ?? 'OPF GM' }} <span class="legacy-accent">{{ $legacySetting->hero_accent ?? 'Legacy' }}</span></h1>
-                                <p class="legacy-sub">{{ $legacySetting->hero_subtitle ?? 'Honouring the General Managers of Ordnance Parachute Factory (OPF)' }}</p>
-                            @else
-                                <h1>Gliders India <span class="legacy-accent">Legacy</span></h1>
-                                <p class="legacy-sub">Honouring the Chairman & Managing Directors (CMDs) who have led Gliders India Limited since 2021</p>
-                            @endif
+                            <h1 id="legacyHeroTitle">Gliders India <span class="legacy-accent">Legacy</span></h1>
+                            <p class="legacy-sub" id="legacyHeroSub">Honouring the Chairman & Managing Directors (CMDs) who have led Gliders India Limited since 2021</p>
                             <div class="legacy-rule"></div>
                         </section>
+
+                        {{-- Legacy Toggle Buttons --}}
+                        <div class="leader-tabs-container mb-5" style="max-width: 500px; margin: 0 auto 30px auto;">
+                            <button class="leader-tab-btn active" id="btnLegacyGliders" onclick="switchLegacy('gliders')">
+                                Gliders India
+                            </button>
+                            <button class="leader-tab-btn" id="btnLegacyOPF" onclick="switchLegacy('opf')">
+                                OPF
+                            </button>
+                        </div>
 
                         <!-- ===== SLIDER ===== -->
                         <section class="legacy-slider-section">
@@ -894,8 +897,11 @@
     }
 
     // Data from controller
-    const legacyLeaders = @json($tab === 'opf-legacy' ? $opfLegacy : $glidersLegacy);
+    const glidersLegacy = @json($glidersLegacy);
+    const opfLegacy = @json($opfLegacy);
+    const legacySetting = @json($legacySetting);
 
+    let legacyLeaders = glidersLegacy;
     let legacyActivePos = 0;
 
     function legacyAvatarHTML(l) {
@@ -905,45 +911,88 @@
         return l.initials || '?';
     }
 
-    /* ---------- BUILD SLIDER CARDS ---------- */
+    let legacyCardEls = [];
+    let legacyDotEls = [];
+
     const legacyTrack = document.getElementById('legacySliderTrack');
-    if (legacyTrack) {
-        legacyLeaders.forEach((l, pos) => {
-          const card = document.createElement('div');
-          card.className = 'legacy-leader-card';
-          card.innerHTML = `
-            <div class="legacy-avatar" style="background:${l.color || '#0b2a5b'}">${legacyAvatarHTML(l)}</div>
-            <h4>${l.name}</h4>
-            <div class="legacy-role">${l.role}</div>
-            <div class="legacy-years">${l.tenure_start} – ${l.tenure_end || 'Present'}</div>
-          `;
-          card.addEventListener('click', () => legacySetActive(pos));
-          legacyTrack.appendChild(card);
-        });
-    }
-    const legacyCardEls = legacyTrack ? Array.from(legacyTrack.children) : [];
-
-    /* ---------- DOTS ---------- */
     const legacyDotsWrap = document.getElementById('legacyDots');
-    if (legacyDotsWrap) {
-        legacyLeaders.forEach((l, pos) => {
-          const d = document.createElement('button');
-          d.addEventListener('click', () => legacySetActive(pos));
-          legacyDotsWrap.appendChild(d);
-        });
-    }
-    const legacyDotEls = legacyDotsWrap ? Array.from(legacyDotsWrap.children) : [];
-
-    /* ---------- TIMELINE ---------- */
     const legacyTimelineEl = document.getElementById('legacyTimeline');
     const legacyTimelineWrapEl = document.getElementById('legacyTimelineWrap');
     const legacyTimelineSubEl = document.getElementById('legacyTimelineSub');
-
-    /* ---------- DETAIL PANEL RENDER ---------- */
     const legacyDetailPanel = document.getElementById('legacyDetailPanel');
     const legacyAchvList = document.getElementById('legacyAchvList');
     const legacyFocusGrid = document.getElementById('legacyFocusGrid');
     const legacyStatsBar = document.getElementById('legacyStatsBar');
+
+    function initLegacy(type) {
+        // Update active class on buttons
+        const btnGliders = document.getElementById('btnLegacyGliders');
+        const btnOPF = document.getElementById('btnLegacyOPF');
+        if (btnGliders) btnGliders.classList.toggle('active', type === 'gliders');
+        if (btnOPF) btnOPF.classList.toggle('active', type === 'opf');
+
+        // Update hero title and sub
+        const heroTitle = document.getElementById('legacyHeroTitle');
+        const heroSub = document.getElementById('legacyHeroSub');
+        if (type === 'opf') {
+            if (heroTitle) heroTitle.innerHTML = `${legacySetting?.hero_title || 'OPF GM'} <span class="legacy-accent">${legacySetting?.hero_accent || 'Legacy'}</span>`;
+            if (heroSub) heroSub.textContent = legacySetting?.hero_subtitle || 'Honouring the General Managers of Ordnance Parachute Factory (OPF)';
+            legacyLeaders = opfLegacy;
+        } else {
+            if (heroTitle) heroTitle.innerHTML = `Gliders India <span class="legacy-accent">Legacy</span>`;
+            if (heroSub) heroSub.textContent = 'Honouring the Chairman & Managing Directors (CMDs) who have led Gliders India Limited since 2021';
+            legacyLeaders = glidersLegacy;
+        }
+
+        // Clear track and dots
+        if (legacyTrack) legacyTrack.innerHTML = '';
+        if (legacyDotsWrap) legacyDotsWrap.innerHTML = '';
+
+        // Build slider cards
+        if (legacyTrack) {
+            legacyLeaders.forEach((l, pos) => {
+              const card = document.createElement('div');
+              card.className = 'legacy-leader-card';
+              card.innerHTML = `
+                <div class="legacy-avatar" style="background:${l.color || '#0b2a5b'}">${legacyAvatarHTML(l)}</div>
+                <h4>${l.name}</h4>
+                <div class="legacy-role">${l.role}</div>
+                <div class="legacy-years">${l.tenure_start} – ${l.tenure_end || 'Present'}</div>
+              `;
+              card.addEventListener('click', () => legacySetActive(pos));
+              legacyTrack.appendChild(card);
+            });
+        }
+        legacyCardEls = legacyTrack ? Array.from(legacyTrack.children) : [];
+
+        // Build dots
+        if (legacyDotsWrap) {
+            legacyLeaders.forEach((l, pos) => {
+              const d = document.createElement('button');
+              d.addEventListener('click', () => legacySetActive(pos));
+              legacyDotsWrap.appendChild(d);
+            });
+        }
+        legacyDotEls = legacyDotsWrap ? Array.from(legacyDotsWrap.children) : [];
+
+        // Paint first item
+        legacyActivePos = 0;
+        if (legacyLeaders.length > 0) {
+            legacyPaintDetail(legacyLeaders[legacyActivePos]);
+            legacySetActive(legacyActivePos);
+        } else {
+            if (legacyDetailPanel) legacyDetailPanel.innerHTML = '';
+            if (legacyAchvList) legacyAchvList.innerHTML = '';
+            if (legacyFocusGrid) legacyFocusGrid.innerHTML = '';
+            if (legacyStatsBar) legacyStatsBar.innerHTML = '';
+            if (legacyTimelineEl) legacyTimelineEl.innerHTML = '';
+            if (legacyTimelineSubEl) legacyTimelineSubEl.innerHTML = '';
+        }
+    }
+
+    window.switchLegacy = function(type) {
+        initLegacy(type);
+    };
 
     function legacyPaintDetail(l) {
       if (!legacyDetailPanel) return;
@@ -1063,10 +1112,7 @@
     }
 
     /* ---------- INIT ---------- */
-    if (legacyLeaders.length > 0) {
-        legacyPaintDetail(legacyLeaders[legacyActivePos]);
-        legacySetActive(legacyActivePos);
-    }
+    initLegacy('gliders');
     </script>
 
 @endsection
