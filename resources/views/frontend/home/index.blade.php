@@ -405,6 +405,12 @@
                                 @endphp
                                 <a class="twitter-timeline" data-chrome="noheader nofooter transparent" href="{{ $twitterFeedUrl }}" data-height="430" data-theme="dark">Tweets</a>
                                 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                                
+                                <div class="mt-2 py-3 border-top text-center">
+                                    <a href="{{ str_replace('twitter.com', 'x.com', $twitterFeedUrl) }}" target="_blank" class="btn btn-outline-light btn-sm rounded-pill px-4" style="border-color: rgba(255,255,255,0.3); font-size: 14px; font-weight: 500;">
+                                        View on X (Twitter)
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div><!-- RIGHT VIDEO -->
