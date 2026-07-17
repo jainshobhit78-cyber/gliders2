@@ -17,7 +17,13 @@
 
             <div class="tabs-menu">
                 @if(auth()->guard('admin')->user()->can('careers.view'))
-                    <button class="tab-btn active" data-url="{{ url('admin/careers/notifications') }}">
+                    <button class="tab-btn active" data-url="{{ url('admin/careers/recruitment') }}">
+                        Recruitment
+                    </button>
+                    <button class="tab-btn" data-url="{{ url('admin/careers/internship') }}">
+                        Internships
+                    </button>
+                    <button class="tab-btn" data-url="{{ url('admin/careers/notifications') }}">
                         Notifications
                     </button>
                 @endif
@@ -226,13 +232,10 @@
 
 
         $(document).on("click", ".backCareer", function () {
-
-            $.get("{{ url('admin/careers/notifications') }}", function (res) {
-
+            let activeUrl = $(".tab-btn.active").data("url");
+            $.get(activeUrl, function (res) {
                 $("#ajaxContent").html(res)
-
             })
-
         })
     </script>
 @endsection

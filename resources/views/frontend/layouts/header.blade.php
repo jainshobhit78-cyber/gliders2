@@ -371,6 +371,17 @@
                             @endif
                         </ul>
                     </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button"
+                            aria-expanded="false">CAREERS</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('careers', 'recruitment') }}">Recruitment</a></li>
+                            <li><a class="dropdown-item" href="{{ route('careers', 'internship') }}">Internships</a></li>
+                            <li><a class="dropdown-item" href="{{ route('careers', 'notifications') }}">General Notifications</a></li>
+                        </ul>
+                    </li>
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button"
                             aria-expanded="false">Connect</a>
@@ -378,8 +389,6 @@
                             <li><a class="dropdown-item" href="{{ route('vigilance', 'chief-officer') }}">Chief
                                     Vigilance Officer</a></li>
                             <li><a class="dropdown-item" href="{{ route('rti', 'officers') }}">RTI Officers</a></li>
-                            <li><a class="dropdown-item" href="{{ route('careers', 'notifications') }}">Notification</a>
-                            </li>
                         </ul>
                     </li>
 

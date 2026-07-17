@@ -18,6 +18,7 @@ use App\Http\Controllers\Backend\AboutSocialResponsibilityController;
 use App\Http\Controllers\Backend\AboutVisionController;
 use App\Http\Controllers\Backend\AdminAuthController;
 use App\Http\Controllers\Backend\CareerNotificationController;
+use App\Http\Controllers\Backend\CareerJobController;
 use App\Http\Controllers\Backend\FinanceEoiController;
 use App\Http\Controllers\Backend\FinanceReportController;
 use App\Http\Controllers\Backend\RajshabhaNiyamController;
@@ -141,6 +142,17 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             $output .= "Contact Messages Company/Location migration failed: " . $e->getMessage() . ". ";
         }
 
+        // 6. Career Jobs table migration
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', [
+                '--path' => 'database/migrations/2026_07_17_050000_create_career_jobs_table.php',
+                '--force' => true
+            ]);
+            $output .= "Career Jobs migration run completed. ";
+        } catch (\Exception $e) {
+            $output .= "Career Jobs migration failed: " . $e->getMessage() . ". ";
+        }
+
         // Self-healing fallback: directly alter the tables if migrations table is out of sync
         try {
             \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
@@ -184,6 +196,20 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                     $table->string('location')->nullable()->after('company_name');
                 }
             });
+
+            if (!\Illuminate\Support\Facades\Schema::hasTable('career_jobs')) {
+                \Illuminate\Support\Facades\Schema::create('career_jobs', function ($table) {
+                    $table->id();
+                    $table->string('type')->default('recruitment');
+                    $table->string('title');
+                    $table->text('job_info')->nullable();
+                    $table->text('eligibility')->nullable();
+                    $table->date('last_date')->nullable();
+                    $table->string('pdf')->nullable();
+                    $table->boolean('status')->default(true);
+                    $table->timestamps();
+                });
+            }
 
             $output .= " | Schema checks and column additions successfully verified!";
         } catch (\Exception $ex) {
@@ -390,6 +416,14 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         [CareerNotificationController::class, 'deleteFile']
     )->middleware('permission:careers.delete,admin');
     Route::delete('admin/careers/notifications/delete/{id}', [CareerNotificationController::class, 'delete'])->middleware('permission:careers.delete,admin');
+
+    Route::get('admin/careers/recruitment', [CareerJobController::class, 'recruitmentList'])->middleware('permission:careers.view,admin');
+    Route::get('admin/careers/internship', [CareerJobController::class, 'internshipList'])->middleware('permission:careers.view,admin');
+    Route::get('admin/careers/jobs/add', [CareerJobController::class, 'add'])->middleware('permission:careers.create,admin');
+    Route::post('admin/careers/jobs/add', [CareerJobController::class, 'store'])->middleware('permission:careers.create,admin');
+    Route::get('admin/careers/jobs/edit/{id}', [CareerJobController::class, 'edit'])->middleware('permission:careers.edit,admin');
+    Route::post('admin/careers/jobs/update/{id}', [CareerJobController::class, 'update'])->middleware('permission:careers.edit,admin');
+    Route::delete('admin/careers/jobs/delete/{id}', [CareerJobController::class, 'delete'])->middleware('permission:careers.delete,admin');
 
 
     Route::get('admin/finance', function () {
