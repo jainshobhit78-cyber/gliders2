@@ -130,6 +130,17 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             $output .= "Finance EOI toggle migration failed: " . $e->getMessage() . ". ";
         }
 
+        // 5. Contact Messages Company/Location columns migration
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', [
+                '--path' => 'database/migrations/2026_07_17_040000_add_company_and_location_to_contact_messages_table.php',
+                '--force' => true
+            ]);
+            $output .= "Contact Messages Company/Location migration run completed. ";
+        } catch (\Exception $e) {
+            $output .= "Contact Messages Company/Location migration failed: " . $e->getMessage() . ". ";
+        }
+
         // Self-healing fallback: directly alter the tables if migrations table is out of sync
         try {
             \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
@@ -162,6 +173,15 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             \Illuminate\Support\Facades\Schema::table('finance_eoi', function ($table) {
                 if (!\Illuminate\Support\Facades\Schema::hasColumn('finance_eoi', 'display_order')) {
                     $table->integer('display_order')->default(999);
+                }
+            });
+
+            \Illuminate\Support\Facades\Schema::table('contact_messages', function ($table) {
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('contact_messages', 'company_name')) {
+                    $table->string('company_name')->nullable()->after('name');
+                }
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('contact_messages', 'location')) {
+                    $table->string('location')->nullable()->after('company_name');
                 }
             });
 

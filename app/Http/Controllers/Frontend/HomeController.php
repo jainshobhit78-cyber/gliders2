@@ -129,6 +129,8 @@ class HomeController extends Controller
             'product_id' => 'nullable|integer|exists:products,id',
             'subject' => 'nullable|string|max:255',
             'name' => 'required|string|max:255',
+            'company_name' => 'nullable|string|max:255',
+            'location' => 'nullable|string|max:255',
             'email' => 'required|email',
             'phone' => 'required|string|max:20',
             'message' => 'required|string',
@@ -151,6 +153,8 @@ class HomeController extends Controller
         ContactMessage::create([
             'product_id' => $request->product_id,
             'name' => $request->name,
+            'company_name' => $request->company_name,
+            'location' => $request->location,
             'email' => $request->email,
             'subject' => $request->subject ?? 'General Inquiry',
             'phone' => $request->phone,

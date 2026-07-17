@@ -51,6 +51,12 @@
                                     </td>
                                     <td style="padding: 15px 10px;">
                                         <div class="fw-bold" style="color: #212529;">{{ $message->name }}</div>
+                                        @if($message->company_name)
+                                            <div style="font-size: 12px; color: #6c757d;"><i class="bi bi-building me-1"></i>{{ $message->company_name }}</div>
+                                        @endif
+                                        @if($message->location)
+                                            <div style="font-size: 12px; color: #6c757d;"><i class="bi bi-geo-alt-fill me-1"></i>{{ $message->location }}</div>
+                                        @endif
                                         <div style="font-size: 12px; color: #0b2a5b;"><i class="bi bi-envelope-fill me-1"></i>{{ $message->email }}</div>
                                         <div class="text-muted" style="font-size: 12px;"><i class="bi bi-telephone-fill me-1"></i>{{ $message->phone }}</div>
                                     </td>
@@ -106,6 +112,12 @@
                                                         <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
                                                             <div>
                                                                 <h6 class="mb-0 fw-bold" style="color: #081d40; font-size: 14.5px;">{{ $message->name }}</h6>
+                                                                @if($message->company_name || $message->location)
+                                                                    <div class="text-muted mb-1" style="font-size: 12px;">
+                                                                        @if($message->company_name)<strong>Company:</strong> {{ $message->company_name }} @endif
+                                                                        @if($message->location) | <strong>Location:</strong> {{ $message->location }} @endif
+                                                                    </div>
+                                                                @endif
                                                                 <span class="text-muted" style="font-size: 12px;">{{ $message->email }} | {{ $message->phone }}</span>
                                                             </div>
                                                             <div class="text-end">

@@ -745,10 +745,12 @@
                             <form action="{{ route('contact.store') }}" method="POST">
                                 @csrf
 
-                                <input type="text" name="name" placeholder="Your Name" required>
-                                <input type="email" name="email" placeholder="Your Email" required>
-                                <input type="text" name="phone" placeholder="Phone Number" required>
-                                <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+                                <input type="text" name="name" placeholder="Your Name" value="{{ old('name') }}" required>
+                                <input type="text" name="company_name" placeholder="Company Name" value="{{ old('company_name') }}">
+                                <input type="text" name="location" placeholder="Location" value="{{ old('location') }}">
+                                <input type="email" name="email" placeholder="Your Email" value="{{ old('email') }}" required>
+                                <input type="text" name="phone" placeholder="Phone Number" value="{{ old('phone') }}" required>
+                                <textarea name="message" rows="5" placeholder="Your Message" required>{{ old('message') }}</textarea>
 
                                 @error('captcha')
                                     <div class="alert alert-danger p-2" style="font-size: 13px; margin-bottom: 10px; background: rgba(220, 53, 69, 0.2); border: 1px solid rgba(220, 53, 69, 0.4); color: #ff8080;">{{ $message }}</div>
