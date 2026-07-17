@@ -4657,7 +4657,7 @@ table td {
 }
 
 .management-section {
-    padding-top: 64px;
+    padding: 72px 0 88px;
     /* background: #eef4ff; */
 }
 
@@ -4681,10 +4681,10 @@ table td {
 /* MAIN CARD */
 .managementSlider .leader-card {
     width: 100%;
-    max-width: 380px;
+    max-width: 420px;
     background: #fff;
     border-radius: 22px;
-    padding: 35px 30px;
+    padding: 44px 38px 40px;
     position: relative;
     transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.45s ease, border-color 0.45s ease;
     will-change: transform, box-shadow;
@@ -4830,6 +4830,20 @@ table td {
     letter-spacing: 0%;
     text-align: center;
 
+}
+
+.managementSlider .leader-img {
+    width: 215px;
+    height: 215px;
+    margin-bottom: 24px;
+}
+
+.managementSlider .leader-card h3 {
+    font-size: 28px;
+}
+
+.managementSlider .leader-card h5 {
+    font-size: 20px;
 }
 
 .milestone-box {
@@ -7180,14 +7194,33 @@ table td {
     display: none !important;
 }
 
+.our-products-section .products-title-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 12px;
+}
+
+.our-products-section .products-title-line .section-title {
+    margin-bottom: 0 !important;
+}
+
 .our-products-section .section-subtitle-text {
     font-family: 'Outfit', sans-serif !important;
-    font-size: 22px !important;
+    font-size: clamp(22px, 1.55vw, 25px) !important;
     color: #4a5568 !important;
     line-height: 1.6 !important;
     font-weight: 400 !important;
     margin: 0 !important;
-    max-width: 800px !important;
+    max-width: none !important;
+}
+
+@media (min-width: 1200px) {
+    .our-products-section .section-subtitle-text {
+        white-space: nowrap;
+        letter-spacing: -0.25px;
+    }
 }
 
 .our-products-section .premium-heading {
@@ -7774,16 +7807,16 @@ table td {
         text-align: center !important;
         line-height: 1.5 !important;
     }
+    .our-products-section .products-title-line {
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 12px;
+    }
     .our-products-section .products-header-row {
         justify-content: center !important;
         text-align: center !important;
         margin-bottom: 25px !important;
         gap: 15px !important;
-    }
-    .our-products-section .header-right-col {
-        width: 100% !important;
-        display: flex !important;
-        justify-content: center !important;
     }
     
     /* 3. Premium Product Slider Cards */

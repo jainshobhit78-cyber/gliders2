@@ -117,22 +117,22 @@
                 @endphp
                 
                 <!-- TOP HEADER ROW -->
-                <div class="products-header-row mb-5 d-flex justify-content-between align-items-end flex-wrap gap-4">
+                <div class="products-header-row mb-5">
                     <div class="header-left-col">
-                        <h2 class="section-title">
-                            {{ $productsPrefix }} <span>{{ $productsSuffix }}</span>
-                        </h2>
+                        <div class="products-title-line">
+                            <h2 class="section-title">
+                                {{ $productsPrefix }} <span>{{ $productsSuffix }}</span>
+                            </h2>
+                            <a href="{{ route('products.index') }}" class="btn-explore-all">
+                                <span>Explore All Products</span>
+                                <span class="explore-arrow">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                </span>
+                            </a>
+                        </div>
                         <p class="section-subtitle-text">
                             {{ $productsSubtitleText }}
                         </p>
-                    </div>
-                    <div class="header-right-col">
-                        <a href="{{ route('products.index') }}" class="btn-explore-all">
-                            <span>Explore All Products</span>
-                            <span class="explore-arrow">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                            </span>
-                        </a>
                     </div>
                 </div>
 
@@ -623,78 +623,6 @@
         <!-- <div class="section-divider">
                                                             <span></span>
                                                         </div> -->
-
-        <section class="trust-highlights-section">
-            <div class="container">
-                <div class="trust-highlights-box">
-
-                    <div class="trust-item">
-                        <div class="trust-icon">
-                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M20.0013 23.3346V26.668C14.4785 26.668 10.0013 31.1451 10.0013 36.668H6.66797C6.66797 29.3041 12.6375 23.3346 20.0013 23.3346ZM20.0013 21.668C14.4763 21.668 10.0013 17.193 10.0013 11.668C10.0013 6.14297 14.4763 1.66797 20.0013 1.66797C25.5263 1.66797 30.0013 6.14297 30.0013 11.668C30.0013 17.193 25.5263 21.668 20.0013 21.668ZM20.0013 18.3346C23.6846 18.3346 26.668 15.3513 26.668 11.668C26.668 7.98464 23.6846 5.0013 20.0013 5.0013C16.318 5.0013 13.3346 7.98464 13.3346 11.668C13.3346 15.3513 16.318 18.3346 20.0013 18.3346ZM30.0013 35.8346L25.1031 38.4098L26.0386 32.9555L22.0758 29.0928L27.5521 28.2971L30.0013 23.3346L32.4505 28.2971L37.9268 29.0928L33.964 32.9555L34.8995 38.4098L30.0013 35.8346Z"
-                                    fill="#EE6802" />
-                            </svg>
-
-                        </div>
-                        <div class="trust-content">
-                            <h4>Experienced</h4>
-                            <p>Leadership Team</p>
-                        </div>
-                    </div>
-
-                    <div class="trust-divider"></div>
-
-                    <div class="trust-item">
-                        <div class="trust-icon">
-                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M21.6758 28.2342V31.6705H30.0091V35.0038H10.0091V31.6705H18.3425V28.2342C11.7653 27.414 6.67578 21.8033 6.67578 15.0039V5.00391H33.3425V15.0039C33.3425 21.8033 28.253 27.414 21.6758 28.2342ZM10.0091 8.33724V15.0039C10.0091 20.5268 14.4863 25.0038 20.0091 25.0038C25.532 25.0038 30.0091 20.5268 30.0091 15.0039V8.33724H10.0091ZM1.67578 8.33724H5.00911V15.0039H1.67578V8.33724ZM35.0091 8.33724H38.3425V15.0039H35.0091V8.33724Z"
-                                    fill="#EE6802" />
-                            </svg>
-
-                        </div>
-                        <div class="trust-content">
-                            <h4>Commitment to</h4>
-                            <p>Excellence & Quality</p>
-                        </div>
-                    </div>
-
-                    <div class="trust-divider"></div>
-
-                    <div class="trust-item">
-                        <div class="trust-icon">
-                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M20.0013 11.667C27.3651 11.667 33.3346 17.6365 33.3346 25.0004C33.3346 32.3642 27.3651 38.3337 20.0013 38.3337C12.6375 38.3337 6.66797 32.3642 6.66797 25.0004C6.66797 17.6365 12.6375 11.667 20.0013 11.667ZM20.0013 15.0004C14.4785 15.0004 10.0013 19.4775 10.0013 25.0004C10.0013 30.5232 14.4785 35.0004 20.0013 35.0004C25.5241 35.0004 30.0013 30.5232 30.0013 25.0004C30.0013 19.4775 25.5241 15.0004 20.0013 15.0004ZM20.0013 17.5004L22.2055 21.9665L27.1343 22.6827L23.5678 26.1592L24.4096 31.068L20.0013 28.7504L15.5929 31.068L16.4348 26.1592L12.8684 22.6827L17.7971 21.9665L20.0013 17.5004ZM30.0013 3.3337V8.3337L27.729 10.2296C25.8855 9.26321 23.8388 8.63178 21.6698 8.41618L21.668 3.33203L30.0013 3.3337ZM18.3346 3.33203L18.3341 8.41603C16.1653 8.63143 14.1187 9.26263 12.2753 10.2288L10.0013 8.3337V3.3337L18.3346 3.33203Z"
-                                    fill="#EE6802" />
-                            </svg>
-                        </div>
-                        <div class="trust-content">
-                            <h4>Driving Innovation</h4>
-                            <p>& Self-Reliance</p>
-                        </div>
-                    </div>
-
-                    <div class="trust-divider"></div>
-
-                    <div class="trust-item">
-                        <div class="trust-icon">
-                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M20 1.66797L33.6948 4.71127C34.4575 4.88074 35 5.55709 35 6.33825V22.9828C35 26.3263 33.329 29.4486 30.547 31.3033L20 38.3346L9.453 31.3033C6.67102 29.4486 5 26.3263 5 22.9828V6.33825C5 5.55709 5.54255 4.88074 6.30512 4.71127L20 1.66797ZM20 5.08262L8.33333 7.6752V22.9828C8.33333 25.2118 9.44733 27.2933 11.302 28.5298L20 34.3285L28.698 28.5298C30.5527 27.2933 31.6667 25.2118 31.6667 22.9828V7.6752L20 5.08262ZM27.4207 13.7044L29.7777 16.0614L19.171 26.668L12.1 19.597L14.457 17.2398L19.1698 21.9528L27.4207 13.7044Z"
-                                    fill="#EE6802" />
-                            </svg>
-                        </div>
-                        <div class="trust-content">
-                            <h4>Trusted by</h4>
-                            <p>Indian Armed Forces</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
 
         <!-- <div class="section-divider">
                                                             <span></span>

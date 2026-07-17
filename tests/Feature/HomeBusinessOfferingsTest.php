@@ -25,6 +25,11 @@ class HomeBusinessOfferingsTest extends TestCase
         $response->assertSee('Our Business');
         $response->assertSee('Partners');
         $response->assertDontSee('Trusted by Forces,');
+        $response->assertDontSee('Experienced');
+        $response->assertDontSee('Leadership Team');
+        $response->assertDontSee('Commitment to');
+        $response->assertDontSee('Driving Innovation');
+        $response->assertSee('products-title-line');
     }
 
     public function test_rubber_offering_contains_floats_and_inflatable_boats_only(): void
