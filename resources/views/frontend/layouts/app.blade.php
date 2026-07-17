@@ -220,7 +220,9 @@
     </script>
 
     <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top">
-        ↑
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
     </button>
 
     <script>
@@ -288,16 +290,41 @@
         const chatbotBubble = document.getElementById("chatbotBubble");
         const chatbotContainer = document.getElementById("chatbotContainer");
 
+        let bubbleShowTimer;
+        let bubbleHideTimer;
+
+        // Dynamic welcome bubble lifecycle: Appear after 2s, disappear 2s later with animation
+        document.addEventListener("DOMContentLoaded", function () {
+            bubbleShowTimer = setTimeout(() => {
+                if (chatBox.style.display !== "flex") {
+                    if (chatbotBubble) chatbotBubble.classList.add("show-bubble");
+                    
+                    bubbleHideTimer = setTimeout(() => {
+                        if (chatbotBubble) {
+                            chatbotBubble.classList.remove("show-bubble");
+                            chatbotBubble.classList.add("hide-bubble");
+                        }
+                    }, 2000); // Disappear after 2 seconds
+                }
+            }, 2000); // Appear after 2 seconds
+        });
+
         chatToggle.addEventListener("click", () => {
+            // Cancel active timers if the chat box is manually opened
+            clearTimeout(bubbleShowTimer);
+            clearTimeout(bubbleHideTimer);
+
             chatBox.style.display = "flex";
-            if (chatbotBubble) chatbotBubble.style.display = "none";
+            if (chatbotBubble) {
+                chatbotBubble.classList.remove("show-bubble");
+                chatbotBubble.classList.add("hide-bubble");
+            }
             if (chatbotContainer) chatbotContainer.classList.remove("bounce-animation");
             userInput.focus();
         });
 
         closeChat.addEventListener("click", () => {
             chatBox.style.display = "none";
-            if (chatbotBubble) chatbotBubble.style.display = "block";
             if (chatbotContainer) chatbotContainer.classList.add("bounce-animation");
         });
 

@@ -5642,22 +5642,21 @@ table td {
     position: fixed;
     bottom: 25px;
     left: 25px;
-    width: 50px;
-    height: 50px;
+    width: 42px;
+    height: 42px;
     padding: 0;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 50%;
-    background: linear-gradient(135deg, #021b4e, #173b87);
+    background: rgba(11, 42, 91, 0.95);
     color: #fff;
-    font-size: 22px;
-    font-weight: bold;
+    font-size: 18px;
     cursor: pointer;
     z-index: 9999;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 15px rgba(11, 42, 91, 0.35);
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -5670,20 +5669,20 @@ table td {
 }
 
 .scroll-top-btn:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+    transform: scale(1.08) translateY(-4px);
+    box-shadow: 0 8px 24px rgba(11, 42, 91, 0.5), 0 0 0 4px rgba(11, 42, 91, 0.1);
     color: #fff;
 }
 
 /* mobile */
 @media (max-width: 768px) {
     .scroll-top-btn {
-        width: 46px;
-        height: 46px;
+        width: 38px;
+        height: 38px;
         bottom: 20px;
         left: 20px;
         right: auto;
-        font-size: 20px;
+        font-size: 16px;
     }
 }
 
@@ -6985,7 +6984,23 @@ table td {
     box-shadow: 0 4px 15px rgba(11, 42, 91, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
     z-index: 10000;
-    transition: opacity 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.chatbot-bubble.show-bubble {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.chatbot-bubble.hide-bubble {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
 }
 
 .chatbot-bubble::after {
