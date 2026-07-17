@@ -106,10 +106,10 @@
                 </div>
             </div>
 
-            <div class="chat-footer">
-                <input type="text" id="userInput" placeholder="Type your message...">
-                <button onclick="sendMessage()">Send</button>
-            </div>
+             <div class="chat-footer">
+                 <input type="text" id="userInput" placeholder="Type your message...">
+                 <button onclick="sendMessage()" class="chat-send-btn" title="Send Message">➤</button>
+             </div>
         </div>
     </div>
 

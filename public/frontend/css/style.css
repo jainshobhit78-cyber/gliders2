@@ -5749,43 +5749,62 @@ table td {
 .gi-chatbot {
     position: fixed;
     bottom: 30px;
-    left: 30px;
+    right: 30px;
     z-index: 9999;
 }
 
 .chat-toggle {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     border: none;
-    background: #fff;
+    background: linear-gradient(135deg, #0b2a5b 0%, #1e40af 100%);
     color: #fff;
-    font-size: 24px;
+    font-size: 20px;
     cursor: pointer;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 20px rgba(11, 42, 91, 0.4), 0 0 0 0 rgba(245, 130, 31, 0.5);
     display: flex;
     justify-content: center;
-    padding: 10px;
+    align-items: center;
+    padding: 8px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: chatbotPulse 2s infinite;
+}
+
+@keyframes chatbotPulse {
+    0% {
+        box-shadow: 0 6px 20px rgba(11, 42, 91, 0.4), 0 0 0 0 rgba(245, 130, 31, 0.5);
+    }
+    70% {
+        box-shadow: 0 6px 20px rgba(11, 42, 91, 0.4), 0 0 0 10px rgba(245, 130, 31, 0);
+    }
+    100% {
+        box-shadow: 0 6px 20px rgba(11, 42, 91, 0.4), 0 0 0 0 rgba(245, 130, 31, 0);
+    }
 }
 
 .chat-toggle:hover {
-    background: #fff;
-    transform: translateY(-5px);
+    transform: scale(1.08) translateY(-3px);
+    box-shadow: 0 8px 25px rgba(11, 42, 91, 0.5), 0 0 0 4px rgba(245, 130, 31, 0.1);
 }
 
 .chat-box {
-    width: 350px;
-    height: 480px;
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    width: 320px;
+    height: 440px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(11, 42, 91, 0.15);
     display: none;
     flex-direction: column;
     overflow: hidden;
     position: absolute;
-    bottom: 90px;
-    left: 0;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    bottom: 75px;
+    right: 0;
+    left: auto;
+    border: 1px solid rgba(11, 42, 91, 0.08);
+    transition: all 0.3s ease;
 }
 
 .chat-box[style*="display: flex"] {
@@ -5806,11 +5825,13 @@ table td {
 .chat-header {
     background: linear-gradient(135deg, #0b2a5b 0%, #1e40af 100%);
     color: #fff;
-    padding: 18px 15px;
+    padding: 16px 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px solid #f5821f;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
 
 .chat-header h4 {
@@ -5832,11 +5853,24 @@ table td {
     box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
 }
 
+#closeChat {
+    cursor: pointer;
+    font-size: 16px;
+    opacity: 0.8;
+    transition: opacity 0.2s, transform 0.2s;
+    padding: 4px 8px;
+}
+
+#closeChat:hover {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
 .chat-body {
     padding: 15px;
-    height: 350px;
+    height: 310px;
     overflow-y: auto;
-    background: #f8fafc;
+    background: radial-gradient(circle at top right, rgba(11, 42, 91, 0.03) 0%, rgba(255, 255, 255, 1) 100%);
     scroll-behavior: smooth;
 }
 
@@ -5928,37 +5962,45 @@ table td {
     padding: 10px;
     border-top: 1px solid #f1f5f9;
     background: #ffffff;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 .chat-footer input {
     flex: 1;
-    padding: 10px 14px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 13.5px;
+    padding: 8px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 20px;
+    font-size: 13px;
     outline: none;
-    transition: border-color 0.2s;
+    transition: all 0.2s;
 }
 
 .chat-footer input:focus {
     border-color: #0b2a5b;
+    box-shadow: 0 0 0 2px rgba(11, 42, 91, 0.1);
 }
 
 .chat-footer button {
     margin-left: 8px;
-    padding: 8px 16px;
-    background: #0b2a5b;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #0b2a5b 0%, #1e40af 100%);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 50%;
     cursor: pointer;
-    font-weight: 600;
-    font-size: 13px;
-    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    padding: 0;
+    font-size: 14px;
 }
 
 .chat-footer button:hover {
-    opacity: 0.9;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(11, 42, 91, 0.3);
 }
 
 .faq-questions {
@@ -6929,16 +6971,17 @@ table td {
    ========================================================================== */
 .chatbot-bubble {
     position: absolute;
-    bottom: 95px;
-    left: 0;
-    background: linear-gradient(135deg, #13235b, #1d337a);
+    bottom: 75px;
+    right: 0;
+    left: auto;
+    background: linear-gradient(135deg, #0b2a5b, #1e40af);
     color: white;
     padding: 8px 14px;
     border-radius: 12px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     white-space: nowrap;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 15px rgba(11, 42, 91, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
     z-index: 10000;
     transition: opacity 0.3s ease;
@@ -6948,12 +6991,13 @@ table td {
     content: '';
     position: absolute;
     bottom: -6px;
-    left: 30px;
+    right: 24px;
+    left: auto;
     width: 0;
     height: 0;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-top: 6px solid #13235b;
+    border-top: 6px solid #0b2a5b;
 }
 
 .bounce-animation {
