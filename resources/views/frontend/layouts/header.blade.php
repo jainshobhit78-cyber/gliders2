@@ -16,15 +16,15 @@
 
                     <div class="gov-text">
                         <a href="">
-                            <span>A Government of India Enterprise</span>
+                            <span>Government of India</span>
                         </a>
                         <span>|</span>
                         <a href="https://www.mod.gov.in/dod/en" target="_blank" rel="noopener noreferrer">
                             <span>Department of Defence</span>
                         </a>
                         <span>|</span>
-                        <a href="https://www.ddpmod.gov.in/" target="_blank" rel="noopener noreferrer">
-                            <span>Department of Defence Production</span>
+                        <a href="https://www.mod.gov.in/" target="_blank" rel="noopener noreferrer">
+                            <span>Ministry of Defence</span>
                         </a>
                     </div>
 
@@ -366,7 +366,9 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ route('finance', 'annual-report') }}">Annual
                                     Reports</a></li>
-                            <li><a class="dropdown-item" href="{{ route('finance', 'eoi') }}">EOI for Banks</a></li>
+                            @if($headerSetting ? (bool)$headerSetting->eoi_enabled : true)
+                                <li><a class="dropdown-item" href="{{ route('finance', 'eoi') }}">EOI for Banks</a></li>
+                            @endif
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
