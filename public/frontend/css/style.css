@@ -6986,21 +6986,43 @@ table td {
     z-index: 10000;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(10px);
-    transition: opacity 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translateY(10px) scale(0.8);
+    transform-origin: bottom right;
+    animation: chatbotBubbleLoop 4s infinite ease-in-out;
 }
 
-.chatbot-bubble.show-bubble {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+@keyframes chatbotBubbleLoop {
+    /* 0s to 2s: OFF (Hidden) */
+    0%, 48% {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px) scale(0.8);
+    }
+    /* 2.0s: Spring Pop Out! */
+    50% {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(-3px) scale(1.08);
+    }
+    /* 2.1s to 3.8s: ON (Settled & Visible) */
+    53%, 95% {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+    }
+    /* 3.9s: Smooth Fade Out & Slide Up */
+    98%, 100% {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px) scale(0.85);
+    }
 }
 
 .chatbot-bubble.hide-bubble {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
+    display: none !important;
+    animation: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
 }
 
 .chatbot-bubble::after {

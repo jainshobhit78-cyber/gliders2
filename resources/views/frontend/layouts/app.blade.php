@@ -290,33 +290,9 @@
         const chatbotBubble = document.getElementById("chatbotBubble");
         const chatbotContainer = document.getElementById("chatbotContainer");
 
-        let bubbleShowTimer;
-        let bubbleHideTimer;
-
-        // Dynamic welcome bubble lifecycle: Appear after 2s, disappear 2s later with animation
-        document.addEventListener("DOMContentLoaded", function () {
-            bubbleShowTimer = setTimeout(() => {
-                if (chatBox.style.display !== "flex") {
-                    if (chatbotBubble) chatbotBubble.classList.add("show-bubble");
-                    
-                    bubbleHideTimer = setTimeout(() => {
-                        if (chatbotBubble) {
-                            chatbotBubble.classList.remove("show-bubble");
-                            chatbotBubble.classList.add("hide-bubble");
-                        }
-                    }, 2000); // Disappear after 2 seconds
-                }
-            }, 2000); // Appear after 2 seconds
-        });
-
         chatToggle.addEventListener("click", () => {
-            // Cancel active timers if the chat box is manually opened
-            clearTimeout(bubbleShowTimer);
-            clearTimeout(bubbleHideTimer);
-
             chatBox.style.display = "flex";
             if (chatbotBubble) {
-                chatbotBubble.classList.remove("show-bubble");
                 chatbotBubble.classList.add("hide-bubble");
             }
             if (chatbotContainer) chatbotContainer.classList.remove("bounce-animation");
@@ -325,6 +301,9 @@
 
         closeChat.addEventListener("click", () => {
             chatBox.style.display = "none";
+            if (chatbotBubble) {
+                chatbotBubble.classList.remove("hide-bubble");
+            }
             if (chatbotContainer) chatbotContainer.classList.add("bounce-animation");
         });
 
