@@ -11,7 +11,9 @@ class FinanceEoiController extends Controller
 
     public function list()
     {
-        $data['items'] = FinanceEoi::latest()->get();
+        $data['items'] = FinanceEoi::orderBy('display_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
 
         return view('backend.finance.eoi.list', $data);
     }
@@ -39,10 +41,14 @@ class FinanceEoiController extends Controller
 
         }
 
+        $maxOrder = FinanceEoi::max('display_order');
+        $displayOrder = $maxOrder ? $maxOrder + 1 : 1;
+
         FinanceEoi::create([
             'title' => $request->title,
             'description' => $request->description,
-            'pdf' => $pdfName
+            'pdf' => $pdfName,
+            'display_order' => $displayOrder
         ]);
 
         return redirect('admin/finance?tab=eoi')
@@ -114,6 +120,23 @@ class FinanceEoiController extends Controller
         return redirect('admin/finance?tab=eoi')
             ->with('success', 'Deleted Successfully');
 
+    }
+
+    public function reorder(Request $request)
+    {
+        if ($request->has('order') && is_array($request->order)) {
+            foreach ($request->order as $position => $id) {
+                FinanceEoi::where('id', $id)->update(['display_order' => $position + 1]);
+            }
+            return response()->json(['status' => 'success']);
+        }
+
+        if ($request->has('id') && $request->has('display_order')) {
+            FinanceEoi::where('id', $request->id)->update(['display_order' => $request->display_order]);
+            return response()->json(['status' => 'success']);
+        }
+
+        return response()->json(['status' => 'error'], 400);
     }
 
 }

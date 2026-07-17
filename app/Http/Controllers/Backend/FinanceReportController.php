@@ -12,7 +12,10 @@ class FinanceReportController extends Controller
 
     public function list()
     {
-        $data['items'] = FinanceReport::with('files')->latest()->get();
+        $data['items'] = FinanceReport::with('files')
+            ->orderBy('display_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
 
         return view('backend.finance.reports.list', $data);
     }
@@ -31,9 +34,13 @@ class FinanceReportController extends Controller
             'pdfs.*' => 'file|mimes:pdf|max:10240',
         ]);
 
+        $maxOrder = FinanceReport::max('display_order');
+        $displayOrder = $maxOrder ? $maxOrder + 1 : 1;
+
         $item = FinanceReport::create([
             'heading' => $request->heading,
-            'description' => $request->description
+            'description' => $request->description,
+            'display_order' => $displayOrder
         ]);
 
         if ($request->hasFile('pdfs')) {
@@ -146,6 +153,23 @@ class FinanceReportController extends Controller
         return redirect()->back()
             ->with('success', 'PDF Deleted');
 
+    }
+
+    public function reorder(Request $request)
+    {
+        if ($request->has('order') && is_array($request->order)) {
+            foreach ($request->order as $position => $id) {
+                FinanceReport::where('id', $id)->update(['display_order' => $position + 1]);
+            }
+            return response()->json(['status' => 'success']);
+        }
+
+        if ($request->has('id') && $request->has('display_order')) {
+            FinanceReport::where('id', $request->id)->update(['display_order' => $request->display_order]);
+            return response()->json(['status' => 'success']);
+        }
+
+        return response()->json(['status' => 'error'], 400);
     }
 
 }

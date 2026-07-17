@@ -11,6 +11,7 @@ class FinanceEoi extends Model
     protected $fillable = [
         'title',
         'description',
-        'pdf'
+        'pdf',
+        'display_order'
     ];
 }

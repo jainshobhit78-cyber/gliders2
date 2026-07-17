@@ -84,17 +84,42 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             abort(403, 'User does not have the right permissions.');
         }
         
+        $output = "";
+
+        // 1. Social fields migration
         try {
             \Illuminate\Support\Facades\Artisan::call('migrate', [
                 '--path' => 'database/migrations/2026_07_11_010000_add_social_fields_to_general_settings.php',
                 '--force' => true
             ]);
-            $output = "Database migrations successfully executed!";
+            $output .= "Social fields migration run completed. ";
         } catch (\Exception $e) {
-            $output = "Artisan migration failed, attempting manual schema update. Error: " . $e->getMessage();
+            $output .= "Social fields migration failed: " . $e->getMessage() . ". ";
         }
 
-        // Self-healing fallback: directly alter the table if migrations table is out of sync
+        // 2. Launch experience migration
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', [
+                '--path' => 'database/migrations/2026_07_17_010000_add_launch_experience_to_general_settings.php',
+                '--force' => true
+            ]);
+            $output .= "Launch experience migration run completed. ";
+        } catch (\Exception $e) {
+            $output .= "Launch experience migration failed: " . $e->getMessage() . ". ";
+        }
+
+        // 3. Finance display order migration
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', [
+                '--path' => 'database/migrations/2026_07_17_020000_add_display_order_to_finance_tables.php',
+                '--force' => true
+            ]);
+            $output .= "Finance display order migration run completed. ";
+        } catch (\Exception $e) {
+            $output .= "Finance display order migration failed: " . $e->getMessage() . ". ";
+        }
+
+        // Self-healing fallback: directly alter the tables if migrations table is out of sync
         try {
             \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
                 if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'social_facebook')) {
@@ -113,6 +138,19 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                     $table->string('social_youtube')->nullable();
                 }
             });
+
+            \Illuminate\Support\Facades\Schema::table('finance_reports', function ($table) {
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('finance_reports', 'display_order')) {
+                    $table->integer('display_order')->default(999);
+                }
+            });
+
+            \Illuminate\Support\Facades\Schema::table('finance_eoi', function ($table) {
+                if (!\Illuminate\Support\Facades\Schema::hasColumn('finance_eoi', 'display_order')) {
+                    $table->integer('display_order')->default(999);
+                }
+            });
+
             $output .= " | Schema checks and column additions successfully verified!";
         } catch (\Exception $ex) {
             $output .= " | Manual schema update failed: " . $ex->getMessage();
@@ -330,6 +368,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
     Route::get('admin/finance/reports/edit/{id}', [FinanceReportController::class, 'edit'])->middleware('permission:annual_reports.edit,admin');
     Route::post('admin/finance/reports/update/{id}', [FinanceReportController::class, 'update'])->middleware('permission:annual_reports.edit,admin');
     Route::delete('admin/finance/reports/delete/{id}', [FinanceReportController::class, 'delete'])->middleware('permission:annual_reports.delete,admin');
+    Route::post('admin/finance/reports/reorder', [FinanceReportController::class, 'reorder'])->middleware('permission:annual_reports.edit,admin'])->name('admin.finance.reports.reorder');
     Route::delete(
         'admin/finance/reports/file/delete/{id}',
         [FinanceReportController::class, 'deleteFile']
@@ -341,6 +380,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
     Route::get('admin/finance/eoi/edit/{id}', [FinanceEoiController::class, 'edit'])->middleware('permission:eoi_for_banks.edit,admin');
     Route::post('admin/finance/eoi/update/{id}', [FinanceEoiController::class, 'update'])->middleware('permission:eoi_for_banks.edit,admin');
     Route::delete('admin/finance/eoi/delete/{id}', [FinanceEoiController::class, 'delete'])->middleware('permission:eoi_for_banks.delete,admin');
+    Route::post('admin/finance/eoi/reorder', [FinanceEoiController::class, 'reorder'])->middleware('permission:eoi_for_banks.edit,admin'])->name('admin.finance.eoi.reorder');
 
     Route::get('admin/rajshabha', function () {
         return view('backend.rajshabha.index');

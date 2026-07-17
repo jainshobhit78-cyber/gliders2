@@ -10,8 +10,13 @@ class FinanceController extends Controller
 {
     public function index($tab = 'annual-report')
     {
-        $reports = FinanceReport::with('files')->latest()->get();
-        $eois = FinanceEoi::latest()->get();
+        $reports = FinanceReport::with('files')
+            ->orderBy('display_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
+        $eois = FinanceEoi::orderBy('display_order', 'asc')
+            ->orderBy('id', 'desc')
+            ->get();
 
         return view('frontend.finance.index', compact(
             'tab',

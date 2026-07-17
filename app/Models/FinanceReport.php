@@ -10,7 +10,8 @@ class FinanceReport extends Model
 
     protected $fillable = [
         'heading',
-        'description'
+        'description',
+        'display_order'
     ];
 
     public function files()
