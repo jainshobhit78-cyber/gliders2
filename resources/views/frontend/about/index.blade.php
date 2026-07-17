@@ -16,35 +16,26 @@
 
                     <a href="{{ route('about', 'leadership') }}"
                         class="sidebar-item {{ $tab == 'leadership' ? 'active' : '' }}">Leadership</a>
-                    <a href="{{ route('about', 'legacy') }}"
-                        class="sidebar-item {{ $tab == 'legacy' || $tab == 'opf-legacy' ? 'active' : '' }}">Legacy</a>
-                    <a href="{{ route('about', 'production') }}"
-                        class="sidebar-item {{ $tab == 'production' ? 'active' : '' }}">Production Unit</a>
-                    <a href="{{ route('about', 'history') }}"
-                        class="sidebar-item {{ $tab == 'history' ? 'active' : '' }}">History</a>
-                    <a href="{{ route('about', 'social-responsibility') }}"
-                        class="sidebar-item {{ $tab == 'social-responsibility' ? 'active' : '' }}">
-                        Social Responsibility
+                    <a href="{{ route('about', 'vision') }}" class="sidebar-item {{ $tab == 'vision' ? 'active' : '' }}">
+                        Vision
+                    </a>
+                    <a href="{{ route('about', 'mission') }}" class="sidebar-item {{ $tab == 'mission' ? 'active' : '' }}">
+                        Mission
                     </a>
                     <a href="{{ route('about', 'human-resources') }}"
                         class="sidebar-item {{ $tab == 'human-resources' ? 'active' : '' }}">
                         Human Resources
                     </a>
-                    <a href="{{ route('about', 'vision') }}" class="sidebar-item {{ $tab == 'vision' ? 'active' : '' }}">
-                        Vision
+                    <a href="{{ route('about', 'social-responsibility') }}"
+                        class="sidebar-item {{ $tab == 'social-responsibility' ? 'active' : '' }}">
+                        Social Responsibility
                     </a>
-
-                    <a href="{{ route('about', 'mission') }}" class="sidebar-item {{ $tab == 'mission' ? 'active' : '' }}">
-                        Mission
-                    </a>
-                    <!-- <a href="{{ route('about', 'directory') }}"
-                        class="sidebar-item {{ $tab == 'directory' ? 'active' : '' }}">
-                        Directory
-                    </a> -->
-                    <a href="{{ route('about', 'codes-conduct') }}"
-                        class="sidebar-item {{ $tab == 'codes-conduct' ? 'active' : '' }}">
-                        Codes of Conduct
-                    </a>
+                    <a href="{{ route('about', 'production') }}"
+                        class="sidebar-item {{ $tab == 'production' ? 'active' : '' }}">Production Unit</a>
+                    <a href="{{ route('about', 'history') }}"
+                        class="sidebar-item {{ $tab == 'history' ? 'active' : '' }}">History</a>
+                    <a href="{{ route('about', 'legacy') }}"
+                        class="sidebar-item {{ $tab == 'legacy' || $tab == 'opf-legacy' ? 'active' : '' }}">Legacy</a>
 
                 </div>
             </div>

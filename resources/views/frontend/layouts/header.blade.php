@@ -285,19 +285,13 @@
                             aria-expanded="false">ABOUT</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ route('about', 'leadership') }}">Leadership</a></li>
-                            <li><a class="dropdown-item" href="{{ route('about', 'legacy') }}">Legacy</a></li>
-                            <li><a class="dropdown-item" href="{{ route('about', 'production') }}">Production Unit</a>
-                            </li>
-                            <li><a class="dropdown-item" href="{{ route('about', 'history') }}">History</a></li>
-                            <li><a class="dropdown-item" href="{{ route('about', 'social-responsibility') }}">Social
-                                    Responsibility</a></li>
-                            <li><a class="dropdown-item" href="{{ route('about', 'human-resources') }}">Human
-                                    Resources</a></li>
                             <li><a class="dropdown-item" href="{{ route('about', 'vision') }}">Vision</a></li>
                             <li><a class="dropdown-item" href="{{ route('about', 'mission') }}">Mission</a></li>
-                            <!-- <li><a class="dropdown-item" href="{{ route('about', 'directory') }}">Directory</a></li> -->
-                            <li><a class="dropdown-item" href="{{ route('about', 'codes-conduct') }}">Codes of
-                                    Conduct</a></li>
+                            <li><a class="dropdown-item" href="{{ route('about', 'human-resources') }}">Human Resources</a></li>
+                            <li><a class="dropdown-item" href="{{ route('about', 'social-responsibility') }}">Social Responsibility</a></li>
+                            <li><a class="dropdown-item" href="{{ route('about', 'production') }}">Production Unit</a></li>
+                            <li><a class="dropdown-item" href="{{ route('about', 'history') }}">History</a></li>
+                            <li><a class="dropdown-item" href="{{ route('about', 'legacy') }}">Legacy</a></li>
                         </ul>
                     </li>
 
