@@ -9,8 +9,12 @@ use App\Models\RajshabhaRules;
 
 class RajbhashaController extends Controller
 {
-    public function index($tab = 'about')
+    public function index($tab = 'niyam')
     {
+        if (!in_array($tab, ['niyam', 'rules'])) {
+            $tab = 'niyam';
+        }
+
         $abouts = RajshabhaAbout::latest()->get();
         $niyams = RajshabhaNiyam::latest()->get();
         $rules = RajshabhaRules::latest()->get();

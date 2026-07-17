@@ -9,10 +9,6 @@
             <div class="col-lg-3">
                 <div class="about-sidebar">
 
-                    <a href="{{ route('rajbhasha', 'about') }}" class="sidebar-item {{ $tab == 'about' ? 'active' : '' }}">
-                        About Us
-                    </a>
-
                     <a href="{{ route('rajbhasha', 'niyam') }}" class="sidebar-item {{ $tab == 'niyam' ? 'active' : '' }}">
                         Niyam Pustak
                     </a>
@@ -26,46 +22,6 @@
 
             <!-- CONTENT -->
             <div class="col-lg-9">
-
-                {{-- ABOUT --}}
-                @if($tab == 'about')
-
-                    <div class="raj-card shadow-sm border rounded p-4 bg-white">
-
-                        <h2 class="raj-main-title">
-                            About Rajbhasha
-                        </h2>
-
-                        @foreach($abouts as $item)
-
-                            <div class="raj-item-card mb-4">
-
-                                <h4 class="raj-title">
-                                    {{ $item->heading }}
-                                </h4>
-
-                                <div class="raj-description">
-                                    {!! \App\Support\Security::cleanHtml($item->description) !!}
-                                </div>
-
-                                @if($item->pdf)
-                                    <div class="pdf-link-wrapper mt-3">
-                                        <span class="pdf-icon">📄</span>
-
-                                        <a href="{{ asset('uploads/rajshabha/' . $item->pdf) }}" target="_blank" class="pdf-link">
-                                            Click here to Download
-                                            ({{ $item->pdf }})
-                                        </a>
-                                    </div>
-                                @endif
-
-                            </div>
-
-                        @endforeach
-
-                    </div>
-
-                @endif
 
 
                 {{-- NIYAM --}}

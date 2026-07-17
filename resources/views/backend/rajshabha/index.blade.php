@@ -21,14 +21,8 @@
         <div class="card">
 
             <div class="tabs-menu">
-                @if(auth()->guard('admin')->user()->can('rajshabha_about_us.view'))
-                    <button class="tab-btn active" data-url="{{ url('admin/rajshabha/about') }}">
-                        About Us
-                    </button>
-                @endif
-
                 @if(auth()->guard('admin')->user()->can('niyam_pustak.view'))
-                    <button class="tab-btn" data-url="{{ url('admin/rajshabha/niyam') }}">
+                    <button class="tab-btn active" data-url="{{ url('admin/rajshabha/niyam') }}">
                         Niyam Pustak
                     </button>
                 @endif

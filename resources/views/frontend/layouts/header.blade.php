@@ -396,7 +396,6 @@
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button"
                             aria-expanded="false">RAJBHASHA</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('rajbhasha', 'about') }}">About Us</a></li>
                             <li><a class="dropdown-item" href="{{ route('rajbhasha', 'niyam') }}">Niyam Pustak</a></li>
                             <li><a class="dropdown-item" href="{{ route('rajbhasha', 'rules') }}">Rajbhasha Rules</a>
                             </li>
