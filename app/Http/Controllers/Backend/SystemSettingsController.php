@@ -12,7 +12,8 @@ class SystemSettingsController extends Controller
     public function index()
     {
         $setting = GeneralSetting::firstOrCreate([]);
-        return view('backend.settings.index', compact('setting'));
+        $allProducts = \App\Models\Product::orderBy('title', 'asc')->get();
+        return view('backend.settings.index', compact('setting', 'allProducts'));
     }
 
     public function update(Request $request)
@@ -54,6 +55,10 @@ class SystemSettingsController extends Controller
             'main_menu_font_family' => 'nullable|string|max:255',
             'submenu_font_family' => 'nullable|string|max:255',
             'body_font_family' => 'nullable|string|max:255',
+            'homepage_product_1' => 'nullable|integer|exists:products,id',
+            'homepage_product_2' => 'nullable|integer|exists:products,id',
+            'homepage_product_3' => 'nullable|integer|exists:products,id',
+            'homepage_product_4' => 'nullable|integer|exists:products,id',
         ]);
 
         $launchTargetAt = $request->filled('launch_animation_target_at')
@@ -97,6 +102,11 @@ class SystemSettingsController extends Controller
             'launch_animation_button_text' => $request->launch_animation_button_text ?: 'Enter the Website',
             'launch_animation_auto_reveal_seconds' => $request->launch_animation_auto_reveal_seconds ?: 10,
             'nav_font_size' => $request->nav_font_size ?: '14',
+            'homepage_product_1' => $request->homepage_product_1,
+            'homepage_product_2' => $request->homepage_product_2,
+            'homepage_product_3' => $request->homepage_product_3,
+            'homepage_product_4' => $request->homepage_product_4,
+            'product_slider_auto' => $request->has('product_slider_auto'),
         ];
 
         if ($request->hasFile('products_page_wallpaper')) {

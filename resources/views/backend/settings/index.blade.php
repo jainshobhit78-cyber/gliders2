@@ -296,6 +296,67 @@
                                 </div>
                             </div>
 
+                            <!-- Homepage Product Slider Selection & Auto-Slider -->
+                            <div class="form-group-wrapper">
+                                <span class="settings-section-title"><i class="fa fa-shopping-bag me-2"></i>Homepage Product Slider Configurations</span>
+                                <small class="text-muted d-block mb-3">Configure which products appear on the homepage slider, and control the autoplay slider behavior.</small>
+
+                                <div class="form-check form-switch mb-4">
+                                    <input class="form-check-input" type="checkbox" name="product_slider_auto" id="product_slider_auto" style="width: 48px; height: 24px; cursor: pointer;" {{ old('product_slider_auto', $setting->product_slider_auto) ? 'checked' : '' }}>
+                                    <label class="form-check-label ms-2 align-middle" for="product_slider_auto" style="cursor: pointer; font-weight: 700; color: #13235b;">
+                                        Enable Auto-Slider (Autoplay & loop all products)
+                                    </label>
+                                    <small class="text-muted d-block mt-1">If enabled, the slider will cycle automatically through all products. If disabled, only the 4 selected products below will be displayed statically.</small>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label">Product Card 1</label>
+                                        <select name="homepage_product_1" class="form-select">
+                                            <option value="">-- None / Select Product --</option>
+                                            @foreach($allProducts as $prod)
+                                                <option value="{{ $prod->id }}" {{ $setting->homepage_product_1 == $prod->id ? 'selected' : '' }}>
+                                                    {{ $prod->title }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label">Product Card 2</label>
+                                        <select name="homepage_product_2" class="form-select">
+                                            <option value="">-- None / Select Product --</option>
+                                            @foreach($allProducts as $prod)
+                                                <option value="{{ $prod->id }}" {{ $setting->homepage_product_2 == $prod->id ? 'selected' : '' }}>
+                                                    {{ $prod->title }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label">Product Card 3</label>
+                                        <select name="homepage_product_3" class="form-select">
+                                            <option value="">-- None / Select Product --</option>
+                                            @foreach($allProducts as $prod)
+                                                <option value="{{ $prod->id }}" {{ $setting->homepage_product_3 == $prod->id ? 'selected' : '' }}>
+                                                    {{ $prod->title }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label class="form-label">Product Card 4</label>
+                                        <select name="homepage_product_4" class="form-select">
+                                            <option value="">-- None / Select Product --</option>
+                                            @foreach($allProducts as $prod)
+                                                <option value="{{ $prod->id }}" {{ $setting->homepage_product_4 == $prod->id ? 'selected' : '' }}>
+                                                    {{ $prod->title }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                         <!-- TAB: INDEPENDENCE DAY LAUNCH EXPERIENCE -->

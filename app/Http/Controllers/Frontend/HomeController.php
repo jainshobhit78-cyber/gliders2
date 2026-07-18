@@ -27,7 +27,29 @@ class HomeController extends Controller
         $galleryImages = ImageGallery::latest()->get();
         $stateCounter = StateCounter::latest()->first();
 
-        $products = Product::with('images')->latest()->get();
+        if ($settings && !$settings->product_slider_auto) {
+            $ids = array_filter([
+                $settings->homepage_product_1,
+                $settings->homepage_product_2,
+                $settings->homepage_product_3,
+                $settings->homepage_product_4
+            ]);
+            if (!empty($ids)) {
+                $productsMap = Product::with('images')->whereIn('id', $ids)->get()->keyBy('id');
+                // Order exactly as selected by admin (1, 2, 3, 4)
+                $products = collect($ids)->map(function ($id) use ($productsMap) {
+                    return $productsMap->get($id);
+                })->filter()->values();
+            } else {
+                $products = collect();
+            }
+        } else {
+            // standard autoplay slider: fetch all products ordered by display_order
+            $products = Product::with('images')
+                ->orderBy('display_order', 'asc')
+                ->orderBy('id', 'asc')
+                ->get();
+        }
 
         $keyOfferings = KeyOffering::with('category')
             ->where('is_home', 1)

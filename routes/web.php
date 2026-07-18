@@ -175,6 +175,17 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             $output .= "Products display_order migration failed: " . $e->getMessage() . ". ";
         }
 
+        // 9. Homepage product selection and auto-slider migration
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', [
+                '--path' => 'database/migrations/2026_07_18_040000_add_homepage_products_to_general_settings.php',
+                '--force' => true
+            ]);
+            $output .= "Homepage products migration run completed. ";
+        } catch (\Exception $e) {
+            $output .= "Homepage products migration failed: " . $e->getMessage() . ". ";
+        }
+
         // Self-healing fallback: directly alter the tables if migrations table is out of sync
         try {
             \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
@@ -269,6 +280,42 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                     $table->integer('display_order')->default(999)->after('category_id');
                 });
                 $output .= " | products display_order column added.";
+            }
+
+            // Self-healing: homepage_product_1, 2, 3, 4, and product_slider_auto columns in general_settings
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'homepage_product_1')) {
+                \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
+                    $table->integer('homepage_product_1')->nullable();
+                    $table->foreign('homepage_product_1')->references('id')->on('products')->nullOnDelete();
+                });
+                $output .= " | homepage_product_1 added.";
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'homepage_product_2')) {
+                \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
+                    $table->integer('homepage_product_2')->nullable();
+                    $table->foreign('homepage_product_2')->references('id')->on('products')->nullOnDelete();
+                });
+                $output .= " | homepage_product_2 added.";
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'homepage_product_3')) {
+                \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
+                    $table->integer('homepage_product_3')->nullable();
+                    $table->foreign('homepage_product_3')->references('id')->on('products')->nullOnDelete();
+                });
+                $output .= " | homepage_product_3 added.";
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'homepage_product_4')) {
+                \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
+                    $table->integer('homepage_product_4')->nullable();
+                    $table->foreign('homepage_product_4')->references('id')->on('products')->nullOnDelete();
+                });
+                $output .= " | homepage_product_4 added.";
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'product_slider_auto')) {
+                \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
+                    $table->boolean('product_slider_auto')->default(true);
+                });
+                $output .= " | product_slider_auto added.";
             }
         } catch (\Exception $ex) {
             $output .= " | Manual schema update failed: " . $ex->getMessage();

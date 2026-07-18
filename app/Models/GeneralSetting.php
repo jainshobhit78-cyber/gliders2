@@ -48,6 +48,11 @@ class GeneralSetting extends Model
         'main_menu_font_family',
         'submenu_font_family',
         'body_font_family',
+        'homepage_product_1',
+        'homepage_product_2',
+        'homepage_product_3',
+        'homepage_product_4',
+        'product_slider_auto',
     ];
 
     protected $casts = [
@@ -57,6 +62,7 @@ class GeneralSetting extends Model
         'launch_animation_target_at' => 'datetime',
         'launch_animation_auto_reveal_seconds' => 'integer',
         'eoi_enabled' => 'boolean',
+        'product_slider_auto' => 'boolean',
     ];
 
     public static function isElectionMode()

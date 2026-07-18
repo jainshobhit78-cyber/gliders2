@@ -902,19 +902,16 @@
                                                     </script> -->
 
     <script>
-        var swiper = new Swiper(".productSlider", {
+        var autoSliderEnabled = {{ ($homeSetting->product_slider_auto ?? true) ? 'true' : 'false' }};
+
+        var swiperOptions = {
             slidesPerView: 4,
             spaceBetween: 25,
-            loop: true,
+            loop: autoSliderEnabled,
 
             navigation: {
                 nextEl: ".swiper-button-next",
                 prevEl: ".swiper-button-prev",
-            },
-
-            autoplay: {
-                delay: 2500,
-                disableOnInteraction: false,
             },
 
             pagination: {
@@ -936,7 +933,16 @@
                     slidesPerView: 4
                 }
             }
-        });
+        };
+
+        if (autoSliderEnabled) {
+            swiperOptions.autoplay = {
+                delay: 2500,
+                disableOnInteraction: false,
+            };
+        }
+
+        var swiper = new Swiper(".productSlider", swiperOptions);
     </script>
 
     <script>
