@@ -811,6 +811,46 @@
             </div>
         </section>
 
+        <!-- SAFRAN-STYLE NEWS CATEGORIES SECTION -->
+        <section class="news-categories-section py-5">
+            <div class="container-fluid px-5">
+                <div class="mb-4 text-start">
+                    <h2 class="section-heading activities-main-heading">
+                        News <span>Categories</span>
+                    </h2>
+                </div>
+
+                <div class="safran-news-categories-wrapper">
+                    <!-- CARD 1: BREAKING NEWS -->
+                    <div class="safran-cat-card" onclick="window.location.href='/news/category/1'">
+                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_news_breaking.jpg');"></div>
+                        <div class="card-overlay"></div>
+                        <div class="card-content">
+                            <h3 class="card-title">Breaking News</h3>
+                        </div>
+                    </div>
+
+                    <!-- CARD 2: PRESS RELEASES -->
+                    <div class="safran-cat-card" onclick="window.location.href='/news/category/6'">
+                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_news_press.jpg');"></div>
+                        <div class="card-overlay"></div>
+                        <div class="card-content">
+                            <h3 class="card-title">Press Releases</h3>
+                        </div>
+                    </div>
+
+                    <!-- CARD 3: LATEST UPDATES -->
+                    <div class="safran-cat-card" onclick="window.location.href='/news/category/5'">
+                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_news_events.jpg');"></div>
+                        <div class="card-overlay"></div>
+                        <div class="card-content">
+                            <h3 class="card-title">Latest News & Events</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="partner-slider-section">
             <div class="container">
 

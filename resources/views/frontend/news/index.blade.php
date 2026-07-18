@@ -3,162 +3,119 @@
 @section('content')
 
     <style>
-        /* ===== HERO ===== */
-        .news-list-hero {
-            background: linear-gradient(135deg, #0a1f44, #163b7a);
-            padding: 60px 0;
-            color: #fff;
+        .safran-news-section {
+            padding: 80px 0;
+            background-color: #fafafa;
+        }
+
+        .safran-news-heading {
+            font-size: 38px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            color: #111;
             margin-bottom: 50px;
-            border-radius: 0 0 30px 30px;
         }
 
-        .news-list-hero h1 {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 10px;
+        .safran-news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px 30px;
         }
 
-        .news-list-hero p {
-            font-size: 18px;
-            opacity: .9;
-            margin: 0;
+        .safran-news-card {
+            display: block;
+            text-decoration: none;
+            background: transparent;
+            cursor: pointer;
+            transition: none;
         }
 
-        /* ===== CARD ===== */
-        .premium-news-card {
-            background: #fff;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, .08);
-            transition: all .35s ease;
-            height: 100%;
-        }
-
-        .premium-news-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 18px 45px rgba(0, 0, 0, .14);
-        }
-
-        .premium-news-image {
-            height: 280px;
+        .safran-news-img-wrap {
             width: 100%;
-            object-fit: cover;
-            transition: transform .4s ease;
+            height: 240px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            background-color: #eee;
         }
 
-        .premium-news-card:hover .premium-news-image {
+        .safran-news-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.3, 1);
+        }
+
+        .safran-news-card:hover .safran-news-img {
             transform: scale(1.05);
         }
 
-        .premium-news-content {
-            padding: 25px;
-        }
-
-        .news-badge {
-            display: inline-block;
-            background: #e6efff;
-            color: #163b7a;
-            padding: 6px 14px;
-            border-radius: 30px;
+        .safran-news-meta {
             font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 15px;
+            color: #777;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
-        .premium-news-title {
-            font-size: 28px;
+        .safran-news-title {
+            font-size: 17px;
             font-weight: 700;
-            color: #111827;
-            margin-bottom: 10px;
-            line-height: 1.4;
+            color: #111;
+            line-height: 1.45;
+            margin: 0;
+            transition: color 0.3s ease;
         }
 
-        .premium-news-subtitle {
-            color: #6b7280;
-            font-size: 15px;
-            margin-bottom: 20px;
-            line-height: 1.8;
+        .safran-news-card:hover .safran-news-title {
+            color: #EE6802;
         }
 
-        .read-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #0a1f44, #163b7a);
-            color: #fff;
-            padding: 10px 22px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: .3s;
-        }
-
-        .read-btn:hover {
-            background: #ff7a00;
-            color: #fff;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media(max-width:768px) {
-            .news-list-hero h1 {
-                font-size: 32px;
+        @media (max-width: 991px) {
+            .safran-news-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px 20px;
             }
+        }
 
-            .premium-news-title {
-                font-size: 22px;
+        @media (max-width: 576px) {
+            .safran-news-grid {
+                grid-template-columns: 1fr;
             }
-
-            .premium-news-image {
-                height: 220px;
+            .safran-news-heading {
+                font-size: 28px;
+                margin-bottom: 30px;
             }
         }
     </style>
 
-    <!-- HERO -->
-    <div class="news-list-hero">
-        <div class="container text-center">
-            <h1>{{ $selectedCategory->name }}</h1>
-            <p>Latest updates, press releases and official news</p>
-        </div>
-    </div>
+    <div class="safran-news-section">
+        <div class="container">
+            <h1 class="safran-news-heading">Latest News - {{ $selectedCategory->name }}</h1>
 
-    <!-- NEWS GRID -->
-    <div class="container pb-5">
-        <div class="row g-4">
-
-            @foreach($articles as $article)
-                <div class="col-lg-6 col-md-6">
-
-                    <div class="premium-news-card">
-
-                        @if($article->wallpaper)
-                            <img src="{{ asset('uploads/news/' . $article->wallpaper) }}" class="premium-news-image"
-                                alt="{{ $article->title }}">
-                        @endif
-
-                        <div class="premium-news-content">
-
-                            <div class="news-badge">
-                                {{ $selectedCategory->name }}
-                            </div>
-
-                            <div class="premium-news-title">
-                                {{ $article->title }}
-                            </div>
-
-                            <div class="premium-news-subtitle">
-                                {{ Str::limit(strip_tags($article->subtitle), 120) }}
-                            </div>
-
-                            <a href="{{ route('news.show', $article->id) }}" class="read-btn">
-                                Read Full News →
-                            </a>
-
+            <div class="safran-news-grid">
+                @foreach($articles as $article)
+                    <a href="{{ route('news.show', $article->id) }}" class="safran-news-card">
+                        <div class="safran-news-img-wrap">
+                            @if($article->wallpaper)
+                                <img src="/uploads/news/{{ $article->wallpaper }}" class="safran-news-img" alt="{{ $article->title }}">
+                            @else
+                                <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-secondary text-white">
+                                    <span>No Image</span>
+                                </div>
+                            @endif
                         </div>
-
-                    </div>
-
-                </div>
-            @endforeach
-
+                        <div class="safran-news-meta">
+                            {{ \Carbon\Carbon::parse($article->publish_date)->format('m.d.Y') }}
+                        </div>
+                        <h4 class="safran-news-title">
+                            {{ $article->title }}
+                        </h4>
+                    </a>
+                @endforeach
+            </div>
         </div>
     </div>
 
