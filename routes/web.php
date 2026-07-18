@@ -974,9 +974,115 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             ]
         ];
 
+        $cffData = [
+            'title' => 'Combat Free Fall Parachute RAM AIR 9 Cell',
+            'category_id' => 9,
+            'description' => '<p>RAM Air Parachute is a highly steerable & gliding free fall parachute for clandestine and deep penetration into enemy territory. The Parachute in a 9 Cell configuration is fully manoeuvrable and provides pinpoint landing.</p>',
+            'wallpaper' => 'cff_ram_air.jpg',
+            'display_order' => 4,
+            'technical_specs' => [
+                ['parameter' => 'Design of Canopy', 'value' => 'Aerofoil', 'description' => 'Low drag high lift wing shape.', 'icon' => ''],
+                ['parameter' => 'No. of Cells', 'value' => '9', 'description' => 'Segment cell configuration.', 'icon' => ''],
+                ['parameter' => 'Span', 'value' => '8.84 Mtr', 'description' => 'Canopy wing span.', 'icon' => ''],
+                ['parameter' => 'Rate of descent (Full Glide)', 'value' => '3.0-4.30 m/sec', 'description' => 'Descent speed at full glide.', 'icon' => ''],
+                ['parameter' => 'Forward Speed', 'value' => 'Upto 40 kmph', 'description' => 'Horizontal glide speed.', 'icon' => ''],
+                ['parameter' => 'Suspended Mass (Max)', 'value' => '150 kg', 'description' => 'Maximum load limit.', 'icon' => ''],
+                ['parameter' => 'Altitude of Opening', 'value' => '0.3 to 10.00 km AGL', 'description' => 'Operating altitude range.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Clandestine Gliding', 'description' => 'Steerable rectangular aerofoil design built for silent, high-altitude military insertions deep into enemy territory.'],
+                ['heading' => 'Pinpoint Landing Precision', 'description' => 'Fully manoeuvrable canopy layout allows the operator to execute precise, pinpoint landings in small drop zones.']
+            ]
+        ];
+
+        $bmk41Data = [
+            'title' => 'Pilot Parachute BMK-41 for Kiran Aircraft',
+            'category_id' => 9,
+            'description' => '<p>Pilot Parachute BMK-41 used for ejecting pilot from Kiran Aircraft during emergency for safe landing.</p>',
+            'wallpaper' => 'pp_bmk41.jpg',
+            'display_order' => 5,
+            'technical_specs' => [
+                ['parameter' => 'Design of Canopy', 'value' => 'Flat Circular', 'description' => 'Standard drag profile.', 'icon' => ''],
+                ['parameter' => 'Canopy Diameter', 'value' => '24 ft', 'description' => 'Canopy sizing.', 'icon' => ''],
+                ['parameter' => 'No. of Rigging lines', 'value' => '24', 'description' => 'Suspension line count.', 'icon' => ''],
+                ['parameter' => 'Rigging Line Length', 'value' => '4900 mm', 'description' => 'Effective length of rigging lines.', 'icon' => ''],
+                ['parameter' => 'Max Aircraft Speed', 'value' => '450 kmph', 'description' => 'Maximum ejection speed threshold.', 'icon' => ''],
+                ['parameter' => 'Max Altitude Limit', 'value' => '6000 M', 'description' => 'Maximum ejection height threshold.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Emergency Pilot Ejection', 'description' => 'Specifically engineered for immediate pilot survival during emergency ejection from Kiran jet aircraft.'],
+                ['heading' => 'Circular Stability', 'description' => 'Features 24 rigging lines and flat circular canopy design to guarantee stabilized shock absorption upon deployment.']
+            ]
+        ];
+
+        $seatMk10Data = [
+            'title' => 'Pilot Parachute Seat Mk-10',
+            'category_id' => 9,
+            'description' => '<p>Pilot Parachute Seat MK-10 is used for emergency bailing out from HPT-32 aircraft and as the name indicates it is a seat type parachute filled into the seat pan of the aircraft.</p>',
+            'wallpaper' => 'pp_seat_mk10.jpg',
+            'display_order' => 6,
+            'technical_specs' => [
+                ['parameter' => 'Design of Canopy', 'value' => 'Flat Circular', 'description' => 'Standard circular shape.', 'icon' => ''],
+                ['parameter' => 'Canopy Diameter', 'value' => '7.31 m (24 ft)', 'description' => 'Canopy size.', 'icon' => ''],
+                ['parameter' => 'No. of Gores', 'value' => '24', 'description' => 'Canopy panels count.', 'icon' => ''],
+                ['parameter' => 'No. of Rigging lines', 'value' => '24', 'description' => 'Suspension line count.', 'icon' => ''],
+                ['parameter' => 'Rigging Line Length', 'value' => '5000 mm', 'description' => 'Effective length of lines.', 'icon' => ''],
+                ['parameter' => 'Assembly Mass', 'value' => '9.25 Kg', 'description' => 'Weight of complete pack assembly.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Seat Pan Compact Fit', 'description' => 'Uniquely packaged seat-type parachute that fits snugly into the seat pan of HPT-32 aircraft serving as pilot seat cushion.'],
+                ['heading' => 'Inertia-Proof Ejection Harness', 'description' => 'Comes with a fully adjustable harness and an inertia-proof 4-point quick release box for immediate post-landing harness shedding.']
+            ]
+        ];
+
+        $hapData = [
+            'title' => 'High Altitude Parachute (HAP)',
+            'category_id' => 9,
+            'description' => '<p>High Altitude Parachute has been designed and developed for use in high altitude dropping zones up to 20,000 ft. ASL and for training jumps at plains from high speed AN-32 Aircraft.</p>',
+            'wallpaper' => 'hap.jpg',
+            'display_order' => 7,
+            'technical_specs' => [
+                ['parameter' => 'Design of Canopy', 'value' => 'Flat Circular', 'description' => 'Circular aerodynamic design.', 'icon' => ''],
+                ['parameter' => 'Diameter of Canopy', 'value' => '10.67 Mtr', 'description' => 'Canopy sizing.', 'icon' => ''],
+                ['parameter' => 'No. of Rigging lines', 'value' => '30', 'description' => 'Rigging line count.', 'icon' => ''],
+                ['parameter' => 'Rigging Line Length', 'value' => '7772 mm', 'description' => 'Effective length of lines.', 'icon' => ''],
+                ['parameter' => 'Weight of Parachute', 'value' => '15 Kg', 'description' => 'Total weight of parachute system.', 'icon' => ''],
+                ['parameter' => 'Rate of descent', 'value' => '3.4 m/sec', 'description' => 'Vertical impact velocity.', 'icon' => ''],
+                ['parameter' => 'Min Deployment Height', 'value' => '750 ft. AGL', 'description' => 'Minimum safe release altitude.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'High Altitude Drops', 'description' => 'Specially designed and rated for deployment in high-altitude zones up to 20,000 feet above sea level (ASL).'],
+                ['heading' => 'Static Line Training', 'description' => 'Supports static-line release for paratroop training and operations from high-speed AN-32 transport aircraft.']
+            ]
+        ];
+
+        $parasailData = [
+            'title' => 'Parasail Assembly',
+            'category_id' => 9,
+            'description' => '<p>Parasailing is an adventurous aero-sport where the sailor is towed mechanically by a moving vehicle (like a jeep) to lift the canopy into air. Ideal for recreational and military training jumps.</p>',
+            'wallpaper' => 'parasail.jpg',
+            'display_order' => 8,
+            'technical_specs' => [
+                ['parameter' => 'Design of Canopy', 'value' => 'Extended skirt type', 'description' => 'Aerodynamic high stability skirt.', 'icon' => ''],
+                ['parameter' => 'Diameter of Canopy', 'value' => '7230 mm', 'description' => 'Canopy width.', 'icon' => ''],
+                ['parameter' => 'No. of Rigging lines', 'value' => '24', 'description' => 'Rigging line count.', 'icon' => ''],
+                ['parameter' => 'Rigging Line Length', 'value' => '6450 mm', 'description' => 'Effective length of lines.', 'icon' => ''],
+                ['parameter' => 'No. of Gores/Panels', 'value' => '24', 'description' => 'Symmetric panels construction count.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Aero-Sport Towing', 'description' => 'Designed with an extended skirt canopy to inflate automatically when towed behind jeep or mechanical winch.'],
+                ['heading' => 'Disconnect Release', 'description' => 'Features a release mechanism letting paratroopers disconnect from the tow line at peak height and glide to the ground.']
+            ]
+        ];
+
         $sync(9, 'Tactical Assault Main', $ptamData);
         $sync(10, 'Tactical Assault Reserve', $ptarData);
         $sync(12, 'Paratroop Type PTR-M', $ptrmData);
+        $sync(9, 'Combat Free Fall', $cffData);
+        $sync(9, 'BMK-41', $bmk41Data);
+        $sync(9, 'Seat Mk-10', $seatMk10Data);
+        $sync(9, 'High Altitude', $hapData);
+        $sync(9, 'Parasail', $parasailData);
 
         return response($output . "\nAll Categories and Products Seeding Completed Successfully!", 200)
             ->header('Content-Type', 'text/plain');
