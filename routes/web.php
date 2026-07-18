@@ -1084,6 +1084,62 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         $sync(9, 'High Altitude', $hapData);
         $sync(9, 'Parasail', $parasailData);
 
+        // 5. SEED VIDEO PLAYLISTS
+        try {
+            // Clean existing playlists for fresh seed
+            \App\Models\PlaylistVideo::truncate();
+            \App\Models\PlaylistImage::truncate();
+            \App\Models\Playlist::truncate();
+
+            // Playlist 1
+            $p1 = \App\Models\Playlist::create([
+                'name' => 'Brake Parachute Systems',
+                'heading' => 'SU-30 Aircraft Brake Parachute Deployment',
+                'description' => 'High-definition video showcasing the deployment and deceleration test of the Su-30 fighter jet\'s brake parachute system.',
+                'status' => 'Published',
+                'hide_during_election' => 0
+            ]);
+            \App\Models\PlaylistVideo::create([
+                'playlist_id' => $p1->id,
+                'video' => 'brake_para_su30.mp4',
+                'caption' => 'Su-30 Brake Parachute Deployment Sequence'
+            ]);
+            $output .= "Created Playlist 1: Brake Parachute Systems\n";
+
+            // Playlist 2
+            $p2 = \App\Models\Playlist::create([
+                'name' => 'Heavy Drop Parachute Systems',
+                'heading' => 'P-7 Heavy Drop System Airdrop Trial',
+                'description' => 'Video documentation of the military cargo and vehicle drop trials utilizing the P-7 Heavy Drop platform and cluster parachute system.',
+                'status' => 'Published',
+                'hide_during_election' => 0
+            ]);
+            \App\Models\PlaylistVideo::create([
+                'playlist_id' => $p2->id,
+                'video' => 'p7.mp4',
+                'caption' => 'P-7 Heavy Drop System In Action'
+            ]);
+            $output .= "Created Playlist 2: Heavy Drop Parachute Systems\n";
+
+            // Playlist 3
+            $p3 = \App\Models\Playlist::create([
+                'name' => 'Tactical Inflatable Boats & Systems',
+                'heading' => 'Boat Assault Pneumatic (BAPLW) Demonstration',
+                'description' => 'Demonstration video showcasing the maneuverability, high-speed performance, and deployment sequence of the lightweight tactical assault boat (BAPLW) in riverine operations.',
+                'status' => 'Published',
+                'hide_during_election' => 0
+            ]);
+            \App\Models\PlaylistVideo::create([
+                'playlist_id' => $p3->id,
+                'video' => 'vid_20251029_wa0005.mp4',
+                'caption' => 'Tactical Assault Boat Performance Test'
+            ]);
+            $output .= "Created Playlist 3: Tactical Inflatable Boats & Systems\n";
+
+        } catch (\Exception $e) {
+            $output .= "Warning seeding video playlists: " . $e->getMessage() . "\n";
+        }
+
         return response($output . "\nAll Categories and Products Seeding Completed Successfully!", 200)
             ->header('Content-Type', 'text/plain');
     });

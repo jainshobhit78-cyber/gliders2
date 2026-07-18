@@ -164,7 +164,7 @@
 
                 var category = $(this).val();
 
-                table.column(3).search(category).draw();
+                table.column(4).search(category).draw();
 
             });
 
