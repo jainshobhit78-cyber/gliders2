@@ -258,106 +258,71 @@
 
         <section class="updates-section">
             <div class="container-fluid px-5">
-                <div class="row g-4">
+                <div class="section-title text-center mb-5">
+                    <h2 class="activities-main-heading">Our Core <span>Activities</span></h2>
+                    <p class="activities-sub-heading text-muted mt-2">Shortening retardation, safeguarding troops, and protecting lives in extreme scenarios.</p>
+                </div>
 
-                    <!-- KEY OFFERINGS -->
-                    <div class="col-lg-5">
-                        <div class="content-box">
-                            <h2 class="section-heading">
-                                Our <span>Offerings</span>
-                            </h2>
-
-                            <div class="swiper offeringSlider">
-                                <div class="swiper-wrapper">
-
-                                    @foreach($businessOfferings as $offering)
-                                        <div class="swiper-slide">
-                                            <div class="offering-card">
-                                                <a href="{{ route('products.index', ['offering' => $offering['slug']]) }}">
-                                                    @if($offering['image'])
-                                                        <img src="{{ $offering['image'] }}" alt="{{ $offering['title'] }}">
-                                                    @else
-                                                        <div class="offering-coming-soon-art" aria-hidden="true">
-                                                            <svg viewBox="0 0 64 64" fill="none">
-                                                                <path d="M22 13 32 18l10-5 10 9-8 9v23H20V31l-8-9 10-9Z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
-                                                                <path d="M27 16c0 4 2 7 5 7s5-3 5-7M20 31h24" stroke="currentColor" stroke-width="3"/>
-                                                            </svg>
-                                                            <span>Coming Soon</span>
-                                                        </div>
-                                                    @endif
-
-                                                    <div class="offering-content">
-                                                        <div class="offering-title">
-                                                            {{ $offering['title'] }}
-                                                        </div>
-                                                    </div>
-                                                </a>
-
-                                            </div>
-                                        </div>
-                                    @endforeach
-
-                                </div>
-                                <!-- Navigation Buttons & Pagination -->
-                                <div class="swiper-button-prev"></div>
-                                <div class="swiper-button-next"></div>
-                                <div class="swiper-pagination"></div>
+                <div class="safran-activities-wrapper">
+                    <!-- CARD 1: PARACHUTES -->
+                    <div class="safran-activity-card">
+                        <div class="card-bg" style="background-image: url('/uploads/key_offerings/1776004316_parachutes-aerial-delivery.png');"></div>
+                        <div class="card-overlay"></div>
+                        <div class="card-content">
+                            <div class="card-icon-wrapper">
+                                <!-- Parachute / Aviation Icon -->
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                </svg>
+                            </div>
+                            <h3 class="card-title">Parachutes & Aerial Delivery</h3>
+                            <div class="card-details">
+                                <p class="card-description">Pioneers in manufacturing state-of-the-art paratrooper, brake, cargo, and heavy platform recovery parachute systems for global defense forces.</p>
+                                <a href="/products/offering/parachutes" class="card-action-btn">Explore Parachutes</a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- LATEST UPDATES -->
-                    <div class="col-lg-3 content-border-box">
-                        <div class="content-box">
-                            <h2 class="section-heading">
-                                Latest <span>Updates</span>
-                            </h2>
-
-                            <ul class="latest-list">
-                                @foreach($latestNews as $news)
-                                    <li>
-                                        <a href="{{ route('news.category', $news->category_id) }}" class="news-link">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M7.75194 5.4392L18.2596 11.5687C18.4981 11.7078 18.5787 12.014 18.4396 12.2525C18.3961 12.327 18.3341 12.389 18.2596 12.4325L7.75194 18.562C7.51341 18.7011 7.20725 18.6205 7.06811 18.382C7.0235 18.3055 7 18.2186 7 18.1301V5.87109C7 5.59494 7.22386 5.37109 7.5 5.37109C7.58853 5.37109 7.67547 5.39459 7.75194 5.4392Z"
-                                                    fill="#EE6802" />
-                                            </svg>
-
-                                            <span>{{ \Illuminate\Support\Str::limit($news->title, 120) }}</span>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-
-                            <div class="news-btn-wrap">
-                                <a href="{{ route('news.categories') }}" class="view-news-btn">
-                                    View All News
-                                </a>
+                    <!-- CARD 2: RUBBER INFLATABLES -->
+                    <div class="safran-activity-card">
+                        <div class="card-bg" style="background-image: url('/uploads/products/km_bridge.jpg');"></div>
+                        <div class="card-overlay"></div>
+                        <div class="card-content">
+                            <div class="card-icon-wrapper">
+                                <!-- Boat / Inflatable Icon -->
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2L2 22h20L12 2z"></path>
+                                    <path d="M12 22V10"></path>
+                                </svg>
+                            </div>
+                            <h3 class="card-title">Tactical Inflatable Systems</h3>
+                            <div class="card-details">
+                                <p class="card-description">High-durability military assault boats, Gemini crafts, and pneumatic float assemblies designed for tactical crossings and riverine operations.</p>
+                                <a href="/products/offering/rubber-inflatables" class="card-action-btn">Explore Inflatables</a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- STATIC BLOCK -->
-                    <div class="col-lg-4">
-                        <a href="{{ route('news.categories') }}">
-                            <div class="innovation-box">
-                                <img src="{{ asset('frontend/images/innovation.png') }}" alt="Innovation">
-
-                                <div class="innovation-overlay">
-                                    <h2>
-                                        Innovation & <span>Expertise</span>
-                                    </h2>
-
-                                    <p>
-                                        Driving the Future of
-                                        Defence Technology
-                                    </p>
-                                </div>
+                    <!-- CARD 3: TECHNICAL CLOTHING -->
+                    <div class="safran-activity-card">
+                        <div class="card-bg" style="background-image: url('/uploads/products/nbc_suit.jpg');"></div>
+                        <div class="card-overlay"></div>
+                        <div class="card-content">
+                            <div class="card-icon-wrapper">
+                                <!-- Shield / Protective Gear Icon -->
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                </svg>
                             </div>
-                        </a>
+                            <h3 class="card-title">Technical Clothing & Gear</h3>
+                            <div class="card-details">
+                                <p class="card-description">Advanced protective combat clothing, nuclear-biological-chemical (NBC) suits, and extreme cold climate survival gear built to save lives.</p>
+                                <a href="/products/offering/technical-clothing" class="card-action-btn">Explore Equipment</a>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </section>
