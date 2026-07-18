@@ -80,6 +80,10 @@
                             $subheading = 'FLOAT SYSTEMS';
                             $description = 'High-performance inflatable float assemblies and marine survival equipment.';
                             $iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 22px; height: 22px; color: #fff;"><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>';
+                        } elseif (str_contains(strtolower($category->name), 'clothing') || str_contains(strtolower($category->name), 'apparel') || str_contains(strtolower($category->name), 'garment') || str_contains(strtolower($category->name), 'wear')) {
+                            $subheading = 'CLOTHING SYSTEMS';
+                            $description = 'Mission-ready technical clothing and protective apparel engineered for demanding environments.';
+                            $iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 22px; height: 22px; color: #fff;"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3v-4h-3V7a1 1 0 0 1 1-1h3z"></path></svg>';
                         }
                     @endphp
 

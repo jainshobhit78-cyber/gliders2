@@ -94,13 +94,16 @@ class HomeController extends Controller
                 'slug' => 'rubber-inflatables',
                 'image' => $offeringImage(
                     ['rubber', 'inflatable', 'float', 'boat'],
-                    'uploads/products/1778135338_wallpaper_Float Assembly for KM Bridge.jpg'
+                    'uploads/products/km_bridge.jpg'
                 ),
             ],
             [
                 'title' => 'Technical Clothing and Equipments',
                 'slug' => 'technical-clothing',
-                'image' => $offeringImage(['technical clothing', 'clothing', 'garment', 'apparel']),
+                'image' => $offeringImage(
+                    ['technical clothing', 'clothing', 'garment', 'apparel'],
+                    'uploads/products/nbc_suit.jpg'
+                ),
             ],
         ];
 
