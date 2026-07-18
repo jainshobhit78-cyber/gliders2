@@ -907,7 +907,7 @@
         var swiperOptions = {
             slidesPerView: 4,
             spaceBetween: 25,
-            loop: autoSliderEnabled,
+            loop: true,
 
             navigation: {
                 nextEl: ".swiper-button-next",
