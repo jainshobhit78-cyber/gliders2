@@ -648,8 +648,13 @@
                         <!-- User profile card -->
                         <div class="header-profile-dropdown dropdown">
                             <div class="profile-trigger" data-bs-toggle="dropdown" aria-expanded="false">
-                                <div class="profile-avatar">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                <div class="profile-avatar" style="overflow: hidden;">
+                                    @php $adminUser = auth()->guard('admin')->user(); @endphp
+                                    @if($adminUser && !empty($adminUser->profile_photo) && file_exists(public_path('uploads/profile/' . $adminUser->profile_photo)))
+                                        <img src="{{ asset('uploads/profile/' . $adminUser->profile_photo) }}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                                    @else
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                    @endif
                                 </div>
                                 <div class="profile-info">
                                     <span class="profile-name">{{ auth()->guard('admin')->user()->name ?? 'Administrator' }}</span>

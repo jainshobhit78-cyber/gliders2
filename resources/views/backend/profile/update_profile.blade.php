@@ -9,8 +9,24 @@
     </div>
     
     @include('_message')
-    <form method="POST" action="{{ url('admin/profile/update') }}" class="theme-form">
+    <form method="POST" action="{{ url('admin/profile/update') }}" class="theme-form" enctype="multipart/form-data">
         @csrf
+
+        <div class="mb-4 d-flex align-items-center gap-4">
+            <div>
+                <label class="form-label-title d-block">Profile Photo</label>
+                @if(!empty($admin->profile_photo) && file_exists(public_path('uploads/profile/' . $admin->profile_photo)))
+                    <img src="{{ asset('uploads/profile/' . $admin->profile_photo) }}" alt="Profile Photo" class="rounded-circle border" style="width: 100px; height: 100px; object-fit: cover;">
+                @else
+                    <img src="{{ asset('backend/assets/images/profile/user.png') }}" alt="Profile Photo" class="rounded-circle border" style="width: 100px; height: 100px; object-fit: cover;">
+                @endif
+            </div>
+            <div class="flex-grow-1">
+                <label class="form-label-title">Upload New Photo</label>
+                <input type="file" name="profile_photo" class="form-control" accept="image/*">
+                <small class="text-muted">Allowed formats: JPG, JPEG, PNG, WEBP (Max: 2MB)</small>
+            </div>
+        </div>
 
         <div class="mb-4">
             <label class="form-label-title">Name</label>

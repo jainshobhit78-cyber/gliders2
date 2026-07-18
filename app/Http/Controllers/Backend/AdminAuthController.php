@@ -223,10 +223,21 @@ class AdminAuthController extends Controller
                 'regex:/[0-9]/',
                 'regex:/[@$!%*?&#]/',
             ],
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
         $admin->name = $request->name;
         $admin->email = $request->email;
+
+        if ($request->hasFile('profile_photo')) {
+            if ($admin->profile_photo && file_exists(public_path('uploads/profile/' . $admin->profile_photo))) {
+                @unlink(public_path('uploads/profile/' . $admin->profile_photo));
+            }
+            $file = $request->file('profile_photo');
+            $name = 'admin_' . $admin->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/profile'), $name);
+            $admin->profile_photo = $name;
+        }
 
         if ($request->filled('new_password')) {
             if (!Hash::check($request->current_password, $admin->password)) {

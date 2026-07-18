@@ -22,9 +22,16 @@
 
 
         <div class="mobile-profile dropdown">
-            <img src="{{ asset('backend/assets/images/profile/user.png') }}" class="rounded-circle mobile-profile-img"
-                width="32" height="32" style="cursor:pointer; object-fit:cover;" data-bs-toggle="dropdown"
-                data-bs-display="static">
+            @php $adminUser = auth()->guard('admin')->user(); @endphp
+            @if($adminUser && !empty($adminUser->profile_photo) && file_exists(public_path('uploads/profile/' . $adminUser->profile_photo)))
+                <img src="{{ asset('uploads/profile/' . $adminUser->profile_photo) }}" class="rounded-circle mobile-profile-img"
+                    width="32" height="32" style="cursor:pointer; object-fit:cover;" data-bs-toggle="dropdown"
+                    data-bs-display="static">
+            @else
+                <img src="{{ asset('backend/assets/images/profile/user.png') }}" class="rounded-circle mobile-profile-img"
+                    width="32" height="32" style="cursor:pointer; object-fit:cover;" data-bs-toggle="dropdown"
+                    data-bs-display="static">
+            @endif
 
             <ul class="dropdown-menu dropdown-menu-end mobile-profile-menu">
                 <li><a class="dropdown-item" href="{{ url('admin/profile') }}"><i class="fa fa-user"></i> Profile</a>

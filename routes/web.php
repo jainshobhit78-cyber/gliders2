@@ -186,6 +186,17 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             $output .= "Homepage products migration failed: " . $e->getMessage() . ". ";
         }
 
+        // 10. Admin profile photo migration
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', [
+                '--path' => 'database/migrations/2026_07_18_050000_add_profile_photo_to_admins_table.php',
+                '--force' => true
+            ]);
+            $output .= "Admin profile photo migration run completed. ";
+        } catch (\Exception $e) {
+            $output .= "Admin profile photo migration failed: " . $e->getMessage() . ". ";
+        }
+
         // Self-healing fallback: directly alter the tables if migrations table is out of sync
         try {
             \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
@@ -316,6 +327,14 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                     $table->boolean('product_slider_auto')->default(true);
                 });
                 $output .= " | product_slider_auto added.";
+            }
+
+            // Self-healing: profile_photo column in admins table
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('admins', 'profile_photo')) {
+                \Illuminate\Support\Facades\Schema::table('admins', function ($table) {
+                    $table->string('profile_photo')->nullable()->after('password');
+                });
+                $output .= " | admins profile_photo added.";
             }
         } catch (\Exception $ex) {
             $output .= " | Manual schema update failed: " . $ex->getMessage();
@@ -544,6 +563,153 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         $sync('Jaguar', $jaguarData);
 
         return response($output . "\nSeeding Completed Successfully!", 200)
+            ->header('Content-Type', 'text/plain');
+    });
+
+    Route::get('admin/seed-rubber-inflatables', function () {
+        $user = auth()->guard('admin')->user();
+        if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
+            abort(403, 'User does not have the right permissions.');
+        }
+
+        $output = "--- RUNNING RUBBER INFLATABLES PRODUCT SEEDER ---\n";
+
+        // 1. Create Category "Rubber Inflatables" if not exists
+        $category = \App\Models\ProductCategory::where('name', 'LIKE', '%Rubber Inflatables%')->first();
+        if (!$category) {
+            $category = \App\Models\ProductCategory::create([
+                'name' => 'Rubber Inflatables',
+                'category_title' => 'Rubber Inflatables',
+                'category_subtitle' => 'Explore KM floats, inflatable boats and our growing range of rubber-based systems.',
+                'image' => 'ibgc.png',
+                'wallpaper_image' => 'km_bridge.jpg',
+                'status' => 'active',
+                'display_order' => 10
+            ]);
+            $output .= "Created new category: Rubber Inflatables (ID: {$category->id})\n";
+        } else {
+            $category->update([
+                'name' => 'Rubber Inflatables',
+                'category_title' => 'Rubber Inflatables',
+                'category_subtitle' => 'Explore KM floats, inflatable boats and our growing range of rubber-based systems.',
+                'status' => 'active',
+            ]);
+            $output .= "Updated existing category: Rubber Inflatables (ID: {$category->id})\n";
+        }
+
+        $catId = $category->id;
+
+        // 2. Define Products
+        $ibgcData = [
+            'title' => 'Inflatable Boat Gemini Craft (IBGC)',
+            'category_id' => $catId,
+            'description' => '<p>High-durability tactical inflatable boat designed for maritime patrol, search and rescue (SAR), and specialized combat operations. Compliant with ISO 6185-3 and military standards, featuring robust Hypalon construction.</p>',
+            'wallpaper' => 'ibgc.png',
+            'display_order' => 1,
+            'technical_specs' => [
+                ['parameter' => 'Design of Boat', 'value' => 'Inflatable V-shape keel', 'description' => 'Symmetric V-hull for high speed stability.', 'icon' => ''],
+                ['parameter' => 'Material', 'value' => 'Hypalon rubberized fabric', 'description' => 'Extremely durable, UV-resistant fabric.', 'icon' => ''],
+                ['parameter' => 'Overall Length / Width', 'value' => '4.7 meters / 1.9 meters', 'description' => 'Standard military dimensions.', 'icon' => ''],
+                ['parameter' => 'Capacity', 'value' => '8 to 10 fully equipped personnel', 'description' => 'Load carrying specification.', 'icon' => ''],
+                ['parameter' => 'Compatible Motor', 'value' => 'Outboard motor up to 50 HP', 'description' => 'Maximum engine compatibility.', 'icon' => ''],
+                ['parameter' => 'Design Standards', 'value' => 'ISO 6185-3 / NCD 4006', 'description' => 'Certified naval design compliance.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Combat Grade Material', 'description' => 'Engineered with military-grade Hypalon rubberized fabric for superior UV, abrasion, and fuel resistance in harsh marine conditions.'],
+                ['heading' => 'High Capacity & Stability', 'description' => 'Safely carries up to 10 fully armed commandos or search and rescue personnel with excellent stability under high-speed outboard propulsion.']
+            ]
+        ];
+
+        $baplwData = [
+            'title' => 'Boat Assault Pneumatic Light Weight (BAPLW)',
+            'category_id' => $catId,
+            'description' => '<p>Specialized lightweight assault inflatable craft designed for tactical river crossings, bridging support, and rapid military insertion tasks. Highly portable and rapidly deployable.</p>',
+            'wallpaper' => 'baplw.png',
+            'display_order' => 2,
+            'technical_specs' => [
+                ['parameter' => 'Overall Length', 'value' => '4.95 meters', 'description' => 'Overall craft length.', 'icon' => ''],
+                ['parameter' => 'Overall Width', 'value' => '1.90 meters', 'description' => 'Overall craft width.', 'icon' => ''],
+                ['parameter' => 'Hull Diameter', 'value' => '500 mm', 'description' => 'Pneumatic tube diameter.', 'icon' => ''],
+                ['parameter' => 'Capacity', 'value' => '12 fully armed personnel (including 2 crew)', 'description' => 'Assault squad transport limit.', 'icon' => ''],
+                ['parameter' => 'Weight', 'value' => 'Maximum 70 kg (excluding floor and accessories)', 'description' => 'Lightweight boat hull weight.', 'icon' => ''],
+                ['parameter' => 'Freeboard (at 1200 kg load)', 'value' => '300 mm', 'description' => 'Safety clearance with 1200 kg load.', 'icon' => ''],
+                ['parameter' => 'Freeboard (at 2000 kg load)', 'value' => '200 mm', 'description' => 'Safety clearance with 2000 kg load.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Tactical Assault Capacity', 'description' => 'Specifically built to carry a full squad of 12 fully armed infantrymen for bridging and river crossing operations.'],
+                ['heading' => 'Lightweight Portability', 'description' => 'Weighs less than 70 kg without floorboards, allowing rapid manual portage and quick air or vehicular transport.']
+            ]
+        ];
+
+        $brpData = [
+            'title' => 'Boat Reconnaissance Pneumatic (3 Men)',
+            'category_id' => $catId,
+            'description' => '<p>Compact, highly portable pneumatic reconnaissance boat designed for stealth scouting, marine surveillance, and shallow-water patrol missions. Supplied with folding paddles and foot pump.</p>',
+            'wallpaper' => 'brp_3men.png',
+            'display_order' => 3,
+            'technical_specs' => [
+                ['parameter' => 'Design Standard', 'value' => 'Military standard MIL-B-13831E', 'description' => 'Scouting boat military specifications.', 'icon' => ''],
+                ['parameter' => 'Capacity', 'value' => '3 fully equipped reconnaissance crew', 'description' => 'Ideal load carrying specification.', 'icon' => ''],
+                ['parameter' => 'Floor Construction', 'value' => 'Durable fiber planks / floorboards', 'description' => 'Sturdy removable decking.', 'icon' => ''],
+                ['parameter' => 'Propulsion Compatibility', 'value' => 'Outboard motor up to 3.3 HP or manual paddles', 'description' => 'Propulsion options.', 'icon' => ''],
+                ['parameter' => 'Supplied Accessories', 'value' => 'Folding paddles, foot pump, repair kit, boat bag, lifeline ropes', 'description' => 'Complete outfitting package.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Stealth Scouting', 'description' => 'Designed for silent, low-profile navigation during reconnaissance and intelligence gathering in shallow rivers and coastal zones.'],
+                ['heading' => 'Complete Accessory Kit', 'description' => 'Comes fully equipped with heavy-duty foot pumps, folding paddles, storage bag, and rapid-repair tools for immediate field deployment.']
+            ]
+        ];
+
+        $floatAssemblyData = [
+            'title' => 'Float Assembly for KM Bridge',
+            'category_id' => $catId,
+            'description' => '<p>High-durability pneumatic float assemblies engineered to support heavy tactical floating bridges and raft systems (such as Krupp-man bridging gear) for heavy vehicle crossings.</p>',
+            'wallpaper' => 'float_assembly.png',
+            'display_order' => 4,
+            'technical_specs' => [
+                ['parameter' => 'Application', 'value' => 'Floating bridges / Kruppman (KM) Bridge system', 'description' => 'Military bridging pontoon system compatibility.', 'icon' => ''],
+                ['parameter' => 'Material', 'value' => 'Heavy-duty multi-layer rubberized fabric', 'description' => 'Tough abrasion-resistant layered fabric.', 'icon' => ''],
+                ['parameter' => 'Certification', 'value' => 'Self-certification level from Directorate General of Quality Assurance (DGQA)', 'description' => 'Official Ministry of Defence quality standard.', 'icon' => ''],
+                ['parameter' => 'Core Components', 'value' => 'Float body, valve assemblies, girder coupling interfaces', 'description' => 'Essential hardware components.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Heavy Load Bridging', 'description' => 'Specifically designed to provide enormous buoyancy to sustain the heavy loads of military trucks and armored vehicles crossing temporary pontoon bridges.'],
+                ['heading' => 'DGQA Self-Certified', 'description' => 'Formally certified by the Ministry of Defence for absolute quality, pressure retention, and structural durability under continuous load stress.']
+            ]
+        ];
+
+        $sync = function ($matchKeyword, $data) use ($catId, &$output) {
+            $product = \App\Models\Product::where('category_id', $catId)
+                ->where('title', 'LIKE', '%' . $matchKeyword . '%')
+                ->first();
+
+            if ($product) {
+                $product->update($data);
+                $output .= "Updated existing product ID {$product->id}: {$product->title}\n";
+            } else {
+                $product = \App\Models\Product::create($data);
+                $output .= "Created new product ID {$product->id}: {$product->title}\n";
+            }
+
+            if ($product->wallpaper) {
+                $exists = \App\Models\ProductImage::where('product_id', $product->id)
+                    ->where('image', $product->wallpaper)
+                    ->exists();
+                if (!$exists) {
+                    \App\Models\ProductImage::create([
+                        'product_id' => $product->id,
+                        'image' => $product->wallpaper
+                    ]);
+                }
+            }
+        };
+
+        $sync('Gemini Craft', $ibgcData);
+        $sync('BAPLW', $baplwData);
+        $sync('3 Men', $brpData);
+        $sync('Float Assembly', $floatAssemblyData);
+
+        return response($output . "\nRubber Inflatables Seeding Completed Successfully!", 200)
             ->header('Content-Type', 'text/plain');
     });
 
