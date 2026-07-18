@@ -286,6 +286,220 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         return "Permissions successfully populated inside the database!";
     });
 
+    Route::get('admin/seed-brake-parachutes', function () {
+        $user = auth()->guard('admin')->user();
+        if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
+            abort(403, 'User does not have the right permissions.');
+        }
+
+        $output = "--- RUNNING BRAKE PARACHUTE PRODUCT SEEDER ---\n";
+        
+        $mirageData = [
+            'title' => 'Brake Parachute for Mirage-2000 A/C',
+            'category_id' => 5,
+            'description' => '<p>The brake parachute is intended to reduce the Aircraft landing run of the aircraft and provides additional safety during emergencies.</p>',
+            'wallpaper' => 'mirage_2000_bp.jpg',
+            'display_order' => 4,
+            'technical_specs' => [
+                ['parameter' => 'Design of Canopy', 'value' => 'Unicross Design', 'description' => 'Unicross configuration for maximum drag stability.', 'icon' => ''],
+                ['parameter' => 'Measurement of Canopy', 'value' => '5280 X 5280 mm', 'description' => 'Canopy surface dimensions.', 'icon' => ''],
+                ['parameter' => 'No. Of Rigging lines', 'value' => '32', 'description' => 'Total load lines supporting the canopy.', 'icon' => ''],
+                ['parameter' => 'Effective length of rigging lines', 'value' => '4350 mm', 'description' => 'Length of risers.', 'icon' => ''],
+                ['parameter' => 'Basic Material', 'value' => 'Fabric nylon 105 gm undyed Mockleno weave 6/6', 'description' => 'Highly durable, heat-resistant nylon weave.', 'icon' => ''],
+                ['parameter' => 'Salient Features', 'value' => 'Streaming speed up to 300 kmph (emergency up to 390 kmph).', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Aerodynamic Deceleration', 'description' => 'Significantly reduces the landing run distance of the Mirage-2000 aircraft, providing additional safety during normal and emergency landing rolls.'],
+                ['heading' => 'High-Strength Mockleno Material', 'description' => 'Manufactured using premium mockleno weave 105 gm nylon fabric, providing excellent thermal resistance and deployment stability.'],
+                ['heading' => 'Reliable Extraction', 'description' => 'Features 32 rigging lines with a length of 4350 mm, ensuring rapid, symmetrical, and twist-free canopy inflation under extreme aerodynamic loads.']
+            ]
+        ];
+
+        $migSeriesData = [
+            'title' => 'Brake Parachute for MIG-21/23/25 Series A/C',
+            'category_id' => 5,
+            'description' => '<p>The Brake Parachute is used to reduce the landing run of the aircraft and provides additional safety during emergencies.</p>',
+            'wallpaper' => 'mig_series_bp.jpg',
+            'display_order' => 7,
+            'technical_specs' => [
+                ['parameter' => 'MiG-21 Canopy Area', 'value' => 'Unicross, 15.3 sqm', 'description' => 'MiG-21 canopy surface area.', 'icon' => ''],
+                ['parameter' => 'MiG-21 Mass / Auxiliary Parachute', 'value' => '14 kg / 0.90 sqm', 'description' => 'MiG-21 system weight.', 'icon' => ''],
+                ['parameter' => 'MiG-21 Landing Speed (Normal / Emergency)', 'value' => '180 kmph / 300-320 kmph', 'description' => 'MiG-21 streaming speed thresholds.', 'icon' => ''],
+                ['parameter' => 'MiG-23 Canopy Area / Mass', 'value' => 'Unicross, 21 sqm / 18.5 kg', 'description' => 'MiG-23 canopy surface area and weight.', 'icon' => ''],
+                ['parameter' => 'MiG-23 Landing Speed (Normal / Emergency)', 'value' => '180 to 300 kmph / 300-320 kmph', 'description' => 'MiG-23 operational speeds.', 'icon' => ''],
+                ['parameter' => 'MiG-25 Canopy Area / Mass', 'value' => 'Unicross (Twin), 23.2 sqm / 54 kg', 'description' => 'MiG-25 twin canopy specifications.', 'icon' => ''],
+                ['parameter' => 'MiG-25 Landing Speed (Normal / Emergency)', 'value' => '330 kmph / above 330 kmph', 'description' => 'MiG-25 high-speed operational limits.', 'icon' => ''],
+                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 109 gm U/D', 'description' => 'High-strength nylon fabric for MiG series.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Multi-Aircraft Compatibility', 'description' => 'Tailored configurations designed specifically to support deployment and safe retardation across MiG-21, MiG-23, and MiG-25 fighter jets.'],
+                ['heading' => 'Heavy Retardation Force', 'description' => 'Can decelerate aircraft landing masses ranging from 14 kg (system weight) up to 54 kg dual systems, ensuring safety even in adverse runway situations.']
+            ]
+        ];
+
+        $tejasData = [
+            'title' => 'Brake Parachute (Hybrid) for LCA (Tejas)',
+            'category_id' => 5,
+            'description' => '<p>Light Light Combat Aircraft (LCA) Tejas is a multi-role Combat Aircraft which uses a brake Parachute as retardation device to reduce the landing roll. Brake Parachute system is an effective device used for retarding and shortening the landing run of an Aircraft on its landing roll as well as during aborted take-off.</p>',
+            'wallpaper' => 'lca_tejas_bp.jpg',
+            'display_order' => 1,
+            'technical_specs' => [
+                ['parameter' => 'Design of Canopy', 'value' => 'Uni cross', 'description' => 'Unicross layout for stable drag.', 'icon' => ''],
+                ['parameter' => 'Surface Area of Main Parachute', 'value' => '17 Sq. Mtr.', 'description' => 'Total main parachute area.', 'icon' => ''],
+                ['parameter' => 'Span / Width of Arm', 'value' => '5.76 m / 1.73 m', 'description' => 'Geometric dimensions of the canopy.', 'icon' => ''],
+                ['parameter' => 'No. Of Rigging Line', 'value' => '32', 'description' => 'Kevlar rigging lines layout.', 'icon' => ''],
+                ['parameter' => 'Deployment Speed (Normal / Emergency)', 'value' => '285 Kmph / 340 Kmph', 'description' => 'Operational deployment speeds.', 'icon' => ''],
+                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 66, 93 U/D', 'description' => 'Heavy-duty parachute fabric.', 'icon' => ''],
+                ['parameter' => 'Rigging Lines Material', 'value' => 'Tape Para-Aramid (Kevlar) 21 mm BS: 800 Kg', 'description' => 'Ultra high strength Kevlar lines.', 'icon' => ''],
+                ['parameter' => 'Mass of Parachute', 'value' => '10 Kg', 'description' => 'Packaged system weight.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Hybrid Kevlar Reinforcement', 'description' => 'Features high-strength Kevlar (Para-Aramid) rigging lines designed for exceptional thermal and shock loading limits.'],
+                ['heading' => 'Retardation and Roll Shortening', 'description' => 'Highly effective at reducing the landing run on dry, wet, and icy runways, as well as providing safety during aborted take-offs.']
+            ]
+        ];
+
+        $hawkData = [
+            'title' => 'Brake Parachute for Hawk (AJT) Aircraft',
+            'category_id' => 5,
+            'description' => '<p>Brake Parachute for Hawk (AJT) is an effective device used for retarding and shortening the landing run of an Aircraft on its landing roll as well as during aborted take-off. The Brake Parachute is very useful during unfavourable landing conditions such as wet and icy runways.</p>',
+            'wallpaper' => 'hawk_ajt_bp.jpg',
+            'display_order' => 6,
+            'technical_specs' => [
+                ['parameter' => 'Design of Canopy', 'value' => 'Ring Slot', 'description' => 'Ring-slot design ensuring highly stable drag.', 'icon' => ''],
+                ['parameter' => 'Nominal Dia. Of Canopy / Surface Area', 'value' => '3.82 M / 11.4 sqm', 'description' => 'Canopy geometric specifications.', 'icon' => ''],
+                ['parameter' => 'No. Of rigging lines / Length', 'value' => '30 / 5480 mm', 'description' => 'Rigging lines configuration.', 'icon' => ''],
+                ['parameter' => 'Aircraft Landing Mass (Normal / Max)', 'value' => '5900 Kgs / 9100 Kgs', 'description' => 'Supported landing mass range.', 'icon' => ''],
+                ['parameter' => 'Max. Deployment Speed', 'value' => '160 Knots', 'description' => 'Maximum streaming velocity threshold.', 'icon' => ''],
+                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 66, 90 gsm U/D', 'description' => 'Highly strong lightweight nylon fabric.', 'icon' => ''],
+                ['parameter' => 'Mass of Parachute System', 'value' => '6.2 kg', 'description' => 'Total system weight.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Ring Slot Drag Design', 'description' => 'Uses an aerodynamically optimized ring-slot geometry to deliver exceptionally stable and symmetric drag force during deployment.'],
+                ['heading' => 'Unfavourable Weather Retardation', 'description' => 'Ensures safe stopping distances for the Hawk trainer jet under challenging weather and runway conditions.']
+            ]
+        ];
+
+        $lakshyaData = [
+            'title' => 'Parachute Recovery System for PTA-Lakshya MK-II',
+            'category_id' => 5,
+            'description' => '<p>This two stage Parachute is used for the safe recovery of Pilot less target Aircraft (PTA) Lakshya at the end of its mission.</p>',
+            'wallpaper' => 'lakshya_recovery_bp.jpg',
+            'display_order' => 8,
+            'technical_specs' => [
+                ['parameter' => 'Design of Canopy', 'value' => 'Tri-conical', 'description' => 'Tri-conical layout for stable target recovery.', 'icon' => ''],
+                ['parameter' => 'Dia of Canopy / No. of Gores', 'value' => '14.63 m / 48', 'description' => 'Canopy geometric dimensions.', 'icon' => ''],
+                ['parameter' => 'No. Of Rigging Lines / Length', 'value' => '48 / 14.6 m', 'description' => 'Rigging lines layout.', 'icon' => ''],
+                ['parameter' => 'Recovery Speed (Normal / Max)', 'value' => '270 Kmph / 684 Kmph IAS', 'description' => 'Deployment speed ranges.', 'icon' => ''],
+                ['parameter' => 'Recovery Altitude', 'value' => '300 m to 9 Km', 'description' => 'Operating altitude range.', 'icon' => ''],
+                ['parameter' => 'Rate of Descent / Max Recovery Mass', 'value' => '6-7 m/s / 500 Kg', 'description' => 'Descent speed and capacity.', 'icon' => ''],
+                ['parameter' => 'Basic Material (Fabric 1 / 2)', 'value' => 'Fabric Nylon 37 gm Rip Stop / Fabric Nylon 75 gm', 'description' => 'Specialized lightweight high-tensile ripstop nylon.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Two-Stage Safe Recovery', 'description' => 'Features a two-stage sequential deployment mechanism designed for safe deceleration and recovery of target aircraft.'],
+                ['heading' => 'High-Altitude Deployment', 'description' => 'Operates normally across a wide altitude range from 300 meters up to 9 kilometers at speeds up to 684 km/h.']
+            ]
+        ];
+
+        $jaguarData = [
+            'title' => 'Brake Parachute for Jaguar A/C',
+            'category_id' => 5,
+            'description' => '<p>The Brake Parachute is used to reduce the landing run of the aircraft. The parachute is stowed directly into a metal container with the parachute connecting riser protruding at the aircraft end. The main parachute is held in position in the removable container by a pair of locking strap & the auxiliary parachute is stowed in a small pack which is attached to one of the straps.</p>',
+            'wallpaper' => 'jaguar_bp.jpg',
+            'display_order' => 5,
+            'technical_specs' => [
+                ['parameter' => 'Design of Canopy', 'value' => 'Ribbon Type', 'description' => 'Ribbon configuration to minimize shock.', 'icon' => ''],
+                ['parameter' => 'Diameter of Canopy', 'value' => '5.64 m', 'description' => 'Canopy diameter.', 'icon' => ''],
+                ['parameter' => 'No. Of Rigging lines / Length', 'value' => '24 / 5500 mm', 'description' => 'Rigging lines configuration.', 'icon' => ''],
+                ['parameter' => 'Normal / Emergency streaming speed', 'value' => '150 knots / 180 knots', 'description' => 'Operational deployment speeds.', 'icon' => ''],
+                ['parameter' => 'Basic Material', 'value' => 'Ribbon Nylon 50 mm / 16 mm', 'description' => 'High strength nylon ribbon grids.', 'icon' => ''],
+                ['parameter' => 'Service Life', 'value' => '40 streamings', 'description' => 'Total certified deployment cycles.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Ribbon Type Canopy', 'description' => 'Engineered with high-tensile nylon ribbon gaps to allow controlled airflow and minimize high-speed shock impact.'],
+                ['heading' => 'Locking Strap Enclosure', 'description' => 'Designed to fit into a specialized metal tail container featuring auxiliary parachute auto-deployment straps.']
+            ]
+        ];
+
+        $su30Data = [
+            'title' => 'Brake Parachute for SU-30 A/C',
+            'category_id' => 5,
+            'description' => '<p>The brake parachute is intended to reduce the Aircraft landing run of the aircraft and provides additional safety during emergencies.</p>',
+            'wallpaper' => 'su30_bp.jpg',
+            'display_order' => 2,
+            'technical_specs' => [
+                ['parameter' => 'Design of Canopy', 'value' => 'Uni-cross', 'description' => 'Unicross design layout.', 'icon' => ''],
+                ['parameter' => 'Surface area of main Parachute', 'value' => 'total 50 sqm (25 Sqm each - 2 nos)', 'description' => 'Dual canopy surface area.', 'icon' => ''],
+                ['parameter' => 'Span / Width of Arm', 'value' => '7m / 2.1m', 'description' => 'Canopy arm dimensions.', 'icon' => ''],
+                ['parameter' => 'No. Of rigging lines / Length', 'value' => '32 / 6680 mm', 'description' => 'Rigging lines specs.', 'icon' => ''],
+                ['parameter' => 'Landing Speed (Normal / Emergency)', 'value' => '260 Kmph / 300 Kmph', 'description' => 'High speed operational thresholds.', 'icon' => ''],
+                ['parameter' => 'Max. Operational load / Weight', 'value' => '234000 N / 24 kg', 'description' => 'Load capacity and system weight.', 'icon' => ''],
+                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 66, 93 gm U/D', 'description' => 'Polyamide Nylon 66 fabric.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Twin-Canopy Unicross Design', 'description' => 'Deploys dual canopy parachutes (25 sqm each) to generate massive deceleration force for the heavy Sukhoi SU-30 fighter jet.'],
+                ['heading' => 'Polyamide Nylon Construction', 'description' => 'Built with resin-treated Nylon 66 fabrics to ensure low air permeability and high shock resistance during emergency landings.']
+            ]
+        ];
+
+        $mig29Data = [
+            'title' => 'Brake Parachute for MiG-29 UPG A/C',
+            'category_id' => 5,
+            'description' => '<p>High-performance braking parachute designed for safe landing and retardation of the MiG-29 UPG fighter jet.</p>',
+            'wallpaper' => 'mig_series_bp.jpg',
+            'display_order' => 3,
+            'technical_specs' => [
+                ['parameter' => 'Design of Canopy', 'value' => 'Unicross Design', 'description' => 'Unicross configuration for MiG-29.', 'icon' => ''],
+                ['parameter' => 'Canopy Surface Area', 'value' => '14.4 sqm', 'description' => 'MiG-29 canopy surface area.', 'icon' => ''],
+                ['parameter' => 'System Mass / Auxiliary Parachute', 'value' => '8.2 kg / 1.0 sqm', 'description' => 'MiG-29 system weight specs.', 'icon' => ''],
+                ['parameter' => 'Landing Speed (Normal / Emergency)', 'value' => '180 kmph / 310 kmph', 'description' => 'Deployment operational speeds.', 'icon' => ''],
+                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 93 gm U/D', 'description' => 'Nylon 93 gm fabric.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'MiG-29 Precision Fit', 'description' => 'Engineered precisely for the MiG-29 rear deploy housing, ensuring zero-fault deployment at streaming speeds up to 180 kmph.'],
+                ['heading' => 'High Retardation efficiency', 'description' => 'Generates balanced drag forces instantly upon release, reducing runway load and ensuring flight safety.']
+            ]
+        ];
+
+        $sync = function ($matchKeyword, $data) use (&$output) {
+            $product = \App\Models\Product::where('category_id', 5)
+                ->where('title', 'LIKE', '%' . $matchKeyword . '%')
+                ->first();
+
+            if ($product) {
+                $product->update($data);
+                $output .= "Updated existing product ID {$product->id}: {$product->title}\n";
+            } else {
+                $product = \App\Models\Product::create($data);
+                $output .= "Created new product ID {$product->id}: {$product->title}\n";
+            }
+
+            if ($product->wallpaper) {
+                $exists = \App\Models\ProductImage::where('product_id', $product->id)
+                    ->where('image', $product->wallpaper)
+                    ->exists();
+                if (!$exists) {
+                    \App\Models\ProductImage::create([
+                        'product_id' => $product->id,
+                        'image' => $product->wallpaper
+                    ]);
+                }
+            }
+        };
+
+        $sync('SU-30', $su30Data);
+        $sync('Mig29', $mig29Data);
+        $sync('Tejas', $tejasData);
+        $sync('Mirage', $mirageData);
+        $sync('MIG-21/23/25', $migSeriesData);
+        $sync('Hawk', $hawkData);
+        $sync('Lakshya', $lakshyaData);
+        $sync('Jaguar', $jaguarData);
+
+        return response($output . "\nSeeding Completed Successfully!", 200)
+            ->header('Content-Type', 'text/plain');
+    });
+
     Route::get('admin/clear-cache', function () {
         $user = auth()->guard('admin')->user();
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
