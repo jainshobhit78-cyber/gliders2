@@ -823,28 +823,40 @@
                 <div class="safran-news-categories-wrapper">
                     <!-- CARD 1: BREAKING NEWS -->
                     <div class="safran-cat-card" onclick="window.location.href='/news/category/1'">
-                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_news_breaking.jpg');"></div>
+                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_indian_parachute.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <h3 class="card-title">Breaking News</h3>
+                            <div class="see-more-wrap">
+                                <div class="vertical-line"></div>
+                                <span class="see-more-text">SEE MORE</span>
+                            </div>
                         </div>
                     </div>
 
                     <!-- CARD 2: PRESS RELEASES -->
                     <div class="safran-cat-card" onclick="window.location.href='/news/category/6'">
-                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_news_press.jpg');"></div>
+                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_indian_inflatable.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <h3 class="card-title">Press Releases</h3>
+                            <div class="see-more-wrap">
+                                <div class="vertical-line"></div>
+                                <span class="see-more-text">SEE MORE</span>
+                            </div>
                         </div>
                     </div>
 
                     <!-- CARD 3: LATEST UPDATES -->
                     <div class="safran-cat-card" onclick="window.location.href='/news/category/5'">
-                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_news_events.jpg');"></div>
+                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_indian_clothing.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <h3 class="card-title">Latest News & Events</h3>
+                            <div class="see-more-wrap">
+                                <div class="vertical-line"></div>
+                                <span class="see-more-text">SEE MORE</span>
+                            </div>
                         </div>
                     </div>
                 </div>
