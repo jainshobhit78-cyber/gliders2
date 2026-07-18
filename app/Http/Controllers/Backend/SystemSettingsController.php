@@ -51,6 +51,9 @@ class SystemSettingsController extends Controller
             'launch_animation_button_text' => 'nullable|string|max:40',
             'launch_animation_auto_reveal_seconds' => 'nullable|integer|min:10|max:30',
             'nav_font_size' => 'nullable|string|max:10',
+            'main_menu_font_family' => 'nullable|string|max:255',
+            'submenu_font_family' => 'nullable|string|max:255',
+            'body_font_family' => 'nullable|string|max:255',
         ]);
 
         $launchTargetAt = $request->filled('launch_animation_target_at')
@@ -75,6 +78,9 @@ class SystemSettingsController extends Controller
             'solutions_title' => $request->solutions_title,
             'products_font_family' => $request->products_font_family,
             'headings_font_family' => $request->headings_font_family,
+            'main_menu_font_family' => $request->main_menu_font_family,
+            'submenu_font_family' => $request->submenu_font_family,
+            'body_font_family' => $request->body_font_family,
             'products_page_tagline' => $request->products_page_tagline,
             'products_page_title' => $request->products_page_title,
             'products_page_subtitle' => $request->products_page_subtitle,

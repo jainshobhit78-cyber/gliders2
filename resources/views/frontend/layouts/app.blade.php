@@ -52,15 +52,37 @@
 
     <style>
         :root {
+            --main-menu-font: '{{ $trackingSetting->main_menu_font_family ?? "Outfit" }}', sans-serif !important;
+            --submenu-font: '{{ $trackingSetting->submenu_font_family ?? "Outfit" }}', sans-serif !important;
             --headings-font: '{{ $trackingSetting->headings_font_family ?? "Outfit" }}', sans-serif !important;
+            --body-font: '{{ $trackingSetting->body_font_family ?? "Outfit" }}', sans-serif !important;
             --products-font: '{{ $trackingSetting->products_font_family ?? "Outfit" }}', sans-serif !important;
         }
         
-        .our-products-section .section-title,
-        .our-products-section .premium-heading {
+        /* Main Navigation Menu */
+        .navbar-nav .nav-link {
+            font-family: var(--main-menu-font) !important;
+        }
+        
+        /* Sub-menus / Dropdowns */
+        .dropdown-menu .dropdown-item {
+            font-family: var(--submenu-font) !important;
+        }
+        
+        /* Headings & Main Titles */
+        h1, h2, h3, h4, h5, h6,
+        .section-title, .premium-heading, .title-header, .page-title,
+        .hero-title, .raj-main-title, .raj-title, .vendor-main-title, .portal-title {
             font-family: var(--headings-font) !important;
         }
         
+        /* General content / Body text */
+        body, p, li, td, th, span, div:not(.nav-item):not(.dropdown-menu), 
+        .description, .raj-description, .pdf-link, .portal-pdf-link {
+            font-family: var(--body-font);
+        }
+        
+        /* Products Font Override */
         .our-products-section .premium-product-card .product-title-h3 {
             font-family: var(--products-font) !important;
         }

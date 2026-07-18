@@ -186,8 +186,63 @@
                                 </div>
 
                                 <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Main Navigation Menu Font Family</label>
+                                        <select name="main_menu_font_family" class="form-select">
+                                            @php $mmFont = $setting->main_menu_font_family ?? 'Outfit'; @endphp
+                                            <option value="Outfit" {{ $mmFont == 'Outfit' ? 'selected' : '' }}>Outfit (Default Modern)</option>
+                                            <option value="Inter" {{ $mmFont == 'Inter' ? 'selected' : '' }}>Inter (Sleek Tech)</option>
+                                            <option value="Kumbh Sans" {{ $mmFont == 'Kumbh Sans' ? 'selected' : '' }}>Kumbh Sans</option>
+                                            <option value="Roboto" {{ $mmFont == 'Roboto' ? 'selected' : '' }}>Roboto</option>
+                                            <option value="Montserrat" {{ $mmFont == 'Montserrat' ? 'selected' : '' }}>Montserrat</option>
+                                            <option value="Playfair Display" {{ $mmFont == 'Playfair Display' ? 'selected' : '' }}>Playfair Display (Serif Elegance)</option>
+                                        </select>
+                                        <small class="text-muted d-block mt-1">Font family for the main navigation menu tabs on top (HOME, ABOUT, news, etc.).</small>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Sub-menu Dropdowns Font Family</label>
+                                        <select name="submenu_font_family" class="form-select">
+                                            @php $smFont = $setting->submenu_font_family ?? 'Outfit'; @endphp
+                                            <option value="Outfit" {{ $smFont == 'Outfit' ? 'selected' : '' }}>Outfit (Default Modern)</option>
+                                            <option value="Inter" {{ $smFont == 'Inter' ? 'selected' : '' }}>Inter (Sleek Tech)</option>
+                                            <option value="Kumbh Sans" {{ $smFont == 'Kumbh Sans' ? 'selected' : '' }}>Kumbh Sans</option>
+                                            <option value="Roboto" {{ $smFont == 'Roboto' ? 'selected' : '' }}>Roboto</option>
+                                            <option value="Montserrat" {{ $smFont == 'Montserrat' ? 'selected' : '' }}>Montserrat</option>
+                                            <option value="Playfair Display" {{ $smFont == 'Playfair Display' ? 'selected' : '' }}>Playfair Display (Serif Elegance)</option>
+                                        </select>
+                                        <small class="text-muted d-block mt-1">Font family for dropdown sub-menu items (e.g. vision, mission, online portal, etc.).</small>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Headings & Titles Font Family</label>
+                                        <select name="headings_font_family" class="form-select">
+                                            @php $hFont = $setting->headings_font_family ?? 'Outfit'; @endphp
+                                            <option value="Outfit" {{ $hFont == 'Outfit' ? 'selected' : '' }}>Outfit (Default Modern)</option>
+                                            <option value="Inter" {{ $hFont == 'Inter' ? 'selected' : '' }}>Inter (Sleek Tech)</option>
+                                            <option value="Kumbh Sans" {{ $hFont == 'Kumbh Sans' ? 'selected' : '' }}>Kumbh Sans</option>
+                                            <option value="Roboto" {{ $hFont == 'Roboto' ? 'selected' : '' }}>Roboto</option>
+                                            <option value="Montserrat" {{ $hFont == 'Montserrat' ? 'selected' : '' }}>Montserrat</option>
+                                            <option value="Playfair Display" {{ $hFont == 'Playfair Display' ? 'selected' : '' }}>Playfair Display (Serif Elegance)</option>
+                                        </select>
+                                        <small class="text-muted d-block mt-1">Font family for headings, main titles, sections title, and card titles across the website.</small>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">Products Card Font Family</label>
+                                        <label class="form-label">General Content & Paragraph Texts Font Family</label>
+                                        <select name="body_font_family" class="form-select">
+                                            @php $bFont = $setting->body_font_family ?? 'Outfit'; @endphp
+                                            <option value="Outfit" {{ $bFont == 'Outfit' ? 'selected' : '' }}>Outfit (Default Modern)</option>
+                                            <option value="Inter" {{ $bFont == 'Inter' ? 'selected' : '' }}>Inter (Sleek Tech)</option>
+                                            <option value="Kumbh Sans" {{ $bFont == 'Kumbh Sans' ? 'selected' : '' }}>Kumbh Sans</option>
+                                            <option value="Roboto" {{ $bFont == 'Roboto' ? 'selected' : '' }}>Roboto</option>
+                                            <option value="Montserrat" {{ $bFont == 'Montserrat' ? 'selected' : '' }}>Montserrat</option>
+                                            <option value="Playfair Display" {{ $bFont == 'Playfair Display' ? 'selected' : '' }}>Playfair Display (Serif Elegance)</option>
+                                        </select>
+                                        <small class="text-muted d-block mt-1">Font family for general content texts, descriptions, and paragraphs across the website.</small>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Product Cards Font Family</label>
                                         <select name="products_font_family" class="form-select">
                                             @php $pFont = $setting->products_font_family ?? 'Outfit'; @endphp
                                             <option value="Outfit" {{ $pFont == 'Outfit' ? 'selected' : '' }}>Outfit (Default Modern)</option>
@@ -197,17 +252,7 @@
                                             <option value="Montserrat" {{ $pFont == 'Montserrat' ? 'selected' : '' }}>Montserrat</option>
                                             <option value="Playfair Display" {{ $pFont == 'Playfair Display' ? 'selected' : '' }}>Playfair Display (Serif Elegance)</option>
                                         </select>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Headings Font Family</label>
-                                        <select name="headings_font_family" class="form-select">
-                                            @php $hFont = $setting->headings_font_family ?? 'Outfit'; @endphp
-                                            <option value="Outfit" {{ $hFont == 'Outfit' ? 'selected' : '' }}>Outfit (Default Modern)</option>
-                                            <option value="Inter" {{ $hFont == 'Inter' ? 'selected' : '' }}>Inter</option>
-                                            <option value="Kumbh Sans" {{ $hFont == 'Kumbh Sans' ? 'selected' : '' }}>Kumbh Sans</option>
-                                            <option value="Roboto" {{ $hFont == 'Roboto' ? 'selected' : '' }}>Roboto</option>
-                                            <option value="Montserrat" {{ $hFont == 'Montserrat' ? 'selected' : '' }}>Montserrat</option>
-                                        </select>
+                                        <small class="text-muted d-block mt-1">Font family specifically used for product titles and descriptions inside the products section.</small>
                                     </div>
                                 </div>
                             </div>

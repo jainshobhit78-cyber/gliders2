@@ -45,6 +45,9 @@ class GeneralSetting extends Model
         'launch_animation_auto_reveal_seconds',
         'eoi_enabled',
         'nav_font_size',
+        'main_menu_font_family',
+        'submenu_font_family',
+        'body_font_family',
     ];
 
     protected $casts = [

@@ -153,6 +153,17 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             $output .= "Career Jobs migration failed: " . $e->getMessage() . ". ";
         }
 
+        // 7. More Font Families migration
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', [
+                '--path' => 'database/migrations/2026_07_18_020000_add_more_font_fields_to_general_settings.php',
+                '--force' => true
+            ]);
+            $output .= "More Font Families migration run completed. ";
+        } catch (\Exception $e) {
+            $output .= "More Font Families migration failed: " . $e->getMessage() . ". ";
+        }
+
         // Self-healing fallback: directly alter the tables if migrations table is out of sync
         try {
             \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
@@ -219,6 +230,26 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                     $table->string('nav_font_size')->nullable()->default('14');
                 });
                 $output .= " | nav_font_size column added.";
+            }
+
+            // Self-healing: main_menu_font_family, submenu_font_family, body_font_family columns
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'main_menu_font_family')) {
+                \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
+                    $table->string('main_menu_font_family')->nullable()->default('Outfit');
+                });
+                $output .= " | main_menu_font_family column added.";
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'submenu_font_family')) {
+                \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
+                    $table->string('submenu_font_family')->nullable()->default('Outfit');
+                });
+                $output .= " | submenu_font_family column added.";
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'body_font_family')) {
+                \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
+                    $table->string('body_font_family')->nullable()->default('Outfit');
+                });
+                $output .= " | body_font_family column added.";
             }
         } catch (\Exception $ex) {
             $output .= " | Manual schema update failed: " . $ex->getMessage();
