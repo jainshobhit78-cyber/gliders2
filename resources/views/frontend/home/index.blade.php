@@ -442,8 +442,14 @@
                                                     '{{ addslashes($playlist->heading) }}'
                                                 )">
 
-                                                <img src="{{ asset('uploads/media/images/' . ($playlist->images?->first()?->image ?? '')) }}"
-                                                    alt="{{ $playlist->name }}">
+                                                @if($playlist->images?->first()?->image)
+                                                    <img src="{{ asset('uploads/media/images/' . $playlist->images->first()->image) }}"
+                                                        alt="{{ $playlist->name }}">
+                                                @else
+                                                    <div class="playlist-thumb-placeholder">
+                                                        <span class="playlist-thumb-play-icon">▶</span>
+                                                    </div>
+                                                @endif
 
                                                 <div class="thumb-title">
                                                     {{ $playlist->name }}

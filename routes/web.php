@@ -1575,6 +1575,24 @@ Route::get('/news/article/{id}', [\App\Http\Controllers\Frontend\FNewsController
 
 Route::get('/media/{playlist?}', [FMediaController::class, 'index'])
     ->name('media');
+
+Route::post('/media/like-video/{id}', function ($id) {
+    $video = \App\Models\PlaylistVideo::findOrFail($id);
+    $sessionKey = 'liked_video_' . $id;
+
+    if (session()->has($sessionKey)) {
+        // Unlike
+        $video->decrement('likes');
+        session()->forget($sessionKey);
+        return response()->json(['liked' => false, 'count' => max(0, $video->fresh()->likes)]);
+    } else {
+        // Like
+        $video->increment('likes');
+        session()->put($sessionKey, true);
+        return response()->json(['liked' => true, 'count' => $video->fresh()->likes]);
+    }
+})->name('media.like.video');
+
 Route::post('/contact-store', [HomeController::class, 'storeContact'])->name('contact.store');
 
 Route::get('/privacy-policy', [PolicyController::class, 'privacy'])

@@ -9,7 +9,8 @@ class PlaylistVideo extends Model
     protected $fillable = [
         'playlist_id',
         'video',
-        'caption'
+        'caption',
+        'likes'
     ];
 
     public function playlist()

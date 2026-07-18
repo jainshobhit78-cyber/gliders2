@@ -75,12 +75,6 @@
 
                                 <!-- SOCIAL ACTIONS BAR -->
                                 <div class="media-card-actions-bar d-flex align-items-center justify-content-between mt-3 pt-3 border-top">
-                                    <!-- Like Button -->
-                                    <button class="action-btn btn-like" onclick="toggleLike('photo', '{{ $image->id }}', this)">
-                                        <svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                                        <span class="like-label">Like</span> (<span class="like-count">0</span>)
-                                    </button>
-
                                     <!-- WhatsApp Direct Share -->
                                     @php
                                         $shareText = rawurlencode(($image->caption ?: $selectedPlaylist->name) . "\nView it here: " . request()->url());
@@ -125,10 +119,12 @@
 
                                 <!-- SOCIAL ACTIONS BAR -->
                                 <div class="media-card-actions-bar d-flex align-items-center justify-content-between mt-3 pt-3 border-top">
-                                    <!-- Like Button -->
-                                    <button class="action-btn btn-like" onclick="toggleLike('video', '{{ $video->id }}', this)">
-                                        <svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                                        <span class="like-label">Like</span> (<span class="like-count">0</span>)
+                                    <!-- Like Button (Server-side) -->
+                                    <button class="action-btn btn-like {{ session('liked_video_' . $video->id) ? 'liked' : '' }}"
+                                            data-video-id="{{ $video->id }}"
+                                            onclick="toggleLikeVideo({{ $video->id }}, this)">
+                                        <svg class="heart-icon" viewBox="0 0 24 24" fill="{{ session('liked_video_' . $video->id) ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                        <span class="like-label">{{ session('liked_video_' . $video->id) ? 'Liked' : 'Like' }}</span> (<span class="like-count">{{ $video->likes }}</span>)
                                     </button>
 
                                     <!-- WhatsApp Direct Share -->
@@ -215,63 +211,46 @@
             }
         }
 
-        // Interactive Likes using LocalStorage
-        function getLikesKey(type, id) {
-            return 'gliders_media_like_' + type + '_' + id;
-        }
+        // Server-side Like toggle for videos
+        function toggleLikeVideo(videoId, btn) {
+            // Disable button during request
+            btn.disabled = true;
 
-        function initLikes() {
-            document.querySelectorAll('.btn-like').forEach(btn => {
-                const onclickAttr = btn.getAttribute('onclick');
-                if (onclickAttr) {
-                    const matches = onclickAttr.match(/'([^']+)'/g);
-                    if (matches && matches.length >= 2) {
-                        const type = matches[0].replace(/'/g, '');
-                        const id = matches[1].replace(/'/g, '');
-                        const key = getLikesKey(type, id);
-                        
-                        // Default base count
-                        let count = parseInt(id) % 7 + 3; // Mock realistic counts
-                        const stored = localStorage.getItem(key);
-                        if (stored) {
-                            const data = JSON.parse(stored);
-                            count = data.count;
-                            if (data.liked) {
-                                btn.classList.add('liked');
-                            }
-                        } else {
-                            localStorage.setItem(key, JSON.stringify({ liked: false, count: count }));
-                        }
-                        btn.querySelector('.like-count').innerText = count;
-                    }
+            fetch('/media/like-video/' + videoId, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
                 }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const countEl = btn.querySelector('.like-count');
+                const labelEl = btn.querySelector('.like-label');
+                const heartIcon = btn.querySelector('.heart-icon');
+                
+                countEl.innerText = data.count;
+
+                if (data.liked) {
+                    btn.classList.add('liked');
+                    labelEl.innerText = 'Liked';
+                    heartIcon.setAttribute('fill', 'currentColor');
+                    // Pulse animation
+                    btn.style.transform = 'scale(1.15)';
+                    setTimeout(() => btn.style.transform = '', 250);
+                } else {
+                    btn.classList.remove('liked');
+                    labelEl.innerText = 'Like';
+                    heartIcon.setAttribute('fill', 'none');
+                }
+            })
+            .catch(err => {
+                console.error('Like failed:', err);
+            })
+            .finally(() => {
+                btn.disabled = false;
             });
         }
-
-        function toggleLike(type, id, btn) {
-            const key = getLikesKey(type, id);
-            const data = JSON.parse(localStorage.getItem(key)) || { liked: false, count: 5 };
-
-            if (data.liked) {
-                data.liked = false;
-                data.count = Math.max(0, data.count - 1);
-                btn.classList.remove('liked');
-            } else {
-                data.liked = true;
-                data.count += 1;
-                btn.classList.add('liked');
-                // Pulse animation
-                btn.style.transform = 'scale(1.2)';
-                setTimeout(() => btn.style.transform = 'unset', 200);
-            }
-
-            localStorage.setItem(key, JSON.stringify(data));
-            btn.querySelector('.like-count').innerText = data.count;
-        }
-
-        // Seed counts at start
-        document.addEventListener('DOMContentLoaded', () => {
-            initLikes();
-        });
     </script>
 @endsection
