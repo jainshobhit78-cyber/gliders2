@@ -10,6 +10,7 @@ class Playlist extends Model
         'name',
         'heading',
         'description',
+        'thumbnail',
         'status',
         'hide_during_election'
     ];

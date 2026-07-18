@@ -1126,6 +1126,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                 'name' => 'Brake Parachute Systems',
                 'heading' => 'SU-30 Aircraft Brake Parachute Deployment',
                 'description' => 'High-definition video showcasing the deployment and deceleration test of the Su-30 fighter jet\'s brake parachute system.',
+                'thumbnail' => 'su30_bp.jpg',
                 'status' => 'Published',
                 'hide_during_election' => 0
             ]);
@@ -1147,6 +1148,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                 'name' => 'Heavy Drop Parachute Systems',
                 'heading' => 'P-7 Heavy Drop System Airdrop Trial',
                 'description' => 'Video documentation of the military cargo and vehicle drop trials utilizing the P-7 Heavy Drop platform and cluster parachute system.',
+                'thumbnail' => 'p7_heavy_drop.png',
                 'status' => 'Published',
                 'hide_during_election' => 0
             ]);
@@ -1168,6 +1170,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                 'name' => 'Tactical Inflatable Boats & Systems',
                 'heading' => 'Boat Assault Pneumatic (BAPLW) Demonstration',
                 'description' => 'Demonstration video showcasing the maneuverability, high-speed performance, and deployment sequence of the lightweight tactical assault boat (BAPLW) in riverine operations.',
+                'thumbnail' => 'baplw.png',
                 'status' => 'Published',
                 'hide_during_election' => 0
             ]);

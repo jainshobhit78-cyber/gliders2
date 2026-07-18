@@ -446,7 +446,10 @@
                                                     '{{ addslashes($playlist->heading) }}'
                                                 )">
 
-                                                @if($playlist->images?->first()?->image)
+                                                @if($playlist->thumbnail)
+                                                    <img src="{{ asset('uploads/media/images/' . $playlist->thumbnail) }}"
+                                                        alt="{{ $playlist->name }}">
+                                                @elseif($playlist->images?->first()?->image)
                                                     <img src="{{ asset('uploads/media/images/' . $playlist->images->first()->image) }}"
                                                         alt="{{ $playlist->name }}">
                                                 @else

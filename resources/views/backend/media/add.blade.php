@@ -132,6 +132,12 @@
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label-title">Playlist Thumbnail (Preview Pic)</label>
+                        <input type="file" name="thumbnail" class="form-control" accept="image/*">
+                        <small class="text-muted">Upload a cover image that will be shown as the preview tab pic on the homepage.</small>
+                    </div>
+
+                    <div class="mb-3">
                         <label class="form-label-title">Description</label>
                         <textarea name="description" class="editor form-control"></textarea>
                     </div>

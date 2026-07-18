@@ -46,6 +46,7 @@ class MediaController extends Controller
             'name' => 'required|string|max:255',
             'heading' => 'nullable|string|max:255',
             'description' => 'nullable|string',
+            'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif,svg|max:5120',
             'status' => 'nullable|in:Pending,Published,Draft',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif,svg|max:5120',
             'videos.*' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:51200',
@@ -57,10 +58,18 @@ class MediaController extends Controller
             $status = $request->status ?? 'Published';
         }
 
+        $thumbnailName = null;
+        if ($request->hasFile('thumbnail')) {
+            $thumbnail = $request->file('thumbnail');
+            $thumbnailName = $thumbnail->hashName();
+            $thumbnail->move(public_path('uploads/media/images'), $thumbnailName);
+        }
+
         $playlist = Playlist::create([
             'name' => $request->name,
             'heading' => $request->heading,
             'description' => $request->description,
+            'thumbnail' => $thumbnailName,
             'status' => $status,
             'hide_during_election' => $request->has('hide_during_election')
         ]);
@@ -122,6 +131,7 @@ class MediaController extends Controller
             'name' => 'required|string|max:255',
             'heading' => 'nullable|string|max:255',
             'description' => 'nullable|string',
+            'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif,svg|max:5120',
             'status' => 'nullable|in:Pending,Published,Draft',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif,svg|max:5120',
             'videos.*' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:51200',
@@ -135,10 +145,18 @@ class MediaController extends Controller
             $status = $request->status ?? $playlist->status;
         }
 
+        $thumbnailName = $playlist->thumbnail;
+        if ($request->hasFile('thumbnail')) {
+            $thumbnail = $request->file('thumbnail');
+            $thumbnailName = $thumbnail->hashName();
+            $thumbnail->move(public_path('uploads/media/images'), $thumbnailName);
+        }
+
         $playlist->update([
             'name' => $request->name,
             'heading' => $request->heading,
             'description' => $request->description,
+            'thumbnail' => $thumbnailName,
             'status' => $status,
             'hide_during_election' => $request->has('hide_during_election')
         ]);

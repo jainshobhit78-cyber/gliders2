@@ -132,6 +132,17 @@
                         <input type="text" name="heading" value="{{ $playlist->heading }}" class="form-control" required>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label-title">Playlist Thumbnail (Preview Pic)</label>
+                        <input type="file" name="thumbnail" class="form-control" accept="image/*">
+                        @if($playlist->thumbnail)
+                            <div class="mt-2">
+                                <img src="{{ asset('uploads/media/images/' . $playlist->thumbnail) }}" width="120" class="border rounded">
+                            </div>
+                        @endif
+                        <small class="text-muted">Upload a cover image that will be shown as the preview tab pic on the homepage.</small>
+                    </div>
+
 
                     <div class="mb-3">
                         <label class="form-label-title">Description</label>
