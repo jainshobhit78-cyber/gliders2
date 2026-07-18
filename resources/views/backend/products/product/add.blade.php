@@ -57,6 +57,12 @@
                     </div>
 
                     <div class="mb-3">
+                        <label>Display Order</label>
+                        <input type="number" name="display_order" class="form-control" value="999" min="1" required>
+                        <small class="text-muted">Set to 1, 2, 3, etc. Products will be sorted by this order on the website (ascending).</small>
+                    </div>
+
+                    <div class="mb-3">
 
                         <label>Description</label>
 

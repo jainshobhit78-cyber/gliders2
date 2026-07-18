@@ -73,7 +73,8 @@ class ProductFController extends Controller
 
         $products = Product::with('images')
             ->where('category_id', $id)
-            ->latest()
+            ->orderBy('display_order', 'asc')
+            ->orderBy('id', 'asc')
             ->get();
 
         return view('frontend.products.category-products', compact('category', 'products'));

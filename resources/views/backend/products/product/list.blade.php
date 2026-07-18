@@ -60,6 +60,7 @@
                                     <th>Wallpaper</th>
                                     <th>Title</th>
                                     <th>Category</th>
+                                    <th>Display Order</th>
                                     <th>Action</th>
                                 </tr>
 
@@ -93,6 +94,8 @@
                                         <td>{{ $p->title }}</td>
 
                                         <td>{{ $p->category->name ?? '' }}</td>
+
+                                        <td>{{ $p->display_order }}</td>
 
                                         <td>
 

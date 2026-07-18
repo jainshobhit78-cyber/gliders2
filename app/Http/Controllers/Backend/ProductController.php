@@ -12,7 +12,10 @@ class ProductController extends Controller
 {
     public function list()
     {
-        $products = Product::with(['category', 'images'])->latest()->get();
+        $products = Product::with(['category', 'images'])
+            ->orderBy('display_order', 'asc')
+            ->orderBy('id', 'asc')
+            ->get();
         $categories = ProductCategory::where('status', 'active')->get();
 
         return view('backend.products.product.list', compact('products', 'categories'));
@@ -33,6 +36,7 @@ class ProductController extends Controller
             'filepond' => 'nullable|array',
             'filepond.*' => 'image|mimes:jpg,jpeg,png,webp,svg',
             'delivery_tag' => 'nullable|string|max:100',
+            'display_order' => 'nullable|integer',
         ]);
 
         $wallpaperName = null;
@@ -85,6 +89,7 @@ class ProductController extends Controller
         $product = Product::create([
             'title' => $request->title,
             'category_id' => $request->category_id,
+            'display_order' => $request->display_order ?? 999,
             'description' => $request->description,
             'wallpaper' => $wallpaperName,
             'delivery_tag' => $request->delivery_tag,
@@ -181,6 +186,7 @@ class ProductController extends Controller
         $product->update([
             'title' => $request->title,
             'category_id' => $request->category_id,
+            'display_order' => $request->display_order ?? 999,
             'description' => $request->description,
             'wallpaper' => $wallpaperName,
             'delivery_tag' => $request->delivery_tag,

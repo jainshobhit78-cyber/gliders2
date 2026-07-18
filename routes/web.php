@@ -164,6 +164,17 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             $output .= "More Font Families migration failed: " . $e->getMessage() . ". ";
         }
 
+        // 8. Products display_order column migration
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', [
+                '--path' => 'database/migrations/2026_07_18_030000_add_display_order_to_products_table.php',
+                '--force' => true
+            ]);
+            $output .= "Products display_order migration run completed. ";
+        } catch (\Exception $e) {
+            $output .= "Products display_order migration failed: " . $e->getMessage() . ". ";
+        }
+
         // Self-healing fallback: directly alter the tables if migrations table is out of sync
         try {
             \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
@@ -250,6 +261,14 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                     $table->string('body_font_family')->nullable()->default('Outfit');
                 });
                 $output .= " | body_font_family column added.";
+            }
+
+            // Self-healing: products display_order column
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('products', 'display_order')) {
+                \Illuminate\Support\Facades\Schema::table('products', function ($table) {
+                    $table->integer('display_order')->default(999)->after('category_id');
+                });
+                $output .= " | products display_order column added.";
             }
         } catch (\Exception $ex) {
             $output .= " | Manual schema update failed: " . $ex->getMessage();
