@@ -808,6 +808,176 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         $sync($clothingCatId, 'Poncho Glacier', $ponchoData);
         $sync($clothingCatId, 'Shirt Plain Weave', $shirtData);
 
+        // 3. SEED CARGO PARACHUTES (Category ID: 8)
+        $cargoCategory = \App\Models\ProductCategory::find(8);
+        if ($cargoCategory) {
+            $cargoCategory->update([
+                'category_title' => 'Cargo Parachute',
+                'category_subtitle' => 'Heavy-load parachutes built for secure airdrops in the most demanding conditions.',
+                'image' => 'p7_heavy_drop.png',
+                'status' => 'active'
+            ]);
+            $output .= "Updated category: Cargo Parachute (ID: 8)\n";
+        }
+
+        $p7Data = [
+            'title' => 'P-7 Heavy Drop System for IL-76 Aircraft',
+            'category_id' => 8,
+            'description' => '<p>P-7 Heavy Drop System is used for Para drop of military stores (vehicles / ammunition / equipment) of 7 Ton weight class. Comprises of a cluster of 5 Main canopies, 5 Brake chutes, 2 Auxiliary chutes, 1 Extractor parachute, and a metallic platform.</p>',
+            'wallpaper' => 'p7_heavy_drop.png',
+            'display_order' => 1,
+            'technical_specs' => [
+                ['parameter' => 'Platform Size', 'value' => '4216 x 2802 x 193 mm', 'description' => 'Metallic structural deck dimensions.', 'icon' => ''],
+                ['parameter' => 'All Up Weight', 'value' => '8500 Kg', 'description' => 'Total drop package weight.', 'icon' => ''],
+                ['parameter' => 'Payload Capacity', 'value' => '7000 Kg (7 Tons)', 'description' => 'Maximum carry capacity.', 'icon' => ''],
+                ['parameter' => 'Parachute System', 'value' => 'Cluster of Parachutes (5 Main, 5 Brake, 2 Aux, 1 Extractor)', 'description' => 'Complex cluster system configuration.', 'icon' => ''],
+                ['parameter' => 'Drop Speed', 'value' => '260-400 Km/h', 'description' => 'Release velocity range from aircraft.', 'icon' => ''],
+                ['parameter' => 'Landing Speed', 'value' => '7 m/sec', 'description' => 'Impact velocity with shock absorber.', 'icon' => ''],
+                ['parameter' => 'Reusability', 'value' => '5 times', 'description' => 'Average cycles before retirement.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => '7 Ton Drop Capability', 'description' => 'Designed for para-dropping military stores, vehicles, ammunition and heavy equipment of 7-ton weight class from IL-76 aircraft.'],
+                ['heading' => 'Cluster Parachute System', 'description' => 'Uses a cluster of 5 Main canopies, 5 Brake chutes, 2 Auxiliary chutes, and 1 Extractor parachute for stabilized and controlled landing speed.']
+            ]
+        ];
+
+        $ecadData = [
+            'title' => 'ECAD Supply Dropping Parachute 8.5M',
+            'category_id' => 8,
+            'description' => '<p>Equipment Cargo Aerial Delivery (ECAD) supply dropping parachute designed for dropping supplies with SDM/SDB container canvas types. Can be used in a cluster of two for heavier supplies.</p>',
+            'wallpaper' => 'ecad_sd_parachute.jpg',
+            'display_order' => 2,
+            'technical_specs' => [
+                ['parameter' => 'Canopy Diameter', 'value' => '8.5 m', 'description' => 'Diameter of flat circular canopy.', 'icon' => ''],
+                ['parameter' => 'No. of Rigging lines', 'value' => '28', 'description' => 'Suspension line count.', 'icon' => ''],
+                ['parameter' => 'No. of Gores/Panels', 'value' => '28', 'description' => 'Canopy section construction count.', 'icon' => ''],
+                ['parameter' => 'Single Load Capacity', 'value' => '135 kg to 160 kg', 'description' => 'Standard drop package weight.', 'icon' => ''],
+                ['parameter' => 'Canopy Design', 'value' => 'Flat fully rigged', 'description' => 'Standard flat circular design.', 'icon' => ''],
+                ['parameter' => 'Basic Material', 'value' => 'Fabric Polyester & Cotton (67:33)', 'description' => 'Blend for strength and wind retention.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Container Integration', 'description' => 'Engineered to drop supplies using one container canvas type SDM or two container canvas type SDB.'],
+                ['heading' => 'Cluster Configuration', 'description' => 'Can be deployed in a cluster of two parachutes to handle heavier supply loads.']
+            ]
+        ];
+
+        $an32Data = [
+            'title' => 'Heavy Drop System for AN-32 A/C',
+            'category_id' => 8,
+            'description' => '<p>Heavy Drop System AN-32 is a platform system where auxiliary parachutes open initially to stabilize the platform, followed by the deployment of main parachutes.</p>',
+            'wallpaper' => 'heavy_drop_an32.jpg',
+            'display_order' => 3,
+            'technical_specs' => [
+                ['parameter' => 'Area of Main Canopy', 'value' => '350 m2', 'description' => 'Massive surface area for heavy loads.', 'icon' => ''],
+                ['parameter' => 'No. of Rigging lines', 'value' => '120', 'description' => 'Total rigging line count.', 'icon' => ''],
+                ['parameter' => 'Effective Line Length', 'value' => '21 m', 'description' => 'Length of rigging lines.', 'icon' => ''],
+                ['parameter' => 'No. of Gores/Panels', 'value' => '120/11', 'description' => 'High segment panel construction.', 'icon' => ''],
+                ['parameter' => 'Primary Use', 'value' => 'Dropping Jeeps & Heavy Vehicles', 'description' => 'Vehicular dropping compatibility.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Vehicle Airdrop Platform', 'description' => 'Specifically configured platform system used for dropping jeeps, trailers, and heavy military vehicles.'],
+                ['heading' => 'Sequential Deployment', 'description' => 'Employs auxiliary stabilizer chutes first, followed by a massive 350 sqm main canopy for secure load delivery.']
+            ]
+        ];
+
+        $sync(8, 'P-7 Heavy Drop System', $p7Data);
+
+        $ecadProduct = \App\Models\Product::where('title', 'LIKE', '%ECAD%')->first();
+        if ($ecadProduct) {
+            $ecadProduct->update($ecadData);
+            $output .= "Updated product ID {$ecadProduct->id}: {$ecadProduct->title}\n";
+        } else {
+            $newP = \App\Models\Product::create($ecadData);
+            $output .= "Created product ID {$newP->id}: {$newP->title}\n";
+            \App\Models\ProductImage::create(['product_id' => $newP->id, 'image' => $newP->wallpaper]);
+        }
+
+        $an32Product = \App\Models\Product::where('title', 'LIKE', '%AN-32%')->first();
+        if ($an32Product) {
+            $an32Product->update($an32Data);
+            $output .= "Updated product ID {$an32Product->id}: {$an32Product->title}\n";
+        } else {
+            $newP = \App\Models\Product::create($an32Data);
+            $output .= "Created product ID {$newP->id}: {$newP->title}\n";
+            \App\Models\ProductImage::create(['product_id' => $newP->id, 'image' => $newP->wallpaper]);
+        }
+
+        // 4. SEED PERSONNEL PARACHUTES (Category ID: 9)
+        $personnelCategory = \App\Models\ProductCategory::find(9);
+        if ($personnelCategory) {
+            $personnelCategory->update([
+                'category_title' => 'Man Carrying Parachutes',
+                'category_subtitle' => 'Lightweight, reliable, and battle-tested parachutes for personnel deployment in any environment.',
+                'image' => 'pta_m.png',
+                'status' => 'active'
+            ]);
+            $output .= "Updated category: Man Carrying Parachutes (ID: 9)\n";
+        }
+
+        $ptamData = [
+            'title' => 'Parachute Tactical Assault Main (PTA-M)',
+            'category_id' => 9,
+            'description' => '<p>PTA-M is a low-altitude personnel back-type parachute used by paratroopers for pre-determined jumps. Stable and highly drag-efficient.</p>',
+            'wallpaper' => 'pta_m.png',
+            'display_order' => 1,
+            'technical_specs' => [
+                ['parameter' => 'Design of Canopy', 'value' => 'Aero-conical', 'description' => 'Highly aerodynamic shaped skirt.', 'icon' => ''],
+                ['parameter' => 'Diameter of Canopy', 'value' => '8 m', 'description' => 'Canopy width.', 'icon' => ''],
+                ['parameter' => 'No. of Rigging lines', 'value' => '28', 'description' => 'Rigging line count.', 'icon' => ''],
+                ['parameter' => 'Line Length', 'value' => '7950 mm', 'description' => 'Effective length of rigging lines.', 'icon' => ''],
+                ['parameter' => 'Dropping Load Limit', 'value' => '150 Kg', 'description' => 'Maximum load carry specification.', 'icon' => ''],
+                ['parameter' => 'Rate of Descent', 'value' => '5.45 m/sec', 'description' => 'Average vertical speed.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Aero-conical Drag Efficiency', 'description' => 'Highly drag-efficient canopy shape with air scoops and anti-inversion netting for exceptional stability.'],
+                ['heading' => 'Quick-Opening Canopy', 'description' => 'Features a quick-opening canopy design to maximize safety during low-altitude tactical jumps.']
+            ]
+        ];
+
+        $ptarData = [
+            'title' => 'Parachute Tactical Assault Reserve (PTA-R)',
+            'category_id' => 9,
+            'description' => '<p>PTA-R is a personnel chest-type reserve parachute used as a secondary safety system by paratroopers.</p>',
+            'wallpaper' => 'pta_m.png',
+            'display_order' => 2,
+            'technical_specs' => [
+                ['parameter' => 'Design of Canopy', 'value' => 'Flat Circular', 'description' => 'Emergency deployment shape.', 'icon' => ''],
+                ['parameter' => 'Diameter of Canopy', 'value' => '7 m', 'description' => 'Canopy width.', 'icon' => ''],
+                ['parameter' => 'No. of Rigging lines', 'value' => '20', 'description' => 'Rigging line count.', 'icon' => ''],
+                ['parameter' => 'Line Length', 'value' => '6030 mm', 'description' => 'Effective length of rigging lines.', 'icon' => ''],
+                ['parameter' => 'Dropping Load Limit', 'value' => '130 Kg', 'description' => 'Load carry limit.', 'icon' => ''],
+                ['parameter' => 'Rate of Descent', 'value' => '7.5 m/sec', 'description' => 'Average emergency landing velocity.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Chest-Mounted Reserve', 'description' => 'Easily accessible chest-mounted design to be deployed immediately in case of main canopy malfunction.'],
+                ['heading' => 'Circular Flat Design', 'description' => 'Highly reliable flat circular shape ensuring simple deployment and quick deployment under emergency circumstances.']
+            ]
+        ];
+
+        $ptrmData = [
+            'title' => 'Parachute Paratroop Type PTR-M',
+            'category_id' => 9,
+            'description' => '<p>PTR-M is a personnel back-type paratroop parachute used for pre-determined jumps from a minimum height of 457m.</p>',
+            'wallpaper' => 'ptr_m.jpg',
+            'display_order' => 3,
+            'technical_specs' => [
+                ['parameter' => 'Design of Canopy', 'value' => 'Parabolic pinched appearance at Skirt', 'description' => 'Traditional pinched skirt shape.', 'icon' => ''],
+                ['parameter' => 'Diameter of Canopy', 'value' => '10.67 m', 'description' => 'Full circular canopy diameter.', 'icon' => ''],
+                ['parameter' => 'No. of Rigging lines', 'value' => '30', 'description' => 'Rigging line count.', 'icon' => ''],
+                ['parameter' => 'Dropping Load Limit', 'value' => '160 Kg', 'description' => 'Maximum load carry limit.', 'icon' => ''],
+                ['parameter' => 'Rate of Descent', 'value' => '4.5 to 5.8 m/sec', 'description' => 'Descent speed variance based on wind.', 'icon' => ''],
+                ['parameter' => 'Min Jump Height', 'value' => '457 m', 'description' => 'Minimum safe release altitude.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Parabolic Pinched Design', 'description' => 'Pinched skirt parabolic canopy offering low rate of descent and high stability in standard wind velocities.'],
+                ['heading' => 'Large Canopy Area', 'description' => 'Generous 10.67-meter diameter provides a soft, controlled descent range between 4.5 and 5.8 m/s.']
+            ]
+        ];
+
+        $sync(9, 'Tactical Assault Main', $ptamData);
+        $sync(10, 'Tactical Assault Reserve', $ptarData);
+        $sync(12, 'Paratroop Type PTR-M', $ptrmData);
+
         return response($output . "\nAll Categories and Products Seeding Completed Successfully!", 200)
             ->header('Content-Type', 'text/plain');
     });
