@@ -9028,8 +9028,8 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
 }
 
 .capabilities-section-title span {
-    color: #2563eb; /* active blue */
-    display: block;
+    color: #EE6802; /* changed to primary orange matching theme */
+    display: inline;
 }
 
 .capabilities-subtext {
