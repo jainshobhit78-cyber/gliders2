@@ -265,7 +265,7 @@
 
                 <div class="safran-activities-wrapper">
                     <!-- CARD 1: PARACHUTES -->
-                    <div class="safran-activity-card">
+                    <div class="safran-activity-card" onclick="window.location.href='/products/offering/parachutes'">
                         <div class="card-bg" style="background-image: url('/uploads/media/images/hd_su30_brake_parachute.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
@@ -286,7 +286,7 @@
                     </div>
 
                     <!-- CARD 2: RUBBER INFLATABLES -->
-                    <div class="safran-activity-card">
+                    <div class="safran-activity-card" onclick="window.location.href='/products/offering/rubber-inflatables'">
                         <div class="card-bg" style="background-image: url('/uploads/media/images/hd_baplw_assault_boat.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
@@ -306,7 +306,7 @@
                     </div>
 
                     <!-- CARD 3: TECHNICAL CLOTHING -->
-                    <div class="safran-activity-card">
+                    <div class="safran-activity-card" onclick="window.location.href='/products/offering/technical-clothing'">
                         <div class="card-bg" style="background-image: url('/uploads/media/images/hd_indian_clothing.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
