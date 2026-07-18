@@ -259,14 +259,14 @@
         <section class="updates-section">
             <div class="container-fluid px-5">
                 <div class="section-title text-center mb-5">
-                    <h2 class="activities-main-heading">Our Core <span>Activities</span></h2>
+                    <h2 class="activities-main-heading">Our Key <span>Offerings</span></h2>
                     <p class="activities-sub-heading text-muted mt-2">Shortening retardation, safeguarding troops, and protecting lives in extreme scenarios.</p>
                 </div>
 
                 <div class="safran-activities-wrapper">
                     <!-- CARD 1: PARACHUTES -->
                     <div class="safran-activity-card">
-                        <div class="card-bg" style="background-image: url('/uploads/key_offerings/1776004316_parachutes-aerial-delivery.png');"></div>
+                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_military_parachute.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <div class="card-icon-wrapper">
@@ -287,7 +287,7 @@
 
                     <!-- CARD 2: RUBBER INFLATABLES -->
                     <div class="safran-activity-card">
-                        <div class="card-bg" style="background-image: url('/uploads/products/km_bridge.jpg');"></div>
+                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_tactical_inflatable.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <div class="card-icon-wrapper">
@@ -307,7 +307,7 @@
 
                     <!-- CARD 3: TECHNICAL CLOTHING -->
                     <div class="safran-activity-card">
-                        <div class="card-bg" style="background-image: url('/uploads/products/nbc_suit.jpg');"></div>
+                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_technical_clothing.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <div class="card-icon-wrapper">
