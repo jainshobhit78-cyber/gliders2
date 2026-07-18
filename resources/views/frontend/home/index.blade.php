@@ -258,7 +258,7 @@
         <section class="updates-section">
             <div class="container-fluid px-5">
                 <div class="mb-4 text-start">
-                    <h2 class="section-heading">
+                    <h2 class="section-heading activities-main-heading">
                         Our Key <span>Offerings</span>
                     </h2>
                 </div>
@@ -266,7 +266,7 @@
                 <div class="safran-activities-wrapper">
                     <!-- CARD 1: PARACHUTES -->
                     <div class="safran-activity-card">
-                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_indian_parachute.jpg');"></div>
+                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_su30_brake_parachute.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <div class="card-icon-wrapper">
@@ -287,7 +287,7 @@
 
                     <!-- CARD 2: RUBBER INFLATABLES -->
                     <div class="safran-activity-card">
-                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_indian_inflatable.jpg');"></div>
+                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_baplw_assault_boat.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <div class="card-icon-wrapper">

@@ -9737,13 +9737,13 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     }
 }
 
-/* SAFRAN STYLE CORE ACTIVITIES ACCORDION */
 .activities-main-heading {
-    font-size: 38px;
+    font-size: 42px !important;
     font-weight: 800;
     letter-spacing: -0.5px;
     text-transform: uppercase;
     color: #111;
+    padding-bottom: 24px;
 }
 .activities-main-heading span {
     color: #EE6802;
