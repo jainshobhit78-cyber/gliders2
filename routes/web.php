@@ -566,18 +566,18 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             ->header('Content-Type', 'text/plain');
     });
 
-    Route::get('admin/seed-rubber-inflatables', function () {
+    Route::get('admin/seed-all-products', function () {
         $user = auth()->guard('admin')->user();
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
             abort(403, 'User does not have the right permissions.');
         }
 
-        $output = "--- RUNNING RUBBER INFLATABLES PRODUCT SEEDER ---\n";
+        $output = "--- RUNNING COMPREHENSIVE PRODUCT SEEDER ---\n";
 
-        // 1. Create Category "Rubber Inflatables" if not exists
-        $category = \App\Models\ProductCategory::where('name', 'LIKE', '%Rubber Inflatables%')->first();
-        if (!$category) {
-            $category = \App\Models\ProductCategory::create([
+        // 1. SEED RUBBER INFLATABLES
+        $inflatablesCategory = \App\Models\ProductCategory::where('name', 'LIKE', '%Rubber Inflatables%')->first();
+        if (!$inflatablesCategory) {
+            $inflatablesCategory = \App\Models\ProductCategory::create([
                 'name' => 'Rubber Inflatables',
                 'category_title' => 'Rubber Inflatables',
                 'category_subtitle' => 'Explore KM floats, inflatable boats and our growing range of rubber-based systems.',
@@ -586,23 +586,21 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                 'status' => 'active',
                 'display_order' => 10
             ]);
-            $output .= "Created new category: Rubber Inflatables (ID: {$category->id})\n";
+            $output .= "Created category: Rubber Inflatables (ID: {$inflatablesCategory->id})\n";
         } else {
-            $category->update([
+            $inflatablesCategory->update([
                 'name' => 'Rubber Inflatables',
                 'category_title' => 'Rubber Inflatables',
                 'category_subtitle' => 'Explore KM floats, inflatable boats and our growing range of rubber-based systems.',
                 'status' => 'active',
             ]);
-            $output .= "Updated existing category: Rubber Inflatables (ID: {$category->id})\n";
+            $output .= "Updated category: Rubber Inflatables (ID: {$inflatablesCategory->id})\n";
         }
+        $inflatablesCatId = $inflatablesCategory->id;
 
-        $catId = $category->id;
-
-        // 2. Define Products
         $ibgcData = [
             'title' => 'Inflatable Boat Gemini Craft (IBGC)',
-            'category_id' => $catId,
+            'category_id' => $inflatablesCatId,
             'description' => '<p>High-durability tactical inflatable boat designed for maritime patrol, search and rescue (SAR), and specialized combat operations. Compliant with ISO 6185-3 and military standards, featuring robust Hypalon construction.</p>',
             'wallpaper' => 'ibgc.png',
             'display_order' => 1,
@@ -622,7 +620,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
 
         $baplwData = [
             'title' => 'Boat Assault Pneumatic Light Weight (BAPLW)',
-            'category_id' => $catId,
+            'category_id' => $inflatablesCatId,
             'description' => '<p>Specialized lightweight assault inflatable craft designed for tactical river crossings, bridging support, and rapid military insertion tasks. Highly portable and rapidly deployable.</p>',
             'wallpaper' => 'baplw.png',
             'display_order' => 2,
@@ -643,7 +641,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
 
         $brpData = [
             'title' => 'Boat Reconnaissance Pneumatic (3 Men)',
-            'category_id' => $catId,
+            'category_id' => $inflatablesCatId,
             'description' => '<p>Compact, highly portable pneumatic reconnaissance boat designed for stealth scouting, marine surveillance, and shallow-water patrol missions. Supplied with folding paddles and foot pump.</p>',
             'wallpaper' => 'brp_3men.png',
             'display_order' => 3,
@@ -662,7 +660,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
 
         $floatAssemblyData = [
             'title' => 'Float Assembly for KM Bridge',
-            'category_id' => $catId,
+            'category_id' => $inflatablesCatId,
             'description' => '<p>High-durability pneumatic float assemblies engineered to support heavy tactical floating bridges and raft systems (such as Krupp-man bridging gear) for heavy vehicle crossings.</p>',
             'wallpaper' => 'float_assembly.png',
             'display_order' => 4,
@@ -678,7 +676,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             ]
         ];
 
-        $sync = function ($matchKeyword, $data) use ($catId, &$output) {
+        $sync = function ($catId, $matchKeyword, $data) use (&$output) {
             $product = \App\Models\Product::where('category_id', $catId)
                 ->where('title', 'LIKE', '%' . $matchKeyword . '%')
                 ->first();
@@ -704,12 +702,113 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             }
         };
 
-        $sync('Gemini Craft', $ibgcData);
-        $sync('BAPLW', $baplwData);
-        $sync('3 Men', $brpData);
-        $sync('Float Assembly', $floatAssemblyData);
+        $sync($inflatablesCatId, 'Gemini Craft', $ibgcData);
+        $sync($inflatablesCatId, 'BAPLW', $baplwData);
+        $sync($inflatablesCatId, '3 Men', $brpData);
+        $sync($inflatablesCatId, 'Float Assembly', $floatAssemblyData);
 
-        return response($output . "\nRubber Inflatables Seeding Completed Successfully!", 200)
+        // 2. SEED TECHNICAL CLOTHING
+        $clothingCategory = \App\Models\ProductCategory::where('name', 'LIKE', '%Technical Clothing%')->first();
+        if (!$clothingCategory) {
+            $clothingCategory = \App\Models\ProductCategory::create([
+                'name' => 'Technical Clothing',
+                'category_title' => 'Technical Clothing',
+                'category_subtitle' => 'Mission-ready technical clothing and protective apparel engineered for demanding environments.',
+                'image' => 'nbc_suit.jpg',
+                'wallpaper_image' => 'jacket_wind_cheater.png',
+                'status' => 'active',
+                'display_order' => 20
+            ]);
+            $output .= "Created category: Technical Clothing (ID: {$clothingCategory->id})\n";
+        } else {
+            $clothingCategory->update([
+                'name' => 'Technical Clothing',
+                'category_title' => 'Technical Clothing',
+                'category_subtitle' => 'Mission-ready technical clothing and protective apparel engineered for demanding environments.',
+                'status' => 'active',
+            ]);
+            $output .= "Updated category: Technical Clothing (ID: {$clothingCategory->id})\n";
+        }
+        $clothingCatId = $clothingCategory->id;
+
+        $nbcData = [
+            'title' => 'NBC Suit Mk-IV',
+            'category_id' => $clothingCatId,
+            'description' => '<p>Nuclear, Biological & Chemical (NBC) Permeable Suit designed to provide complete, vital protection against toxic chemical vapors and contaminants. Worn over undergarments, allowing sweat evaporation.</p>',
+            'wallpaper' => 'nbc_suit.jpg',
+            'display_order' => 1,
+            'technical_specs' => [
+                ['parameter' => 'Outer Layer', 'value' => 'Inherent Flame Retardant Polyester Fluorocarbon treated Disruptive Printed 100 gsm', 'description' => 'Flame and oil repellent protective outer layer.', 'icon' => ''],
+                ['parameter' => 'Inner Layer', 'value' => 'Active Carbon Spheres Adhered Laminated Fabric', 'description' => 'Activated carbon spheres that absorb toxic vapors.', 'icon' => ''],
+                ['parameter' => 'Sizes Available', 'value' => 'Small, Medium, Large, Extra Large', 'description' => 'Wide fit range options.', 'icon' => ''],
+                ['parameter' => 'Design Config', 'value' => 'Jacket with integrated hood and Trousers', 'description' => 'Full-body encapsulation design.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Toxic Vapor Absorption', 'description' => 'Incorporates advanced inner laminated active carbon spheres designed to trap and neutralize chemical vapors.'],
+                ['heading' => 'Flame Retardant & Breathable', 'description' => 'Outer layer is inherently flame retardant and oil repellent, while remaining highly air-permeable to reduce thermal stress.']
+            ]
+        ];
+
+        $jacketData = [
+            'title' => 'Jacket Wind Cheater',
+            'category_id' => $clothingCatId,
+            'description' => '<p>Premium wind cheater jacket designed for military personnel serving in extreme, cold, and snow-bound high-altitude environments, serving as a protective overgarment.</p>',
+            'wallpaper' => 'jacket_wind_cheater.png',
+            'display_order' => 2,
+            'technical_specs' => [
+                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 75 GSM White PU Coated', 'description' => 'Strong water-resistant coated nylon.', 'icon' => ''],
+                ['parameter' => 'Elastic components', 'value' => 'Tape elastic 15 mm wide white', 'description' => 'Snug sealing bands.', 'icon' => ''],
+                ['parameter' => 'Sizes Available', 'value' => 'Small, Medium, Large', 'description' => 'Standard sizing.', 'icon' => ''],
+                ['parameter' => 'Hood Design', 'value' => 'Double layer of self material', 'description' => 'Insulated hood structure.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Cold Air and Rain Shielding', 'description' => 'Provides exceptional barrier protection against strong freezing winds and light showers, preventing hypothermia.'],
+                ['heading' => 'Multi-Pocket Utility', 'description' => 'Features front yokes, front closure slide fasteners, horizontal cut pockets, and bottom slant pockets for tactical utility.']
+            ]
+        ];
+
+        $ponchoData = [
+            'title' => 'Poncho Glacier',
+            'category_id' => $clothingCatId,
+            'description' => '<p>Glacier poncho designed to provide complete environmental protection and camouflage in sub-zero snow-bound fields and torrential rainstorms.</p>',
+            'wallpaper' => 'poncho_glacier.png',
+            'display_order' => 3,
+            'technical_specs' => [
+                ['parameter' => 'Material / Fabric', 'value' => 'Fabric Nylon, Polyurethane Coated, 105 GSM Snow White', 'description' => 'Heavy-duty PU coated snow camouflage nylon.', 'icon' => ''],
+                ['parameter' => 'Utility Modes', 'value' => 'Cape with Hood, Bivouac and Ground sheet', 'description' => 'Multipurpose field configurations.', 'icon' => ''],
+                ['parameter' => 'Size', 'value' => 'Universal size', 'description' => 'One size fits all.', 'icon' => ''],
+                ['parameter' => 'Back feature', 'value' => 'Provided with pack on the back', 'description' => 'Includes integrated gear storage pouch.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Sub-Zero Camouflage', 'description' => 'Specially designed in solid snow white with a PU coating turned inward to provide camouflage concealment in glacier regions.'],
+                ['heading' => 'Multipurpose Tactical Cover', 'description' => 'Functions dynamically as an individual cape, emergency ground sheet, or bivouac shelter during heavy snowfall or rain.']
+            ]
+        ];
+
+        $shirtData = [
+            'title' => 'Shirt Plain Weave',
+            'category_id' => $clothingCatId,
+            'description' => '<p>Parade shirt constructed with high-durability polyester and viscose dope-dyed blend, engineered for smart, uniform styling and extended life.</p>',
+            'wallpaper' => 'shirt_plain_weave.png',
+            'display_order' => 4,
+            'technical_specs' => [
+                ['parameter' => 'Basic Fabric Blend', 'value' => 'Cloth Plain Weave Polyester & Viscose Dope Dyed Dark OG', 'description' => 'Premium fade-resistant dope dyed plain weave.', 'icon' => ''],
+                ['parameter' => 'Design collar', 'value' => 'Two piece collars with HDPE lining', 'description' => 'Stiff formal collar design.', 'icon' => ''],
+                ['parameter' => 'Sleeve finish', 'value' => 'Machine blind stitch', 'description' => 'Concealed clean sleeve edges.', 'icon' => ''],
+                ['parameter' => 'Closure', 'value' => 'Button Plastic 13 mm OG / Ring prong snap buttons', 'description' => 'Standard military buttons.', 'icon' => '']
+            ],
+            'main_capabilities' => [
+                ['heading' => 'Superior Formal Value', 'description' => 'Designed with double-layer collars, shoulder straps, and pocket flaps with internal HDPE linings to maintain structure.'],
+                ['heading' => 'Durable Parade Comfort', 'description' => 'Polyester-viscose blend offers exceptional durability for military parade drills while keeping the wearer cool.']
+            ]
+        ];
+
+        $sync($clothingCatId, 'NBC Suit', $nbcData);
+        $sync($clothingCatId, 'Jacket Wind', $jacketData);
+        $sync($clothingCatId, 'Poncho Glacier', $ponchoData);
+        $sync($clothingCatId, 'Shirt Plain Weave', $shirtData);
+
+        return response($output . "\nAll Categories and Products Seeding Completed Successfully!", 200)
             ->header('Content-Type', 'text/plain');
     });
 
