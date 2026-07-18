@@ -76,7 +76,7 @@ class HomeController extends Controller
                 ),
             ],
             [
-                'title' => 'Technical Clothing',
+                'title' => 'Technical Clothing and Equipments',
                 'slug' => 'technical-clothing',
                 'image' => $offeringImage(['technical clothing', 'clothing', 'garment', 'apparel']),
             ],

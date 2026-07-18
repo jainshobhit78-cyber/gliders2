@@ -3770,7 +3770,7 @@ table td {
     right: 0;
     bottom: 0;
     z-index: 4;
-    height: 72px;
+    height: 82px;
     padding: 14px 18px;
     display: flex;
     align-items: center;
@@ -3788,9 +3788,9 @@ table td {
 
 .offering-title {
     position: relative;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
-    line-height: 1.35;
+    line-height: 1.3;
     color: #fff;
     margin: 0;
     padding-left: 18px;
@@ -3798,7 +3798,7 @@ table td {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    min-height: 42px;
+    min-height: 40px;
 }
 
 /* Left vertical line */
@@ -3806,9 +3806,10 @@ table td {
     content: "";
     position: absolute;
     left: 0;
-    top: 4px;
+    top: 50%;
+    transform: translateY(-50%);
     width: 3px;
-    height: 38px;
+    height: 36px;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.7);
 }
