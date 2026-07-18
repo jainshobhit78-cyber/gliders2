@@ -212,6 +212,14 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             }
 
             $output .= " | Schema checks and column additions successfully verified!";
+
+            // Self-healing: nav_font_size column
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'nav_font_size')) {
+                \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
+                    $table->string('nav_font_size')->nullable()->default('14');
+                });
+                $output .= " | nav_font_size column added.";
+            }
         } catch (\Exception $ex) {
             $output .= " | Manual schema update failed: " . $ex->getMessage();
         }

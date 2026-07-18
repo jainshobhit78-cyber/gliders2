@@ -1,6 +1,11 @@
 @php
     $headerSetting = \App\Models\GeneralSetting::first();
 @endphp
+<style>
+    :root {
+        --nav-font-size: {{ $headerSetting->nav_font_size ?? '14' }}px;
+    }
+</style>
 <header class="site-header" id="siteHeader">
 
     <!-- TOP ACCESSIBILITY BAR -->

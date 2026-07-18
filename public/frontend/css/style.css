@@ -747,7 +747,7 @@ body {
     padding: 8px 4px;
     transition: 0.3s;
     font-weight: 500;
-    font-size: 13px;
+    font-size: var(--nav-font-size, 14px);
     /* line-height: 100%; */
     letter-spacing: 0%;
     text-transform: uppercase;
@@ -765,7 +765,7 @@ body {
 }
 
 .navbar-nav .nav-item a {
-    font-size: 13px;
+    font-size: var(--nav-font-size, 14px);
 
 }
 

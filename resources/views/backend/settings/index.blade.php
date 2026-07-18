@@ -212,6 +212,45 @@
                                 </div>
                             </div>
 
+                            <!-- Navigation Menu Font Size -->
+                            <div class="form-group-wrapper">
+                                <span class="settings-section-title"><i class="fa fa-text-height me-2"></i>Navigation Menu Font Size</span>
+                                <small class="text-muted d-block mb-3">Adjust the font size of the top navigation menu items (HOME, ABOUT, PRODUCTS, etc.) to ensure all tabs fit on a single line.</small>
+
+                                <div class="row align-items-center">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Menu Font Size: <strong id="navFontSizeValue">{{ old('nav_font_size', $setting->nav_font_size ?? '14') }}px</strong></label>
+                                        <input type="range" class="form-range" name="nav_font_size" id="navFontSizeRange"
+                                            min="10" max="20" step="0.5"
+                                            value="{{ old('nav_font_size', $setting->nav_font_size ?? '14') }}"
+                                            oninput="document.getElementById('navFontSizeValue').textContent = this.value + 'px';">
+                                        <div class="d-flex justify-content-between text-muted" style="font-size: 12px;">
+                                            <span>10px (Compact)</span>
+                                            <span>14px (Default)</span>
+                                            <span>20px (Large)</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Live Preview</label>
+                                        <div class="border rounded p-3 bg-dark text-white d-flex flex-wrap gap-2" id="navFontPreview">
+                                            <span>HOME</span><span>|</span>
+                                            <span>ABOUT</span><span>|</span>
+                                            <span>PRODUCTS</span><span>|</span>
+                                            <span>NEWS</span><span>|</span>
+                                            <span>RESOURCES</span><span>|</span>
+                                            <span>CAREERS</span><span>|</span>
+                                            <span>VENDORS</span>
+                                        </div>
+                                        <script>
+                                            document.getElementById('navFontSizeRange').addEventListener('input', function() {
+                                                document.getElementById('navFontPreview').style.fontSize = this.value + 'px';
+                                            });
+                                            document.getElementById('navFontPreview').style.fontSize = document.getElementById('navFontSizeRange').value + 'px';
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                         <!-- TAB: INDEPENDENCE DAY LAUNCH EXPERIENCE -->
