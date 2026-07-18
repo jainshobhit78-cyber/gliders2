@@ -274,7 +274,7 @@
             <div class="collapse navbar-collapse " id="nav">
 
                 <!-- MENUS -->
-                <ul class="navbar-nav flex-wrap">
+                <ul class="navbar-nav">
 
                     <li class="nav-item">
                         <a href="{{ route('home') }}" class="nav-link active">HOME</a>
