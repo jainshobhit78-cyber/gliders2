@@ -88,6 +88,12 @@
                     </div>
 
                     <div class="mb-3">
+                        <label>Profile Pic (Thumbnail/Card Image)</label>
+                        <input type="file" name="profile_pic" class="form-control" accept="image/*">
+                        <small class="text-muted">Upload an optimized, well-framed photo to be displayed on product cards in lists and homepage.</small>
+                    </div>
+
+                    <div class="mb-3">
 
                         <label>Images</label>
 

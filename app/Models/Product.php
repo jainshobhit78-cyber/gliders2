@@ -12,6 +12,7 @@ class Product extends Model
         'display_order',
         'description',
         'wallpaper',
+        'profile_pic',
         'delivery_tag',
         'specs_subtext',
         'specs_image',

@@ -527,7 +527,36 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             ]
         ];
 
-        $sync = function ($matchKeyword, $data) use (&$output) {
+        $getProfilePic = function ($title) {
+            $mappings = [
+                'Tactical Assault Main' => 'pta_m.png',
+                'Tactical Assault Reserve' => 'ptr_r.jpg',
+                'Paratroop Type PTR-M' => 'ptr_m.jpg',
+                'Combat Free Fall' => 'cff_ram_air.jpg',
+                'High Altitude' => 'hap.jpg',
+                'Parasail' => 'parasail.jpg',
+                'Boat Assault Pneumatic' => 'baplw.png',
+                'Inflatable Boat' => 'ibgc.png',
+                'SU-30' => 'su30_bp.jpg',
+                'Mirage-2000' => 'mirage_2000_bp.jpg',
+                'Jaguar' => 'jaguar_bp.jpg',
+                'MIG Series' => 'mig_series_bp.jpg',
+                'LCA' => 'lca_tejas_bp.jpg',
+                'Hawk' => 'hawk_ajt_bp.jpg',
+                'Lakshya' => 'lakshya_recovery_bp.jpg',
+                'P-7 Heavy Drop' => 'p7_heavy_drop.png',
+                'Heavy Drop for AN32' => 'heavy_drop_an32.jpg',
+            ];
+            foreach ($mappings as $keyword => $fileName) {
+                if (stripos($title, $keyword) !== false) {
+                    return $fileName;
+                }
+            }
+            return null;
+        };
+
+        $sync = function ($matchKeyword, $data) use (&$output, $getProfilePic) {
+            $data['profile_pic'] = $getProfilePic($data['title']);
             $product = \App\Models\Product::where('category_id', 5)
                 ->where('title', 'LIKE', '%' . $matchKeyword . '%')
                 ->first();
@@ -676,7 +705,8 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             ]
         ];
 
-        $sync = function ($catId, $matchKeyword, $data) use (&$output) {
+        $sync = function ($catId, $matchKeyword, $data) use (&$output, $getProfilePic) {
+            $data['profile_pic'] = $getProfilePic($data['title']);
             $product = \App\Models\Product::where('category_id', $catId)
                 ->where('title', 'LIKE', '%' . $matchKeyword . '%')
                 ->first();
@@ -1104,6 +1134,12 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                 'video' => 'brake_para_su30.mp4',
                 'caption' => 'Su-30 Brake Parachute Deployment Sequence'
             ]);
+            \App\Models\PlaylistImage::create([
+                'playlist_id' => $p1->id,
+                'image' => 'su30_bp.jpg',
+                'sub_heading' => 'Brake Parachute',
+                'caption' => 'SU-30 Aircraft Brake Parachute'
+            ]);
             $output .= "Created Playlist 1: Brake Parachute Systems\n";
 
             // Playlist 2
@@ -1119,6 +1155,12 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                 'video' => 'p7.mp4',
                 'caption' => 'P-7 Heavy Drop System In Action'
             ]);
+            \App\Models\PlaylistImage::create([
+                'playlist_id' => $p2->id,
+                'image' => 'p7_heavy_drop.png',
+                'sub_heading' => 'Heavy Drop',
+                'caption' => 'P-7 Heavy Drop System'
+            ]);
             $output .= "Created Playlist 2: Heavy Drop Parachute Systems\n";
 
             // Playlist 3
@@ -1133,6 +1175,12 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                 'playlist_id' => $p3->id,
                 'video' => 'vid_20251029_wa0005.mp4',
                 'caption' => 'Tactical Assault Boat Performance Test'
+            ]);
+            \App\Models\PlaylistImage::create([
+                'playlist_id' => $p3->id,
+                'image' => 'baplw.png',
+                'sub_heading' => 'Tactical Boats',
+                'caption' => 'Boat Assault Pneumatic'
             ]);
             $output .= "Created Playlist 3: Tactical Inflatable Boats & Systems\n";
 

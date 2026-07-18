@@ -18,7 +18,7 @@
         // Original product image logic
         $originalProductImage = $product->images->first() 
             ? asset('uploads/products/' . $product->images->first()->image) 
-            : ($product->wallpaper ? asset('uploads/products/' . $product->wallpaper) : asset('frontend/images/section/9.png'));
+            : ($product->profile_pic ? asset('uploads/products/' . $product->profile_pic) : ($product->wallpaper ? asset('uploads/products/' . $product->wallpaper) : asset('frontend/images/section/9.png')));
 
         // Clean table out of description
         $cleanDescription = preg_replace('/<table[^>]*>.*?<\/table>/is', '', $product->description);

@@ -30,6 +30,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'profile_pic' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
             'wallpaper' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
             'specs_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
             'caps_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
@@ -38,6 +39,13 @@ class ProductController extends Controller
             'delivery_tag' => 'nullable|string|max:100',
             'display_order' => 'nullable|integer',
         ]);
+
+        $profilePicName = null;
+        if ($request->hasFile('profile_pic')) {
+            $profilePic = $request->file('profile_pic');
+            $profilePicName = $profilePic->hashName();
+            $profilePic->move(public_path('uploads/products'), $profilePicName);
+        }
 
         $wallpaperName = null;
         if ($request->hasFile('wallpaper')) {
@@ -92,6 +100,7 @@ class ProductController extends Controller
             'display_order' => $request->display_order ?? 999,
             'description' => $request->description,
             'wallpaper' => $wallpaperName,
+            'profile_pic' => $profilePicName,
             'delivery_tag' => $request->delivery_tag,
             'specs_subtext' => $request->specs_subtext,
             'specs_image' => $specsImageName,
@@ -126,6 +135,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'profile_pic' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
             'wallpaper' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
             'specs_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
             'caps_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
@@ -135,6 +145,13 @@ class ProductController extends Controller
         ]);
 
         $product = Product::find($id);
+
+        $profilePicName = $product->profile_pic;
+        if ($request->hasFile('profile_pic')) {
+            $profilePic = $request->file('profile_pic');
+            $profilePicName = $profilePic->hashName();
+            $profilePic->move(public_path('uploads/products'), $profilePicName);
+        }
 
         $wallpaperName = $product->wallpaper;
         if ($request->hasFile('wallpaper')) {
@@ -189,6 +206,7 @@ class ProductController extends Controller
             'display_order' => $request->display_order ?? 999,
             'description' => $request->description,
             'wallpaper' => $wallpaperName,
+            'profile_pic' => $profilePicName,
             'delivery_tag' => $request->delivery_tag,
             'specs_subtext' => $request->specs_subtext,
             'specs_image' => $specsImageName,

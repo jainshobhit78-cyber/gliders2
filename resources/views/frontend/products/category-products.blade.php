@@ -39,8 +39,11 @@
                             <div class="premium-solution-card">
                                 <!-- Upper Half: Image Wrap -->
                                 <div class="solution-card-image-wrap">
-                                    <img src="{{ asset('uploads/products/' . optional($product->images->first())->image) }}"
-                                         alt="{{ $product->title }}">
+                                    @if($product->profile_pic)
+                                        <img src="{{ asset('uploads/products/' . $product->profile_pic) }}" alt="{{ $product->title }}">
+                                    @else
+                                        <img src="{{ asset('uploads/products/' . optional($product->images->first())->image) }}" alt="{{ $product->title }}">
+                                    @endif
                                 </div>
 
                                 <!-- Lower Half: Dark blue container with centered overlapping circle and description -->

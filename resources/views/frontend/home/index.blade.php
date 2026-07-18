@@ -169,7 +169,11 @@
                                 <div class="premium-product-card {{ $themeClass }}">
                                     <!-- Full background photo -->
                                     <div class="card-bg-image">
-                                        <img src="{{ asset('uploads/products/' . optional($product->images->first())->image) }}" alt="{{ $product->title }}">
+                                        @if($product->profile_pic)
+                                            <img src="{{ asset('uploads/products/' . $product->profile_pic) }}" alt="{{ $product->title }}">
+                                        @else
+                                            <img src="{{ asset('uploads/products/' . optional($product->images->first())->image) }}" alt="{{ $product->title }}">
+                                        @endif
                                     </div>
 
                                     <!-- Top Right corner floating badge -->
