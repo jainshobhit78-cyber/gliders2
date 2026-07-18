@@ -232,16 +232,16 @@
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Live Preview</label>
-                                        <div class="border rounded p-3 bg-dark text-white d-flex flex-wrap gap-2" id="navFontPreview">
-                                            <span>HOME</span><span>|</span>
-                                            <span>ABOUT</span><span>|</span>
-                                            <span>PRODUCTS</span><span>|</span>
-                                            <span>NEWS</span><span>|</span>
-                                            <span>RESOURCES</span><span>|</span>
-                                            <span>CAREERS</span><span>|</span>
-                                            <span>VENDORS</span>
-                                        </div>
-                                        <script>
+                                         <div class="border rounded p-3 bg-dark text-white d-flex flex-wrap gap-2" id="navFontPreview" style="font-weight: 700;">
+                                             <span>HOME</span><span>|</span>
+                                             <span>ABOUT</span><span>|</span>
+                                             <span>PRODUCTS</span><span>|</span>
+                                             <span>NEWS</span><span>|</span>
+                                             <span>RESOURCES</span><span>|</span>
+                                             <span>CAREERS</span><span>|</span>
+                                             <span>VENDORS</span>
+                                         </div>
+                                         <script>
                                             document.getElementById('navFontSizeRange').addEventListener('input', function() {
                                                 document.getElementById('navFontPreview').style.fontSize = this.value + 'px';
                                             });
