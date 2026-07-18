@@ -764,10 +764,10 @@
                         </div>
                     </div>
 
-                    <!-- RIGHT NEWS SLIDER -->
+                    <!-- RIGHT NEWS SLIDER (LATEST UPDATES) -->
                     <div class="col-lg-6">
                         <div class="activities-box">
-                            <h2>Our <span>Activities</span></h2>
+                            <h2>Latest <span>Updates</span></h2>
 
                             <div class="swiper newsSlider">
                                 <div class="swiper-wrapper">
@@ -775,26 +775,26 @@
                                     @foreach($latestNews as $news)
                                         <div class="swiper-slide">
                                             <div class="news-card">
-                                                <img src="{{ asset('uploads/news/' . $news->wallpaper) }}"
-                                                    alt="{{ $news->title }}">
+                                                <div class="news-card-img-wrap">
+                                                    <img src="/uploads/news/{{ $news->wallpaper }}" alt="{{ $news->title }}">
+                                                </div>
 
                                                 <div class="news-card-body">
-                                                    <h4>{{ Str::limit(strip_tags($news->title), 20) }}</h4>
-
+                                                    <h4>{{ Str::limit(strip_tags($news->title), 60) }}</h4>
 
                                                     <div class="news-meta">
                                                         <span class="news-date">
                                                             {{ \Carbon\Carbon::parse($news->publish_date)->format('d M Y') }}
                                                         </span>
                                                         <span class="news-author">
-                                                            (By {{ $news->author }})
+                                                            By {{ $news->author }}
                                                         </span>
                                                     </div>
 
                                                     <p>{{ Str::limit(strip_tags($news->content), 120) }}</p>
 
-                                                    <a href="{{ route('news.category', $news->category_id) }}" class="news-btn">
-                                                        View More →
+                                                    <a href="{{ route('news.show', $news->id) }}" class="news-btn">
+                                                        Read Article →
                                                     </a>
                                                 </div>
                                             </div>
@@ -802,6 +802,8 @@
                                     @endforeach
 
                                 </div>
+                                <!-- Add Pagination -->
+                                <div class="swiper-pagination news-swiper-pagination mt-3"></div>
                             </div>
 
                         </div>
@@ -814,51 +816,51 @@
         <!-- SAFRAN-STYLE NEWS CATEGORIES SECTION -->
         <section class="news-categories-section py-5">
             <div class="container-fluid px-5">
-                <div class="mb-4 text-start">
-                    <h2 class="section-heading activities-main-heading">
+                <div class="mb-4 d-flex justify-content-between align-items-center">
+                    <h2 class="section-heading activities-main-heading m-0">
                         News <span>Categories</span>
                     </h2>
+                    <!-- Category Swiper Navigation -->
+                    <div class="cat-swiper-nav d-flex gap-2">
+                        <div class="swiper-button-prev cat-swiper-prev" style="position: static; margin: 0; width: 44px; height: 44px; border-radius: 50%; background: #fff; border: 1px solid rgba(0,0,0,0.1); color: #EE6802;"></div>
+                        <div class="swiper-button-next cat-swiper-next" style="position: static; margin: 0; width: 44px; height: 44px; border-radius: 50%; background: #fff; border: 1px solid rgba(0,0,0,0.1); color: #EE6802;"></div>
+                    </div>
                 </div>
 
-                <div class="safran-news-categories-wrapper">
-                    <!-- CARD 1: BREAKING NEWS -->
-                    <div class="safran-cat-card" onclick="window.location.href='/news/category/1'">
-                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_indian_parachute.jpg');"></div>
-                        <div class="card-overlay"></div>
-                        <div class="card-content">
-                            <h3 class="card-title">Breaking News</h3>
-                            <div class="see-more-wrap">
-                                <div class="vertical-line"></div>
-                                <span class="see-more-text">SEE MORE</span>
-                            </div>
-                        </div>
-                    </div>
+                @php
+                    $newsCategories = \App\Models\NewsCategory::all();
+                    $catBackgrounds = [
+                        1 => '/uploads/media/images/hd_indian_parachute.jpg',   // Breaking
+                        3 => '/uploads/media/images/hd_news_events.jpg',       // Blogs
+                        5 => '/uploads/media/images/hd_indian_clothing.jpg',    // Latest Updates
+                        6 => '/uploads/media/images/hd_indian_inflatable.jpg',  // Press Releases
+                        7 => '/uploads/media/images/hd_news_press.jpg',         // latest
+                    ];
+                @endphp
 
-                    <!-- CARD 2: PRESS RELEASES -->
-                    <div class="safran-cat-card" onclick="window.location.href='/news/category/6'">
-                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_indian_inflatable.jpg');"></div>
-                        <div class="card-overlay"></div>
-                        <div class="card-content">
-                            <h3 class="card-title">Press Releases</h3>
-                            <div class="see-more-wrap">
-                                <div class="vertical-line"></div>
-                                <span class="see-more-text">SEE MORE</span>
+                <div class="swiper newsCategorySlider">
+                    <div class="swiper-wrapper">
+                        @foreach($newsCategories as $cat)
+                            @php
+                                $bg = $catBackgrounds[$cat->id] ?? '/uploads/media/images/hd_news_breaking.jpg';
+                                $displayName = $cat->name == 'latest' ? 'Recent Updates' : ($cat->name == 'Breaking' ? 'Breaking News' : $cat->name);
+                            @endphp
+                            <div class="swiper-slide">
+                                <div class="safran-cat-card" onclick="window.location.href='/news/category/{{ $cat->id }}'">
+                                    <div class="card-bg" style="background-image: url('{{ $bg }}');"></div>
+                                    <div class="card-overlay"></div>
+                                    <div class="card-content">
+                                        <h3 class="card-title">{{ $displayName }}</h3>
+                                        <div class="see-more-wrap">
+                                            <div class="vertical-line"></div>
+                                            <span class="see-more-text">SEE MORE</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
-
-                    <!-- CARD 3: LATEST UPDATES -->
-                    <div class="safran-cat-card" onclick="window.location.href='/news/category/5'">
-                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_indian_clothing.jpg');"></div>
-                        <div class="card-overlay"></div>
-                        <div class="card-content">
-                            <h3 class="card-title">Latest News & Events</h3>
-                            <div class="see-more-wrap">
-                                <div class="vertical-line"></div>
-                                <span class="see-more-text">SEE MORE</span>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="swiper-pagination cat-swiper-pagination mt-4 text-center"></div>
                 </div>
             </div>
         </section>
@@ -1195,16 +1197,36 @@
 
     <script>
         new Swiper(".newsSlider", {
-            slidesPerView: 3,
-            spaceBetween: 15,
+            slidesPerView: 1,
+            spaceBetween: 20,
             loop: true,
             autoplay: {
-                delay: 2500
+                delay: 4000,
+                disableOnInteraction: false
+            },
+            pagination: {
+                el: '.news-swiper-pagination',
+                clickable: true
+            }
+        });
+
+        // Initialize Safran-style Category Slider
+        new Swiper(".newsCategorySlider", {
+            slidesPerView: 3,
+            spaceBetween: 25,
+            loop: false,
+            navigation: {
+                nextEl: ".cat-swiper-next",
+                prevEl: ".cat-swiper-prev"
+            },
+            pagination: {
+                el: ".cat-swiper-pagination",
+                clickable: true
             },
             breakpoints: {
-                320: { slidesPerView: 1 },
-                768: { slidesPerView: 2 },
-                1200: { slidesPerView: 3 }
+                320: { slidesPerView: 1, spaceBetween: 15 },
+                768: { slidesPerView: 2, spaceBetween: 20 },
+                1024: { slidesPerView: 3, spaceBetween: 25 }
             }
         });
     </script>
