@@ -40,9 +40,9 @@
                                 <!-- Upper Half: Image Wrap -->
                                 <div class="solution-card-image-wrap">
                                     @if($product->profile_pic)
-                                        <img src="{{ asset('uploads/products/' . $product->profile_pic) }}" alt="{{ $product->title }}">
+                                        <img src="/uploads/products/{{ $product->profile_pic }}" alt="{{ $product->title }}">
                                     @else
-                                        <img src="{{ asset('uploads/products/' . optional($product->images->first())->image) }}" alt="{{ $product->title }}">
+                                        <img src="/uploads/products/{{ optional($product->images->first())->image }}" alt="{{ $product->title }}">
                                     @endif
                                 </div>
 

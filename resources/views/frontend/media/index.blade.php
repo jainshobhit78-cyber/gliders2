@@ -57,8 +57,8 @@
 
                             <!-- Image Container -->
                             <div class="media-card-display-box">
-                                <a href="{{ asset('uploads/media/images/' . $image->image) }}" class="glightbox" data-gallery="playlist_gallery">
-                                    <img src="{{ asset('uploads/media/images/' . $image->image) }}" alt="{{ $image->caption }}">
+                                <a href="/uploads/media/images/{{ $image->image }}" class="glightbox" data-gallery="playlist_gallery">
+                                    <img src="/uploads/media/images/{{ $image->image }}" alt="{{ $image->caption }}">
                                     <div class="media-card-hover-overlay">
                                         <span class="hover-overlay-icon">🔍 View Fullscreen</span>
                                     </div>

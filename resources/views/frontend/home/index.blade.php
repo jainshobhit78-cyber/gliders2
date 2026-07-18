@@ -170,9 +170,9 @@
                                     <!-- Full background photo -->
                                     <div class="card-bg-image">
                                         @if($product->profile_pic)
-                                            <img src="{{ asset('uploads/products/' . $product->profile_pic) }}" alt="{{ $product->title }}">
+                                            <img src="/uploads/products/{{ $product->profile_pic }}" alt="{{ $product->title }}">
                                         @else
-                                            <img src="{{ asset('uploads/products/' . optional($product->images->first())->image) }}" alt="{{ $product->title }}">
+                                            <img src="/uploads/products/{{ optional($product->images->first())->image }}" alt="{{ $product->title }}">
                                         @endif
                                     </div>
 
@@ -447,10 +447,10 @@
                                                 )">
 
                                                 @if($playlist->thumbnail)
-                                                    <img src="{{ asset('uploads/media/images/' . $playlist->thumbnail) }}"
+                                                    <img src="/uploads/media/images/{{ $playlist->thumbnail }}"
                                                         alt="{{ $playlist->name }}">
                                                 @elseif($playlist->images?->first()?->image)
-                                                    <img src="{{ asset('uploads/media/images/' . $playlist->images->first()->image) }}"
+                                                    <img src="/uploads/media/images/{{ $playlist->images->first()->image }}"
                                                         alt="{{ $playlist->name }}">
                                                 @else
                                                     <div class="playlist-thumb-placeholder">
