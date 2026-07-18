@@ -255,18 +255,18 @@
                 <div class="swiper-pagination"></div>
             </div>
         </section>
-
         <section class="updates-section">
             <div class="container-fluid px-5">
-                <div class="section-title text-center mb-5">
-                    <h2 class="activities-main-heading">Our Key <span>Offerings</span></h2>
-                    <p class="activities-sub-heading text-muted mt-2">Shortening retardation, safeguarding troops, and protecting lives in extreme scenarios.</p>
+                <div class="mb-4 text-start">
+                    <h2 class="section-heading">
+                        Our Key <span>Offerings</span>
+                    </h2>
                 </div>
 
                 <div class="safran-activities-wrapper">
                     <!-- CARD 1: PARACHUTES -->
                     <div class="safran-activity-card">
-                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_military_parachute.jpg');"></div>
+                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_indian_parachute.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <div class="card-icon-wrapper">
@@ -287,7 +287,7 @@
 
                     <!-- CARD 2: RUBBER INFLATABLES -->
                     <div class="safran-activity-card">
-                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_tactical_inflatable.jpg');"></div>
+                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_indian_inflatable.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <div class="card-icon-wrapper">
@@ -307,7 +307,7 @@
 
                     <!-- CARD 3: TECHNICAL CLOTHING -->
                     <div class="safran-activity-card">
-                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_technical_clothing.jpg');"></div>
+                        <div class="card-bg" style="background-image: url('/uploads/media/images/hd_indian_clothing.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
                             <div class="card-icon-wrapper">
@@ -316,7 +316,7 @@
                                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                                 </svg>
                             </div>
-                            <h3 class="card-title">Technical Clothing & Gear</h3>
+                            <h3 class="card-title">Technical Clothing & Equipment</h3>
                             <div class="card-details">
                                 <p class="card-description">Advanced protective combat clothing, nuclear-biological-chemical (NBC) suits, and extreme cold climate survival gear built to save lives.</p>
                                 <a href="/products/offering/technical-clothing" class="card-action-btn">Explore Equipment</a>
