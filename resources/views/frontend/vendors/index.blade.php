@@ -31,8 +31,8 @@
 
                             <div class="portal-card mb-4">
 
-                                <h4 class="portal-title">
-                                    {{ $item->title }}
+                                 <h4 class="portal-title">
+                                    {!! preg_replace('!(https?://[^\s]+)!', '<a href="$1" target="_blank" style="word-break: break-all;" class="text-primary text-decoration-underline">$1</a>', e($item->title)) !!}
                                 </h4>
 
                                 @if($item->pdf)
