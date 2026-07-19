@@ -34,6 +34,10 @@
                    Our Partners
                 </button>
 
+                <button class="tab-btn" data-url="{{ url('admin/home/social_posts') }}">
+                   Social Posts
+                </button>
+
                 <button class="tab-btn" data-url="{{ url('admin/home/video_banner/edit') }}">
                     Video Banner
                 </button>
@@ -381,6 +385,16 @@
         $(document).on("click", ".backPartnerList", function () {
 
             $.get("{{ url('admin/home/our_partner') }}", function (res) {
+
+                $("#ajaxContent").html(res)
+
+            })
+
+        })
+
+        $(document).on("click", ".backSocialList", function () {
+
+            $.get("{{ url('admin/home/social_posts') }}", function (res) {
 
                 $("#ajaxContent").html(res)
 

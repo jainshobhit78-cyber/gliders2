@@ -1579,6 +1579,12 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
     Route::post('admin/home/our_partner/save', [keyOfferingsController::class, 'our_partner_save'])->middleware('permission:home_page.edit,admin');
     Route::delete('admin/home/our_partner/delete/{id}', [keyOfferingsController::class, 'our_partner_delete'])->middleware('permission:home_page.delete,admin');
 
+    // Social Posts (Latest from Social Media)
+    Route::get('admin/home/social_posts', [keyOfferingsController::class, 'social_posts_list'])->middleware('permission:home_page.view,admin');
+    Route::get('admin/home/social_posts/form/{id?}', [keyOfferingsController::class, 'social_posts_form'])->middleware('permission:home_page.edit,admin');
+    Route::post('admin/home/social_posts/save', [keyOfferingsController::class, 'social_posts_save'])->middleware('permission:home_page.edit,admin');
+    Route::delete('admin/home/social_posts/delete/{id}', [keyOfferingsController::class, 'social_posts_delete'])->middleware('permission:home_page.delete,admin');
+
     Route::get('admin/inquiry', [HomeController::class, 'adminIndex'])
         ->name('admin.inquiry')->middleware('permission:inquiry.view,admin');
     Route::post('admin/inquiry/reply/{id}', [HomeController::class, 'replyContact'])

@@ -338,74 +338,64 @@
                 </h2>
                 <div class="row g-4">
 
-                    <!-- LEFT LIVE TWITTER -->
+                    <!-- LEFT: LATEST FROM SOCIAL MEDIA -->
                     <div class="col-lg-3">
-                        <div class="twitter-box">
-                            <h5 class="d-flex align-items-center">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <rect width="24" height="24" fill="url(#pattern0_2613_200)" />
-                                    <defs>
-                                        <pattern id="pattern0_2613_200" patternContentUnits="objectBoundingBox" width="1"
-                                            height="1">
-                                            <use xlink:href="#image0_2613_200" transform="scale(0.00195312)" />
-                                        </pattern>
-                                        <image id="image0_2613_200" width="512" height="512" preserveAspectRatio="none"
-                                            xlink:href="data:image/png;base64,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" />
-                                    </defs>
-                                </svg>
-                                <span class="ps-2">Latest Tweets</span>
-                            </h5>
-                            <div id="twitterTimelineWrap" style="max-height: 440px; overflow-y: auto; border-radius: 8px;">
-                                @php
-                                    $twitterFeedUrl = trim((string) ($settings->twitter_feed_url ?? ''));
-                                    if (!empty($twitterFeedUrl)) {
-                                        if (str_starts_with($twitterFeedUrl, '@')) {
-                                            $twitterFeedUrl = substr($twitterFeedUrl, 1);
-                                        }
-                                        if (!str_starts_with($twitterFeedUrl, 'http://') && !str_starts_with($twitterFeedUrl, 'https://')) {
-                                            $twitterFeedUrl = 'https://twitter.com/' . $twitterFeedUrl;
-                                        }
-                                        $twitterFeedUrl = str_replace('x.com', 'twitter.com', $twitterFeedUrl);
-                                    }
-                                @endphp
-
-                                @if(!empty($twitterFeedUrl))
-                                    <a class="twitter-timeline" data-chrome="noheader nofooter transparent" href="{{ $twitterFeedUrl }}" data-height="430" data-theme="dark">Tweets</a>
-                                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                                @endif
-
-                                {{-- Shown when no handle is configured or X fails to render the live timeline --}}
-                                <div id="twitterFallback" class="text-center text-light py-4" style="{{ empty($twitterFeedUrl) ? '' : 'display:none;' }}">
-                                    <p class="mb-1" style="opacity:.85;">Live posts can’t be shown here right now.</p>
-                                    <p class="mb-0" style="opacity:.6; font-size:13px;">Follow us on X to see the latest updates.</p>
-                                </div>
-
-                                <div class="mt-2 py-3 border-top text-center">
-                                    <a href="{{ !empty($twitterFeedUrl) ? str_replace('twitter.com', 'x.com', $twitterFeedUrl) : 'https://x.com' }}" target="_blank" class="btn btn-outline-light btn-sm rounded-pill px-4" style="border-color: rgba(255,255,255,0.3); font-size: 14px; font-weight: 500;">
-                                        View on X (Twitter)
-                                    </a>
-                                </div>
+                        <div class="social-feed-box">
+                            <h5 class="social-feed-title">Latest from Social Media</h5>
+                            <div class="social-feed-list">
+                                @forelse($socialPosts as $post)
+                                    @php
+                                        $p = strtolower(trim($post->platform));
+                                        $handles = [
+                                            'facebook'  => $settings->social_facebook ?? null,
+                                            'linkedin'  => $settings->social_linkedin ?? null,
+                                            'instagram' => $settings->social_instagram ?? null,
+                                        ];
+                                        $meta = [
+                                            'facebook'  => ['name' => 'Facebook',  'cls' => 'fb', 'icon' => 'f'],
+                                            'linkedin'  => ['name' => 'LinkedIn',  'cls' => 'li', 'icon' => 'in'],
+                                            'instagram' => ['name' => 'Instagram', 'cls' => 'ig', 'icon' => '◎'],
+                                        ][$p] ?? ['name' => ucfirst($p), 'cls' => 'fb', 'icon' => '★'];
+                                        $handle = $post->link ?: ($handles[$p] ?? '#');
+                                        $img = $post->image
+                                            ? (\Illuminate\Support\Str::startsWith($post->image, ['http://', 'https://', '/']) ? $post->image : '/uploads/social/' . $post->image)
+                                            : null;
+                                    @endphp
+                                    <div class="social-card">
+                                        <div class="social-card-head">
+                                            <span class="social-ic social-ic--{{ $meta['cls'] }}">{{ $meta['icon'] }}</span>
+                                            <div class="social-card-meta">
+                                                <a href="{{ $handle ?: '#' }}" target="_blank" rel="noopener" class="social-card-name social-card-name--{{ $meta['cls'] }}">{{ $meta['name'] }}</a>
+                                                <span class="social-card-date">{{ $post->post_date ? \Carbon\Carbon::parse($post->post_date)->format('M d, Y') : '' }}</span>
+                                            </div>
+                                            <span class="social-card-dots">&#8942;</span>
+                                        </div>
+                                        <div class="social-card-body">
+                                            <p class="social-card-text">{{ $post->content }}</p>
+                                            @if($img)
+                                                <span class="social-card-img" style="background-image:url('{{ $img }}');"></span>
+                                            @endif
+                                        </div>
+                                        <div class="social-card-foot">
+                                            <span class="social-card-reacts">
+                                                <span class="react react--like">👍</span><span class="react react--love">❤</span>
+                                                <span class="react-count">{{ $post->likes }}</span>
+                                            </span>
+                                            @if($p === 'instagram')
+                                                <a href="{{ $handle ?: '#' }}" target="_blank" rel="noopener" class="social-card-link">View on Instagram</a>
+                                            @else
+                                                <span class="social-card-stats">{{ $post->comments }} Comments &nbsp;·&nbsp; {{ $post->shares }} Shares</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="social-card">
+                                        <div class="social-card-body">
+                                            <p class="social-card-text">No social posts yet.</p>
+                                        </div>
+                                    </div>
+                                @endforelse
                             </div>
-                            @if(!empty($twitterFeedUrl))
-                                <script>
-                                    // If X's embedded timeline doesn't render within a few seconds
-                                    // (X gates most embeds now), reveal a graceful fallback instead of a blank box.
-                                    (function () {
-                                        setTimeout(function () {
-                                            var wrap = document.getElementById('twitterTimelineWrap');
-                                            if (!wrap) return;
-                                            var rendered = wrap.querySelector('iframe.twitter-timeline-rendered, iframe[id^="twitter-widget"]');
-                                            if (!rendered) {
-                                                var a = wrap.querySelector('a.twitter-timeline');
-                                                if (a) a.style.display = 'none';
-                                                var fb = document.getElementById('twitterFallback');
-                                                if (fb) fb.style.display = 'block';
-                                            }
-                                        }, 5000);
-                                    })();
-                                </script>
-                            @endif
                         </div>
                     </div><!-- RIGHT VIDEO -->
                     @if($playlists->count() > 0)

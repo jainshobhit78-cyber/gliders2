@@ -615,4 +615,79 @@ class keyOfferingsController extends Controller
 
         return back()->with('success', 'Partner deleted successfully');
     }
+
+    /* ===================== SOCIAL POSTS (Latest from Social Media) ===================== */
+
+    public function social_posts_list(Request $request)
+    {
+        if (!$request->ajax()) {
+            return redirect('admin/home?tab=home/social_posts');
+        }
+        $posts = \App\Models\SocialPost::orderBy('sort_order')->orderByDesc('post_date')->get();
+        return view('backend.home_page.social_posts.list', compact('posts'));
+    }
+
+    public function social_posts_form(Request $request, $id = null)
+    {
+        if (!$request->ajax()) {
+            return redirect('admin/home?tab=home/social_posts');
+        }
+        $edit = $id ? \App\Models\SocialPost::find($id) : null;
+        return view('backend.home_page.social_posts.form', compact('edit'));
+    }
+
+    public function social_posts_save(Request $request)
+    {
+        $request->validate([
+            'platform'   => 'required|in:facebook,linkedin,instagram',
+            'content'    => 'required|string',
+            'post_date'  => 'nullable|date',
+            'likes'      => 'nullable|integer|min:0',
+            'comments'   => 'nullable|integer|min:0',
+            'shares'     => 'nullable|integer|min:0',
+            'link'       => 'nullable|string|max:500',
+            'sort_order' => 'nullable|integer',
+            'image'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
+        ]);
+
+        $post = \App\Models\SocialPost::find($request->id) ?: new \App\Models\SocialPost();
+
+        $post->platform   = $request->platform;
+        $post->author     = $request->author;
+        $post->post_date  = $request->post_date;
+        $post->content    = $request->content;
+        $post->likes      = (int) $request->likes;
+        $post->comments   = (int) $request->comments;
+        $post->shares     = (int) $request->shares;
+        $post->link       = $request->link;
+        $post->status     = $request->status ?: 'Published';
+        $post->sort_order = (int) $request->sort_order;
+
+        if ($request->hasFile('image')) {
+            if ($post->image && file_exists(public_path('uploads/social/' . $post->image))) {
+                @unlink(public_path('uploads/social/' . $post->image));
+            }
+            $file = $request->file('image');
+            $filename = time() . '_' . mt_rand(1000, 9999) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/social'), $filename);
+            $post->image = $filename;
+        }
+
+        $post->save();
+
+        return back()->with('success', $request->id ? 'Social post updated successfully' : 'Social post added successfully');
+    }
+
+    public function social_posts_delete($id)
+    {
+        $post = \App\Models\SocialPost::findOrFail($id);
+
+        if ($post->image && file_exists(public_path('uploads/social/' . $post->image))) {
+            @unlink(public_path('uploads/social/' . $post->image));
+        }
+
+        $post->delete();
+
+        return back()->with('success', 'Social post deleted successfully');
+    }
 }

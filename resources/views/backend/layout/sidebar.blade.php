@@ -365,6 +365,12 @@
                                          Our Partners
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{{ url('admin/home?tab=home/social_posts') }}"
+                                         class="{{ Request::is('admin/home/social_posts*') ? 'active' : '' }}">
+                                         Social Posts
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     @endif

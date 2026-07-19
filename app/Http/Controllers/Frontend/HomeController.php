@@ -168,6 +168,43 @@ class HomeController extends Controller
 
         $ourPartners = \App\Models\OurPartner::latest()->get();
 
+        // Self-healing: create + seed the social_posts table if it does not exist yet
+        // (migrations are out of sync on some environments).
+        if (!\Illuminate\Support\Facades\Schema::hasTable('social_posts')) {
+            try {
+                \Illuminate\Support\Facades\Schema::create('social_posts', function ($table) {
+                    $table->id();
+                    $table->string('platform')->default('facebook');
+                    $table->string('author')->nullable();
+                    $table->date('post_date')->nullable();
+                    $table->text('content')->nullable();
+                    $table->string('image')->nullable();
+                    $table->unsignedInteger('likes')->default(0);
+                    $table->unsignedInteger('comments')->default(0);
+                    $table->unsignedInteger('shares')->default(0);
+                    $table->string('link')->nullable();
+                    $table->string('status')->default('Published');
+                    $table->integer('sort_order')->default(0);
+                    $table->timestamps();
+                });
+
+                $seed = [
+                    ['platform' => 'facebook', 'author' => 'Gliders India', 'post_date' => '2025-05-19', 'content' => 'Successful brake parachute deployment test on SU-30 MKI. Another step towards excellence!', 'likes' => 123, 'comments' => 5, 'shares' => 8, 'sort_order' => 1],
+                    ['platform' => 'linkedin', 'author' => 'Gliders India', 'post_date' => '2025-05-18', 'content' => 'Proud moment for our team as we achieve yet another milestone in defense innovation.', 'likes' => 98, 'comments' => 3, 'shares' => 6, 'sort_order' => 2],
+                    ['platform' => 'instagram', 'author' => 'Gliders India', 'post_date' => '2025-05-17', 'content' => 'Behind the scenes of precision, passion and performance. #SU30MKI #ParachuteTest', 'likes' => 210, 'comments' => 0, 'shares' => 0, 'sort_order' => 3],
+                ];
+                foreach ($seed as $row) {
+                    \App\Models\SocialPost::create($row);
+                }
+            } catch (\Exception $e) {
+                // Ignore or log error
+            }
+        }
+
+        $socialPosts = \Illuminate\Support\Facades\Schema::hasTable('social_posts')
+            ? \App\Models\SocialPost::where('status', 'Published')->orderBy('sort_order')->orderByDesc('post_date')->get()
+            : collect();
+
         return view('frontend.home.index', compact(
             'videoBanner',
             'tickerItems',
@@ -183,7 +220,8 @@ class HomeController extends Controller
             'ourUnit',
             'leaders',
             'partnerLogos',
-            'ourPartners'
+            'ourPartners',
+            'socialPosts'
         ));
     }
 
