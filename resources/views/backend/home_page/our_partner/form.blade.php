@@ -10,7 +10,7 @@
 
     </a>
 
-    <h5> {{ !empty($edit) ? 'Update Logo' : 'Add New Logo' }} </h5>
+    <h5> {{ !empty($edit) ? 'Update Partner' : 'Add New Partner' }} </h5>
 
 
 </div>
@@ -22,14 +22,19 @@
 
         <div class="card-body">
 
-            <form action="{{ url('admin/home/partner_logo/save') }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ url('admin/home/our_partner/save') }}" method="POST" enctype="multipart/form-data"
                 class="theme-form">
                 @csrf
 
                 <input type="hidden" name="id" value="{{ $edit->id ?? '' }}">
 
                 <div class="mb-3">
-                    <label>Upload Image</label>
+                    <label>Partner Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="Enter Partner Name" value="{{ $edit->name ?? '' }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label>Upload Logo</label>
                     <input type="file" name="image" id="imageInput" class="form-control">
                 </div>
 

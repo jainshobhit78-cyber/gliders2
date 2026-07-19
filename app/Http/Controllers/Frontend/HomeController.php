@@ -127,8 +127,8 @@ class HomeController extends Controller
         }
         $latestNews = $newsQuery->latest()->take(5)->get();
 
-
         $partnerLogos = PartnerLogo::latest()->get();
+        $ourPartners = \App\Models\OurPartner::latest()->get();
 
         return view('frontend.home.index', compact(
             'videoBanner',
@@ -143,8 +143,8 @@ class HomeController extends Controller
             'playlists',
             'ourUnit',
             'leaders',
-            'latestNews',
-            'partnerLogos'
+            'partnerLogos',
+            'ourPartners'
         ));
     }
 

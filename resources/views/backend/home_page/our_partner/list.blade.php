@@ -20,14 +20,12 @@
 
     <div class="title-header d-flex align-items-center justify-content-between">
 
-        <h5 class="mb-0 page-title">Partner Logos</h5>
-        {{-- @if(auth()->guard('admin')->user()->can('vision.create')) --}}
+        <h5 class="mb-0 page-title">Our Partners</h5>
         <a href="javascript:void(0)" class="btn btn-theme openLogoAdd"
-            data-url="{{ url('admin/home/partner_logo/form') }}">
+            data-url="{{ url('admin/home/our_partner/form') }}">
             <i data-feather="plus-square"></i>
-            Add New Logo
+            Add New Partner
         </a>
-        {{-- @endif --}}
     </div>
 
 
@@ -47,6 +45,7 @@
 
                             <tr>
                                 <th>#</th>
+                                <th>Partner Name</th>
                                 <th>Partner Logo</th>
                                 <th>Action</th>
                             </tr>
@@ -60,6 +59,11 @@
                                 <tr>
 
                                     <td>{{ $key + 1 }}</td>
+
+                                    {{-- NAME --}}
+                                    <td>
+                                        <strong>{{ $offer->name }}</strong>
+                                    </td>
 
                                     {{-- IMAGE --}}
                                     <td>
@@ -81,20 +85,16 @@
 
                                         <ul class="table-action">
 
-                                            {{-- @if(auth()->guard('admin')->user()->can('key_offering.edit')) --}}
                                             <li>
                                                 <a href="javascript:void(0)" class="btn btn-edit openLogoEdit"
-                                                    data-url="{{ url('admin/home/partner_logo/form/' . $offer->id) }}">
+                                                    data-url="{{ url('admin/home/our_partner/form/' . $offer->id) }}">
                                                     Edit
                                                 </a>
                                             </li>
-                                            {{-- @endif --}}
 
-                                            {{-- @if(auth()->guard('admin')->user()->can('key_offering.delete')) --}}
                                             <li>
-                                                <x-delete-form :action="url('admin/home/partner_logo/delete/' . $offer->id)" class="btn btn-delete" confirm="Delete this record?" />
+                                                <x-delete-form :action="url('admin/home/our_partner/delete/' . $offer->id)" class="btn btn-delete" confirm="Delete this record?" />
                                             </li>
-                                            {{-- @endif --}}
 
                                         </ul>
 
@@ -105,7 +105,7 @@
                             @empty
 
                                 <tr>
-                                    <td colspan="5">No Data Found</td>
+                                    <td colspan="4">No Data Found</td>
                                 </tr>
 
                             @endforelse

@@ -1574,6 +1574,11 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
     Route::post('admin/home/partner_logo/save', [keyOfferingsController::class, 'partner_logo_save'])->middleware('permission:home_page.edit,admin');
     Route::delete('admin/home/partner_logo/delete/{id}', [keyOfferingsController::class, 'partner_logo_delete'])->middleware('permission:home_page.delete,admin');
 
+    Route::get('admin/home/our_partner', [keyOfferingsController::class, 'our_partner_list'])->middleware('permission:home_page.view,admin');
+    Route::get('admin/home/our_partner/form/{id?}', [keyOfferingsController::class, 'our_partner_form'])->middleware('permission:home_page.edit,admin');
+    Route::post('admin/home/our_partner/save', [keyOfferingsController::class, 'our_partner_save'])->middleware('permission:home_page.edit,admin');
+    Route::delete('admin/home/our_partner/delete/{id}', [keyOfferingsController::class, 'our_partner_delete'])->middleware('permission:home_page.delete,admin');
+
     Route::get('admin/inquiry', [HomeController::class, 'adminIndex'])
         ->name('admin.inquiry')->middleware('permission:inquiry.view,admin');
     Route::post('admin/inquiry/reply/{id}', [HomeController::class, 'replyContact'])

@@ -355,8 +355,14 @@
                                 </li>
                                 <li>
                                     <a href="{{ url('admin/home/partner_logo') }}"
-                                        class="{{ Request::is('admin/home/partner_logo*') ? 'active' : '' }}">
-                                        Partner Logos
+                                         class="{{ Request::is('admin/home/partner_logo*') ? 'active' : '' }}">
+                                         Partner Logos
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('admin/home/our_partner') }}"
+                                         class="{{ Request::is('admin/home/our_partner*') ? 'active' : '' }}">
+                                         Our Partners
                                     </a>
                                 </li>
                             </ul>

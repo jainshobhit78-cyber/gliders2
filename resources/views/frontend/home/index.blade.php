@@ -635,37 +635,44 @@
                     </h2>
                 </div>
 
-                <div class="trusted-forces-grid">
-
-                    <div class="force-card">
-                        <div class="force-logo">
-                            <img src="{{ asset('frontend/images/section/4.png') }}" alt="India Army">
+                @if($ourPartners->count() > 4)
+                    <!-- Slider Layout for Business Partners -->
+                    <div class="swiper trustedForcesSlider py-3" style="overflow: hidden;">
+                        <div class="swiper-wrapper">
+                            @foreach($ourPartners as $partner)
+                                <div class="swiper-slide">
+                                    <div class="force-card">
+                                        <div class="force-logo">
+                                            @if($partner->image)
+                                                <img src="{{ asset($partner->image) }}" alt="{{ $partner->name }}">
+                                            @else
+                                                <div class="text-white fw-bold d-flex align-items-center justify-content-center" style="height: 100%;">No Logo</div>
+                                            @endif
+                                        </div>
+                                        <h4>{{ $partner->name }}</h4>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
-                        <h4>India Army</h4>
+                        <div class="swiper-pagination forces-swiper-pagination mt-4 text-center"></div>
                     </div>
-
-                    <div class="force-card">
-                        <div class="force-logo">
-                            <img src="{{ asset('frontend/images/section/3.png') }}" alt="Indian Air Force">
-                        </div>
-                        <h4>Indian Air Force</h4>
+                @else
+                    <!-- Static Grid Layout for Business Partners -->
+                    <div class="trusted-forces-grid">
+                        @foreach($ourPartners as $partner)
+                            <div class="force-card">
+                                <div class="force-logo">
+                                    @if($partner->image)
+                                        <img src="{{ asset($partner->image) }}" alt="{{ $partner->name }}">
+                                    @else
+                                        <div class="text-white fw-bold d-flex align-items-center justify-content-center" style="height: 100%;">No Logo</div>
+                                    @endif
+                                </div>
+                                <h4>{{ $partner->name }}</h4>
+                              </div>
+                        @endforeach
                     </div>
-
-                    <div class="force-card">
-                        <div class="force-logo">
-                            <img src="{{ asset('frontend/images/section/2.png') }}" alt="DRDO">
-                        </div>
-                        <h4>DRDO</h4>
-                    </div>
-
-                    <div class="force-card">
-                        <div class="force-logo">
-                            <img src="{{ asset('frontend/images/section/1.png') }}" alt="Vietnam Air Force">
-                        </div>
-                        <h4>Vietnam Air Force</h4>
-                    </div>
-
-                </div>
+                @endif
             </div>
         </section>
 
@@ -851,7 +858,7 @@
                                     ->get();
                             @endphp
                             <div class="swiper-slide">
-                                <div class="safran-cat-card" onclick="window.location.href='/news/category/{{ $cat->id }}'">
+                                <div class="safran-cat-card" data-href="/news/category/{{ $cat->id }}" onclick="if(!event.target.closest('.cat-thumbnail-item')) { window.location.href = this.getAttribute('data-href'); }">
                                     <div class="card-bg" style="background-image: url('{{ $bg }}');"></div>
                                     <div class="card-overlay"></div>
                                     <div class="card-content">
@@ -860,13 +867,13 @@
                                         <!-- News thumbnails section inside card -->
                                         <div class="cat-thumbnails-wrapper">
                                             @if(isset($catArticles[0]))
-                                                <a href="/news/article/{{ $catArticles[0]->id }}" class="cat-thumbnail-item" onclick="event.stopPropagation();">
+                                                <a href="/news/article/{{ $catArticles[0]->id }}" class="cat-thumbnail-item">
                                                     <div class="cat-thumbnail-img" style="background-image: url('/uploads/news/{{ $catArticles[0]->wallpaper }}');"></div>
                                                     <span class="cat-thumbnail-title">{{ Str::limit($catArticles[0]->title, 32) }}</span>
                                                 </a>
                                             @endif
                                             @if(isset($catArticles[1]))
-                                                <a href="/news/article/{{ $catArticles[1]->id }}" class="cat-thumbnail-item" onclick="event.stopPropagation();">
+                                                <a href="/news/article/{{ $catArticles[1]->id }}" class="cat-thumbnail-item">
                                                     <div class="cat-thumbnail-img" style="background-image: url('/uploads/news/{{ $catArticles[1]->wallpaper }}');"></div>
                                                     <span class="cat-thumbnail-title">{{ Str::limit($catArticles[1]->title, 32) }}</span>
                                                 </a>
@@ -890,43 +897,22 @@
         <section class="partner-slider-section">
             <div class="container">
                 <div class="partner-slider-wrapper">
-                    @if($partnerLogos->count() > 5)
-                        <!-- SLIDER -->
-                        <div class="swiper partnerSlider">
-                            <div class="swiper-wrapper">
-                                @foreach($partnerLogos as $logo)
-                                    <div class="swiper-slide">
-                                        <div class="partner-card text-center">
-                                            <div class="partner-logo-box">
-                                                <img src="{{ asset($logo->image) }}" alt="{{ $logo->name ?? 'Partner' }}">
-                                            </div>
-                                            @if($logo->name)
-                                                <h5 class="partner-name">{{ $logo->name }}</h5>
-                                            @endif
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            
-                            <!-- navigation -->
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
-                        </div>
-                    @else
-                        <!-- STATIC CENTERING GRID -->
-                        <div class="partner-static-grid d-flex justify-content-center flex-wrap gap-4 py-3">
+                    <!-- SLIDER -->
+                    <div class="swiper partnerSlider">
+                        <div class="swiper-wrapper">
                             @foreach($partnerLogos as $logo)
-                                <div class="partner-card text-center" style="width: 200px; flex-shrink: 0;">
+                                <div class="swiper-slide">
                                     <div class="partner-logo-box">
-                                        <img src="{{ asset($logo->image) }}" alt="{{ $logo->name ?? 'Partner' }}">
+                                        <img src="{{ asset($logo->image) }}" alt="Partner Logo">
                                     </div>
-                                    @if($logo->name)
-                                        <h5 class="partner-name">{{ $logo->name }}</h5>
-                                    @endif
                                 </div>
                             @endforeach
                         </div>
-                    @endif
+                        
+                        <!-- navigation -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
                 </div>
 
                 <!-- PLAY PAUSE -->

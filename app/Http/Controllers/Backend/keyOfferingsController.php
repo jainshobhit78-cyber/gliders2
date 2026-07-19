@@ -524,4 +524,83 @@ class keyOfferingsController extends Controller
 
         return back()->with('success', 'Logo deleted successfully');
     }
+
+    public function our_partner_list()
+    {
+        $logo = \App\Models\OurPartner::latest()->get();
+        return view('backend.home_page.our_partner.list', compact('logo'));
+    }
+
+    public function our_partner_form($id = null)
+    {
+        $edit = null;
+
+        if ($id) {
+            $edit = \App\Models\OurPartner::find($id);
+        }
+
+        $logo = \App\Models\OurPartner::latest()->get();
+
+        return view('backend.home_page.our_partner.form', compact('edit', 'logo'));
+    }
+
+    public function our_partner_save(Request $request)
+    {
+        $request->validate([
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'name' => 'required|string|max:255',
+        ]);
+
+        $gallery = \App\Models\OurPartner::find($request->id);
+
+        if ($gallery) {
+            $gallery->name = $request->name;
+
+            if ($request->hasFile('image')) {
+                // Delete old image if it is not a default frontend asset
+                if ($gallery->image && !str_starts_with($gallery->image, 'frontend/') && file_exists(public_path($gallery->image))) {
+                    unlink(public_path($gallery->image));
+                }
+
+                $file = $request->file('image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/our_partner'), $filename);
+
+                $gallery->image = 'uploads/our_partner/' . $filename;
+            }
+
+            $gallery->save();
+
+            return back()->with('success', 'Partner Updated Successfully');
+        } else {
+            // STORE
+            $imagePath = null;
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $filename = time() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/our_partner'), $filename);
+                $imagePath = 'uploads/our_partner/' . $filename;
+            }
+
+            \App\Models\OurPartner::create([
+                'image' => $imagePath,
+                'name' => $request->name,
+            ]);
+
+            return back()->with('success', 'Partner Added Successfully');
+        }
+    }
+
+    public function our_partner_delete($id)
+    {
+        $partner = \App\Models\OurPartner::findOrFail($id);
+
+        if ($partner->image && !str_starts_with($partner->image, 'frontend/') && file_exists(public_path($partner->image))) {
+            unlink(public_path($partner->image));
+        }
+
+        $partner->delete();
+
+        return back()->with('success', 'Partner deleted successfully');
+    }
 }
