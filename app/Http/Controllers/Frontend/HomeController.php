@@ -128,6 +128,32 @@ class HomeController extends Controller
         $latestNews = $newsQuery->latest()->take(5)->get();
 
         $partnerLogos = PartnerLogo::latest()->get();
+
+        // Self-healing database check to automatically create our_partners table if missing
+        if (!\Illuminate\Support\Facades\Schema::hasTable('our_partners')) {
+            try {
+                \Illuminate\Support\Facades\Schema::create('our_partners', function ($table) {
+                    $table->id();
+                    $table->string('image')->nullable();
+                    $table->string('name')->nullable();
+                    $table->timestamps();
+                });
+                
+                // Seed initial data
+                $partners = [
+                    ['name' => 'India Army', 'image' => 'frontend/images/section/4.png'],
+                    ['name' => 'Indian Air Force', 'image' => 'frontend/images/section/3.png'],
+                    ['name' => 'DRDO', 'image' => 'frontend/images/section/2.png'],
+                    ['name' => 'Vietnam Air Force', 'image' => 'frontend/images/section/1.png'],
+                ];
+                foreach ($partners as $partner) {
+                    \App\Models\OurPartner::create($partner);
+                }
+            } catch (\Exception $e) {
+                // Ignore or log error
+            }
+        }
+
         $ourPartners = \App\Models\OurPartner::latest()->get();
 
         return view('frontend.home.index', compact(
