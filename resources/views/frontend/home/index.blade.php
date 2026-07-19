@@ -362,12 +362,15 @@
                                                     </div>
                                                 @endforeach
                                             </div>
-                                            @if($fbPosts->count() > 1)
-                                                <div class="swiper-button-prev fbp-prev"></div>
-                                                <div class="swiper-button-next fbp-next"></div>
-                                                <div class="swiper-pagination fbp-pagination"></div>
-                                            @endif
                                         </div>
+                                        @if($fbPosts->count() > 1)
+                                            {{-- Navigation bar below the post so it's always visible (not over the iframe) --}}
+                                            <div class="fb-slider-controls">
+                                                <button type="button" class="swiper-button-prev fbp-prev" aria-label="Previous post"></button>
+                                                <div class="swiper-pagination fbp-pagination"></div>
+                                                <button type="button" class="swiper-button-next fbp-next" aria-label="Next post"></button>
+                                            </div>
+                                        @endif
                                     </div>
                                 @elseif(!empty($fbPageUrl))
                                     {{-- Fallback until individual post URLs are added: compact live Page timeline --}}

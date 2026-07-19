@@ -4340,7 +4340,7 @@ table td {
 /* Facebook embedded-post slider (one post at a time + navigation) */
 .social-embed--fb {
     display: block;
-    padding: 14px 14px 56px;
+    padding: 14px;
 }
 
 .fbPostSlider {
@@ -4362,36 +4362,57 @@ table td {
     overflow: hidden;
 }
 
-.fbp-prev,
-.fbp-next {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: #1877F2;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
-    top: auto;
-    bottom: 2px;
-    margin-top: 0;
-    z-index: 6;
+/* Navigation bar rendered below the post (in normal flow), so it can never be
+   hidden behind the Facebook iframe. */
+.fb-slider-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 14px;
 }
 
-.fbp-prev { left: 8px; right: auto; }
-.fbp-next { right: 8px; left: auto; }
+.fb-slider-controls .fbp-prev,
+.fb-slider-controls .fbp-next {
+    position: static;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #1877F2;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
 
-.fbp-prev::after,
-.fbp-next::after {
-    font-size: 17px;
+.fb-slider-controls .fbp-prev::after,
+.fb-slider-controls .fbp-next::after {
+    font-size: 15px;
     font-weight: 800;
     color: #fff;
 }
 
-.fbp-prev:hover,
-.fbp-next:hover {
+.fb-slider-controls .fbp-prev:hover,
+.fb-slider-controls .fbp-next:hover {
     background: #0f5fd0;
+    transform: scale(1.08);
 }
 
-.fbp-pagination {
-    bottom: 16px !important;
+.fb-slider-controls .fbp-prev.swiper-button-disabled,
+.fb-slider-controls .fbp-next.swiper-button-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.fb-slider-controls .fbp-pagination {
+    position: static;
+    width: auto;
+    display: flex;
+    align-items: center;
+    gap: 7px;
 }
 
 .fbp-pagination .swiper-pagination-bullet {
