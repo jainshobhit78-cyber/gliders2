@@ -9524,6 +9524,7 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     background: transparent !important;
     box-shadow: none !important;
     color: #ffffff !important;
+    text-transform: none;
     padding: 18px 24px !important;
     display: flex;
     align-items: center;
@@ -9775,6 +9776,7 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
 }
 
 .caps-accordion .accordion-button {
+    text-transform: none;
     background: transparent !important;
     box-shadow: none !important;
     color: #ffffff !important;
