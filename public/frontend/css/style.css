@@ -5200,21 +5200,6 @@ table td {
     overflow: hidden;
 }
 
-.force-card-bg-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    opacity: 0.85;
-    transition: opacity 0.4s ease;
-}
-
-.force-card-inner:hover .force-card-bg-layer {
-    opacity: 1;
-}
-
 .force-card-glass {
     position: absolute;
     top: 0;
@@ -5248,25 +5233,6 @@ table td {
 
 .force-card-inner:hover .force-logo-wrap img {
     transform: scale(1.06) translateY(-4px);
-}
-
-/* Background Gradients Matching the Mockup */
-.force-card-inner.india-army .force-card-bg-layer,
-.force-card-inner.indian-army .force-card-bg-layer {
-    background: linear-gradient(90deg, #8b1313 0%, #8b1313 32%, #ded8d8 32%, #ded8d8 68%, #8b1313 68%, #8b1313 100%);
-}
-
-.force-card-inner.indian-air-force .force-card-bg-layer {
-    background: linear-gradient(180deg, #1b4e8b 0%, #3a75b6 50%, #7caad9 100%);
-}
-
-.force-card-inner.drdo .force-card-bg-layer {
-    background: radial-gradient(circle at center, #0e2754 0%, #030d22 100%);
-    background-image: radial-gradient(circle, transparent 35%, rgba(212,175,55,0.05) 36%, rgba(212,175,55,0.05) 38%, transparent 39%), radial-gradient(circle at center, #0e2754 0%, #030d22 100%);
-}
-
-.force-card-inner.vietnam-air-force .force-card-bg-layer {
-    background: linear-gradient(180deg, #154c86 0%, #3074b6 60%, #75a7d7 100%);
 }
 
 /* Separator: Gold Border & Hexagon Badge */

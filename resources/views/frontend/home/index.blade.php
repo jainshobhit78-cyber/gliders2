@@ -641,43 +641,9 @@
                         <div class="swiper-wrapper">
                             @foreach($ourPartners as $partner)
                                 <div class="swiper-slide">
-                                    <article class="partner-card {{ Str::slug($partner->name) }}">
-                                        <div class="visual">
-                                            @if($partner->image)
-                                                <img src="{{ asset($partner->image) }}" alt="{{ $partner->name }}">
-                                            @else
-                                                <div class="text-white fw-bold">No Logo</div>
-                                            @endif
-                                        </div>
-                                        <div class="icon-badge">
-                                            @if(str_contains(strtolower($partner->name), 'army'))
-                                                <!-- Crossed Swords -->
-                                                <svg viewBox="0 0 100 100" width="30" height="30">
-                                                    <path d="M20,80 L80,20 M25,85 L85,25 M20,20 L80,80 M25,15 L85,75" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
-                                                </svg>
-                                            @elseif(str_contains(strtolower($partner->name), 'air force'))
-                                                <!-- Fighter Jet -->
-                                                <svg viewBox="0 0 100 100" width="30" height="30">
-                                                    <path d="M50,15 L62,45 L90,50 L60,60 L50,85 L40,60 L10,50 L38,45 Z" fill="#ffffff"/>
-                                                </svg>
-                                            @elseif(str_contains(strtolower($partner->name), 'drdo'))
-                                                <!-- Radar / Waves -->
-                                                <svg viewBox="0 0 100 100" width="30" height="30">
-                                                    <circle cx="50" cy="70" r="6" fill="#ffffff"/>
-                                                    <path d="M50,70 L50,45 M25,35 C35,22 65,22 75,35 M35,48 C42,40 58,40 65,48" stroke="#ffffff" stroke-width="5" stroke-linecap="round" fill="none"/>
-                                                </svg>
-                                            @else
-                                                <!-- Star -->
-                                                <svg viewBox="0 0 100 100" width="30" height="30">
-                                                    <polygon points="50,15 63,40 90,40 70,58 77,85 50,70 23,85 30,58 10,40 37,40" fill="#ffffff"/>
-                                                </svg>
-                                            @endif
-                                        </div>
-                                        <div class="card-body">
-                                            <h3 class="org-name">{{ $partner->name }}</h3>
-                                            <span class="gold-line"></span>
-                                        </div>
-                                    </article>
+                                    <div class="force-card-container">
+                                        @include('frontend.home.partials.partner-card', ['partner' => $partner])
+                                    </div>
                                 </div>
                             @endforeach
                         </div>
@@ -685,45 +651,11 @@
                     </div>
                 @else
                     <!-- Static Grid Layout for Business Partners -->
-                    <div class="partners-grid">
+                    <div class="trusted-forces-grid">
                         @foreach($ourPartners as $partner)
-                            <article class="partner-card {{ Str::slug($partner->name) }}">
-                                <div class="visual">
-                                    @if($partner->image)
-                                        <img src="{{ asset($partner->image) }}" alt="{{ $partner->name }}">
-                                    @else
-                                        <div class="text-white fw-bold">No Logo</div>
-                                    @endif
-                                </div>
-                                <div class="icon-badge">
-                                    @if(str_contains(strtolower($partner->name), 'army'))
-                                        <!-- Crossed Swords -->
-                                        <svg viewBox="0 0 100 100" width="30" height="30">
-                                            <path d="M20,80 L80,20 M25,85 L85,25 M20,20 L80,80 M25,15 L85,75" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
-                                        </svg>
-                                    @elseif(str_contains(strtolower($partner->name), 'air force'))
-                                        <!-- Fighter Jet -->
-                                        <svg viewBox="0 0 100 100" width="30" height="30">
-                                            <path d="M50,15 L62,45 L90,50 L60,60 L50,85 L40,60 L10,50 L38,45 Z" fill="#ffffff"/>
-                                        </svg>
-                                    @elseif(str_contains(strtolower($partner->name), 'drdo'))
-                                        <!-- Radar / Waves -->
-                                        <svg viewBox="0 0 100 100" width="30" height="30">
-                                            <circle cx="50" cy="70" r="6" fill="#ffffff"/>
-                                            <path d="M50,70 L50,45 M25,35 C35,22 65,22 75,35 M35,48 C42,40 58,40 65,48" stroke="#ffffff" stroke-width="5" stroke-linecap="round" fill="none"/>
-                                        </svg>
-                                    @else
-                                        <!-- Star -->
-                                        <svg viewBox="0 0 100 100" width="30" height="30">
-                                            <polygon points="50,15 63,40 90,40 70,58 77,85 50,70 23,85 30,58 10,40 37,40" fill="#ffffff"/>
-                                        </svg>
-                                    @endif
-                                </div>
-                                <div class="card-body">
-                                    <h3 class="org-name">{{ $partner->name }}</h3>
-                                    <span class="gold-line"></span>
-                                </div>
-                            </article>
+                            <div class="force-card-container">
+                                @include('frontend.home.partials.partner-card', ['partner' => $partner])
+                            </div>
                         @endforeach
                     </div>
                 @endif
