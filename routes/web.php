@@ -197,6 +197,17 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             $output .= "Admin profile photo migration failed: " . $e->getMessage() . ". ";
         }
 
+        // 11. Playlist thumbnail migration
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', [
+                '--path' => 'database/migrations/2026_07_18_151352_add_thumbnail_to_playlists_table.php',
+                '--force' => true
+            ]);
+            $output .= "Playlist thumbnail migration run completed. ";
+        } catch (\Exception $e) {
+            $output .= "Playlist thumbnail migration failed: " . $e->getMessage() . ". ";
+        }
+
         // Self-healing fallback: directly alter the tables if migrations table is out of sync
         try {
             \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
@@ -240,6 +251,13 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
                     $table->string('location')->nullable()->after('company_name');
                 }
             });
+
+            if (\Illuminate\Support\Facades\Schema::hasTable('playlists') && !\Illuminate\Support\Facades\Schema::hasColumn('playlists', 'thumbnail')) {
+                \Illuminate\Support\Facades\Schema::table('playlists', function ($table) {
+                    $table->string('thumbnail')->nullable()->after('description');
+                });
+                $output .= " | playlist thumbnail column added.";
+            }
 
             if (!\Illuminate\Support\Facades\Schema::hasTable('career_jobs')) {
                 \Illuminate\Support\Facades\Schema::create('career_jobs', function ($table) {
