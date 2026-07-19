@@ -210,6 +210,11 @@
         } else {
             $caps = $mainCapabilities[$product->id] ?? $mainCapabilities['default'];
         }
+
+        // Covers legacy fallback specifications as well as database-backed
+        // products, so every product view uses the same unit convention.
+        $specs = \App\Support\UnitFormatter::normalize($specs);
+        $caps = \App\Support\UnitFormatter::normalize($caps);
     @endphp
 
     <!-- SECTION 1: TECHNICAL SPECIFICATIONS (MOCKUP SPECS CLONE) -->

@@ -103,14 +103,16 @@ class UnitFormatter
     {
         return [
             // m/sec, meter/second, metres / sec  ->  m/s
-            '/\b(?:m|met(?:er|re)s?)\s*\/\s*sec(?:ond)?s?\b\.?/iu' => 'm/s',
+            '/\b(?:m|met(?:er|re)s?)\s*\/\s*sec(?:ond)?s?\b(\.)?/iu' => 'm/s$1',
 
             // km/h, km/hr, kph, Kmph -> kmph
             '/\bkm\s*\/\s*hr?\b/iu' => 'kmph',
             '/\bkm?ph\b/iu'         => 'kmph',
 
             // square metres: sqm, sq m, Sq. Mtr. -> m²
-            '/\b(?:sq\.?\s*(?:m|mtrs?|met(?:er|re)s?)|sqm|m2|m²)\.?(?![a-z])/iu' => 'm²',
+            '/\b(?:sq\.?\s*(?:m|mtrs?|met(?:er|re)s?)|sqm|m2|m²)(\.)?(?![a-z])/iu' => 'm²$1',
+
+            '/m²\.([,;:])/u' => 'm²$1',
 
             // kilograms: Kg, KG, Kgs -> kg
             '/\bkgs?\b/iu' => 'kg',
@@ -171,7 +173,7 @@ class UnitFormatter
     {
         $numberWord = implode('|', array_merge(array_keys(static::numberWords()), ['hundred', 'thousand']));
         $phrase = '(?:' . $numberWord . ')(?:[\s\-]+(?:and[\s\-]+)?(?:' . $numberWord . '))*';
-        $pattern = '/\b(' . $phrase . ')\s+(' . static::spelledUnitPattern() . ')\b\.?/iu';
+        $pattern = '/\b(' . $phrase . ')\s+(' . static::spelledUnitPattern() . ')\b(\.)?/iu';
 
         return preg_replace_callback($pattern, function ($m) {
             $number = static::wordsToNumber($m[1]);
@@ -182,7 +184,7 @@ class UnitFormatter
 
             $symbol = static::unitSymbol($m[2]);
 
-            return $number . ($symbol === '%' ? '' : ' ') . $symbol;
+            return $number . ($symbol === '%' ? '' : ' ') . $symbol . ($m[3] ?? '');
         }, $text) ?? $text;
     }
 
@@ -192,16 +194,16 @@ class UnitFormatter
      */
     protected static function convertSpelledUnits(string $text): string
     {
-        $pattern = '/(?<=\d)(\s*)(' . static::spelledUnitPattern() . ')\b\.?/iu';
+        $pattern = '/(?<=\d)(\s*)(' . static::spelledUnitPattern() . ')\b(\.)?/iu';
 
         return preg_replace_callback($pattern, function ($m) {
             $symbol = static::unitSymbol($m[2]);
 
             if ($symbol === '%') {
-                return $symbol;
+                return $symbol . ($m[3] ?? '');
             }
 
-            return ($m[1] === '' ? ' ' : $m[1]) . $symbol;
+            return ($m[1] === '' ? ' ' : $m[1]) . $symbol . ($m[3] ?? '');
         }, $text) ?? $text;
     }
 }

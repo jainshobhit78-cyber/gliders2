@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductCategory;
+use App\Support\UnitFormatter;
 
 class ProductController extends Controller
 {
@@ -73,9 +74,9 @@ class ProductController extends Controller
             foreach ($request->technical_specs as $spec) {
                 if (!empty($spec['parameter'])) {
                     $technicalSpecs[] = [
-                        'parameter' => $spec['parameter'],
-                        'value' => $spec['value'] ?? '',
-                        'description' => $spec['description'] ?? '',
+                        'parameter' => UnitFormatter::normalize($spec['parameter']),
+                        'value' => UnitFormatter::normalize($spec['value'] ?? ''),
+                        'description' => UnitFormatter::normalize($spec['description'] ?? ''),
                         'icon' => $spec['icon'] ?? ''
                     ];
                 }
@@ -87,22 +88,22 @@ class ProductController extends Controller
             foreach ($request->main_capabilities as $cap) {
                 if (!empty($cap['heading'])) {
                     $mainCapabilities[] = [
-                        'heading' => $cap['heading'],
-                        'description' => $cap['description'] ?? ''
+                        'heading' => UnitFormatter::normalize($cap['heading']),
+                        'description' => UnitFormatter::normalize($cap['description'] ?? '')
                     ];
                 }
             }
         }
 
         $product = Product::create([
-            'title' => $request->title,
+            'title' => UnitFormatter::normalize($request->title),
             'category_id' => $request->category_id,
             'display_order' => $request->display_order ?? 999,
-            'description' => $request->description,
+            'description' => UnitFormatter::normalize($request->description),
             'wallpaper' => $wallpaperName,
             'profile_pic' => $profilePicName,
             'delivery_tag' => $request->delivery_tag,
-            'specs_subtext' => $request->specs_subtext,
+            'specs_subtext' => UnitFormatter::normalize($request->specs_subtext),
             'specs_image' => $specsImageName,
             'technical_specs' => $technicalSpecs,
             'caps_image' => $capsImageName,
@@ -179,9 +180,9 @@ class ProductController extends Controller
             foreach ($request->technical_specs as $spec) {
                 if (!empty($spec['parameter'])) {
                     $technicalSpecs[] = [
-                        'parameter' => $spec['parameter'],
-                        'value' => $spec['value'] ?? '',
-                        'description' => $spec['description'] ?? '',
+                        'parameter' => UnitFormatter::normalize($spec['parameter']),
+                        'value' => UnitFormatter::normalize($spec['value'] ?? ''),
+                        'description' => UnitFormatter::normalize($spec['description'] ?? ''),
                         'icon' => $spec['icon'] ?? ''
                     ];
                 }
@@ -193,22 +194,22 @@ class ProductController extends Controller
             foreach ($request->main_capabilities as $cap) {
                 if (!empty($cap['heading'])) {
                     $mainCapabilities[] = [
-                        'heading' => $cap['heading'],
-                        'description' => $cap['description'] ?? ''
+                        'heading' => UnitFormatter::normalize($cap['heading']),
+                        'description' => UnitFormatter::normalize($cap['description'] ?? '')
                     ];
                 }
             }
         }
 
         $product->update([
-            'title' => $request->title,
+            'title' => UnitFormatter::normalize($request->title),
             'category_id' => $request->category_id,
             'display_order' => $request->display_order ?? 999,
-            'description' => $request->description,
+            'description' => UnitFormatter::normalize($request->description),
             'wallpaper' => $wallpaperName,
             'profile_pic' => $profilePicName,
             'delivery_tag' => $request->delivery_tag,
-            'specs_subtext' => $request->specs_subtext,
+            'specs_subtext' => UnitFormatter::normalize($request->specs_subtext),
             'specs_image' => $specsImageName,
             'technical_specs' => $technicalSpecs,
             'caps_image' => $capsImageName,
@@ -245,4 +246,3 @@ class ProductController extends Controller
         return back()->with('success', 'Product Deleted');
     }
 }
-
