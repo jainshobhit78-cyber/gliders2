@@ -828,11 +828,10 @@
                 </div>
 
                 @php
-                    $newsCategories = \App\Models\NewsCategory::all();
+                    $newsCategories = \App\Models\NewsCategory::where('id', '!=', 5)->get();
                     $catBackgrounds = [
                         1 => '/uploads/media/images/hd_indian_parachute.jpg',   // Breaking
                         3 => '/uploads/media/images/hd_news_events.jpg',       // Blogs
-                        5 => '/uploads/media/images/hd_indian_clothing.jpg',    // Latest Updates
                         6 => '/uploads/media/images/hd_indian_inflatable.jpg',  // Press Releases
                         7 => '/uploads/media/images/hd_news_press.jpg',         // latest
                     ];
