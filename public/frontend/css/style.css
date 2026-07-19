@@ -5162,53 +5162,61 @@ table td {
 }
 
 .force-card {
-    background: #ffffff;
-    border-radius: 22px;
-    padding: 25px 15px;
+    background: transparent; /* No card background */
+    border: none; /* No borders */
+    box-shadow: none; /* No shadow */
+    padding: 15px 10px;
     text-align: center;
-    transition: all 0.3s ease;
-    box-shadow: 0px 6px 25px 0px rgba(0, 0, 0, 0.28);
-    border: 2px solid rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    height: 280px; /* Force identical height across all cards */
+    justify-content: center;
+    height: 100%;
     box-sizing: border-box;
 }
 
 .force-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(243, 112, 33, 0.15);
-    border-color: rgba(243, 112, 33, 0.3);
+    transform: translateY(-8px);
 }
 
 .force-logo {
-    height: 150px;
+    height: 180px; /* Bigger logo container height */
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0px 8px 16px rgba(255, 255, 255, 0.05)); /* Subtle glowing shadow behind transparent logos */
+    transition: all 0.4s ease;
+}
+
+.force-card:hover .force-logo {
+    filter: drop-shadow(0px 12px 24px rgba(243, 112, 33, 0.3)); /* Premium orange glowing shadow on hover */
+    transform: scale(1.08);
 }
 
 .force-logo img {
     max-width: 100%;
-    max-height: 130px;
+    max-height: 170px; /* Much bigger logos */
     object-fit: contain;
 }
 
 .force-card h4 {
-    color: #111;
-    font-weight: 700;
-    font-size: 18px; /* Clear and highly readable */
-    line-height: 1.35;
+    color: #ffffff; /* Make text fully visible on black background */
+    font-weight: 800; /* Bold/Extra bold */
+    font-size: 24px; /* Big font size */
+    line-height: 1.3;
     margin: 0;
     width: 100%;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    transition: color 0.3s ease;
+    font-family: 'Kumbh Sans', sans-serif;
+    letter-spacing: 0.5px;
+    text-transform: uppercase; /* Clean professional look */
+}
+
+.force-card:hover h4 {
+    color: #f37021; /* Dynamic premium hover color match */
 }
 
 
