@@ -909,7 +909,7 @@
                     <div class="swiper-wrapper">
                         @foreach($newsCategories as $cat)
                             @php
-                                $bg = $catBackgrounds[$cat->id] ?? '/uploads/media/images/hd_news_breaking.jpg';
+                                $fallbackBg = $catBackgrounds[$cat->id] ?? '/uploads/media/images/hd_news_breaking.jpg';
                                 $displayName = in_array(strtolower(trim($cat->name)), ['latest', 'latest updates'])
                                     ? 'Recent Updates'
                                     : ($cat->name == 'Breaking' ? 'Breaking News' : $cat->name);
@@ -934,10 +934,17 @@
                                         ->get();
                                     $cardHref = url('/news/category/' . $cat->id);
                                 }
+
+                                // Use the newest article's wallpaper for the card background. Keep the
+                                // category artwork as a resilient fallback when an article has no image.
+                                $defaultArticle = $catArticles->first();
+                                $bg = $defaultArticle?->wallpaper
+                                    ? asset('uploads/news/' . $defaultArticle->wallpaper)
+                                    : asset($fallbackBg);
                             @endphp
                             <div class="swiper-slide">
                                 <div class="safran-cat-card" data-href="{{ $cardHref }}" onclick="if(!event.target.closest('.cat-thumbnail-item')) { window.location.href = this.getAttribute('data-href'); }">
-                                    <div class="card-bg" style="background-image: url('{{ $bg }}');"></div>
+                                    <div class="card-bg" style="background-image: url('{{ $bg }}');" aria-hidden="true"></div>
                                     <div class="card-overlay"></div>
                                     <div class="card-content">
                                         <h3 class="card-title">{{ $displayName }}</h3>
@@ -945,14 +952,14 @@
                                         <!-- News thumbnails section inside card -->
                                         <div class="cat-thumbnails-wrapper">
                                             @if(isset($catArticles[0]))
-                                                <a href="{{ route('news.show', $catArticles[0]->id) }}" class="cat-thumbnail-item">
-                                                    <div class="cat-thumbnail-img" style="background-image: url('/uploads/news/{{ $catArticles[0]->wallpaper }}');"></div>
+                                                <a href="{{ route('news.show', $catArticles[0]->id) }}" class="cat-thumbnail-item is-active" data-wallpaper="{{ $catArticles[0]->wallpaper ? asset('uploads/news/' . $catArticles[0]->wallpaper) : '' }}" aria-current="true">
+                                                    <div class="cat-thumbnail-img" style="background-image: url('{{ $catArticles[0]->wallpaper ? asset('uploads/news/' . $catArticles[0]->wallpaper) : $bg }}');"></div>
                                                     <span class="cat-thumbnail-title">{{ Str::limit($catArticles[0]->title, 32) }}</span>
                                                 </a>
                                             @endif
                                             @if(isset($catArticles[1]))
-                                                <a href="{{ route('news.show', $catArticles[1]->id) }}" class="cat-thumbnail-item">
-                                                    <div class="cat-thumbnail-img" style="background-image: url('/uploads/news/{{ $catArticles[1]->wallpaper }}');"></div>
+                                                <a href="{{ route('news.show', $catArticles[1]->id) }}" class="cat-thumbnail-item" data-wallpaper="{{ $catArticles[1]->wallpaper ? asset('uploads/news/' . $catArticles[1]->wallpaper) : '' }}">
+                                                    <div class="cat-thumbnail-img" style="background-image: url('{{ $catArticles[1]->wallpaper ? asset('uploads/news/' . $catArticles[1]->wallpaper) : $bg }}');"></div>
                                                     <span class="cat-thumbnail-title">{{ Str::limit($catArticles[1]->title, 32) }}</span>
                                                 </a>
                                             @endif
@@ -1361,6 +1368,34 @@
                 768: { slidesPerView: 2, spaceBetween: 20 },
                 1024: { slidesPerView: 3, spaceBetween: 25 }
             }
+        });
+
+        // Article thumbnails act as wallpaper selectors. The active article remains a normal
+        // link, while selecting another article first updates the card background.
+        document.querySelectorAll('.safran-cat-card').forEach(function (card) {
+            const background = card.querySelector('.card-bg');
+            const articles = Array.from(card.querySelectorAll('.cat-thumbnail-item'));
+
+            articles.forEach(function (article) {
+                article.addEventListener('click', function (event) {
+                    if (article.classList.contains('is-active')) {
+                        return;
+                    }
+
+                    event.preventDefault();
+                    articles.forEach(function (item) {
+                        item.classList.remove('is-active');
+                        item.removeAttribute('aria-current');
+                    });
+                    article.classList.add('is-active');
+                    article.setAttribute('aria-current', 'true');
+
+                    const wallpaper = article.getAttribute('data-wallpaper');
+                    if (wallpaper) {
+                        background.style.backgroundImage = `url("${wallpaper}")`;
+                    }
+                });
+            });
         });
     </script>
 
