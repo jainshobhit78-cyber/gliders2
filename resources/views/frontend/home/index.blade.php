@@ -641,57 +641,43 @@
                         <div class="swiper-wrapper">
                             @foreach($ourPartners as $partner)
                                 <div class="swiper-slide">
-                                    <div class="force-card-container">
-                                        <div class="force-card-inner {{ Str::slug($partner->name) }}">
-                                            <!-- Top section with gradient and emblem -->
-                                            <div class="force-card-top">
-                                                <div class="force-card-bg-layer"></div>
-                                                <div class="force-card-glass"></div>
-                                                <div class="force-logo-wrap">
-                                                    @if($partner->image)
-                                                        <img src="{{ asset($partner->image) }}" alt="{{ $partner->name }}">
-                                                    @else
-                                                        <div class="text-white fw-bold">No Logo</div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- Gold separator and badge -->
-                                            <div class="force-card-separator">
-                                                <div class="separator-line"></div>
-                                                <div class="force-badge-hex">
-                                                    <svg viewBox="0 0 100 115" width="46" height="53">
-                                                        <!-- Outer gold hexagon -->
-                                                        <polygon points="50,3 97,28 97,82 50,107 3,82 3,28" fill="#1b1c1e" stroke="#d4af37" stroke-width="4"/>
-                                                        <!-- Inner icon depending on organization -->
-                                                        @if(str_contains(strtolower($partner->name), 'army'))
-                                                            <!-- Crossed Swords -->
-                                                            <path d="M30,75 L70,35 M33,78 L73,38 M30,35 L70,75 M33,32 L73,72" stroke="#d4af37" stroke-width="4" stroke-linecap="round"/>
-                                                            <circle cx="30" cy="75" r="4" fill="#d4af37"/>
-                                                            <circle cx="70" cy="75" r="4" fill="#d4af37"/>
-                                                        @elseif(str_contains(strtolower($partner->name), 'air force'))
-                                                            <!-- Fighter Jet -->
-                                                            <path d="M50,20 L60,45 L80,50 L55,60 L50,85 L45,60 L20,50 L40,45 Z" fill="#d4af37"/>
-                                                        @elseif(str_contains(strtolower($partner->name), 'drdo'))
-                                                            <!-- Radar antenna / wave -->
-                                                            <circle cx="50" cy="75" r="5" fill="#d4af37"/>
-                                                            <path d="M50,75 L50,55 M30,45 C40,35 60,35 70,45 M40,55 C45,50 55,50 60,55" stroke="#d4af37" stroke-width="3" stroke-linecap="round" fill="none"/>
-                                                        @else
-                                                            <!-- Default Star -->
-                                                            <polygon points="50,25 58,45 80,45 62,58 68,80 50,68 32,80 38,58 20,45 42,45" fill="#d4af37"/>
-                                                        @endif
-                                                    </svg>
-                                                </div>
-                                                <div class="separator-line"></div>
-                                            </div>
-                                            
-                                            <!-- Bottom section with organization name -->
-                                            <div class="force-card-bottom">
-                                                <h4>{{ $partner->name }}</h4>
-                                                <div class="gold-bottom-bar"></div>
-                                            </div>
+                                    <article class="partner-card {{ Str::slug($partner->name) }}">
+                                        <div class="visual">
+                                            @if($partner->image)
+                                                <img src="{{ asset($partner->image) }}" alt="{{ $partner->name }}">
+                                            @else
+                                                <div class="text-white fw-bold">No Logo</div>
+                                            @endif
                                         </div>
-                                    </div>
+                                        <div class="icon-badge">
+                                            @if(str_contains(strtolower($partner->name), 'army'))
+                                                <!-- Crossed Swords -->
+                                                <svg viewBox="0 0 100 100" width="30" height="30">
+                                                    <path d="M20,80 L80,20 M25,85 L85,25 M20,20 L80,80 M25,15 L85,75" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+                                                </svg>
+                                            @elseif(str_contains(strtolower($partner->name), 'air force'))
+                                                <!-- Fighter Jet -->
+                                                <svg viewBox="0 0 100 100" width="30" height="30">
+                                                    <path d="M50,15 L62,45 L90,50 L60,60 L50,85 L40,60 L10,50 L38,45 Z" fill="#ffffff"/>
+                                                </svg>
+                                            @elseif(str_contains(strtolower($partner->name), 'drdo'))
+                                                <!-- Radar / Waves -->
+                                                <svg viewBox="0 0 100 100" width="30" height="30">
+                                                    <circle cx="50" cy="70" r="6" fill="#ffffff"/>
+                                                    <path d="M50,70 L50,45 M25,35 C35,22 65,22 75,35 M35,48 C42,40 58,40 65,48" stroke="#ffffff" stroke-width="5" stroke-linecap="round" fill="none"/>
+                                                </svg>
+                                            @else
+                                                <!-- Star -->
+                                                <svg viewBox="0 0 100 100" width="30" height="30">
+                                                    <polygon points="50,15 63,40 90,40 70,58 77,85 50,70 23,85 30,58 10,40 37,40" fill="#ffffff"/>
+                                                </svg>
+                                            @endif
+                                        </div>
+                                        <div class="card-body">
+                                            <h3 class="org-name">{{ $partner->name }}</h3>
+                                            <span class="gold-line"></span>
+                                        </div>
+                                    </article>
                                 </div>
                             @endforeach
                         </div>
@@ -699,59 +685,45 @@
                     </div>
                 @else
                     <!-- Static Grid Layout for Business Partners -->
-                    <div class="trusted-forces-grid">
+                    <div class="partners-grid">
                         @foreach($ourPartners as $partner)
-                            <div class="force-card-container">
-                                <div class="force-card-inner {{ Str::slug($partner->name) }}">
-                                    <!-- Top section with gradient and emblem -->
-                                    <div class="force-card-top">
-                                        <div class="force-card-bg-layer"></div>
-                                        <div class="force-card-glass"></div>
-                                        <div class="force-logo-wrap">
-                                            @if($partner->image)
-                                                <img src="{{ asset($partner->image) }}" alt="{{ $partner->name }}">
-                                            @else
-                                                <div class="text-white fw-bold">No Logo</div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Gold separator and badge -->
-                                    <div class="force-card-separator">
-                                        <div class="separator-line"></div>
-                                        <div class="force-badge-hex">
-                                            <svg viewBox="0 0 100 115" width="46" height="53">
-                                                <!-- Outer gold hexagon -->
-                                                <polygon points="50,3 97,28 97,82 50,107 3,82 3,28" fill="#1b1c1e" stroke="#d4af37" stroke-width="4"/>
-                                                <!-- Inner icon depending on organization -->
-                                                @if(str_contains(strtolower($partner->name), 'army'))
-                                                    <!-- Crossed Swords -->
-                                                    <path d="M30,75 L70,35 M33,78 L73,38 M30,35 L70,75 M33,32 L73,72" stroke="#d4af37" stroke-width="4" stroke-linecap="round"/>
-                                                    <circle cx="30" cy="75" r="4" fill="#d4af37"/>
-                                                    <circle cx="70" cy="75" r="4" fill="#d4af37"/>
-                                                @elseif(str_contains(strtolower($partner->name), 'air force'))
-                                                    <!-- Fighter Jet -->
-                                                    <path d="M50,20 L60,45 L80,50 L55,60 L50,85 L45,60 L20,50 L40,45 Z" fill="#d4af37"/>
-                                                @elseif(str_contains(strtolower($partner->name), 'drdo'))
-                                                    <!-- Radar antenna / wave -->
-                                                    <circle cx="50" cy="75" r="5" fill="#d4af37"/>
-                                                    <path d="M50,75 L50,55 M30,45 C40,35 60,35 70,45 M40,55 C45,50 55,50 60,55" stroke="#d4af37" stroke-width="3" stroke-linecap="round" fill="none"/>
-                                                @else
-                                                    <!-- Default Star -->
-                                                    <polygon points="50,25 58,45 80,45 62,58 68,80 50,68 32,80 38,58 20,45 42,45" fill="#d4af37"/>
-                                                @endif
-                                            </svg>
-                                        </div>
-                                        <div class="separator-line"></div>
-                                    </div>
-                                    
-                                    <!-- Bottom section with organization name -->
-                                    <div class="force-card-bottom">
-                                        <h4>{{ $partner->name }}</h4>
-                                        <div class="gold-bottom-bar"></div>
-                                    </div>
+                            <article class="partner-card {{ Str::slug($partner->name) }}">
+                                <div class="visual">
+                                    @if($partner->image)
+                                        <img src="{{ asset($partner->image) }}" alt="{{ $partner->name }}">
+                                    @else
+                                        <div class="text-white fw-bold">No Logo</div>
+                                    @endif
                                 </div>
-                            </div>
+                                <div class="icon-badge">
+                                    @if(str_contains(strtolower($partner->name), 'army'))
+                                        <!-- Crossed Swords -->
+                                        <svg viewBox="0 0 100 100" width="30" height="30">
+                                            <path d="M20,80 L80,20 M25,85 L85,25 M20,20 L80,80 M25,15 L85,75" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+                                        </svg>
+                                    @elseif(str_contains(strtolower($partner->name), 'air force'))
+                                        <!-- Fighter Jet -->
+                                        <svg viewBox="0 0 100 100" width="30" height="30">
+                                            <path d="M50,15 L62,45 L90,50 L60,60 L50,85 L40,60 L10,50 L38,45 Z" fill="#ffffff"/>
+                                        </svg>
+                                    @elseif(str_contains(strtolower($partner->name), 'drdo'))
+                                        <!-- Radar / Waves -->
+                                        <svg viewBox="0 0 100 100" width="30" height="30">
+                                            <circle cx="50" cy="70" r="6" fill="#ffffff"/>
+                                            <path d="M50,70 L50,45 M25,35 C35,22 65,22 75,35 M35,48 C42,40 58,40 65,48" stroke="#ffffff" stroke-width="5" stroke-linecap="round" fill="none"/>
+                                        </svg>
+                                    @else
+                                        <!-- Star -->
+                                        <svg viewBox="0 0 100 100" width="30" height="30">
+                                            <polygon points="50,15 63,40 90,40 70,58 77,85 50,70 23,85 30,58 10,40 37,40" fill="#ffffff"/>
+                                        </svg>
+                                    @endif
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="org-name">{{ $partner->name }}</h3>
+                                    <span class="gold-line"></span>
+                                </div>
+                            </article>
                         @endforeach
                     </div>
                 @endif
