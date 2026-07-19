@@ -757,15 +757,15 @@
                         </div>
                     </div>
 
-                    <!-- RIGHT NEWS SLIDER (LATEST UPDATES) -->
+                    <!-- RIGHT NEWS SLIDER (BLOGS) -->
                     <div class="col-lg-6">
                         <div class="activities-box">
-                            <h2>Latest <span>Updates</span></h2>
+                            <h2>Our <span>Blogs</span></h2>
 
                             <div class="swiper newsSlider">
                                 <div class="swiper-wrapper">
 
-                                    @foreach($latestNews as $news)
+                                    @forelse($blogArticles as $news)
                                         <div class="swiper-slide">
                                             <div class="news-card">
                                                 <div class="news-card-img-wrap">
@@ -792,7 +792,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    @empty
+                                        <div class="swiper-slide">
+                                            <div class="news-card">
+                                                <div class="news-card-body">
+                                                    <h4>No blog posts yet</h4>
+                                                    <p>New blogs will appear here as soon as they are published.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforelse
 
                                 </div>
                                 <!-- Add Pagination -->

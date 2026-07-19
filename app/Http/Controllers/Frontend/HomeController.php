@@ -127,6 +127,18 @@ class HomeController extends Controller
         }
         $latestNews = $newsQuery->latest()->take(5)->get();
 
+        // Featured "Blogs" slider (top-right of the news/contact section): Blogs category only.
+        $blogCategory = \App\Models\NewsCategory::whereRaw('LOWER(TRIM(name)) = ?', ['blogs'])->first();
+        $blogArticles = collect();
+        if ($blogCategory) {
+            $blogQuery = NewsArticle::where('category_id', $blogCategory->id)
+                ->where('status', 'Published');
+            if ($isElectionMode) {
+                $blogQuery->where('hide_during_election', false);
+            }
+            $blogArticles = $blogQuery->latest()->take(5)->get();
+        }
+
         $partnerLogos = PartnerLogo::latest()->get();
 
         // Self-healing database check to automatically create our_partners table if missing
@@ -166,6 +178,7 @@ class HomeController extends Controller
             'keyOfferings',
             'businessOfferings',
             'latestNews',
+            'blogArticles',
             'playlists',
             'ourUnit',
             'leaders',
