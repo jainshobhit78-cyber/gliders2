@@ -1417,16 +1417,40 @@
             const playPauseBtn = document.getElementById("partnerPlayPause");
             let isPlaying = true;
 
-            playPauseBtn.addEventListener("click", function () {
-                if (isPlaying) {
-                    partnerSwiper.autoplay.stop();
-                    playPauseBtn.innerHTML = "▶";
-                } else {
-                    partnerSwiper.autoplay.start();
-                    playPauseBtn.innerHTML = "❚❚";
-                }
-                isPlaying = !isPlaying;
-            });
+            if (playPauseBtn) {
+                playPauseBtn.addEventListener("click", function () {
+                    if (isPlaying) {
+                        partnerSwiper.autoplay.stop();
+                        playPauseBtn.innerHTML = "▶";
+                    } else {
+                        partnerSwiper.autoplay.start();
+                        playPauseBtn.innerHTML = "❚❚";
+                    }
+                    isPlaying = !isPlaying;
+                });
+            }
+
+            if (document.querySelector(".trustedForcesSlider")) {
+                new Swiper(".trustedForcesSlider", {
+                    slidesPerView: 4,
+                    spaceBetween: 30,
+                    loop: true,
+                    autoplay: {
+                        delay: 2500,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: ".forces-swiper-pagination",
+                        clickable: true
+                    },
+                    breakpoints: {
+                        320: { slidesPerView: 1 },
+                        576: { slidesPerView: 2 },
+                        768: { slidesPerView: 3 },
+                        992: { slidesPerView: 4 }
+                    }
+                });
+            }
 
         });
     </script>
