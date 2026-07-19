@@ -818,7 +818,7 @@
             <div class="container-fluid px-5">
                 <div class="mb-4 d-flex justify-content-between align-items-center">
                     <h2 class="section-heading activities-main-heading m-0">
-                        News <span>Categories</span>
+                        <span>NEW</span>
                     </h2>
                     <!-- Category Swiper Navigation -->
                     <div class="cat-swiper-nav d-flex gap-2">
@@ -843,6 +843,12 @@
                             @php
                                 $bg = $catBackgrounds[$cat->id] ?? '/uploads/media/images/hd_news_breaking.jpg';
                                 $displayName = $cat->name == 'latest' ? 'Recent Updates' : ($cat->name == 'Breaking' ? 'Breaking News' : $cat->name);
+                                // Get latest 2 published articles for this category
+                                $catArticles = \App\Models\NewsArticle::where('category_id', $cat->id)
+                                    ->where('status', 'Published')
+                                    ->latest()
+                                    ->take(2)
+                                    ->get();
                             @endphp
                             <div class="swiper-slide">
                                 <div class="safran-cat-card" onclick="window.location.href='/news/category/{{ $cat->id }}'">
@@ -850,9 +856,26 @@
                                     <div class="card-overlay"></div>
                                     <div class="card-content">
                                         <h3 class="card-title">{{ $displayName }}</h3>
+                                        
+                                        <!-- News thumbnails section inside card -->
+                                        <div class="cat-thumbnails-wrapper">
+                                            @if(isset($catArticles[0]))
+                                                <div class="cat-thumbnail-item" onclick="event.stopPropagation(); window.location.href='/news/article/{{ $catArticles[0]->id }}'">
+                                                    <div class="cat-thumbnail-img" style="background-image: url('/uploads/news/{{ $catArticles[0]->wallpaper }}');"></div>
+                                                    <span class="cat-thumbnail-title">{{ Str::limit($catArticles[0]->title, 32) }}</span>
+                                                </div>
+                                            @endif
+                                            @if(isset($catArticles[1]))
+                                                <div class="cat-thumbnail-item" onclick="event.stopPropagation(); window.location.href='/news/article/{{ $catArticles[1]->id }}'">
+                                                    <div class="cat-thumbnail-img" style="background-image: url('/uploads/news/{{ $catArticles[1]->wallpaper }}');"></div>
+                                                    <span class="cat-thumbnail-title">{{ Str::limit($catArticles[1]->title, 32) }}</span>
+                                                </div>
+                                            @endif
+                                        </div>
+
                                         <div class="see-more-wrap">
                                             <div class="vertical-line"></div>
-                                            <span class="see-more-text">SEE MORE</span>
+                                            <span class="see-more-text">VIEW MORE</span>
                                         </div>
                                     </div>
                                 </div>
