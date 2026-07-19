@@ -818,7 +818,7 @@
             <div class="container-fluid px-5">
                 <div class="mb-4 d-flex justify-content-between align-items-center">
                     <h2 class="section-heading activities-main-heading m-0">
-                        <span>NEW</span>
+                        News
                     </h2>
                     <!-- Category Swiper Navigation -->
                     <div class="cat-swiper-nav d-flex gap-2">
