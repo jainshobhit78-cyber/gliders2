@@ -5139,15 +5139,16 @@ table td {
 }
 
 .section-heading-wrap {
-    margin-bottom: 24px;
+    margin-bottom: 30px;
 }
 
 .trusted-title {
-    color: #000;
+    color: #fff; /* fallback to white */
     font-weight: 600;
-    font-size: 48px;
-    letter-spacing: 0%;
+    font-size: 44px;
+    letter-spacing: normal;
     padding-bottom: 20px;
+    margin-left: 15px; /* prevent left cut off */
 }
 
 .trusted-title span {
@@ -5162,42 +5163,52 @@ table td {
 
 .force-card {
     background: #ffffff;
-    /* border: 1px solid #d8d8d8; */
     border-radius: 22px;
-    padding: 35px 20px;
+    padding: 25px 15px;
     text-align: center;
     transition: all 0.3s ease;
-    box-shadow: 0px 6px 25px 0px #00000047;
-    border: 2px solid #0000001A;
-    border-image-source: linear-gradient(90.17deg, rgba(0, 20, 48, 0.1) 0%, rgba(8, 56, 124, 0.1) 116.03%);
-
+    box-shadow: 0px 6px 25px 0px rgba(0, 0, 0, 0.28);
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 280px; /* Force identical height across all cards */
+    box-sizing: border-box;
 }
 
 .force-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 25px rgba(243, 112, 33, 0.15);
+    border-color: rgba(243, 112, 33, 0.3);
 }
 
 .force-logo {
-    height: 180px;
+    height: 150px;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .force-logo img {
-    max-width: 270px;
-    max-height: 260px;
+    max-width: 100%;
+    max-height: 130px;
     object-fit: contain;
 }
 
 .force-card h4 {
     color: #111;
-    font-weight: 500;
-    font-size: 30px;
-    letter-spacing: 0%;
-
+    font-weight: 700;
+    font-size: 18px; /* Clear and highly readable */
+    line-height: 1.35;
+    margin: 0;
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 
@@ -5230,20 +5241,22 @@ table td {
     }
 
     .force-card {
-        padding: 25px 15px;
+        padding: 20px 10px;
+        height: auto;
+        min-height: 220px;
     }
 
     .force-logo {
-        height: 140px;
+        height: 120px;
     }
 
     .force-logo img {
-        max-width: 130px;
-        max-height: 120px;
+        max-width: 100%;
+        max-height: 100px;
     }
 
     .force-card h4 {
-        font-size: 18px;
+        font-size: 15px;
     }
 }
 
