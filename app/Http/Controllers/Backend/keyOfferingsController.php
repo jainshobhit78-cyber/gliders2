@@ -640,7 +640,7 @@ class keyOfferingsController extends Controller
     {
         $request->validate([
             'platform'   => 'required|in:facebook,linkedin,instagram',
-            'content'    => 'required|string',
+            'content'    => 'nullable|string',
             'post_date'  => 'nullable|date',
             'likes'      => 'nullable|integer|min:0',
             'comments'   => 'nullable|integer|min:0',

@@ -39,8 +39,8 @@
                 </div>
 
                 <div class="mb-3">
-                    <label>Post Content</label>
-                    <textarea name="content" class="form-control" rows="3" placeholder="What did you post?" required>{{ $edit->content ?? '' }}</textarea>
+                    <label>Post Content <small class="text-muted">(optional for Facebook — the embedded post shows the real content)</small></label>
+                    <textarea name="content" class="form-control" rows="3" placeholder="Leave blank for Facebook posts; used for Instagram/LinkedIn cards">{{ $edit->content ?? '' }}</textarea>
                 </div>
 
                 <div class="row">
