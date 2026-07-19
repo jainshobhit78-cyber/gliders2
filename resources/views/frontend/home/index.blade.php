@@ -836,15 +836,28 @@
                             @php
                                 $bg = $catBackgrounds[$cat->id] ?? '/uploads/media/images/hd_news_breaking.jpg';
                                 $displayName = $cat->name == 'latest' ? 'Recent Updates' : ($cat->name == 'Breaking' ? 'Breaking News' : $cat->name);
-                                // Get latest 2 published articles for this category
-                                $catArticles = \App\Models\NewsArticle::where('category_id', $cat->id)
-                                    ->where('status', 'Published')
-                                    ->latest()
-                                    ->take(2)
-                                    ->get();
+
+                                // The "Recent Updates" (latest) card aggregates the newest articles across ALL
+                                // categories; every other card shows the latest articles of its own category.
+                                $isLatestCard = strtolower(trim($cat->name)) === 'latest';
+
+                                if ($isLatestCard) {
+                                    $catArticles = \App\Models\NewsArticle::where('status', 'Published')
+                                        ->latest()
+                                        ->take(2)
+                                        ->get();
+                                    $cardHref = url('/news');
+                                } else {
+                                    $catArticles = \App\Models\NewsArticle::where('category_id', $cat->id)
+                                        ->where('status', 'Published')
+                                        ->latest()
+                                        ->take(2)
+                                        ->get();
+                                    $cardHref = url('/news/category/' . $cat->id);
+                                }
                             @endphp
                             <div class="swiper-slide">
-                                <div class="safran-cat-card" data-href="/news/category/{{ $cat->id }}" onclick="if(!event.target.closest('.cat-thumbnail-item')) { window.location.href = this.getAttribute('data-href'); }">
+                                <div class="safran-cat-card" data-href="{{ $cardHref }}" onclick="if(!event.target.closest('.cat-thumbnail-item')) { window.location.href = this.getAttribute('data-href'); }">
                                     <div class="card-bg" style="background-image: url('{{ $bg }}');"></div>
                                     <div class="card-overlay"></div>
                                     <div class="card-content">
@@ -853,13 +866,13 @@
                                         <!-- News thumbnails section inside card -->
                                         <div class="cat-thumbnails-wrapper">
                                             @if(isset($catArticles[0]))
-                                                <a href="/news/article/{{ $catArticles[0]->id }}" class="cat-thumbnail-item">
+                                                <a href="{{ route('news.show', $catArticles[0]->id) }}" class="cat-thumbnail-item">
                                                     <div class="cat-thumbnail-img" style="background-image: url('/uploads/news/{{ $catArticles[0]->wallpaper }}');"></div>
                                                     <span class="cat-thumbnail-title">{{ Str::limit($catArticles[0]->title, 32) }}</span>
                                                 </a>
                                             @endif
                                             @if(isset($catArticles[1]))
-                                                <a href="/news/article/{{ $catArticles[1]->id }}" class="cat-thumbnail-item">
+                                                <a href="{{ route('news.show', $catArticles[1]->id) }}" class="cat-thumbnail-item">
                                                     <div class="cat-thumbnail-img" style="background-image: url('/uploads/news/{{ $catArticles[1]->wallpaper }}');"></div>
                                                     <span class="cat-thumbnail-title">{{ Str::limit($catArticles[1]->title, 32) }}</span>
                                                 </a>
