@@ -4317,11 +4317,13 @@ table td {
 /* Live embeds (Facebook Page Plugin / Instagram widget) */
 .social-embed {
     background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
+    border: 1px solid rgba(255, 180, 80, 0.3);
+    border-radius: 16px;
+    padding: 12px;
     overflow: hidden;
     display: flex;
     justify-content: center;
+    box-shadow: 0 0 22px rgba(255, 160, 60, 0.08), inset 0 0 22px rgba(255, 255, 255, 0.02);
 }
 
 .social-embed .fb-page,
@@ -4337,16 +4339,13 @@ table td {
 
 /* Facebook embedded-post slider (one post at a time + navigation) */
 .social-embed--fb {
-    background: transparent;
-    border: 0;
-    padding: 0;
-    overflow: visible;
     display: block;
+    padding: 14px 14px 40px;
 }
 
 .fbPostSlider {
     position: relative;
-    padding: 0 2px 34px;
+    width: 100%;
 }
 
 .fbPostSlider .swiper-slide {
@@ -4359,6 +4358,8 @@ table td {
 .fbPostSlider .fb-post > span,
 .fbPostSlider .fb-post iframe {
     max-width: 100% !important;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .fbp-prev,

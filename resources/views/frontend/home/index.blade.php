@@ -339,7 +339,7 @@
                 <div class="row g-4">
 
                     <!-- LEFT: LATEST FROM SOCIAL MEDIA -->
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <div class="social-feed-box">
                             <h5 class="social-feed-title">Latest from Social Media</h5>
                             <div class="social-feed-list">
@@ -358,7 +358,7 @@
                                             <div class="swiper-wrapper">
                                                 @foreach($fbPosts as $post)
                                                     <div class="swiper-slide">
-                                                        <div class="fb-post" data-href="{{ $post->link }}" data-width="360" data-show-text="true"></div>
+                                                        <div class="fb-post" data-href="{{ $post->link }}" data-width="450" data-show-text="true"></div>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -375,7 +375,7 @@
                                         <div class="fb-page"
                                              data-href="{{ $fbPageUrl }}"
                                              data-tabs="timeline"
-                                             data-width="360"
+                                             data-width="450"
                                              data-height="480"
                                              data-small-header="true"
                                              data-adapt-container-width="true"
@@ -424,7 +424,7 @@
                         @endif
                     </div><!-- RIGHT VIDEO -->
                     @if($playlists->count() > 0)
-                        <div class="col-lg-8 media-box">
+                        <div class="col-lg-7 media-box">
                             <div class="main-video-box" id="mainVideoBox">
                                 <video id="mediaMainVideo" preload="metadata" autoplay muted playsinline>
                                     <source
@@ -486,7 +486,7 @@
                             </div>
                         </div>
                     @else
-                        <div class="col-lg-8 media-box">
+                        <div class="col-lg-7 media-box">
                             <div class="main-video-box d-flex align-items-center justify-content-center" style="background: #111; height: 350px; border-radius: 8px;">
                                 <div class="text-center text-muted">
                                     <p>No featured media available.</p>
