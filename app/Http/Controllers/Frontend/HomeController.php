@@ -23,6 +23,18 @@ class HomeController extends Controller
     {
         $videoBanner = VideoBanner::latest()->first();
         $tickerItems = \App\Models\TickerNews::where('is_active', true)->orderBy('position', 'asc')->get();
+        // Self-healing: add the instagram_embed_code column if it doesn't exist yet
+        // (migrations are out of sync on some environments).
+        if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'instagram_embed_code')) {
+            try {
+                \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
+                    $table->text('instagram_embed_code')->nullable();
+                });
+            } catch (\Exception $e) {
+                // Ignore
+            }
+        }
+
         $settings = \App\Models\GeneralSetting::first();
         $galleryImages = ImageGallery::latest()->get();
         $stateCounter = StateCounter::latest()->first();
@@ -205,6 +217,19 @@ class HomeController extends Controller
             ? \App\Models\SocialPost::where('status', 'Published')->orderBy('sort_order')->orderByDesc('post_date')->get()
             : collect();
 
+        // Live Facebook Page feed (official Page Plugin) — normalise the configured Page URL.
+        $fbPageUrl = trim((string) ($settings->social_facebook ?? ''));
+        if ($fbPageUrl !== '') {
+            if (!\Illuminate\Support\Str::startsWith($fbPageUrl, ['http://', 'https://'])) {
+                $fbPageUrl = 'https://www.facebook.com/' . ltrim($fbPageUrl, '@/');
+            }
+        } else {
+            $fbPageUrl = null;
+        }
+
+        // Live Instagram feed via a third-party widget embed code pasted in settings.
+        $instagramEmbed = trim((string) ($settings->instagram_embed_code ?? '')) ?: null;
+
         return view('frontend.home.index', compact(
             'videoBanner',
             'tickerItems',
@@ -221,7 +246,9 @@ class HomeController extends Controller
             'leaders',
             'partnerLogos',
             'ourPartners',
-            'socialPosts'
+            'socialPosts',
+            'fbPageUrl',
+            'instagramEmbed'
         ));
     }
 

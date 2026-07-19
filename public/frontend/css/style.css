@@ -4314,6 +4314,27 @@ table td {
 
 .social-card-link:hover { color: #e56ea6; }
 
+/* Live embeds (Facebook Page Plugin / Instagram widget) */
+.social-embed {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+.social-embed .fb-page,
+.social-embed .fb-page span,
+.social-embed iframe {
+    max-width: 100% !important;
+}
+
+.social-embed iframe {
+    width: 100% !important;
+    border: 0;
+}
+
 .media-box {
     border: 1px solid rgba(255, 255, 255, 0.5);
     padding: 15px;

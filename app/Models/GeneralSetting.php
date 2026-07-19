@@ -37,6 +37,7 @@ class GeneralSetting extends Model
         'social_linkedin',
         'social_youtube',
         'twitter_feed_url',
+        'instagram_embed_code',
         'launch_animation_enabled',
         'launch_animation_target_at',
         'launch_animation_title',

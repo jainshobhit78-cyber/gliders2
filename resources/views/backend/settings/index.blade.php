@@ -548,6 +548,17 @@
                                 </div>
                             </div>
 
+                            <div class="form-group-wrapper">
+                                <span class="settings-section-title"><i class="fa fa-share-alt me-2"></i>Live Social Feed (Homepage "Latest from Social Media")</span>
+                                <small class="text-muted d-block mb-3">Facebook shows a live feed of your Facebook <strong>Page</strong> using the "Facebook" URL in the Social Links section above (must be a public Page, not a personal profile). For Instagram, paste an embed code from a widget service (e.g. LightWidget or SnapWidget) below.</small>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Instagram Widget Embed Code</label>
+                                    <textarea name="instagram_embed_code" class="form-control" rows="4" placeholder="Paste the full embed code (iframe / script) from LightWidget, SnapWidget, EmbedSocial, etc.">{{ old('instagram_embed_code', $setting->instagram_embed_code ?? '') }}</textarea>
+                                    <small class="text-muted d-block mt-1">Leave blank to keep showing the manually-managed Instagram card. When filled, the live widget replaces it.</small>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
