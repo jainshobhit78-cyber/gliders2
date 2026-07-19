@@ -265,7 +265,7 @@
 
                 <div class="safran-activities-wrapper">
                     <!-- CARD 1: PARACHUTES -->
-                    <div class="safran-activity-card" onclick="window.location.href='/products/offering/parachutes'">
+                    <a href="{{ route('products.index', ['offering' => 'parachutes']) }}" class="safran-activity-card">
                         <div class="card-bg" style="background-image: url('/uploads/media/images/hd_su30_brake_parachute.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
@@ -280,13 +280,13 @@
                             <h3 class="card-title">Parachutes & Aerial Delivery</h3>
                             <div class="card-details">
                                 <p class="card-description">Pioneers in manufacturing state-of-the-art paratrooper, brake, cargo, and heavy platform recovery parachute systems for global defense forces.</p>
-                                <a href="/products/offering/parachutes" class="card-action-btn">Explore Parachutes</a>
+                                <span class="card-action-btn">Explore Parachutes</span>
                             </div>
                         </div>
-                    </div>
+                    </a>
 
                     <!-- CARD 2: RUBBER INFLATABLES -->
-                    <div class="safran-activity-card" onclick="window.location.href='/products/offering/rubber-inflatables'">
+                    <a href="{{ route('products.index', ['offering' => 'rubber-inflatables']) }}" class="safran-activity-card">
                         <div class="card-bg" style="background-image: url('/uploads/media/images/hd_baplw_assault_boat.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
@@ -300,13 +300,13 @@
                             <h3 class="card-title">Tactical Inflatable Systems</h3>
                             <div class="card-details">
                                 <p class="card-description">High-durability military assault boats, Gemini crafts, and pneumatic float assemblies designed for tactical crossings and riverine operations.</p>
-                                <a href="/products/offering/rubber-inflatables" class="card-action-btn">Explore Inflatables</a>
+                                <span class="card-action-btn">Explore Inflatables</span>
                             </div>
                         </div>
-                    </div>
+                    </a>
 
                     <!-- CARD 3: TECHNICAL CLOTHING -->
-                    <div class="safran-activity-card" onclick="window.location.href='/products/offering/technical-clothing'">
+                    <a href="{{ route('products.index', ['offering' => 'technical-clothing']) }}" class="safran-activity-card">
                         <div class="card-bg" style="background-image: url('/uploads/media/images/hd_indian_clothing.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
@@ -319,10 +319,10 @@
                             <h3 class="card-title">Technical Clothing & Equipment</h3>
                             <div class="card-details">
                                 <p class="card-description">Advanced protective combat clothing, nuclear-biological-chemical (NBC) suits, and extreme cold climate survival gear built to save lives.</p>
-                                <a href="/products/offering/technical-clothing" class="card-action-btn">Explore Equipment</a>
+                                <span class="card-action-btn">Explore Equipment</span>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </section>

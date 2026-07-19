@@ -10128,6 +10128,8 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     transition: flex 0.7s cubic-bezier(0.25, 1, 0.3, 1);
     cursor: pointer;
+    color: inherit;
+    text-decoration: none;
 }
 
 /* On hover, expand this card */
@@ -10286,6 +10288,132 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     
     .activities-main-heading {
         font-size: 30px;
+    }
+}
+
+/* MOBILE EXPERIENCE: compact page rhythm and swipeable Key Offerings */
+@media (max-width: 767px) {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        overflow-x: clip;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .container-fluid.px-5 {
+        padding-right: 16px !important;
+        padding-left: 16px !important;
+    }
+
+    .updates-section {
+        padding: 42px 0 !important;
+    }
+
+    .activities-main-heading {
+        margin-bottom: 0 !important;
+        padding-bottom: 12px;
+        font-size: clamp(28px, 8vw, 36px) !important;
+        line-height: 1.08;
+    }
+
+    .safran-activities-wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: 14px;
+        height: auto;
+        margin-top: 16px;
+        padding: 2px 4px 14px;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 4px;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(238, 104, 2, 0.6) transparent;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-x pan-y;
+    }
+
+    .safran-activities-wrapper::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .safran-activities-wrapper::-webkit-scrollbar-thumb {
+        border-radius: 999px;
+        background: rgba(238, 104, 2, 0.6);
+    }
+
+    .safran-activities-wrapper::-webkit-scrollbar-track {
+        background: rgba(8, 56, 124, 0.1);
+    }
+
+    .safran-activity-card,
+    .safran-activity-card:hover {
+        flex: 0 0 min(86vw, 360px) !important;
+        height: 410px;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        transform: none;
+    }
+
+    .safran-activity-card .card-bg,
+    .safran-activity-card:hover .card-bg {
+        transform: none;
+    }
+
+    .safran-activity-card .card-content {
+        padding: 24px 20px;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .safran-activity-card .card-icon-wrapper {
+        width: 52px;
+        height: 52px;
+        margin-bottom: 14px;
+    }
+
+    .safran-activity-card .card-icon-wrapper svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .safran-activity-card .card-title {
+        font-size: clamp(21px, 6vw, 25px);
+        line-height: 1.16;
+    }
+
+    .safran-activity-card .card-details,
+    .safran-activity-card:hover .card-details {
+        max-height: none;
+        margin-top: 12px;
+        opacity: 1;
+    }
+
+    .safran-activity-card .card-description {
+        margin-bottom: 18px;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .safran-activity-card .card-action-btn {
+        min-height: 44px;
+        padding: 11px 20px;
+        border-width: 1px;
+        font-size: 12px;
+        line-height: 1.2;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
     }
 }
 
@@ -10561,4 +10689,3 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
         height: 25px;
     }
 }
-
