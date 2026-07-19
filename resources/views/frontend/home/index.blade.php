@@ -411,17 +411,29 @@
                                                     '{{ addslashes($playlist->heading) }}'
                                                 )">
 
-                                                @if($playlist->thumbnail)
-                                                    <img src="/uploads/media/images/{{ $playlist->thumbnail }}"
-                                                        alt="{{ $playlist->name }}">
-                                                @elseif($playlist->images?->first()?->image)
-                                                    <img src="/uploads/media/images/{{ $playlist->images->first()->image }}"
-                                                        alt="{{ $playlist->name }}">
-                                                @else
-                                                    <div class="playlist-thumb-placeholder">
-                                                        <span class="playlist-thumb-play-icon">▶</span>
-                                                    </div>
-                                                @endif
+                                                @php
+                                                    $thumbFile = $playlist->thumbnail ?: ($playlist->images?->first()?->image);
+                                                    $autoVideo = $playlist->videos?->first()?->video;
+                                                @endphp
+                                                <div class="playlist-thumb-media">
+                                                    @if($thumbFile)
+                                                        {{-- Manual thumbnail; if the file is missing it is removed so the auto thumbnail behind it shows --}}
+                                                        <img class="playlist-thumb-img"
+                                                            src="/uploads/media/images/{{ $thumbFile }}"
+                                                            alt="{{ $playlist->name }}"
+                                                            onerror="this.remove()">
+                                                    @endif
+                                                    @if($autoVideo)
+                                                        {{-- Auto thumbnail: first frame of the playlist video (no manual upload needed) --}}
+                                                        <video class="playlist-thumb-video" muted playsinline preload="metadata"
+                                                            src="/uploads/media/videos/{{ $autoVideo }}#t=0.5"
+                                                            onloadedmetadata="try{this.currentTime=0.5}catch(e){}"></video>
+                                                    @elseif(!$thumbFile)
+                                                        <div class="playlist-thumb-placeholder">
+                                                            <span class="playlist-thumb-play-icon">▶</span>
+                                                        </div>
+                                                    @endif
+                                                </div>
 
                                                 <div class="thumb-title">
                                                     {{ $playlist->name }}
