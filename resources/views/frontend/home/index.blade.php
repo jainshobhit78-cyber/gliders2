@@ -821,12 +821,14 @@
                 </div>
 
                 @php
-                    $newsCategories = \App\Models\NewsCategory::where('id', '!=', 5)->get();
+                    // Drop the empty duplicate "latest" category (kept resilient by name in case the
+                    // DB row still lingers in production); the real "Latest Updates" drives Recent Updates.
+                    $newsCategories = \App\Models\NewsCategory::whereRaw('LOWER(TRIM(name)) != ?', ['latest'])->get();
                     $catBackgrounds = [
                         1 => '/uploads/media/images/hd_indian_parachute.jpg',   // Breaking
                         3 => '/uploads/media/images/hd_news_events.jpg',       // Blogs
+                        5 => '/uploads/media/images/hd_news_press.jpg',        // Latest Updates -> Recent Updates
                         6 => '/uploads/media/images/hd_indian_inflatable.jpg',  // Press Releases
-                        7 => '/uploads/media/images/hd_news_press.jpg',         // latest
                     ];
                 @endphp
 
@@ -835,11 +837,13 @@
                         @foreach($newsCategories as $cat)
                             @php
                                 $bg = $catBackgrounds[$cat->id] ?? '/uploads/media/images/hd_news_breaking.jpg';
-                                $displayName = $cat->name == 'latest' ? 'Recent Updates' : ($cat->name == 'Breaking' ? 'Breaking News' : $cat->name);
+                                $displayName = in_array(strtolower(trim($cat->name)), ['latest', 'latest updates'])
+                                    ? 'Recent Updates'
+                                    : ($cat->name == 'Breaking' ? 'Breaking News' : $cat->name);
 
-                                // The "Recent Updates" (latest) card aggregates the newest articles across ALL
+                                // The "Recent Updates" card aggregates the newest articles across ALL
                                 // categories; every other card shows the latest articles of its own category.
-                                $isLatestCard = strtolower(trim($cat->name)) === 'latest';
+                                $isLatestCard = strtolower(trim($cat->name)) === 'latest updates';
 
                                 if ($isLatestCard) {
                                     $catArticles = \App\Models\NewsArticle::where('status', 'Published')
