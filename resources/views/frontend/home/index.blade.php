@@ -356,10 +356,9 @@
                                 </svg>
                                 <span class="ps-2">Latest Tweets</span>
                             </h5>
-                            <div style="max-height: 440px; overflow-y: auto; border-radius: 8px;">
+                            <div id="twitterTimelineWrap" style="max-height: 440px; overflow-y: auto; border-radius: 8px;">
                                 @php
-                                    $twitterFeedUrl = $settings->twitter_feed_url ?? 'https://twitter.com/Twitter';
-                                    $twitterFeedUrl = trim($twitterFeedUrl);
+                                    $twitterFeedUrl = trim((string) ($settings->twitter_feed_url ?? ''));
                                     if (!empty($twitterFeedUrl)) {
                                         if (str_starts_with($twitterFeedUrl, '@')) {
                                             $twitterFeedUrl = substr($twitterFeedUrl, 1);
@@ -368,19 +367,45 @@
                                             $twitterFeedUrl = 'https://twitter.com/' . $twitterFeedUrl;
                                         }
                                         $twitterFeedUrl = str_replace('x.com', 'twitter.com', $twitterFeedUrl);
-                                    } else {
-                                        $twitterFeedUrl = 'https://twitter.com/Twitter';
                                     }
                                 @endphp
-                                <a class="twitter-timeline" data-chrome="noheader nofooter transparent" href="{{ $twitterFeedUrl }}" data-height="430" data-theme="dark">Tweets</a>
-                                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                                
+
+                                @if(!empty($twitterFeedUrl))
+                                    <a class="twitter-timeline" data-chrome="noheader nofooter transparent" href="{{ $twitterFeedUrl }}" data-height="430" data-theme="dark">Tweets</a>
+                                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                                @endif
+
+                                {{-- Shown when no handle is configured or X fails to render the live timeline --}}
+                                <div id="twitterFallback" class="text-center text-light py-4" style="{{ empty($twitterFeedUrl) ? '' : 'display:none;' }}">
+                                    <p class="mb-1" style="opacity:.85;">Live posts can’t be shown here right now.</p>
+                                    <p class="mb-0" style="opacity:.6; font-size:13px;">Follow us on X to see the latest updates.</p>
+                                </div>
+
                                 <div class="mt-2 py-3 border-top text-center">
-                                    <a href="{{ str_replace('twitter.com', 'x.com', $twitterFeedUrl) }}" target="_blank" class="btn btn-outline-light btn-sm rounded-pill px-4" style="border-color: rgba(255,255,255,0.3); font-size: 14px; font-weight: 500;">
+                                    <a href="{{ !empty($twitterFeedUrl) ? str_replace('twitter.com', 'x.com', $twitterFeedUrl) : 'https://x.com' }}" target="_blank" class="btn btn-outline-light btn-sm rounded-pill px-4" style="border-color: rgba(255,255,255,0.3); font-size: 14px; font-weight: 500;">
                                         View on X (Twitter)
                                     </a>
                                 </div>
                             </div>
+                            @if(!empty($twitterFeedUrl))
+                                <script>
+                                    // If X's embedded timeline doesn't render within a few seconds
+                                    // (X gates most embeds now), reveal a graceful fallback instead of a blank box.
+                                    (function () {
+                                        setTimeout(function () {
+                                            var wrap = document.getElementById('twitterTimelineWrap');
+                                            if (!wrap) return;
+                                            var rendered = wrap.querySelector('iframe.twitter-timeline-rendered, iframe[id^="twitter-widget"]');
+                                            if (!rendered) {
+                                                var a = wrap.querySelector('a.twitter-timeline');
+                                                if (a) a.style.display = 'none';
+                                                var fb = document.getElementById('twitterFallback');
+                                                if (fb) fb.style.display = 'block';
+                                            }
+                                        }, 5000);
+                                    })();
+                                </script>
+                            @endif
                         </div>
                     </div><!-- RIGHT VIDEO -->
                     @if($playlists->count() > 0)
@@ -844,7 +869,8 @@
                 @php
                     // Drop the empty duplicate "latest" category (kept resilient by name in case the
                     // DB row still lingers in production); the real "Latest Updates" drives Recent Updates.
-                    $newsCategories = \App\Models\NewsCategory::whereRaw('LOWER(TRIM(name)) != ?', ['latest'])->get();
+                    // Blogs is excluded here because it now has its own section beside "Contact Us".
+                    $newsCategories = \App\Models\NewsCategory::whereRaw('LOWER(TRIM(name)) NOT IN (?, ?)', ['latest', 'blogs'])->get();
 
                     // Respect election mode so the homepage never surfaces an article the detail page
                     // hides (which would 404). Mirrors FNewsController.
