@@ -1,6 +1,6 @@
 <div class="title-header d-flex align-items-center gap-3">
 
-    <a href="javascript:void(0)" class="back-btn backLogoList">
+    <a href="javascript:void(0)" class="back-btn backPartnerList">
 
         <svg width="24" height="24" viewBox="0 0 24 24">
             <path d="M22 13V11H5.82L9.77 7.05L8.36 5.64L2 12L8.36 18.36L9.77 16.95L5.82 13H22Z" fill="black" />

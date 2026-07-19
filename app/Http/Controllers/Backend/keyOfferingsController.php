@@ -448,14 +448,20 @@ class keyOfferingsController extends Controller
         return back()->with('success', 'Image deleted successfully');
     }
 
-    public function partner_logo_list()
+    public function partner_logo_list(Request $request)
     {
+        if (!$request->ajax()) {
+            return redirect('admin/home?tab=home/partner_logo');
+        }
         $logo = PartnerLogo::latest()->get();
         return view('backend.home_page.partner_logo.list', compact('logo'));
     }
 
-    public function partner_logo_form($id = null)
+    public function partner_logo_form(Request $request, $id = null)
     {
+        if (!$request->ajax()) {
+            return redirect('admin/home?tab=home/partner_logo');
+        }
         $edit = null;
 
         if ($id) {
@@ -525,14 +531,20 @@ class keyOfferingsController extends Controller
         return back()->with('success', 'Logo deleted successfully');
     }
 
-    public function our_partner_list()
+    public function our_partner_list(Request $request)
     {
+        if (!$request->ajax()) {
+            return redirect('admin/home?tab=home/our_partner');
+        }
         $logo = \App\Models\OurPartner::latest()->get();
         return view('backend.home_page.our_partner.list', compact('logo'));
     }
 
-    public function our_partner_form($id = null)
+    public function our_partner_form(Request $request, $id = null)
     {
+        if (!$request->ajax()) {
+            return redirect('admin/home?tab=home/our_partner');
+        }
         $edit = null;
 
         if ($id) {

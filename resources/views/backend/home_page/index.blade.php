@@ -30,6 +30,10 @@
                    Partner Logo
                 </button>
 
+                <button class="tab-btn" data-url="{{ url('admin/home/our_partner') }}">
+                   Our Partners
+                </button>
+
                 <button class="tab-btn" data-url="{{ url('admin/home/video_banner/edit') }}">
                     Video Banner
                 </button>
@@ -367,6 +371,16 @@
         $(document).on("click", ".backLogoList", function () {
 
             $.get("{{ url('admin/home/partner_logo') }}", function (res) {
+
+                $("#ajaxContent").html(res)
+
+            })
+
+        })
+
+        $(document).on("click", ".backPartnerList", function () {
+
+            $.get("{{ url('admin/home/our_partner') }}", function (res) {
 
                 $("#ajaxContent").html(res)
 
