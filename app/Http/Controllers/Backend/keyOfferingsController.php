@@ -471,11 +471,14 @@ class keyOfferingsController extends Controller
     {
         $request->validate([
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'name' => 'nullable|string|max:255',
         ]);
 
         $gallery = PartnerLogo::find($request->id);
 
         if ($gallery) {
+            $gallery->name = $request->name;
+
             if ($request->hasFile('image')) {
 
                 if ($gallery->image && file_exists(public_path($gallery->image))) {
@@ -501,6 +504,7 @@ class keyOfferingsController extends Controller
 
                 PartnerLogo::create([
                     'image' => 'uploads/partner_logo/' . $filename,
+                    'name' => $request->name,
                 ]);
             }
 

@@ -29,6 +29,11 @@
                 <input type="hidden" name="id" value="{{ $edit->id ?? '' }}">
 
                 <div class="mb-3">
+                    <label>Organization Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="Enter Organization Name" value="{{ $edit->name ?? '' }}">
+                </div>
+
+                <div class="mb-3">
                     <label>Upload Image</label>
                     <input type="file" name="image" id="imageInput" class="form-control">
                 </div>

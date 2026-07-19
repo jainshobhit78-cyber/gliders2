@@ -47,6 +47,7 @@
 
                             <tr>
                                 <th>#</th>
+                                <th>Organization Name</th>
                                 <th>Partner Logo</th>
                                 <th>Action</th>
                             </tr>
@@ -60,6 +61,11 @@
                                 <tr>
 
                                     <td>{{ $key + 1 }}</td>
+                                    
+                                    {{-- NAME --}}
+                                    <td>
+                                        <strong>{{ $offer->name ?: 'N/A' }}</strong>
+                                    </td>
 
                                     {{-- IMAGE --}}
                                     <td>

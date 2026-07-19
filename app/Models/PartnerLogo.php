@@ -10,5 +10,6 @@ class PartnerLogo extends Model
 
     protected $fillable = [
         'image',
+        'name',
     ];
 }

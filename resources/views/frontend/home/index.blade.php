@@ -860,16 +860,16 @@
                                         <!-- News thumbnails section inside card -->
                                         <div class="cat-thumbnails-wrapper">
                                             @if(isset($catArticles[0]))
-                                                <div class="cat-thumbnail-item" onclick="event.stopPropagation(); window.location.href='/news/article/{{ $catArticles[0]->id }}'">
+                                                <a href="/news/article/{{ $catArticles[0]->id }}" class="cat-thumbnail-item" onclick="event.stopPropagation();">
                                                     <div class="cat-thumbnail-img" style="background-image: url('/uploads/news/{{ $catArticles[0]->wallpaper }}');"></div>
                                                     <span class="cat-thumbnail-title">{{ Str::limit($catArticles[0]->title, 32) }}</span>
-                                                </div>
+                                                </a>
                                             @endif
                                             @if(isset($catArticles[1]))
-                                                <div class="cat-thumbnail-item" onclick="event.stopPropagation(); window.location.href='/news/article/{{ $catArticles[1]->id }}'">
+                                                <a href="/news/article/{{ $catArticles[1]->id }}" class="cat-thumbnail-item" onclick="event.stopPropagation();">
                                                     <div class="cat-thumbnail-img" style="background-image: url('/uploads/news/{{ $catArticles[1]->wallpaper }}');"></div>
                                                     <span class="cat-thumbnail-title">{{ Str::limit($catArticles[1]->title, 32) }}</span>
-                                                </div>
+                                                </a>
                                             @endif
                                         </div>
 
@@ -889,27 +889,44 @@
 
         <section class="partner-slider-section">
             <div class="container">
-
                 <div class="partner-slider-wrapper">
-
-                    <!-- SLIDER -->
-                    <div class="swiper partnerSlider">
-                        <div class="swiper-wrapper">
-
-                            @foreach($partnerLogos as $logo)
-                                <div class="swiper-slide">
-                                    <div class="partner-logo-box">
-                                        <img src="{{ asset($logo->image) }}" alt="Partner Logo">
+                    @if($partnerLogos->count() > 5)
+                        <!-- SLIDER -->
+                        <div class="swiper partnerSlider">
+                            <div class="swiper-wrapper">
+                                @foreach($partnerLogos as $logo)
+                                    <div class="swiper-slide">
+                                        <div class="partner-card text-center">
+                                            <div class="partner-logo-box">
+                                                <img src="{{ asset($logo->image) }}" alt="{{ $logo->name ?? 'Partner' }}">
+                                            </div>
+                                            @if($logo->name)
+                                                <h5 class="partner-name">{{ $logo->name }}</h5>
+                                            @endif
+                                        </div>
                                     </div>
+                                @endforeach
+                            </div>
+                            
+                            <!-- navigation -->
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                        </div>
+                    @else
+                        <!-- STATIC CENTERING GRID -->
+                        <div class="partner-static-grid d-flex justify-content-center flex-wrap gap-4 py-3">
+                            @foreach($partnerLogos as $logo)
+                                <div class="partner-card text-center" style="width: 200px; flex-shrink: 0;">
+                                    <div class="partner-logo-box">
+                                        <img src="{{ asset($logo->image) }}" alt="{{ $logo->name ?? 'Partner' }}">
+                                    </div>
+                                    @if($logo->name)
+                                        <h5 class="partner-name">{{ $logo->name }}</h5>
+                                    @endif
                                 </div>
                             @endforeach
                         </div>
-
-                        <!-- navigation -->
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
-                    </div>
-
+                    @endif
                 </div>
 
                 <!-- PLAY PAUSE -->
