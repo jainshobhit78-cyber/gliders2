@@ -339,20 +339,44 @@
                 <div class="row g-4">
 
                     <!-- LEFT: LATEST FROM SOCIAL MEDIA -->
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="social-feed-box">
                             <h5 class="social-feed-title">Latest from Social Media</h5>
                             <div class="social-feed-list">
 
-                                {{-- FACEBOOK: live Page Plugin when a Page URL is configured, else the manual card --}}
-                                @if(!empty($fbPageUrl))
+                                {{-- FACEBOOK: one embedded post at a time in a slider (native like/share/comment,
+                                     FB logo and link back to Facebook). Driven by Facebook posts (with a post URL
+                                     in the Link field) from the Social Posts admin. --}}
+                                @php
+                                    $fbPosts = $socialPosts->where('platform', 'facebook')->filter(fn($x) => !empty($x->link))->values();
+                                    $needFbSdk = $fbPosts->count() > 0 || !empty($fbPageUrl);
+                                @endphp
+                                <div id="fb-root"></div>
+                                @if($fbPosts->count() > 0)
+                                    <div class="social-embed social-embed--fb">
+                                        <div class="swiper fbPostSlider">
+                                            <div class="swiper-wrapper">
+                                                @foreach($fbPosts as $post)
+                                                    <div class="swiper-slide">
+                                                        <div class="fb-post" data-href="{{ $post->link }}" data-width="360" data-show-text="true"></div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            @if($fbPosts->count() > 1)
+                                                <div class="swiper-button-prev fbp-prev"></div>
+                                                <div class="swiper-button-next fbp-next"></div>
+                                                <div class="swiper-pagination fbp-pagination"></div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @elseif(!empty($fbPageUrl))
+                                    {{-- Fallback until individual post URLs are added: compact live Page timeline --}}
                                     <div class="social-embed">
-                                        <div id="fb-root"></div>
                                         <div class="fb-page"
                                              data-href="{{ $fbPageUrl }}"
                                              data-tabs="timeline"
-                                             data-width="500"
-                                             data-height="420"
+                                             data-width="360"
+                                             data-height="480"
                                              data-small-header="true"
                                              data-adapt-container-width="true"
                                              data-hide-cover="false"
@@ -393,15 +417,14 @@
                                 @endif
                             </div>
                         </div>
-                        @if(!empty($fbPageUrl))
-                            {{-- Facebook SDK (renders the live Page feed above) --}}
-                            <div id="fb-root"></div>
+                        @if($needFbSdk)
+                            {{-- Facebook SDK (renders the embedded posts / page feed above) --}}
                             <script async defer crossorigin="anonymous"
                                 src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0"></script>
                         @endif
                     </div><!-- RIGHT VIDEO -->
                     @if($playlists->count() > 0)
-                        <div class="col-lg-9 media-box">
+                        <div class="col-lg-8 media-box">
                             <div class="main-video-box" id="mainVideoBox">
                                 <video id="mediaMainVideo" preload="metadata" autoplay muted playsinline>
                                     <source
@@ -463,7 +486,7 @@
                             </div>
                         </div>
                     @else
-                        <div class="col-lg-9 media-box">
+                        <div class="col-lg-8 media-box">
                             <div class="main-video-box d-flex align-items-center justify-content-center" style="background: #111; height: 350px; border-radius: 8px;">
                                 <div class="text-center text-muted">
                                     <p>No featured media available.</p>
@@ -1282,6 +1305,25 @@
                 clickable: true
             }
         });
+
+        // Facebook embedded-post slider (one post at a time). loop:false to avoid
+        // Swiper cloning the fb-post embeds; autoHeight for varying post sizes.
+        if (document.querySelector(".fbPostSlider")) {
+            new Swiper(".fbPostSlider", {
+                slidesPerView: 1,
+                spaceBetween: 12,
+                loop: false,
+                autoHeight: true,
+                navigation: {
+                    nextEl: ".fbp-next",
+                    prevEl: ".fbp-prev"
+                },
+                pagination: {
+                    el: ".fbp-pagination",
+                    clickable: true
+                }
+            });
+        }
 
         // Initialize Safran-style Category Slider
         new Swiper(".newsCategorySlider", {
