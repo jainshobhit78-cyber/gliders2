@@ -824,6 +824,10 @@
                     // Drop the empty duplicate "latest" category (kept resilient by name in case the
                     // DB row still lingers in production); the real "Latest Updates" drives Recent Updates.
                     $newsCategories = \App\Models\NewsCategory::whereRaw('LOWER(TRIM(name)) != ?', ['latest'])->get();
+
+                    // Respect election mode so the homepage never surfaces an article the detail page
+                    // hides (which would 404). Mirrors FNewsController.
+                    $isElectionMode = \App\Models\GeneralSetting::isElectionMode();
                     $catBackgrounds = [
                         1 => '/uploads/media/images/hd_indian_parachute.jpg',   // Breaking
                         3 => '/uploads/media/images/hd_news_events.jpg',       // Blogs
@@ -847,6 +851,7 @@
 
                                 if ($isLatestCard) {
                                     $catArticles = \App\Models\NewsArticle::where('status', 'Published')
+                                        ->when($isElectionMode, fn($q) => $q->where('hide_during_election', false))
                                         ->latest()
                                         ->take(2)
                                         ->get();
@@ -854,6 +859,7 @@
                                 } else {
                                     $catArticles = \App\Models\NewsArticle::where('category_id', $cat->id)
                                         ->where('status', 'Published')
+                                        ->when($isElectionMode, fn($q) => $q->where('hide_during_election', false))
                                         ->latest()
                                         ->take(2)
                                         ->get();
