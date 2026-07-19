@@ -5192,7 +5192,7 @@ table td {
 /* Top Half: Background & Emblem */
 .force-card-top {
     position: relative;
-    height: 280px;
+    height: 275px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -5235,44 +5235,48 @@ table td {
     transform: scale(1.06) translateY(-4px);
 }
 
-/* Separator: Gold Border & Hexagon Badge */
-.force-card-separator {
-    position: relative;
-    height: 10px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 4;
+/* Divider: Inverted-arrow (downward chevron) gold line + Hexagon Badge */
+.force-card-divider {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 251px;               /* sides sit just above the top/bottom seam (275px) */
+    height: 48px;
+    z-index: 5;
+    pointer-events: none;
 }
 
-.separator-line {
-    height: 2.5px;
-    flex-grow: 1;
+/* Gold chevron line pointing down, drawn as a thin band via clip-path */
+.force-chevron {
+    position: absolute;
+    inset: 0;
     background: #d4af37;
+    /* top edge: 0,0 -> 50%,28 -> 100%,0 ; bottom edge back with 3px thickness */
+    clip-path: polygon(0 0, 50% 28px, 100% 0, 100% 3px, 50% 31px, 0 3px);
 }
 
 .force-badge-hex {
     position: absolute;
-    z-index: 5;
-    top: 50%;
-    transform: translateY(-50%);
+    z-index: 6;
+    left: 50%;
+    top: 28px;                /* vertex of the chevron */
+    transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
     justify-content: center;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.7));
 }
 
 /* Bottom Half: Name & Underline Highlight */
 .force-card-bottom {
-    height: 130px;
+    flex: 1 1 auto;
     width: 100%;
     background: #0c0d0f;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 15px;
+    padding: 15px 15px 22px;
     box-sizing: border-box;
     z-index: 2;
 }

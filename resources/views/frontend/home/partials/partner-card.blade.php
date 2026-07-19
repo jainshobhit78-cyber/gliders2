@@ -11,9 +11,9 @@
         </div>
     </div>
 
-    <!-- Gold separator and hex badge -->
-    <div class="force-card-separator">
-        <div class="separator-line"></div>
+    <!-- Inverted-arrow (downward chevron) gold divider with hex badge at the vertex -->
+    <div class="force-card-divider">
+        <div class="force-chevron"></div>
         <div class="force-badge-hex">
             <svg viewBox="0 0 100 115" width="46" height="53">
                 <!-- Outer gold hexagon -->
@@ -37,7 +37,6 @@
                 @endif
             </svg>
         </div>
-        <div class="separator-line"></div>
     </div>
 
     <!-- Bottom section: organization name only (no subheading) -->
