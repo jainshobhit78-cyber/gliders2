@@ -1418,8 +1418,8 @@
 
             if (document.querySelector(".trustedForcesSlider")) {
                 new Swiper(".trustedForcesSlider", {
-                    slidesPerView: 4,
-                    spaceBetween: 30,
+                    slidesPerView: 3,
+                    spaceBetween: 26,
                     loop: true,
                     autoplay: {
                         delay: 2500,
@@ -1432,8 +1432,8 @@
                     breakpoints: {
                         320: { slidesPerView: 1 },
                         576: { slidesPerView: 2 },
-                        768: { slidesPerView: 3 },
-                        992: { slidesPerView: 4 }
+                        768: { slidesPerView: 2 },
+                        992: { slidesPerView: 3 }
                     }
                 });
             }
