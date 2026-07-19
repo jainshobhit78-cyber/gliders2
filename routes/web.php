@@ -1558,6 +1558,8 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         return view('backend.home_page.index');
     })->middleware('permission:home_page.view,admin');
 
+    Route::get('admin/update_units', [keyOfferingsController::class, 'update_units']);
+
     Route::get('admin/home/key_offerings', [keyOfferingsController::class, 'list'])->middleware('permission:home_page.view,admin');
     Route::get('admin/about/key_offerings/add', [keyOfferingsController::class, 'add'])->middleware('permission:home_page.edit,admin');
     Route::post('admin/about/key_offerings/add', [keyOfferingsController::class, 'store'])->middleware('permission:home_page.edit,admin');
@@ -1671,9 +1673,9 @@ Route::post('/media/like-video/{id}', function ($id) {
         session()->put($sessionKey, true);
         return response()->json(['liked' => true, 'count' => $video->fresh()->likes]);
     }
-})->name('media.like.video');
+})->middleware('throttle:30,1')->name('media.like.video');
 
-Route::post('/contact-store', [HomeController::class, 'storeContact'])->name('contact.store');
+Route::post('/contact-store', [HomeController::class, 'storeContact'])->middleware('throttle:5,1')->name('contact.store');
 
 Route::get('/privacy-policy', [PolicyController::class, 'privacy'])
     ->name('privacy.policy');
@@ -1685,4 +1687,4 @@ Route::get('/sitemap', [PolicyController::class, 'sitemap'])
     ->name('sitemap');
     
 Route::get('/chatbot/questions', [ChatbotController::class, 'questions']);
-Route::post('/chatbot/reply', [ChatbotController::class, 'reply']);
+Route::post('/chatbot/reply', [ChatbotController::class, 'reply'])->middleware('throttle:20,1');

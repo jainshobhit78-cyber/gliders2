@@ -791,6 +791,10 @@
 
                             <form action="{{ route('contact.store') }}" method="POST">
                                 @csrf
+                                {{-- Honeypot: hidden from humans; bots that fill it are rejected --}}
+                                <div style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+                                    <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+                                </div>
 
                                 <input type="text" name="name" placeholder="Your Name" value="{{ old('name') }}" required>
                                 <input type="text" name="company_name" placeholder="Company Name" value="{{ old('company_name') }}">

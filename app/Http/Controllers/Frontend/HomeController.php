@@ -254,6 +254,12 @@ class HomeController extends Controller
 
     public function storeContact(Request $request)
     {
+        // Honeypot: real users never see/fill the "website" field. If it's set,
+        // silently pretend success so bots get no useful signal.
+        if ($request->filled('website')) {
+            return back()->with('success', 'Thank you! Your message has been sent.');
+        }
+
         $request->validate([
             'product_id' => 'nullable|integer|exists:products,id',
             'subject' => 'nullable|string|max:255',

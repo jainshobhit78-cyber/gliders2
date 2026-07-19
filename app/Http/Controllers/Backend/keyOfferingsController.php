@@ -690,4 +690,78 @@ class keyOfferingsController extends Controller
 
         return back()->with('success', 'Social post deleted successfully');
     }
+
+    public function update_units()
+    {
+        // Destructive bulk DB rewrite: restrict to super-admin only (matches the
+        // guard used by run-migrations / fix-permissions).
+        $user = auth()->guard('admin')->user();
+        if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
+            abort(403, 'User does not have the right permissions.');
+        }
+
+        $tables = ['products', 'news_articles', 'our_units', 'ticker_news'];
+        $units_replacements = [
+            '/\b(gsm)\b/i' => 'gsm',
+            '/\b(meters?|m)\/(sec|secs|seconds?)\b/i' => 'm/s',
+            '/(\d+)\s*(secs|sec|seconds?)\b/i' => '$1 s',
+            '/\b(kgs?)\b/i' => 'kg',
+            '/(\d+)\s*(kgs?)\b/i' => '$1 kg',
+            '/\b(kmph)\b/i' => 'kmph',
+        ];
+
+        $output = "";
+        foreach ($tables as $table) {
+            if (!\Illuminate\Support\Facades\Schema::hasTable($table)) {
+                $output .= "Table $table does not exist. Skipping.\n";
+                continue;
+            }
+            
+            $columns = \Illuminate\Support\Facades\Schema::getColumnListing($table);
+            $text_columns = [];
+            foreach ($columns as $column) {
+                $type = \Illuminate\Support\Facades\Schema::getColumnType($table, $column);
+                if (in_array($type, ['string', 'text', 'mediumText', 'longText'])) {
+                    $text_columns[] = $column;
+                }
+            }
+            
+            if (empty($text_columns)) {
+                continue;
+            }
+            
+            $records = \Illuminate\Support\Facades\DB::table($table)->get();
+            $updated_count = 0;
+            
+            foreach ($records as $record) {
+                $primary_key = isset($record->id) ? 'id' : (isset($record->uuid) ? 'uuid' : null);
+                if (!$primary_key) continue;
+                
+                $update_data = [];
+                $changed = false;
+                
+                foreach ($text_columns as $column) {
+                    $original_value = $record->$column;
+                    if (empty($original_value)) continue;
+                    
+                    $new_value = $original_value;
+                    foreach ($units_replacements as $pattern => $replacement) {
+                        $new_value = preg_replace($pattern, $replacement, $new_value);
+                    }
+                    
+                    if ($new_value !== $original_value) {
+                        $update_data[$column] = $new_value;
+                        $changed = true;
+                    }
+                }
+                
+                if ($changed) {
+                    \Illuminate\Support\Facades\DB::table($table)->where($primary_key, $record->$primary_key)->update($update_data);
+                    $updated_count++;
+                }
+            }
+            $output .= "Updated $updated_count records in $table.\n";
+        }
+        return response("<pre>" . $output . "Done!</pre>");
+    }
 }

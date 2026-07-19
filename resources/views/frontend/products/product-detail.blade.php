@@ -410,6 +410,10 @@
 
                         <form action="{{ route('contact.store') }}" method="POST">
                             @csrf
+                            {{-- Honeypot: hidden from humans; bots that fill it are rejected --}}
+                            <div style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+                                <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+                            </div>
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="hidden" name="subject" value="Enquiry about Product: {{ $product->title }}">
 

@@ -17,13 +17,19 @@ class FinanceController extends Controller
             return redirect()->route('finance', 'annual-report');
         }
 
-        $reports = FinanceReport::with('files')
-            ->orderBy('display_order', 'asc')
-            ->orderBy('id', 'desc')
-            ->get();
-        $eois = FinanceEoi::orderBy('display_order', 'asc')
-            ->orderBy('id', 'desc')
-            ->get();
+        // Degrade gracefully to an empty state if a table is unavailable, so the
+        // public page never returns a 500.
+        $reports = \Illuminate\Support\Facades\Schema::hasTable('finance_reports')
+            ? FinanceReport::with('files')
+                ->orderBy('display_order', 'asc')
+                ->orderBy('id', 'desc')
+                ->get()
+            : collect();
+        $eois = \Illuminate\Support\Facades\Schema::hasTable('finance_eois')
+            ? FinanceEoi::orderBy('display_order', 'asc')
+                ->orderBy('id', 'desc')
+                ->get()
+            : collect();
 
         return view('frontend.finance.index', compact(
             'tab',
