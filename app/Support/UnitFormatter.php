@@ -43,6 +43,7 @@ class UnitFormatter
             'pounds?|lbs?'          => 'lb',
             'lit(?:er|re)s?'        => 'L',
             'newtons?'              => 'N',
+            'tons?'                 => 't',
             'percent'               => '%',
         ];
     }
@@ -109,13 +110,19 @@ class UnitFormatter
             '/\bkm?ph\b/iu'         => 'kmph',
 
             // square metres: sqm, sq m, Sq. Mtr. -> m²
-            '/\bsq\.?\s*(?:m|mtrs?|met(?:er|re)s?)\.?(?![a-z])/iu' => 'm²',
+            '/\b(?:sq\.?\s*(?:m|mtrs?|met(?:er|re)s?)|sqm|m2|m²)\.?(?![a-z])/iu' => 'm²',
 
             // kilograms: Kg, KG, Kgs -> kg
             '/\bkgs?\b/iu' => 'kg',
 
             // grams per square metre: GSM, Gsm -> gsm
             '/\bgsm\b/iu' => 'gsm',
+
+            // grams: gm, Gm, gms -> g (after a number only, to avoid prose)
+            '/\b(\d+(?:\.\d+)?)\s*g(?:ms?)?\b/iu' => '$1 g',
+
+            // metres: M, Mtr, Mtrs (after a number only) -> m
+            '/\b(\d+(?:\.\d+)?)\s*m(?:trs?)?\b/iu' => '$1 m',
 
             // knots lowercase (kept as a word; "kn" reads poorly in prose)
             '/\bknots\b/iu' => 'knots',
