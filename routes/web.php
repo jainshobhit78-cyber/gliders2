@@ -79,7 +79,77 @@ Route::post('admin/logout', [AdminAuthController::class, 'logout'])->name('admin
 
 Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(function () {
 
-    Route::get('admin/run-migrations', function () {
+    // System Tools: super-admin-only page that hosts the maintenance actions as
+    // CSRF-protected POST buttons (the actions themselves are POST routes below).
+    Route::get('admin/system-tools', function () {
+        $user = auth()->guard('admin')->user();
+        if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
+            abort(403, 'User does not have the right permissions.');
+        }
+        return view('backend.system_tools');
+    })->name('admin.tools');
+
+    // Safe migration reconciliation: runs each pending migration; if it fails only
+    // because the schema is already present, records it as ran instead of erroring.
+    // Never drops or overwrites data.
+    Route::post('admin/reconcile-migrations', function () {
+        $user = auth()->guard('admin')->user();
+        if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
+            abort(403, 'User does not have the right permissions.');
+        }
+
+        $migrator = app('migrator');
+        $repository = $migrator->getRepository();
+        if (!$repository->repositoryExists()) {
+            $repository->createRepository();
+        }
+
+        $ran = $repository->getRan();
+        $batch = $repository->getNextBatchNumber();
+        $files = $migrator->getMigrationFiles(database_path('migrations'));
+
+        $applied = [];
+        $baselined = [];
+        $failed = [];
+
+        foreach ($files as $name => $path) {
+            if (in_array($name, $ran, true)) {
+                continue;
+            }
+            try {
+                \Illuminate\Support\Facades\Artisan::call('migrate', [
+                    '--path' => 'database/migrations/' . basename($path),
+                    '--force' => true,
+                ]);
+                // If migrate didn't record it (already-applied schema), baseline it.
+                if (!in_array($name, $repository->getRan(), true)) {
+                    $repository->log($name, $batch);
+                    $baselined[] = $name;
+                } else {
+                    $applied[] = $name;
+                }
+            } catch (\Throwable $e) {
+                $msg = $e->getMessage();
+                if (preg_match('/already exists|Duplicate column|Duplicate key|1050|1060|1061|42S01|42S21/i', $msg)) {
+                    // Schema is already present — record as ran so migrate stops erroring.
+                    $repository->log($name, $batch);
+                    $baselined[] = $name;
+                } else {
+                    $failed[] = $name . ' — ' . $msg;
+                }
+            }
+        }
+
+        $out = "<h3>Migration reconciliation complete</h3>";
+        $out .= "<p><strong>Newly applied (" . count($applied) . "):</strong><br>" . (implode('<br>', $applied) ?: '—') . "</p>";
+        $out .= "<p><strong>Baselined / already present (" . count($baselined) . "):</strong><br>" . (implode('<br>', $baselined) ?: '—') . "</p>";
+        $out .= "<p style='color:#b00'><strong>Failed (" . count($failed) . "):</strong><br>" . (implode('<br>', array_map('e', $failed)) ?: '—') . "</p>";
+        $out .= "<p><a href='" . url('admin/system-tools') . "'>&larr; Back to System Tools</a></p>";
+
+        return response($out);
+    })->name('admin.tools.reconcile');
+
+    Route::post('admin/run-migrations', function () {
         $user = auth()->guard('admin')->user();
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
             abort(403, 'User does not have the right permissions.');
@@ -361,7 +431,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         return $output;
     });
 
-    Route::get('admin/fix-permissions', function () {
+    Route::post('admin/fix-permissions', function () {
         $user = auth()->guard('admin')->user();
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
             abort(403, 'User does not have the right permissions.');
@@ -370,7 +440,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         return "Permissions successfully populated inside the database!";
     });
 
-    Route::get('admin/seed-brake-parachutes', function () {
+    Route::post('admin/seed-brake-parachutes', function () {
         $user = auth()->guard('admin')->user();
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
             abort(403, 'User does not have the right permissions.');
@@ -613,7 +683,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             ->header('Content-Type', 'text/plain');
     });
 
-    Route::get('admin/seed-all-products', function () {
+    Route::post('admin/seed-all-products', function () {
         $user = auth()->guard('admin')->user();
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
             abort(403, 'User does not have the right permissions.');
@@ -1213,7 +1283,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
             ->header('Content-Type', 'text/plain');
     });
 
-    Route::get('admin/clear-cache', function () {
+    Route::post('admin/clear-cache', function () {
         $user = auth()->guard('admin')->user();
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
             abort(403, 'User does not have the right permissions.');
@@ -1558,7 +1628,7 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         return view('backend.home_page.index');
     })->middleware('permission:home_page.view,admin');
 
-    Route::get('admin/update_units', [keyOfferingsController::class, 'update_units']);
+    Route::post('admin/update_units', [keyOfferingsController::class, 'update_units'])->name('admin.tools.update_units');
 
     Route::get('admin/home/key_offerings', [keyOfferingsController::class, 'list'])->middleware('permission:home_page.view,admin');
     Route::get('admin/about/key_offerings/add', [keyOfferingsController::class, 'add'])->middleware('permission:home_page.edit,admin');

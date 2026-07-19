@@ -2,6 +2,17 @@
 
 @section('content')
     @php
+        // Warn only on a real deployed host (never on localhost) if APP_ENV isn't production.
+        $isLocalHost = in_array(request()->getHost(), ['127.0.0.1', 'localhost', '::1'], true);
+    @endphp
+    @if(!$isLocalHost && app()->environment() !== 'production')
+        <div class="alert alert-warning" style="margin:0 0 16px; border-left:4px solid #e0a800;">
+            <strong>Configuration notice:</strong> this live site is running with
+            <code>APP_ENV={{ app()->environment() }}</code>. Set <code>APP_ENV=production</code>
+            in your hosting panel's <code>.env</code> for correct production behaviour.
+        </div>
+    @endif
+    @php
         // Fetch real count values from the database
         $productCategoriesCount = \App\Models\ProductCategory::count();
         $productSystemsCount = \App\Models\Product::count();
