@@ -4340,7 +4340,7 @@ table td {
 /* Facebook embedded-post slider (one post at a time + navigation) */
 .social-embed--fb {
     display: block;
-    padding: 14px 14px 40px;
+    padding: 14px 14px 56px;
 }
 
 .fbPostSlider {
@@ -4364,28 +4364,34 @@ table td {
 
 .fbp-prev,
 .fbp-next {
-    width: 34px;
-    height: 34px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    background: rgba(24, 119, 242, 0.92);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+    background: #1877F2;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
     top: auto;
-    bottom: 0;
+    bottom: 2px;
     margin-top: 0;
+    z-index: 6;
 }
 
-.fbp-prev { left: 50%; transform: translateX(-58px); }
-.fbp-next { right: 50%; transform: translateX(58px); }
+.fbp-prev { left: 8px; right: auto; }
+.fbp-next { right: 8px; left: auto; }
 
 .fbp-prev::after,
 .fbp-next::after {
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 800;
     color: #fff;
 }
 
+.fbp-prev:hover,
+.fbp-next:hover {
+    background: #0f5fd0;
+}
+
 .fbp-pagination {
-    bottom: 8px !important;
+    bottom: 16px !important;
 }
 
 .fbp-pagination .swiper-pagination-bullet {

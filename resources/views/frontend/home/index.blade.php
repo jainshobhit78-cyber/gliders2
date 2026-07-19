@@ -1309,11 +1309,15 @@
         // Facebook embedded-post slider (one post at a time). loop:false to avoid
         // Swiper cloning the fb-post embeds; autoHeight for varying post sizes.
         if (document.querySelector(".fbPostSlider")) {
-            new Swiper(".fbPostSlider", {
+            const fbSwiper = new Swiper(".fbPostSlider", {
                 slidesPerView: 1,
                 spaceBetween: 12,
                 loop: false,
                 autoHeight: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false
+                },
                 navigation: {
                     nextEl: ".fbp-next",
                     prevEl: ".fbp-prev"
@@ -1323,6 +1327,13 @@
                     clickable: true
                 }
             });
+
+            // Facebook embeds load asynchronously; recalc slider height once they render.
+            if (window.FB && window.FB.Event) {
+                window.FB.Event.subscribe('xfbml.render', function () {
+                    setTimeout(function () { fbSwiper.update(); }, 300);
+                });
+            }
         }
 
         // Initialize Safran-style Category Slider
