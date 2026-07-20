@@ -10321,6 +10321,83 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     }
 }
 
+/* Phone header: use the white brand panel and keep accessibility easy to reach. */
+@media (max-width: 768px) {
+    .logo-header {
+        padding: 10px 0 !important;
+    }
+
+    .logo-header > .container > .d-flex {
+        min-height: 118px;
+        gap: 10px !important;
+        padding: 0 12px !important;
+    }
+
+    .logo-header > .container > .d-flex > .gov-text-box:first-child {
+        flex: 1 1 auto !important;
+        min-width: 0;
+    }
+
+    .logo-header .navbar-brand {
+        display: flex;
+        align-items: center;
+        margin: 0 !important;
+    }
+
+    .logo-header img.header-logo {
+        width: min(100%, 190px) !important;
+        height: auto !important;
+        max-width: 190px !important;
+        max-height: none !important;
+        object-fit: contain !important;
+    }
+
+    .logo-header > .container > .d-flex > .d-flex:last-child {
+        flex: 0 0 auto !important;
+        min-width: 0;
+    }
+
+    .logo-header > .container > .d-flex > .d-flex:last-child .gov-text-box {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px;
+    }
+
+    .logo-header .navbar-brand.me-3 {
+        margin-right: 8px !important;
+    }
+
+    .logo-header img.partner-logo {
+        width: 54px !important;
+        height: 54px !important;
+        max-width: 54px !important;
+        object-fit: contain !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .gov-topbar {
+        position: relative;
+    }
+
+    .gov-left-section {
+        padding-right: 50px !important;
+    }
+
+    .gov-right-section .header-accessibility {
+        position: absolute;
+        top: 9px;
+        right: 10px;
+        z-index: 3;
+    }
+
+    .gov-right-section .accessibility-header-btn,
+    .gov-right-section .accessibility-header-btn img {
+        width: 42px !important;
+        height: 42px !important;
+    }
+}
+
 .activities-main-heading {
     font-size: 42px !important;
     font-weight: 800;
