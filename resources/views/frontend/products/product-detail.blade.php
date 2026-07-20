@@ -10,24 +10,6 @@
         <div class="container">
             <div class="detail-hero-content">
                 <h1>{{ $product->title }}</h1>
-                <div class="product-document-actions" aria-label="Product document actions">
-                    <button type="button" class="product-document-btn product-print-btn" id="printProductDocument">
-                        <i class="fa fa-print" aria-hidden="true"></i>
-                        <span>Print Specifications</span>
-                    </button>
-                    @if($product->specification_pdf)
-                        <a class="product-document-btn product-download-btn"
-                           href="{{ route('products.pdf', ['categoryId' => $category->id, 'productId' => $product->id]) }}">
-                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                            <span>Download PDF</span>
-                        </a>
-                    @else
-                        <button type="button" class="product-document-btn product-download-btn" id="downloadProductPdf">
-                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                            <span>Download PDF</span>
-                        </button>
-                    @endif
-                </div>
             </div>
         </div>
     </section>
@@ -301,6 +283,24 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="capabilities-content-box">
+                        <div class="product-document-actions" aria-label="Product document actions">
+                            <button type="button" class="product-document-btn product-print-btn" id="printProductDocument">
+                                <i class="fa fa-print" aria-hidden="true"></i>
+                                <span>Print Specifications</span>
+                            </button>
+                            @if($product->specification_pdf)
+                                <a class="product-document-btn product-download-btn"
+                                   href="{{ route('products.pdf', ['categoryId' => $category->id, 'productId' => $product->id]) }}">
+                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    <span>Download PDF</span>
+                                </a>
+                            @else
+                                <button type="button" class="product-document-btn product-download-btn" id="downloadProductPdf">
+                                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    <span>Download PDF</span>
+                                </button>
+                            @endif
+                        </div>
                         <h2 class="capabilities-section-title">
                             {{ $specs['title'] }} <span>{{ $specs['title_span'] ?? '' }}</span>
                         </h2>
@@ -537,16 +537,49 @@
                     downloadButton.disabled = true;
                     if (label) label.textContent = 'Preparing PDF…';
 
+                    // The sheet normally sits far off-screen (position:fixed; left:-10000px),
+                    // which makes html2canvas capture a blank page. Lay it out at the top of
+                    // the document (behind the page, z-index:-1) only while we capture it.
+                    const originalStyle = sheet.getAttribute('style') || '';
+                    sheet.style.position = 'absolute';
+                    sheet.style.left = '0';
+                    sheet.style.top = '0';
+                    sheet.style.zIndex = '-1';
+                    sheet.style.visibility = 'visible';
+                    sheet.style.opacity = '1';
+
                     try {
+                        // Wait for the product image inside the sheet to finish loading,
+                        // otherwise it renders as a blank box in the PDF.
+                        const img = sheet.querySelector('img');
+                        if (img && !img.complete) {
+                            await new Promise(function (resolve) {
+                                img.addEventListener('load', resolve, { once: true });
+                                img.addEventListener('error', resolve, { once: true });
+                            });
+                        }
+
                         await html2pdf().set({
                             margin: [0.35, 0.35, 0.45, 0.35],
                             filename: @json(\Illuminate\Support\Str::slug($product->title) . '-specifications.pdf'),
                             image: { type: 'jpeg', quality: 0.96 },
-                            html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+                            html2canvas: {
+                                scale: 2,
+                                useCORS: true,
+                                allowTaint: true,
+                                backgroundColor: '#ffffff',
+                                scrollX: 0,
+                                scrollY: -window.scrollY,
+                                windowWidth: document.documentElement.offsetWidth
+                            },
                             jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
                             pagebreak: { mode: ['css', 'legacy'] }
                         }).from(sheet).save();
+                    } catch (e) {
+                        console.error('PDF generation failed, falling back to print', e);
+                        window.print();
                     } finally {
+                        sheet.setAttribute('style', originalStyle);
                         downloadButton.disabled = false;
                         if (label) label.textContent = 'Download PDF';
                     }

@@ -1391,8 +1391,13 @@
                     article.setAttribute('aria-current', 'true');
 
                     const wallpaper = article.getAttribute('data-wallpaper');
-                    if (wallpaper) {
-                        background.style.backgroundImage = `url("${wallpaper}")`;
+                    if (wallpaper && background) {
+                        // Brief fade-out, swap the image, then fade back in.
+                        background.classList.add('is-swapping');
+                        window.setTimeout(function () {
+                            background.style.backgroundImage = `url("${wallpaper}")`;
+                            background.classList.remove('is-swapping');
+                        }, 180);
                     }
                 });
             });
