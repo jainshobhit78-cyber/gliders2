@@ -249,7 +249,7 @@
                             <img src="{{ asset('frontend/images/logo/OPF.jpg') }}" class="logo partner-logo">
                         </a>
                         <a class="navbar-brand" href="{{ route('home') }}">
-                            <img src="{{ asset('frontend/images/logo/right-1.png') }}" class="logo partner-logo">
+                            <img src="{{ asset('frontend/images/logo/right-1.png') }}" class="logo partner-logo pia-logo">
                         </a>
                     </div>
                 </div>

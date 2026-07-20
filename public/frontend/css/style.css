@@ -99,8 +99,21 @@
 .product-document-footer { margin-top: 24px; padding-top: 10px; border-top: 1px solid #cbd5e1; color: #64748b; font-size: 10px; }
 
 @media (max-width: 576px) {
-    .product-document-actions { gap: 8px; }
-    .product-document-btn { flex: 1 1 100%; font-size: 12px; }
+    .capabilities-content-box .product-document-actions {
+        gap: 8px;
+        margin-bottom: 16px;
+        flex-wrap: nowrap;
+    }
+    .product-document-btn {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 9px 8px;
+        min-height: 42px;
+        font-size: 11.5px;
+        gap: 6px;
+        line-height: 1.15;
+        text-align: center;
+    }
 }
 
 @media print {
@@ -10328,7 +10341,7 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     }
 
     .logo-header > .container > .d-flex {
-        min-height: 84px;
+        min-height: 96px;
         gap: 8px !important;
         padding: 0 10px !important;
     }
@@ -10351,10 +10364,10 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     }
 
     .logo-header img.logo.header-logo {
-        height: 80px !important;
+        height: 92px !important;
         width: auto !important;
         max-width: 100% !important;
-        max-height: 80px !important;
+        max-height: 92px !important;
         object-fit: contain !important;
     }
 
@@ -10378,6 +10391,13 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
         height: 48px !important;
         max-width: 48px !important;
         object-fit: contain !important;
+    }
+
+    /* PIA mark a little larger than the other partner mark */
+    .logo-header img.logo.partner-logo.pia-logo {
+        width: 62px !important;
+        height: 62px !important;
+        max-width: 62px !important;
     }
 }
 

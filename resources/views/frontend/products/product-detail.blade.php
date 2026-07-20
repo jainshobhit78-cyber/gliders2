@@ -265,17 +265,6 @@
             <div class="capabilities-img-wrapper">
                 <img src="{{ $specs['image'] }}" alt="{{ $product->title }}">
                 <div class="capabilities-gradient-overlay"></div>
-                
-                <!-- Bottom-Right Reliability Card Overlay -->
-                <div class="reliability-badge">
-                    <div class="badge-icon-wrap">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 11l2 2 4-4"/></svg>
-                    </div>
-                    <div class="badge-text">
-                        <h4>Engineered for Reliability</h4>
-                        <p>Every component is rigorously tested for mission-critical performance.</p>
-                    </div>
-                </div>
             </div>
         </div>
         
