@@ -79,15 +79,35 @@ Route::post('admin/logout', [AdminAuthController::class, 'logout'])->name('admin
 
 Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(function () {
 
-    // System Tools: super-admin-only page that hosts the maintenance actions as
-    // CSRF-protected POST buttons (the actions themselves are POST routes below).
+    // System Tools: super-admin-only, and additionally locked behind a hardcoded
+    // access password. Shows the password form until unlocked for the session.
     Route::get('admin/system-tools', function () {
-        $user = auth()->guard('admin')->user();
-        if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
+        if (!\App\Http\Middleware\SystemToolsGuard::isSuperAdmin()) {
             abort(403, 'User does not have the right permissions.');
+        }
+        if (!session(\App\Http\Middleware\SystemToolsGuard::SESSION_KEY)) {
+            return view('backend.system_tools_lock');
         }
         return view('backend.system_tools');
     })->name('admin.tools');
+
+    // Verify the hardcoded System Tools access password and unlock for this session.
+    Route::post('admin/system-tools/unlock', function (\Illuminate\Http\Request $request) {
+        if (!\App\Http\Middleware\SystemToolsGuard::isSuperAdmin()) {
+            abort(403, 'User does not have the right permissions.');
+        }
+        if (\App\Http\Middleware\SystemToolsGuard::passwordMatches($request->input('password'))) {
+            session([\App\Http\Middleware\SystemToolsGuard::SESSION_KEY => true]);
+            return redirect('admin/system-tools');
+        }
+        return back()->withErrors(['password' => 'Incorrect access password.']);
+    })->name('admin.tools.unlock');
+
+    // Lock System Tools again (clears the session unlock).
+    Route::post('admin/system-tools/lock', function () {
+        session()->forget(\App\Http\Middleware\SystemToolsGuard::SESSION_KEY);
+        return redirect('admin/system-tools');
+    })->name('admin.tools.lock');
 
     // Safe migration reconciliation: runs each pending migration; if it fails only
     // because the schema is already present, records it as ran instead of erroring.
@@ -96,6 +116,9 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         $user = auth()->guard('admin')->user();
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
             abort(403, 'User does not have the right permissions.');
+        }
+        if (!session(\App\Http\Middleware\SystemToolsGuard::SESSION_KEY)) {
+            abort(403, 'System Tools is locked. Enter the access password first.');
         }
 
         $migrator = app('migrator');
@@ -155,6 +178,9 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
             abort(403, 'User does not have the right permissions.');
         }
+        if (!session(\App\Http\Middleware\SystemToolsGuard::SESSION_KEY)) {
+            abort(403, 'System Tools is locked. Enter the access password first.');
+        }
 
         \Illuminate\Support\Facades\Artisan::call('db:seed', [
             '--class' => 'Database\\Seeders\\DirectorFinanceProfileSeeder',
@@ -172,6 +198,9 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         $user = auth()->guard('admin')->user();
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
             abort(403, 'User does not have the right permissions.');
+        }
+        if (!session(\App\Http\Middleware\SystemToolsGuard::SESSION_KEY)) {
+            abort(403, 'System Tools is locked. Enter the access password first.');
         }
         
         $output = "";
@@ -455,6 +484,9 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
             abort(403, 'User does not have the right permissions.');
         }
+        if (!session(\App\Http\Middleware\SystemToolsGuard::SESSION_KEY)) {
+            abort(403, 'System Tools is locked. Enter the access password first.');
+        }
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\AdminRolePermissionSeeder']);
         return "Permissions successfully populated inside the database!";
     });
@@ -463,6 +495,9 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         $user = auth()->guard('admin')->user();
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
             abort(403, 'User does not have the right permissions.');
+        }
+        if (!session(\App\Http\Middleware\SystemToolsGuard::SESSION_KEY)) {
+            abort(403, 'System Tools is locked. Enter the access password first.');
         }
 
         $output = "--- RUNNING BRAKE PARACHUTE PRODUCT SEEDER ---\n";
@@ -706,6 +741,9 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         $user = auth()->guard('admin')->user();
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
             abort(403, 'User does not have the right permissions.');
+        }
+        if (!session(\App\Http\Middleware\SystemToolsGuard::SESSION_KEY)) {
+            abort(403, 'System Tools is locked. Enter the access password first.');
         }
 
         $output = "--- RUNNING COMPREHENSIVE PRODUCT SEEDER ---\n";
@@ -1306,6 +1344,9 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         $user = auth()->guard('admin')->user();
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
             abort(403, 'User does not have the right permissions.');
+        }
+        if (!session(\App\Http\Middleware\SystemToolsGuard::SESSION_KEY)) {
+            abort(403, 'System Tools is locked. Enter the access password first.');
         }
         \Illuminate\Support\Facades\Artisan::call('view:clear');
         \Illuminate\Support\Facades\Artisan::call('route:clear');

@@ -28,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'adminAuth' => AdminAuth::class,
             'ipWhitelist' => \App\Http\Middleware\IpWhitelistMiddleware::class,
             'validateCmsUploads' => ValidateCmsUploads::class,
+            'systemTools' => \App\Http\Middleware\SystemToolsGuard::class,
 
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,

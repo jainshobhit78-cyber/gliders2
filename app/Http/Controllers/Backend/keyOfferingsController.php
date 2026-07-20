@@ -693,11 +693,13 @@ class keyOfferingsController extends Controller
 
     public function update_units()
     {
-        // Destructive bulk DB rewrite: restrict to super-admin only (matches the
-        // guard used by run-migrations / fix-permissions).
-        $user = auth()->guard('admin')->user();
-        if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
+        // Destructive bulk DB rewrite: super-admin only AND behind the System Tools
+        // access password (matches run-migrations / fix-permissions).
+        if (!\App\Http\Middleware\SystemToolsGuard::isSuperAdmin()) {
             abort(403, 'User does not have the right permissions.');
+        }
+        if (!session(\App\Http\Middleware\SystemToolsGuard::SESSION_KEY)) {
+            abort(403, 'System Tools is locked. Enter the access password first.');
         }
 
         $tables = ['products', 'news_articles', 'our_units', 'ticker_news'];

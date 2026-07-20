@@ -2,9 +2,17 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="title-header mb-4">
-            <h5 class="page-title">System Tools</h5>
-            <p class="text-muted mb-0">Maintenance actions. Each runs as a CSRF-protected POST and is restricted to super-admins.</p>
+        <div class="title-header mb-4 d-flex justify-content-between align-items-start">
+            <div>
+                <h5 class="page-title">System Tools</h5>
+                <p class="text-muted mb-0">Maintenance actions. Each runs as a CSRF-protected POST and is restricted to super-admins.</p>
+            </div>
+            <form action="{{ url('admin/system-tools/lock') }}" method="POST" class="m-0">
+                @csrf
+                <button type="submit" class="btn btn-outline-secondary btn-sm">
+                    <i class="fa fa-lock" aria-hidden="true"></i> Lock
+                </button>
+            </form>
         </div>
 
         @include('_message')
