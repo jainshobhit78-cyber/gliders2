@@ -14,6 +14,7 @@
             @php
                 $tools = [
                     ['url' => url('admin/reconcile-migrations'), 'title' => 'Reconcile Migrations', 'desc' => 'Safely syncs the migration history: runs any pending migrations, and records already-applied ones so future migrations work. Never drops data.', 'btn' => 'Reconcile', 'class' => 'btn-primary', 'confirm' => 'Run migration reconciliation now?'],
+                    ['url' => url('admin/sync-df-profile'), 'title' => 'Sync Director (Finance) Profile', 'desc' => 'Applies the official Director (Finance) profile &amp; milestones brief (figures, dates and awards). Safe to re-run.', 'btn' => 'Sync', 'class' => 'btn-primary', 'confirm' => 'Apply the Director (Finance) profile and milestones?'],
                     ['url' => url('admin/run-migrations'), 'title' => 'Run Migrations', 'desc' => 'Runs the predefined set of migrations (social fields, launch experience, etc.).', 'btn' => 'Run', 'class' => 'btn-primary', 'confirm' => 'Run migrations now?'],
                     ['url' => url('admin/clear-cache'), 'title' => 'Clear Cache', 'desc' => 'Clears config, route, view, application cache and OPcache.', 'btn' => 'Clear', 'class' => 'btn-secondary', 'confirm' => 'Clear all caches?'],
                     ['url' => url('admin/fix-permissions'), 'title' => 'Fix Permissions', 'desc' => 'Re-seeds the roles &amp; permissions table.', 'btn' => 'Fix', 'class' => 'btn-warning', 'confirm' => 'Re-seed roles and permissions?'],

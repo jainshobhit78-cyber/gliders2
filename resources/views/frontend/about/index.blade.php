@@ -113,11 +113,15 @@
                                                                                         {{ $milestone->heading }}
                                                                                     </h6>
 
-                                                                                    <p class="date">
-                                                                                        {{ $milestone->start_date }}
-                                                                                        →
-                                                                                        {{ $milestone->end_date }}
-                                                                                    </p>
+                                                                                    @php
+                                                                                        $msStart = $milestone->start_date ? \Carbon\Carbon::parse($milestone->start_date)->format('Y') : null;
+                                                                                        $msEnd = $milestone->end_date ? \Carbon\Carbon::parse($milestone->end_date)->format('Y') : null;
+                                                                                    @endphp
+                                                                                    @if($msStart || $msEnd)
+                                                                                        <p class="date">
+                                                                                            {{ $msStart ?: $msEnd }}@if($msStart) → {{ $msEnd ?: 'Present' }}@endif
+                                                                                        </p>
+                                                                                    @endif
 
                                                                                     <div class="text-muted">
                                                                                         {!! \App\Support\Security::cleanHtml($milestone->description) !!}

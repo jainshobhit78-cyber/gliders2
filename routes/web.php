@@ -149,6 +149,25 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         return response($out);
     })->name('admin.tools.reconcile');
 
+    // Applies the official Director (Finance) profile + milestones brief. Idempotent.
+    Route::post('admin/sync-df-profile', function () {
+        $user = auth()->guard('admin')->user();
+        if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
+            abort(403, 'User does not have the right permissions.');
+        }
+
+        \Illuminate\Support\Facades\Artisan::call('db:seed', [
+            '--class' => 'Database\\Seeders\\DirectorFinanceProfileSeeder',
+            '--force' => true,
+        ]);
+
+        return response('<pre>Director (Finance) profile and milestones synced.
+
+'
+            . e(\Illuminate\Support\Facades\Artisan::output())
+            . '</pre><p><a href="' . url('admin/system-tools') . '">&larr; Back to System Tools</a></p>');
+    })->name('admin.tools.df_profile');
+
     Route::post('admin/run-migrations', function () {
         $user = auth()->guard('admin')->user();
         if (!$user || ($user->email !== 'admin@gliders.com' && !$user->hasRole('admin'))) {
