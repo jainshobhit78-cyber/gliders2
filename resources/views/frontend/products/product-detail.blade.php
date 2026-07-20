@@ -511,7 +511,7 @@
 
 @section('scripts')
     @if(!$product->specification_pdf)
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script src="{{ asset('frontend/js/vendor/html2pdf.bundle.min.js') }}"></script>
     @endif
 
     <script>
