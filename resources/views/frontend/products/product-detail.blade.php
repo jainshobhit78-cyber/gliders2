@@ -537,14 +537,22 @@
                     downloadButton.disabled = true;
                     if (label) label.textContent = 'Preparing PDF…';
 
-                    // The sheet normally sits far off-screen (position:fixed; left:-10000px),
-                    // which makes html2canvas capture a blank page. Lay it out at the top of
-                    // the document (behind the page, z-index:-1) only while we capture it.
+                    // The sheet is normally position:fixed at left:-10000px. Any out-of-flow
+                    // element (fixed OR absolute) makes html2canvas produce a zero-height,
+                    // blank canvas. So for the capture we move the sheet into an off-screen
+                    // wrapper and set it back to static, giving it real layout height while
+                    // staying invisible to the user.
                     const originalStyle = sheet.getAttribute('style') || '';
-                    sheet.style.position = 'absolute';
-                    sheet.style.left = '0';
-                    sheet.style.top = '0';
-                    sheet.style.zIndex = '-1';
+                    const sheetParent = sheet.parentNode;
+                    const sheetAnchor = sheet.nextSibling;
+                    const captureWrap = document.createElement('div');
+                    captureWrap.style.cssText = 'position:absolute; left:-10000px; top:0; width:794px; background:#ffffff;';
+                    document.body.appendChild(captureWrap);
+                    captureWrap.appendChild(sheet);
+                    sheet.style.position = 'static';
+                    sheet.style.left = 'auto';
+                    sheet.style.top = 'auto';
+                    sheet.style.zIndex = 'auto';
                     sheet.style.visibility = 'visible';
                     sheet.style.opacity = '1';
 
@@ -567,10 +575,7 @@
                                 scale: 2,
                                 useCORS: true,
                                 allowTaint: true,
-                                backgroundColor: '#ffffff',
-                                scrollX: 0,
-                                scrollY: -window.scrollY,
-                                windowWidth: document.documentElement.offsetWidth
+                                backgroundColor: '#ffffff'
                             },
                             jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
                             pagebreak: { mode: ['css', 'legacy'] }
@@ -579,7 +584,10 @@
                         console.error('PDF generation failed, falling back to print', e);
                         window.print();
                     } finally {
+                        // Restore the sheet to its original place and styling.
                         sheet.setAttribute('style', originalStyle);
+                        sheetParent.insertBefore(sheet, sheetAnchor);
+                        captureWrap.remove();
                         downloadButton.disabled = false;
                         if (label) label.textContent = 'Download PDF';
                     }
