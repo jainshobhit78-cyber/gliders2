@@ -10341,9 +10341,9 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     }
 
     .logo-header > .container > .d-flex {
-        min-height: 96px;
-        gap: 8px !important;
-        padding: 0 10px !important;
+        min-height: 118px;
+        gap: 6px !important;
+        padding: 0 8px !important;
     }
 
     .logo-header > .container > .d-flex > .gov-text-box:first-child {
@@ -10364,10 +10364,10 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     }
 
     .logo-header img.logo.header-logo {
-        height: 92px !important;
+        height: 112px !important;
         width: auto !important;
         max-width: 100% !important;
-        max-height: 92px !important;
+        max-height: 112px !important;
         object-fit: contain !important;
     }
 
