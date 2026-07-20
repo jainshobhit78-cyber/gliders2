@@ -10256,6 +10256,14 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
 
     .skip-btn {
         margin-right: 0 !important;
+        font-size: 0 !important;
+        white-space: nowrap;
+    }
+
+    .skip-btn::after {
+        content: 'Skip';
+        font-size: 10px;
+        line-height: 26px;
     }
 
     .font-controls button {
