@@ -225,10 +225,11 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <!-- LEFT GOVT TEXT -->
-                <div class="gov-text-box text-white text-start d-flex align-items-center" style="margin-left: -10px;">
+                <div class="gov-text-box text-white text-start d-flex flex-column align-items-center justify-content-center brand-caption-box" style="margin-left: -10px;">
                     <a class="navbar-brand" href="{{ route('home') }}">
                         <img src="{{ asset('frontend/images/logo/gliders.png') }}" class="header-logo logo">
                     </a>
+                    <span class="brand-caption d-lg-none">A Government of India Enterprise</span>
                 </div>
 
                 <span class="text-white d-none d-lg-inline"></span>

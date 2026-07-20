@@ -10364,11 +10364,30 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     }
 
     .logo-header img.logo.header-logo {
-        height: 112px !important;
+        height: 104px !important;
         width: auto !important;
         max-width: 100% !important;
-        max-height: 112px !important;
+        max-height: 104px !important;
         object-fit: contain !important;
+    }
+
+    /* Caption directly under the Gliders logo (mobile) */
+    .logo-header .brand-caption-box {
+        flex-direction: column !important;
+    }
+
+    .logo-header .brand-caption {
+        height: auto !important;
+        background: transparent !important;
+        color: #0b2a5b;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        line-height: 1.15;
+        margin-top: 4px;
+        text-align: center;
+        white-space: nowrap;
     }
 
     .logo-header > .container > .d-flex > .d-flex:last-child {
