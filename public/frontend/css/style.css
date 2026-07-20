@@ -10338,6 +10338,10 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
         min-width: 0;
     }
 
+    .logo-header > .container > .d-flex > .gov-text-box.d-none {
+        display: none !important;
+    }
+
     .logo-header > .container > .d-flex > .gov-text-box:first-child .navbar-brand {
         display: flex;
         align-items: center;
