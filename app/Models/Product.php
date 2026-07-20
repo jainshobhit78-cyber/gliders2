@@ -19,7 +19,8 @@ class Product extends Model
         'specs_image',
         'technical_specs',
         'caps_image',
-        'main_capabilities'
+        'main_capabilities',
+        'specification_pdf'
     ];
 
     protected $casts = [

@@ -1711,6 +1711,8 @@ Route::prefix('products')->group(function () {
     Route::get('/category/{id}', [ProductFController::class, 'category'])->name('products.category');
     Route::get('/category/{categoryId}/product/{productId}', [ProductFController::class, 'productDetail'])
         ->name('products.detail');
+    Route::get('/category/{categoryId}/product/{productId}/pdf', [ProductFController::class, 'downloadPdf'])
+        ->name('products.pdf');
 });
 
 // Route::get('/news/{category?}', [\App\Http\Controllers\Frontend\FNewsController::class, 'index'])

@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\GeneralSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProductFController extends Controller
 {
@@ -96,6 +97,31 @@ class ProductFController extends Controller
         return view(
             'frontend.products.product-detail',
             compact('category', 'product', 'categories')
+        );
+    }
+
+    /**
+     * Download an administrator-supplied product specification PDF.
+     * Products without an uploaded PDF use the browser-generated PDF action
+     * on the detail page instead.
+     */
+    public function downloadPdf($categoryId, $productId)
+    {
+        $product = Product::where('category_id', $categoryId)->findOrFail($productId);
+
+        abort_unless($product->specification_pdf, 404);
+
+        $filename = basename($product->specification_pdf);
+        $path = public_path('uploads/products/' . $filename);
+        $uploadsRoot = realpath(public_path('uploads/products'));
+        $realPath = realpath($path);
+
+        abort_unless($uploadsRoot && $realPath && str_starts_with($realPath, $uploadsRoot . DIRECTORY_SEPARATOR) && is_file($realPath), 404);
+
+        return response()->download(
+            $realPath,
+            Str::slug($product->title) . '-specifications.pdf',
+            ['Content-Type' => 'application/pdf']
         );
     }
 }

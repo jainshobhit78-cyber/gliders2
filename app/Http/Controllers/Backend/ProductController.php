@@ -35,6 +35,7 @@ class ProductController extends Controller
             'wallpaper' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
             'specs_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
             'caps_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
+            'specification_pdf' => 'nullable|file|mimes:pdf|max:20480',
             'filepond' => 'nullable|array',
             'filepond.*' => 'image|mimes:jpg,jpeg,png,webp,svg',
             'delivery_tag' => 'nullable|string|max:100',
@@ -67,6 +68,13 @@ class ProductController extends Controller
             $capsImage = $request->file('caps_image');
             $capsImageName = $capsImage->hashName();
             $capsImage->move(public_path('uploads/products'), $capsImageName);
+        }
+
+        $specificationPdfName = null;
+        if ($request->hasFile('specification_pdf')) {
+            $specificationPdf = $request->file('specification_pdf');
+            $specificationPdfName = $specificationPdf->hashName();
+            $specificationPdf->move(public_path('uploads/products'), $specificationPdfName);
         }
 
         $technicalSpecs = [];
@@ -107,7 +115,8 @@ class ProductController extends Controller
             'specs_image' => $specsImageName,
             'technical_specs' => $technicalSpecs,
             'caps_image' => $capsImageName,
-            'main_capabilities' => $mainCapabilities
+            'main_capabilities' => $mainCapabilities,
+            'specification_pdf' => $specificationPdfName
         ]);
 
         if ($request->hasFile('filepond')) {
@@ -140,6 +149,8 @@ class ProductController extends Controller
             'wallpaper' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
             'specs_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
             'caps_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,svg',
+            'specification_pdf' => 'nullable|file|mimes:pdf|max:20480',
+            'remove_specification_pdf' => 'nullable|boolean',
             'filepond' => 'nullable|array',
             'filepond.*' => 'image|mimes:jpg,jpeg,png,webp,svg',
             'delivery_tag' => 'nullable|string|max:100',
@@ -173,6 +184,29 @@ class ProductController extends Controller
             $capsImage = $request->file('caps_image');
             $capsImageName = $capsImage->hashName();
             $capsImage->move(public_path('uploads/products'), $capsImageName);
+        }
+
+        $specificationPdfName = $product->specification_pdf;
+        if ($request->boolean('remove_specification_pdf') && ! $request->hasFile('specification_pdf')) {
+            if ($product->specification_pdf) {
+                $oldPdf = public_path('uploads/products/' . basename($product->specification_pdf));
+                if (is_file($oldPdf)) {
+                    @unlink($oldPdf);
+                }
+            }
+            $specificationPdfName = null;
+        }
+        if ($request->hasFile('specification_pdf')) {
+            $specificationPdf = $request->file('specification_pdf');
+            $specificationPdfName = $specificationPdf->hashName();
+            $specificationPdf->move(public_path('uploads/products'), $specificationPdfName);
+
+            if ($product->specification_pdf) {
+                $oldPdf = public_path('uploads/products/' . basename($product->specification_pdf));
+                if (is_file($oldPdf)) {
+                    @unlink($oldPdf);
+                }
+            }
         }
 
         $technicalSpecs = [];
@@ -213,7 +247,8 @@ class ProductController extends Controller
             'specs_image' => $specsImageName,
             'technical_specs' => $technicalSpecs,
             'caps_image' => $capsImageName,
-            'main_capabilities' => $mainCapabilities
+            'main_capabilities' => $mainCapabilities,
+            'specification_pdf' => $specificationPdfName
         ]);
 
         if ($request->hasFile('filepond')) {

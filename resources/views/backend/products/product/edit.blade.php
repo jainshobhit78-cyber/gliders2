@@ -118,6 +118,21 @@
                     </div>
 
                     <div class="mb-3">
+                        <label>Product Specifications PDF (Optional)</label>
+                        <input type="file" name="specification_pdf" class="form-control" accept="application/pdf,.pdf">
+                        @if($product->specification_pdf)
+                            <div class="mt-2">
+                                <a href="{{ asset('uploads/products/' . $product->specification_pdf) }}" target="_blank" rel="noopener">View current PDF</a>
+                            </div>
+                            <label class="d-flex align-items-center gap-2 mt-2">
+                                <input type="checkbox" name="remove_specification_pdf" value="1">
+                                <span>Remove current PDF and use the automatic product PDF</span>
+                            </label>
+                        @endif
+                        <small class="text-muted">Upload a finished PDF for the Download PDF button. Leave blank to keep the current file, or remove it to use the automatic product PDF.</small>
+                    </div>
+
+                    <div class="mb-3">
 
                         <label>Images</label>
 

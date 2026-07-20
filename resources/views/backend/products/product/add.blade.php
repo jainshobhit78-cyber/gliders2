@@ -94,6 +94,12 @@
                     </div>
 
                     <div class="mb-3">
+                        <label>Product Specifications PDF (Optional)</label>
+                        <input type="file" name="specification_pdf" class="form-control" accept="application/pdf,.pdf">
+                        <small class="text-muted">Upload a finished PDF for the Download PDF button. Leave blank to let the website generate a PDF from this product's image, description, specifications and capabilities.</small>
+                    </div>
+
+                    <div class="mb-3">
 
                         <label>Images</label>
 

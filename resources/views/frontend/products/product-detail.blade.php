@@ -10,6 +10,24 @@
         <div class="container">
             <div class="detail-hero-content">
                 <h1>{{ $product->title }}</h1>
+                <div class="product-document-actions" aria-label="Product document actions">
+                    <button type="button" class="product-document-btn product-print-btn" id="printProductDocument">
+                        <i class="fa fa-print" aria-hidden="true"></i>
+                        <span>Print Specifications</span>
+                    </button>
+                    @if($product->specification_pdf)
+                        <a class="product-document-btn product-download-btn"
+                           href="{{ route('products.pdf', ['categoryId' => $category->id, 'productId' => $product->id]) }}">
+                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                            <span>Download PDF</span>
+                        </a>
+                    @else
+                        <button type="button" class="product-document-btn product-download-btn" id="downloadProductPdf">
+                            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                            <span>Download PDF</span>
+                        </button>
+                    @endif
+                </div>
             </div>
         </div>
     </section>
@@ -215,7 +233,49 @@
         // products, so every product view uses the same unit convention.
         $specs = \App\Support\UnitFormatter::normalize($specs);
         $caps = \App\Support\UnitFormatter::normalize($caps);
+        $documentImage = filter_var($specs['image'] ?? null, FILTER_VALIDATE_URL)
+            ? $specs['image']
+            : asset(ltrim($specs['image'] ?? $originalProductImage, '/'));
     @endphp
+
+    <section class="product-document-sheet" id="productDocumentSheet" aria-hidden="true">
+        <div class="product-document-brand">GLIDERS INDIA LIMITED</div>
+        <h1>{{ $product->title }}</h1>
+        <div class="product-document-rule"></div>
+        <img src="{{ $documentImage }}" alt="{{ $product->title }}" class="product-document-image">
+        @if($cleanDescription)
+            <h2>Product Overview</h2>
+            <p>{{ $cleanDescription }}</p>
+        @endif
+        <h2>{{ $specs['title'] }} {{ $specs['title_span'] ?? '' }}</h2>
+        @if(!empty($specs['subtext']))
+            <p>{{ strip_tags($specs['subtext']) }}</p>
+        @endif
+        <table class="product-document-table">
+            <thead><tr><th>Parameter</th><th>Specification</th><th>Details</th></tr></thead>
+            <tbody>
+                @foreach($specs['items'] ?? [] as $item)
+                    <tr>
+                        <td>{{ $item['heading'] ?? '' }}</td>
+                        <td>{{ $item['value'] ?? '' }}</td>
+                        <td>{{ $item['desc'] ?? '' }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        @if(!empty($caps['items']))
+            <h2>{{ $caps['title'] ?? 'Main Capabilities' }}</h2>
+            <table class="product-document-table">
+                <thead><tr><th>Capability</th><th>Description</th></tr></thead>
+                <tbody>
+                    @foreach($caps['items'] as $item)
+                        <tr><td>{{ $item['heading'] ?? '' }}</td><td>{{ $item['desc'] ?? '' }}</td></tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+        <p class="product-document-footer">Gliders India Limited · Product specifications</p>
+    </section>
 
     <!-- SECTION 1: TECHNICAL SPECIFICATIONS (MOCKUP SPECS CLONE) -->
     <section class="system-capabilities-section">
@@ -450,6 +510,51 @@
 
 
 @section('scripts')
+    @if(!$product->specification_pdf)
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    @endif
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sheet = document.getElementById('productDocumentSheet');
+            const printButton = document.getElementById('printProductDocument');
+            const downloadButton = document.getElementById('downloadProductPdf');
+
+            if (printButton && sheet) {
+                printButton.addEventListener('click', function () {
+                    window.print();
+                });
+            }
+
+            if (downloadButton && sheet) {
+                downloadButton.addEventListener('click', async function () {
+                    if (typeof html2pdf === 'undefined') {
+                        window.print();
+                        return;
+                    }
+
+                    const label = downloadButton.querySelector('span');
+                    downloadButton.disabled = true;
+                    if (label) label.textContent = 'Preparing PDF…';
+
+                    try {
+                        await html2pdf().set({
+                            margin: [0.35, 0.35, 0.45, 0.35],
+                            filename: @json(\Illuminate\Support\Str::slug($product->title) . '-specifications.pdf'),
+                            image: { type: 'jpeg', quality: 0.96 },
+                            html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+                            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+                            pagebreak: { mode: ['css', 'legacy'] }
+                        }).from(sheet).save();
+                    } finally {
+                        downloadButton.disabled = false;
+                        if (label) label.textContent = 'Download PDF';
+                    }
+                });
+            }
+        });
+    </script>
+
     <script>
         var swiper = new Swiper(".gallerySwiper", {
             slidesPerView: 3,

@@ -31,6 +31,78 @@
     --line: #ccc !important;
 }
 
+/* --- Product document actions and print/PDF sheet --- */
+.product-document-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.product-document-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 44px;
+    padding: 10px 18px;
+    border: 1px solid rgba(255,255,255,.45);
+    border-radius: 999px;
+    color: #fff;
+    background: rgba(4, 24, 58, .72);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.product-document-btn:hover,
+.product-document-btn:focus-visible {
+    color: #fff;
+    background: #e86f18;
+    border-color: #e86f18;
+    transform: translateY(-1px);
+}
+
+.product-document-btn:disabled { opacity: .7; cursor: wait; }
+
+.product-document-sheet {
+    position: fixed;
+    z-index: -1;
+    left: -10000px;
+    top: 0;
+    width: 794px;
+    padding: 38px 44px;
+    box-sizing: border-box;
+    background: #fff;
+    color: #17233b;
+    font-family: Arial, sans-serif;
+    line-height: 1.45;
+}
+
+.product-document-sheet h1 { margin: 8px 0 10px; color: #123b80; font-size: 30px; }
+.product-document-sheet h2 { margin: 24px 0 8px; color: #123b80; font-size: 19px; }
+.product-document-sheet p { margin: 0 0 12px; font-size: 12px; }
+.product-document-brand { color: #e86f18; font-size: 12px; font-weight: 800; letter-spacing: .12em; }
+.product-document-rule { height: 3px; margin: 10px 0 18px; background: linear-gradient(90deg, #e86f18, #123b80); }
+.product-document-image { display: block; width: 100%; max-height: 270px; object-fit: contain; margin: 0 auto 18px; }
+.product-document-table { width: 100%; border-collapse: collapse; margin: 8px 0 18px; font-size: 11px; page-break-inside: auto; }
+.product-document-table tr { page-break-inside: avoid; page-break-after: auto; }
+.product-document-table th { background: #123b80; color: #fff; text-align: left; }
+.product-document-table th, .product-document-table td { border: 1px solid #cbd5e1; padding: 7px 8px; vertical-align: top; }
+.product-document-footer { margin-top: 24px; padding-top: 10px; border-top: 1px solid #cbd5e1; color: #64748b; font-size: 10px; }
+
+@media (max-width: 576px) {
+    .product-document-actions { gap: 8px; }
+    .product-document-btn { flex: 1 1 100%; font-size: 12px; }
+}
+
+@media print {
+    body * { visibility: hidden !important; }
+    #productDocumentSheet, #productDocumentSheet * { visibility: visible !important; }
+    #productDocumentSheet { position: absolute; z-index: 1; left: 0; top: 0; width: 100%; }
+}
+
 a,
 abbr,
 acronym,
