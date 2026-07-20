@@ -10334,17 +10334,19 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     }
 
     .logo-header > .container > .d-flex > .gov-text-box:first-child {
-        flex: 1 1 auto !important;
+        flex: 1 1 180px !important;
         min-width: 0;
     }
 
-    .logo-header .navbar-brand {
+    .logo-header > .container > .d-flex > .gov-text-box:first-child .navbar-brand {
         display: flex;
         align-items: center;
+        flex: 0 0 auto;
+        width: 100%;
         margin: 0 !important;
     }
 
-    .logo-header img.header-logo {
+    .logo-header img.logo.header-logo {
         width: min(100%, 190px) !important;
         height: auto !important;
         max-width: 190px !important;
@@ -10367,7 +10369,7 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
         margin-right: 8px !important;
     }
 
-    .logo-header img.partner-logo {
+    .logo-header img.logo.partner-logo {
         width: 54px !important;
         height: 54px !important;
         max-width: 54px !important;
