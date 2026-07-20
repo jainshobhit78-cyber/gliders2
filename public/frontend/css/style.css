@@ -10364,28 +10364,59 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     }
 
     .logo-header img.logo.header-logo {
-        height: 104px !important;
+        height: 74px !important;
         width: auto !important;
         max-width: 100% !important;
-        max-height: 104px !important;
+        max-height: 74px !important;
         object-fit: contain !important;
     }
 
-    /* Caption directly under the Gliders logo (mobile) */
+    /* Identity block (Hindi + bold English name + subtitle) under the Gliders logo (mobile) */
     .logo-header .brand-caption-box {
         flex-direction: column !important;
+    }
+
+    .logo-header .brand-identity-text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-top: 5px;
+        line-height: 1.1;
+    }
+
+    .logo-header .brand-name-hi {
+        height: auto !important;
+        background: transparent !important;
+        color: #111 !important;
+        font-weight: 700;
+        font-size: 12.5px;
+        line-height: 1.15;
+        white-space: nowrap;
+    }
+
+    .logo-header .brand-name-en {
+        height: auto !important;
+        background: transparent !important;
+        color: #000 !important;
+        font-weight: 800;
+        font-size: 14px;
+        line-height: 1.2;
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+        margin-top: 1px;
     }
 
     .logo-header .brand-caption {
         height: auto !important;
         background: transparent !important;
-        color: #0b2a5b;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.03em;
+        color: #555;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
         text-transform: uppercase;
-        line-height: 1.15;
-        margin-top: 4px;
+        line-height: 1.2;
+        margin-top: 2px;
         text-align: center;
         white-space: nowrap;
     }

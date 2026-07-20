@@ -229,7 +229,11 @@
                     <a class="navbar-brand" href="{{ route('home') }}">
                         <img src="{{ asset('frontend/images/logo/gliders.png') }}" class="header-logo logo">
                     </a>
-                    <span class="brand-caption d-lg-none">A Government of India Enterprise</span>
+                    <div class="brand-identity-text d-lg-none">
+                        <span class="brand-name-hi">ग्लाइडर्स इंडिया लिमिटेड</span>
+                        <span class="brand-name-en">GLIDERS INDIA LIMITED</span>
+                        <span class="brand-caption">A Government of India Enterprise</span>
+                    </div>
                 </div>
 
                 <span class="text-white d-none d-lg-inline"></span>
