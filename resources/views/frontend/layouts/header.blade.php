@@ -225,15 +225,10 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <!-- LEFT GOVT TEXT -->
-                <div class="gov-text-box text-white text-start d-flex flex-column align-items-center justify-content-center brand-caption-box" style="margin-left: -10px;">
+                <div class="gov-text-box text-white text-start d-flex align-items-center" style="margin-left: -10px;">
                     <a class="navbar-brand" href="{{ route('home') }}">
                         <img src="{{ asset('frontend/images/logo/gliders.png') }}" class="header-logo logo">
                     </a>
-                    <div class="brand-identity-text d-lg-none">
-                        <span class="brand-name-hi">ग्लाइडर्स इंडिया लिमिटेड</span>
-                        <span class="brand-name-en">GLIDERS INDIA LIMITED</span>
-                        <span class="brand-caption">A Government of India Enterprise</span>
-                    </div>
                 </div>
 
                 <span class="text-white d-none d-lg-inline"></span>
@@ -261,6 +256,13 @@
                 <!-- </div> -->
                 <!-- <div>(भारत सरकार का उपक्रम, रक्षा मंत्रालय)</div>
                     <div>Govt of India Undertaking, Ministry of Defence</div> -->
+            </div>
+
+            <!-- Full-width identity text below the logos (mobile only) -->
+            <div class="brand-identity-text d-lg-none">
+                <span class="brand-name-hi">ग्लाइडर्स इंडिया लिमिटेड</span>
+                <span class="brand-name-en">GLIDERS INDIA LIMITED</span>
+                <span class="brand-caption">A Government of India Enterprise</span>
             </div>
         </div>
     </div>
