@@ -12,6 +12,14 @@ class SecurityHeaders
     {
         $response = $next($request);
 
+        // WEB-002: strip version-disclosing headers (PHP/framework fingerprinting).
+        $response->headers->remove('X-Powered-By');
+        $response->headers->remove('x-powered-by');
+        $response->headers->remove('Server');
+        if (function_exists('header_remove')) {
+            @header_remove('X-Powered-By');
+        }
+
         $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
         $response->headers->set('X-Content-Type-Options', 'nosniff');
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
