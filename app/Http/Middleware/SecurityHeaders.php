@@ -12,6 +12,12 @@ class SecurityHeaders
     {
         $response = $next($request);
 
+        // Remove version disclosure headers
+        @header_remove('X-Powered-By');
+        @header_remove('Server');
+        $response->headers->remove('X-Powered-By');
+        $response->headers->remove('Server');
+
         $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
         $response->headers->set('X-Content-Type-Options', 'nosniff');
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');

@@ -23,3 +23,12 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+<IfModule mod_headers.c>
+    Header unset X-Powered-By
+    Header always unset X-Powered-By
+    Header unset Server
+    Header always unset Server
+    Header unset X-Turbopack-X-Powered-By
+    Header always unset X-Turbopack-X-Powered-By
+</IfModule>
