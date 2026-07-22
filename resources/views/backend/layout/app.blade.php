@@ -694,7 +694,7 @@
 
 
     <!-- latest js -->
-    <script src="{{ url('backend/assets/js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ url('backend/assets/js/jquery-3.6.0.min.js') }}"></script>
 
     <!-- Toster Start-->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->

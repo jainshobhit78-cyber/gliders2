@@ -20,15 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // WEB-001 failsafe: never expose debug output (stack traces) on a real domain,
-        // regardless of the .env APP_DEBUG value. Debug stays on only for local hosts.
-        if (!$this->app->runningInConsole()) {
-            $host = request()->getHost();
-            if (!in_array($host, ['127.0.0.1', 'localhost', '::1'], true)) {
-                config(['app.debug' => false]);
-            }
-        }
-
         // Automatically bypass Spatie permission checks for super administrators
         \Illuminate\Support\Facades\Gate::before(function ($user, $ability) {
             return method_exists($user, 'hasRole') && $user->hasRole('admin') ? true : null;
