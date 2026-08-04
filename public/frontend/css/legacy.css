@@ -356,12 +356,14 @@
 
 .legacy-dots {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 7px;
     margin-top: 6px;
 }
 
 .legacy-dots button {
+    flex: 0 0 auto;
     width: 8px;
     height: 8px;
     border-radius: 50%;

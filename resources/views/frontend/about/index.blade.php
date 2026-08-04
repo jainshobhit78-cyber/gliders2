@@ -930,8 +930,8 @@
         const heroTitle = document.getElementById('legacyHeroTitle');
         const heroSub = document.getElementById('legacyHeroSub');
         if (type === 'opf') {
-            if (heroTitle) heroTitle.innerHTML = `${legacySetting?.hero_title || 'OPF GM'} <span class="legacy-accent">${legacySetting?.hero_accent || 'Legacy'}</span>`;
-            if (heroSub) heroSub.textContent = legacySetting?.hero_subtitle || 'Honouring the General Managers of Ordnance Parachute Factory (OPF)';
+            if (heroTitle) heroTitle.innerHTML = `Ordnance Parachute Factory <span class="legacy-accent">Legacy</span>`;
+            if (heroSub) heroSub.textContent = 'Honouring the Officers-in-Charge and General Managers who have led the Ordnance Parachute Factory, Kanpur, since 1941';
             legacyLeaders = opfLegacy;
         } else {
             if (heroTitle) heroTitle.innerHTML = `Gliders India <span class="legacy-accent">Legacy</span>`;
