@@ -2801,6 +2801,9 @@ table td {
     height: 100%;
     object-fit: cover;
     z-index: 1;
+    /* Eased back slightly so it blends into the navy banner behind it
+       and the hero text reads more clearly over the footage. */
+    opacity: 0.85;
 }
 
 .hero-overlay {
@@ -3171,8 +3174,11 @@ table td {
         display: none;
     }
 
+    /* Three stats sit on a single row rather than leaving one orphaned
+       on a second line, which is what 45% produced once the fourth
+       counter was removed. */
     .stat-item {
-        width: 45%;
+        width: 30%;
     }
 }
 
@@ -3196,7 +3202,7 @@ table td {
     }
 
     .stat-item {
-        width: 46% !important; /* Elegant 2x2 grid */
+        width: 31% !important; /* Three across in one row */
         flex: none !important;
         margin-bottom: 4px;
     }

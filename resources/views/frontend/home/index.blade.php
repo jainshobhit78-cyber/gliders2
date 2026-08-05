@@ -57,14 +57,6 @@
                     <div class="stat-divider"></div>
 
                     <div class="stat-item">
-                        <h2 class="counter" data-target="{{ $stateCounter->parachutes_manufactured ?? 0 }}" data-suffix="+">
-                            0</h2>
-                        <p>Parachutes Manufactured</p>
-                    </div>
-
-                    <div class="stat-divider"></div>
-
-                    <div class="stat-item">
                         <h2 class="counter" data-target="{{ $stateCounter->indigenous_manufacturing ?? 0 }}"
                             data-suffix="%">0</h2>
                         <p>Indigenous Manufacturing</p>
