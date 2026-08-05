@@ -231,7 +231,7 @@
                             <div class="legacy-deco-mountain"></div>
                             <svg class="legacy-deco-chute" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#0b2a5b" stroke-width="1"><path d="M2 9a10 10 0 0 1 20 0Z"/><path d="M2 9l10 2M22 9l-10 2M7 9l5 2M17 9l-5 2"/><path d="M12 11v7"/><path d="M9 18h6"/></svg>
                             <svg class="legacy-deco-plane" width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#0b2a5b" stroke-width="1"><path d="M2 13l9-2 4-9 2 1-2 8 6 1v2l-6 1 2 8-2 1-4-9-9-2Z"/></svg>
-                            <h1 id="legacyHeroTitle">Gliders India <span class="legacy-accent">Legacy</span></h1>
+                            <h1 id="legacyHeroTitle">Gliders India Limited <span class="legacy-accent">Legacy</span></h1>
                             <p class="legacy-sub" id="legacyHeroSub">Honouring the Chairman & Managing Directors (CMDs) who have led Gliders India Limited since 2021</p>
                             <div class="legacy-rule"></div>
                         </section>
@@ -239,7 +239,7 @@
                         {{-- Legacy Toggle Buttons --}}
                         <div class="leader-tabs-container mb-5" style="max-width: 500px; margin: 0 auto 30px auto;">
                             <button class="leader-tab-btn active" id="btnLegacyGliders" onclick="switchLegacy('gliders')">
-                                Gliders India
+                                Gliders India Limited
                             </button>
                             <button class="leader-tab-btn" id="btnLegacyOPF" onclick="switchLegacy('opf')">
                                 OPF
@@ -934,7 +934,7 @@
             if (heroSub) heroSub.textContent = 'Honouring the Officers-in-Charge and General Managers who have led the Ordnance Parachute Factory, Kanpur, since 1941';
             legacyLeaders = opfLegacy;
         } else {
-            if (heroTitle) heroTitle.innerHTML = `Gliders India <span class="legacy-accent">Legacy</span>`;
+            if (heroTitle) heroTitle.innerHTML = `Gliders India Limited <span class="legacy-accent">Legacy</span>`;
             if (heroSub) heroSub.textContent = 'Honouring the Chairman & Managing Directors (CMDs) who have led Gliders India Limited since 2021';
             legacyLeaders = glidersLegacy;
         }

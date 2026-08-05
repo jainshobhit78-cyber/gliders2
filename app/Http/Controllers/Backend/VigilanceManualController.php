@@ -69,7 +69,7 @@ class VigilanceManualController extends Controller
 
             if ($item->pdf && file_exists(public_path('uploads/vigilance/' . $item->pdf))) {
 
-                unlink(public_path('uploads/vigilance/' . $item->pdf));
+                @unlink(public_path('uploads/vigilance/' . $item->pdf));
 
             }
 
@@ -93,9 +93,15 @@ class VigilanceManualController extends Controller
 
         $item = VigilanceManual::findOrFail($id);
 
+        // A file that cannot be removed must not block the record delete, so
+        // failures here are logged rather than raised.
         if ($item->pdf && file_exists(public_path('uploads/vigilance/' . $item->pdf))) {
 
-            unlink(public_path('uploads/vigilance/' . $item->pdf));
+            if (!@unlink(public_path('uploads/vigilance/' . $item->pdf))) {
+
+                \Log::warning('Could not delete vigilance manual file', ['file' => $item->pdf]);
+
+            }
 
         }
 
