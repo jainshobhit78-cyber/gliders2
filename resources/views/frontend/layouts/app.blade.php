@@ -115,14 +115,14 @@
 
         <div class="chat-box" id="chatBox">
             <div class="chat-header">
-                <h4>Gliders India Support</h4>
+                <h4>Glide Bot</h4>
                 <span id="closeChat">✖</span>
             </div>
 
             <div class="chat-body" id="chatBody">
                 <div class="bot-message">
-                    Hello 👋 Welcome to Gliders India.<br>
-                    How can we help you today?
+                    Hello 👋 I am <strong>Glide Bot</strong>, the assistant for Gliders India Limited.<br>
+                    How can I help you today?
 
                     <div id="faqQuestions" class="faq-questions"></div>
                 </div>
