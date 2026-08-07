@@ -312,6 +312,21 @@
         const chatbotBubble = document.getElementById("chatbotBubble");
         const chatbotContainer = document.getElementById("chatbotContainer");
 
+        /*
+         * The panel carries `scroll-behavior: smooth`, and under it a plain
+         * `scrollTop = x` assignment is silently dropped - the value reads back
+         * as 0 and the panel never moves. Requesting the jump explicitly with
+         * behaviour "instant" is the only form that lands, so every programmatic
+         * scroll of the chat goes through here.
+         */
+        function scrollChatTo(top) {
+            if (typeof chatBody.scrollTo === "function") {
+                chatBody.scrollTo({ top: top, behavior: "instant" });
+            } else {
+                chatBody.scrollTop = top;
+            }
+        }
+
         chatToggle.addEventListener("click", () => {
             chatBox.style.display = "flex";
             if (chatbotBubble) {
@@ -355,7 +370,7 @@
             typingMsg.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
             chatBody.appendChild(typingMsg);
 
-            chatBody.scrollTop = chatBody.scrollHeight;
+            scrollChatTo(chatBody.scrollHeight);
 
             fetch("{{ url('/chatbot/reply') }}", {
                 method: "POST",
@@ -396,9 +411,9 @@
                     // Stop on the answer rather than running past it to the
                     // follow-up chips: bring the top of the reply to the top of
                     // the panel so it is read from the beginning.
-                    chatBody.scrollTop = chatBody.scrollTop
+                    scrollChatTo(chatBody.scrollTop
                         + botMsg.getBoundingClientRect().top
-                        - chatBody.getBoundingClientRect().top;
+                        - chatBody.getBoundingClientRect().top);
 
                     if (data.redirect) {
                         setTimeout(() => {
