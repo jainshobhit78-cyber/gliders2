@@ -8,6 +8,13 @@ class ChatbotFaq extends Model
 {
     protected $fillable = [
         'question',
-        'answer'
+        'answer',
+        'category',
+        'is_starter',
+        'position'
+    ];
+
+    protected $casts = [
+        'is_starter' => 'boolean',
     ];
 }

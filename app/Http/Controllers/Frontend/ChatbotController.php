@@ -21,6 +21,19 @@ class ChatbotController extends Controller
 
         $cleanMsg = strtolower($message);
 
+        // 0. A curated answer wins outright when the question is recognised.
+        //    The widget sends a suggested question verbatim, so this has to run
+        //    ahead of the keyword handlers below - otherwise a question such as
+        //    "What products do you manufacture?" would be caught by the product
+        //    handler and its own answer would never be reached.
+        if ($faq = $this->exactFaq($message)) {
+            return response()->json([
+                'reply' => $faq->answer,
+                'suggestions' => $this->suggestionsFor($faq),
+                'redirect' => false,
+            ]);
+        }
+
         // 1. TOPIC: CMD / LEADERSHIP / JOURNEY
         if ($this->hasKeywords($cleanMsg, ['cmd', 'chairman', 'managing director', 'leadership', 'journey', 'message', 'leader', 'leaders'])) {
             $leaders = AboutLeadership::orderBy('position', 'asc')->get();
@@ -172,6 +185,7 @@ class ChatbotController extends Controller
         if ($bestMatch && $highestScore >= 0.25) {
             return response()->json([
                 'reply' => $bestMatch->answer,
+                'suggestions' => $this->suggestionsFor($bestMatch),
                 'redirect' => false
             ]);
         }
@@ -205,12 +219,79 @@ class ChatbotController extends Controller
 
     private function getGeneralSuggestions()
     {
-        return ChatbotFaq::select('question')->latest()->take(3)->pluck('question')->toArray();
+        return $this->starterQuestions();
     }
 
+    /**
+     * Only the starter questions open the widget. Categories exist purely to
+     * keep the conversation in bite-sized steps and are never shown.
+     */
     public function questions()
     {
-        $questions = ChatbotFaq::select('question')->latest()->get();
+        $questions = ChatbotFaq::where('is_starter', true)
+            ->orderBy('position')
+            ->get(['question']);
+
         return response()->json($questions);
+    }
+
+    /** One entry question per topic, used to open and to re-orient. */
+    private function starterQuestions(): array
+    {
+        return ChatbotFaq::where('is_starter', true)
+            ->orderBy('position')
+            ->pluck('question')
+            ->toArray();
+    }
+
+    /**
+     * What to offer after an answer: a greeting leads into the topic entry
+     * points, a sign-off ends the exchange, and anything else offers the rest
+     * of its own category.
+     */
+    private function suggestionsFor(ChatbotFaq $faq): array
+    {
+        if ($faq->category === 'closing') {
+            return [];
+        }
+
+        if ($faq->category === 'greeting') {
+            return $this->starterQuestions();
+        }
+
+        $siblings = ChatbotFaq::where('category', $faq->category)
+            ->where('id', '!=', $faq->id)
+            ->orderBy('position')
+            ->take(4)
+            ->pluck('question')
+            ->toArray();
+
+        return $siblings ?: $this->starterQuestions();
+    }
+
+    /** Recognises a question typed or clicked verbatim, ignoring punctuation. */
+    private function exactFaq(string $message): ?ChatbotFaq
+    {
+        $needle = $this->normaliseQuestion($message);
+
+        if ($needle === '') {
+            return null;
+        }
+
+        foreach (ChatbotFaq::orderBy('position')->get() as $faq) {
+            if ($this->normaliseQuestion($faq->question) === $needle) {
+                return $faq;
+            }
+        }
+
+        return null;
+    }
+
+    private function normaliseQuestion(string $text): string
+    {
+        $text = strtolower(trim($text));
+        $text = preg_replace('/[^\p{L}\p{N}\s]+/u', '', $text);
+
+        return trim(preg_replace('/\s+/', ' ', $text));
     }
 }
