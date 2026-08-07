@@ -393,7 +393,12 @@
                         chatBody.appendChild(sugContainer);
                     }
 
-                    chatBody.scrollTop = chatBody.scrollHeight;
+                    // Stop on the answer rather than running past it to the
+                    // follow-up chips: bring the top of the reply to the top of
+                    // the panel so it is read from the beginning.
+                    chatBody.scrollTop = chatBody.scrollTop
+                        + botMsg.getBoundingClientRect().top
+                        - chatBody.getBoundingClientRect().top;
 
                     if (data.redirect) {
                         setTimeout(() => {
