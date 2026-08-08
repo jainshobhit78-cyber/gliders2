@@ -233,11 +233,12 @@
 
                 <span class="text-white d-none d-lg-inline"></span>
 
-                <div class="gov-text-box text-white text-start d-none d-lg-flex align-items-center">
-                    <p class="ms-2 text-center mb-0" style="text-transform: uppercase; margin: 0 !important; position: relative; top: 14px;">
-                        GLIDERS INDIA LIMITED <br>
-                        <span style="font-size: 15px; text-transform: none; font-weight: normal; display: block; margin-top: 4px;">(A Government of India Enterprise)</span>
-                    </p>
+                <div class="gov-text-box text-start d-none d-lg-flex align-items-center">
+                    <div class="brand-identity-desktop ms-2">
+                        <span class="brand-name-hi">ग्लाइडर्स इंडिया लिमिटेड</span>
+                        <span class="brand-name-en">GLIDERS INDIA LIMITED</span>
+                        <span class="brand-caption">A Government of India Enterprise</span>
+                    </div>
                 </div>
 
                 <span class="text-white d-none d-lg-inline"></span>
