@@ -773,11 +773,13 @@ body {
    The selectors carry three classes so they outrank `.logo-header span`
    above, which would otherwise force a 50px height and a grey background
    onto each line. */
+/* Left-aligned rather than centred, so the Hindi name starts directly above
+   the G of GLIDERS instead of being offset by the difference in line widths. */
 .logo-header .brand-identity-desktop {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
     line-height: 1.15;
 }
 
@@ -792,6 +794,12 @@ body {
     font-size: 19px;
     line-height: 1.25;
     white-space: nowrap;
+}
+
+/* Devanagari sits optically smaller than Latin at the same pixel size, so the
+   Hindi line is set a little larger to read as its equal. */
+.logo-header .brand-identity-desktop .brand-name-hi {
+    font-size: 22px;
 }
 
 .logo-header .brand-identity-desktop .brand-name-en {
