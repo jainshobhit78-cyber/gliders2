@@ -381,23 +381,24 @@
 
                                 <div id="launch_experience_fields">
                                     <div class="alert alert-info py-2 mb-4" role="alert">
-                                        Visitors see the experience once per browser session. It automatically reveals the website, and they can enter immediately using the button.
+                                        Visitors see one cinematic sequence per browser session: message, ribbon cutting, five-second countdown, fireworks and a smooth homepage reveal. The button lets them skip at any time.
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label class="form-label">Countdown Target <span class="text-muted">(India time)</span></label>
+                                            <label class="form-label">Launch Occasion Date <span class="text-muted">(India time)</span></label>
                                             <input type="datetime-local" name="launch_animation_target_at" class="form-control"
                                                 value="{{ old('launch_animation_target_at', $setting->launch_animation_target_at ? $setting->launch_animation_target_at->copy()->setTimezone('Asia/Kolkata')->format('Y-m-d\TH:i') : '2026-08-15T00:00') }}">
-                                            <small class="text-muted d-block mt-1">Recommended: 15 August 2026, 12:00 AM IST.</small>
+                                            <small class="text-muted d-block mt-1">Shown in the opening scene. Recommended: 15 August 2026, 12:00 AM IST.</small>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label class="form-label">Automatically Reveal Website After</label>
+                                            <label class="form-label">Complete Experience Duration</label>
                                             <div class="input-group">
-                                                <input type="number" min="10" max="30" name="launch_animation_auto_reveal_seconds" class="form-control"
-                                                    value="{{ old('launch_animation_auto_reveal_seconds', max(10, (int) ($setting->launch_animation_auto_reveal_seconds ?? 10))) }}">
+                                                <input type="number" min="14" max="30" name="launch_animation_auto_reveal_seconds" class="form-control"
+                                                    value="{{ old('launch_animation_auto_reveal_seconds', max(14, (int) ($setting->launch_animation_auto_reveal_seconds ?? 16))) }}">
                                                 <span class="input-group-text">seconds</span>
                                             </div>
+                                            <small class="text-muted d-block mt-1">Recommended: 16 seconds. The final five-second countdown always remains full length.</small>
                                         </div>
                                     </div>
 

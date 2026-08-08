@@ -2,137 +2,159 @@
     $launchTarget = $trackingSetting->launch_animation_target_at
         ? $trackingSetting->launch_animation_target_at->copy()->setTimezone('Asia/Kolkata')->toIso8601String()
         : '2026-08-15T00:00:00+05:30';
+    $launchDateLabel = $trackingSetting->launch_animation_target_at
+        ? $trackingSetting->launch_animation_target_at->copy()->setTimezone('Asia/Kolkata')->format('d F Y')
+        : '15 August 2026';
     $launchTitle = $trackingSetting->launch_animation_title ?: 'Happy Independence Day';
     $launchMessage = $trackingSetting->launch_animation_message ?: 'Honouring the spirit of freedom, courage and self-reliance.';
     $launchButton = $trackingSetting->launch_animation_button_text ?: 'Enter the Website';
-    $launchDuration = max(10, (int) ($trackingSetting->launch_animation_auto_reveal_seconds ?: 10));
+    $launchDuration = max(14, (int) ($trackingSetting->launch_animation_auto_reveal_seconds ?: 16));
     $launchVersion = optional($trackingSetting->updated_at)->timestamp ?: 1;
 @endphp
 
 <section class="launch-experience" id="launchExperience"
     data-target="{{ $launchTarget }}"
-    data-auto-reveal="{{ $launchDuration }}"
+    data-duration="{{ $launchDuration }}"
     data-version="{{ $launchVersion }}"
     data-preview="{{ $launchPreview ? 'true' : 'false' }}"
-    aria-label="Gliders India Independence Day welcome" aria-modal="true" role="dialog">
-    <div class="launch-experience__sky" aria-hidden="true">
-        <span class="launch-glow launch-glow--saffron"></span>
-        <span class="launch-glow launch-glow--green"></span>
-        <span class="launch-grid"></span>
-        @for($i = 1; $i <= 10; $i++)
-            <span class="launch-spark" style="--spark: {{ $i }}"></span>
+    aria-label="Gliders India website launch ceremony" aria-modal="true" role="dialog">
+
+    <canvas class="launch-fireworks-canvas" id="launchFireworksCanvas" aria-hidden="true"></canvas>
+
+    <div class="launch-ambient" aria-hidden="true">
+        <span class="launch-ambient__aurora launch-ambient__aurora--saffron"></span>
+        <span class="launch-ambient__aurora launch-ambient__aurora--green"></span>
+        <span class="launch-ambient__halo"></span>
+        <span class="launch-ambient__grid"></span>
+        <span class="launch-ambient__grain"></span>
+        <span class="launch-ambient__beam launch-ambient__beam--one"></span>
+        <span class="launch-ambient__beam launch-ambient__beam--two"></span>
+        @for($star = 1; $star <= 30; $star++)
+            <i class="launch-star" style="--x: {{ ($star * 37) % 97 }}%; --y: {{ ($star * 61) % 89 }}%; --size: {{ 1 + ($star % 3) }}px; --alpha: {{ (18 + ($star % 5) * 10) / 100 }}; --twinkle: {{ 2.5 + ($star % 7) * .4 }}s"></i>
         @endfor
     </div>
 
-    <div class="launch-experience__shell">
-        <header class="launch-brand">
-            <img src="{{ asset('frontend/images/logo/gliders.png') }}" alt="Gliders India Limited">
-            <span>India's defence manufacturing heritage</span>
-        </header>
+    <header class="launch-header">
+        <div class="launch-header__identity">
+            <div class="launch-header__logo-wrap">
+                <img src="{{ asset('frontend/images/logo/gliders.png') }}" alt="Gliders India Limited">
+            </div>
+            <div class="launch-header__copy">
+                <strong>Gliders India Limited</strong>
+                <span>A Government of India Enterprise</span>
+            </div>
+        </div>
 
-        <div class="launch-experience__layout">
-            <div class="launch-copy">
-                <div class="launch-kicker"><span></span> 15 August · India</div>
-                <h1>{{ $launchTitle }}</h1>
-                <p>{{ $launchMessage }}</p>
+        <button type="button" class="launch-skip" id="launchEnterButton" aria-label="{{ $launchButton }}">
+            <span>{{ $launchButton }}</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+        </button>
+    </header>
 
-                <div class="launch-countdown" id="launchCountdown" aria-label="Countdown to Independence Day">
-                    <div class="launch-countdown__item"><strong data-launch-days>00</strong><span>Days</span></div>
-                    <div class="launch-countdown__separator">:</div>
-                    <div class="launch-countdown__item"><strong data-launch-hours>00</strong><span>Hours</span></div>
-                    <div class="launch-countdown__separator">:</div>
-                    <div class="launch-countdown__item"><strong data-launch-minutes>00</strong><span>Minutes</span></div>
-                    <div class="launch-countdown__separator">:</div>
-                    <div class="launch-countdown__item"><strong data-launch-seconds>00</strong><span>Seconds</span></div>
-                </div>
-
-                <div class="launch-ceremony-counter" aria-live="polite">
-                    <span>Website launch in</span>
-                    <strong id="launchCeremonySeconds">{{ $launchDuration }}</strong>
-                    <em>seconds</em>
-                </div>
-
-                <div class="launch-actions">
-                    <button type="button" class="launch-enter-button" id="launchEnterButton">
-                        <span>{{ $launchButton }}</span>
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
-                    </button>
-                    <span class="launch-auto-note" id="launchAutoNote">Website opens automatically in <b>{{ $launchDuration }}</b>s</span>
-                </div>
+    <div class="launch-stage">
+        <section class="launch-scene launch-scene--intro" aria-labelledby="launchExperienceTitle">
+            <div class="launch-chakra launch-chakra--hero" aria-hidden="true">
+                <svg viewBox="0 0 120 120">
+                    <circle cx="60" cy="60" r="48"/>
+                    <circle cx="60" cy="60" r="7"/>
+                    @for($spoke = 0; $spoke < 24; $spoke++)
+                        <line x1="60" y1="60" x2="60" y2="12" transform="rotate({{ $spoke * 15 }} 60 60)"/>
+                    @endfor
+                </svg>
             </div>
 
-            <div class="launch-flag-stage" aria-hidden="true">
-                <div class="launch-chakra-orbit">
-                    <svg viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="42"/>
-                        @for($i = 0; $i < 24; $i++)
-                            <line x1="50" y1="50" x2="50" y2="8" transform="rotate({{ $i * 15 }} 50 50)"/>
+            <div class="launch-intro__date"><span></span>{{ $launchDateLabel }}<span></span></div>
+            <p class="launch-overline">Celebrating freedom. Building self-reliance.</p>
+            <h1 id="launchExperienceTitle">{{ $launchTitle }}</h1>
+            <p class="launch-intro__message">{{ $launchMessage }}</p>
+            <div class="launch-tricolour-stroke" aria-hidden="true"><i></i><i></i><i></i></div>
+            <p class="launch-intro__whisper">A new digital chapter is ready to take flight</p>
+        </section>
+
+        <section class="launch-scene launch-scene--ribbon" aria-label="Ceremonial ribbon cutting">
+            <p class="launch-overline">With pride, we unveil</p>
+            <h2>A New Era of<br><em>Innovation</em></h2>
+
+            <div class="launch-ribbon-stage" aria-hidden="true">
+                <div class="launch-ribbon__half launch-ribbon__half--left">
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="launch-ribbon__seal">
+                    <svg class="launch-ribbon__chakra" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="39"/>
+                        @for($spoke = 0; $spoke < 24; $spoke++)
+                            <line x1="50" y1="50" x2="50" y2="11" transform="rotate({{ $spoke * 15 }} 50 50)"/>
                         @endfor
                     </svg>
                 </div>
-                <div class="launch-flag-pole"></div>
-                <div class="launch-flag">
-                    <span class="launch-flag__band launch-flag__band--saffron"></span>
-                    <span class="launch-flag__band launch-flag__band--white">
-                        <svg viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="38"/>
-                            @for($i = 0; $i < 24; $i++)
-                                <line x1="50" y1="50" x2="50" y2="12" transform="rotate({{ $i * 15 }} 50 50)"/>
-                            @endfor
-                        </svg>
-                    </span>
-                    <span class="launch-flag__band launch-flag__band--green"></span>
-                    <span class="launch-flag__shine"></span>
-                </div>
-                <div class="launch-parachute launch-parachute--one">
-                    <svg viewBox="0 0 80 90"><path d="M8 35C10 10 69 10 72 35M8 35h64M8 35l32 40 32-40M25 35l15 40 15-40M35 77h10v7H35z"/></svg>
-                </div>
-                <div class="launch-parachute launch-parachute--two">
-                    <svg viewBox="0 0 80 90"><path d="M8 35C10 10 69 10 72 35M8 35h64M8 35l32 40 32-40M25 35l15 40 15-40M35 77h10v7H35z"/></svg>
+                <svg class="launch-scissors" viewBox="0 0 100 100">
+                    <circle cx="23" cy="76" r="14"/><circle cx="77" cy="76" r="14"/>
+                    <path d="M33 65L76 17M67 65L24 17M49 47l2 2"/>
+                </svg>
+                <div class="launch-ribbon__half launch-ribbon__half--right">
+                    <span></span><span></span><span></span>
                 </div>
             </div>
-        </div>
-    </div>
+            <p class="launch-ribbon__caption">Gliders India Limited</p>
+        </section>
 
-    <div class="launch-ribbon" id="launchRibbon" aria-hidden="true">
-        <div class="launch-ribbon__half launch-ribbon__half--left">
-            <span class="launch-ribbon__saffron"></span><span class="launch-ribbon__white"></span><span class="launch-ribbon__green"></span>
-        </div>
-        <div class="launch-ribbon__medallion">
-            <svg class="launch-ribbon__chakra" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="39"/>
-                @for($i = 0; $i < 24; $i++)
-                    <line x1="50" y1="50" x2="50" y2="11" transform="rotate({{ $i * 15 }} 50 50)"/>
-                @endfor
-            </svg>
-            <svg class="launch-ribbon__scissors" viewBox="0 0 64 64">
-                <circle cx="15" cy="49" r="9"/><circle cx="49" cy="49" r="9"/>
-                <path d="M21 43L47 12M43 43L17 12"/>
-            </svg>
-        </div>
-        <div class="launch-ribbon__half launch-ribbon__half--right">
-            <span class="launch-ribbon__saffron"></span><span class="launch-ribbon__white"></span><span class="launch-ribbon__green"></span>
-        </div>
-    </div>
-
-    <div class="launch-fireworks" aria-hidden="true">
-        @for($burst = 1; $burst <= 5; $burst++)
-            <div class="launch-firework launch-firework--{{ $burst }}">
-                @for($ray = 0; $ray < 16; $ray++)
-                    <span style="--ray: {{ $ray }}"></span>
-                @endfor
+        <section class="launch-scene launch-scene--countdown" aria-label="Website launch countdown">
+            <p class="launch-overline">The future takes flight in</p>
+            <div class="launch-countdown-orbit" aria-hidden="true">
+                <svg viewBox="0 0 220 220">
+                    <circle class="launch-countdown-orbit__track" cx="110" cy="110" r="96"/>
+                    <circle class="launch-countdown-orbit__progress" cx="110" cy="110" r="96"/>
+                </svg>
+                <span class="launch-countdown-orbit__spark"></span>
             </div>
-        @endfor
-        @for($confetti = 1; $confetti <= 28; $confetti++)
-            <i class="launch-confetti launch-confetti--{{ $confetti }}" style="--piece: {{ $confetti }}"></i>
+            <strong class="launch-countdown-number" id="launchCountdownNumber">5</strong>
+            <p class="launch-countdown-word" id="launchCountdownWord">Five seconds to a new chapter</p>
+        </section>
+
+        <section class="launch-scene launch-scene--finale" aria-labelledby="launchFinaleTitle">
+            <div class="launch-finale__rings" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="launch-finale__logo">
+                <img src="{{ asset('frontend/images/logo/gliders.png') }}" alt="">
+            </div>
+            <p class="launch-overline">Proudly presenting</p>
+            <h2 id="launchFinaleTitle">Our New Digital Home</h2>
+            <p>Modern. Accessible. Mission ready.</p>
+            <div class="launch-finale__badge">
+                <span class="launch-finale__badge-dot"></span>
+                Welcome to the new Gliders India website
+            </div>
+        </section>
+    </div>
+
+    <div class="launch-phase-indicator" aria-hidden="true">
+        <span class="is-active" data-phase-dot="intro"></span>
+        <span data-phase-dot="ribbon"></span>
+        <span data-phase-dot="countdown"></span>
+        <span data-phase-dot="finale"></span>
+    </div>
+
+    <div class="launch-confetti-field" id="launchConfettiField" aria-hidden="true">
+        @for($piece = 1; $piece <= 54; $piece++)
+            <i style="--x: {{ ($piece * 41) % 101 }}%; --drift: {{ (($piece % 9) - 4) * 26 }}px; --width: {{ 5 + ($piece % 4) * 2 }}px; --height: {{ 10 + ($piece % 5) * 2 }}px; --duration: {{ 2.2 + ($piece % 6) * .22 }}s; --delay: {{ ($piece % 15) * .06 }}s; --spin: {{ $piece * 37 }}deg"></i>
         @endfor
     </div>
 
-    <div class="launch-reveal" aria-hidden="true">
-        <span class="launch-reveal__saffron"></span>
-        <span class="launch-reveal__white"></span>
-        <span class="launch-reveal__green"></span>
+    <div class="launch-transition" aria-hidden="true">
+        <div class="launch-transition__panel launch-transition__panel--saffron"></div>
+        <div class="launch-transition__panel launch-transition__panel--white">
+            <div class="launch-transition__mark">
+                <svg viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="38"/>
+                    @for($spoke = 0; $spoke < 24; $spoke++)
+                        <line x1="50" y1="50" x2="50" y2="12" transform="rotate({{ $spoke * 15 }} 50 50)"/>
+                    @endfor
+                </svg>
+            </div>
+        </div>
+        <div class="launch-transition__panel launch-transition__panel--green"></div>
     </div>
+
+    <p class="visually-hidden" id="launchLiveStatus" aria-live="assertive">Launch ceremony started</p>
 </section>
 
-<script src="{{ asset('frontend/js/launch-experience.js') }}?v=2" defer></script>
+<script src="{{ asset('frontend/js/launch-experience.js') }}?v=3" defer></script>

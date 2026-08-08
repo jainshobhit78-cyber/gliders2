@@ -28,10 +28,11 @@ class LaunchExperienceTest extends TestCase
         $response->assertSee('Freedom Takes Flight');
         $response->assertSee('A special Independence Day message from Gliders India.');
         $response->assertSee('Experience the Website');
-        $response->assertSee('data-auto-reveal="10"', false);
-        $response->assertSee('id="launchCeremonySeconds">10', false);
-        $response->assertSee('id="launchRibbon"', false);
-        $response->assertSee('launch-fireworks', false);
+        $response->assertSee('data-duration="14"', false);
+        $response->assertSee('id="launchCountdownNumber">5', false);
+        $response->assertSee('launch-ribbon-stage', false);
+        $response->assertSee('id="launchFireworksCanvas"', false);
+        $response->assertSee('Our New Digital Home');
         $response->assertSee('2026-08-15T00:00:00+05:30', false);
         $response->assertSee('frontend/images/logo/gliders.png');
     }
@@ -66,14 +67,17 @@ class LaunchExperienceTest extends TestCase
         $settings = file_get_contents(resource_path('views/backend/settings/index.blade.php'));
 
         $this->assertStringContainsString('window.sessionStorage', $script);
-        $this->assertStringContainsString('updateCountdown', $script);
-        $this->assertStringContainsString('beginCelebration', $script);
-        $this->assertStringContainsString('is-celebrating', $script);
+        $this->assertStringContainsString('enterRibbonScene', $script);
+        $this->assertStringContainsString('enterCountdownScene', $script);
+        $this->assertStringContainsString('enterFinaleScene', $script);
+        $this->assertStringContainsString('showCountdownValue', $script);
+        $this->assertStringContainsString('ribbon-cut', $script);
         $this->assertStringContainsString('revealWebsite', $script);
         $this->assertStringContainsString('@media (prefers-reduced-motion: reduce)', $styles);
-        $this->assertStringContainsString('launch-reveal__saffron', $styles);
-        $this->assertStringContainsString('launchRibbonCutLeft', $styles);
-        $this->assertStringContainsString('launchFireworkRay', $styles);
+        $this->assertStringContainsString('launch-transition__panel--saffron', $styles);
+        $this->assertStringContainsString('launchRibbonLeft', $styles);
+        $this->assertStringContainsString('launch-fireworks-canvas', $styles);
+        $this->assertStringContainsString('launchNumberTick', $styles);
         $this->assertStringContainsString('name="launch_animation_enabled"', $settings);
         $this->assertStringContainsString('Preview Animation', $settings);
     }
