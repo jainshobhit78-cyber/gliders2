@@ -14,6 +14,7 @@
         var sessionKey = "gliders-launch-experience-" + experience.dataset.version;
         var requestedDuration = parseInt(experience.dataset.duration || "16", 10);
         var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var fireworksEnabled = experience.dataset.fireworks !== "false";
         var timers = [];
         var countdownTimer = null;
         var revealed = false;
@@ -36,6 +37,14 @@
             2: "Designed for a self-reliant India",
             1: "Ready for take-off"
         };
+        var countdownCopy = document.getElementById("launchCountdownCopy");
+        if (countdownCopy) {
+            try {
+                countdownWords = Object.assign(countdownWords, JSON.parse(countdownCopy.textContent));
+            } catch (error) {
+                // Keep safe defaults if administrator-provided copy cannot be parsed.
+            }
+        }
 
         function hasBeenSeen() {
             try {
@@ -134,8 +143,8 @@
         function enterFinaleScene() {
             if (revealed) return;
             setPhase("finale");
-            announce("Welcome to the new Gliders India website");
-            fireworks.start();
+            announce("Website launch celebration");
+            if (fireworksEnabled) fireworks.start();
             schedule(revealWebsite, finaleDuration);
         }
 

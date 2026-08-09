@@ -47,11 +47,6 @@ class SystemSettingsController extends Controller
             'social_youtube' => 'nullable|string|max:255',
             'twitter_feed_url' => 'nullable|string|max:255',
             'instagram_embed_code' => 'nullable|string|max:20000',
-            'launch_animation_target_at' => 'nullable|date_format:Y-m-d\TH:i',
-            'launch_animation_title' => 'nullable|string|max:120',
-            'launch_animation_message' => 'nullable|string|max:300',
-            'launch_animation_button_text' => 'nullable|string|max:40',
-            'launch_animation_auto_reveal_seconds' => 'nullable|integer|min:14|max:30',
             'nav_font_size' => 'nullable|string|max:10',
             'main_menu_font_family' => 'nullable|string|max:255',
             'submenu_font_family' => 'nullable|string|max:255',
@@ -61,10 +56,6 @@ class SystemSettingsController extends Controller
             'homepage_product_3' => 'nullable|integer|exists:products,id',
             'homepage_product_4' => 'nullable|integer|exists:products,id',
         ]);
-
-        $launchTargetAt = $request->filled('launch_animation_target_at')
-            ? Carbon::createFromFormat('Y-m-d\TH:i', $request->launch_animation_target_at, 'Asia/Kolkata')->utc()
-            : null;
 
         $data = [
             'maintenance_mode' => $request->has('maintenance_mode'),
@@ -97,12 +88,6 @@ class SystemSettingsController extends Controller
             'social_youtube' => $request->social_youtube,
             'twitter_feed_url' => $request->twitter_feed_url,
             'instagram_embed_code' => $request->instagram_embed_code,
-            'launch_animation_enabled' => $request->has('launch_animation_enabled'),
-            'launch_animation_target_at' => $launchTargetAt,
-            'launch_animation_title' => $request->launch_animation_title ?: 'Happy Independence Day',
-            'launch_animation_message' => $request->launch_animation_message ?: 'Honouring the spirit of freedom, courage and self-reliance.',
-            'launch_animation_button_text' => $request->launch_animation_button_text ?: 'Enter the Website',
-            'launch_animation_auto_reveal_seconds' => $request->launch_animation_auto_reveal_seconds ?: 16,
             'nav_font_size' => $request->nav_font_size ?: '14',
             'homepage_product_1' => $request->homepage_product_1,
             'homepage_product_2' => $request->homepage_product_2,
@@ -121,5 +106,80 @@ class SystemSettingsController extends Controller
         $setting->update($data);
 
         return back()->with('success', 'System settings updated successfully.');
+    }
+
+    public function updateLaunch(Request $request)
+    {
+        $validated = $request->validate([
+            'launch_animation_target_at' => 'nullable|date_format:Y-m-d\TH:i',
+            'launch_animation_auto_reveal_seconds' => 'required|integer|min:14|max:30',
+            'launch_brand_title' => 'nullable|string|max:100',
+            'launch_brand_subtitle' => 'nullable|string|max:140',
+            'launch_intro_date_label' => 'nullable|string|max:80',
+            'launch_intro_overline' => 'nullable|string|max:140',
+            'launch_animation_title' => 'nullable|string|max:120',
+            'launch_animation_message' => 'nullable|string|max:300',
+            'launch_intro_whisper' => 'nullable|string|max:160',
+            'launch_ribbon_overline' => 'nullable|string|max:120',
+            'launch_ribbon_title' => 'nullable|string|max:120',
+            'launch_ribbon_highlight' => 'nullable|string|max:80',
+            'launch_ribbon_caption' => 'nullable|string|max:100',
+            'launch_countdown_overline' => 'nullable|string|max:120',
+            'launch_countdown_text_5' => 'nullable|string|max:140',
+            'launch_countdown_text_4' => 'nullable|string|max:140',
+            'launch_countdown_text_3' => 'nullable|string|max:140',
+            'launch_countdown_text_2' => 'nullable|string|max:140',
+            'launch_countdown_text_1' => 'nullable|string|max:140',
+            'launch_finale_overline' => 'nullable|string|max:120',
+            'launch_finale_title' => 'nullable|string|max:120',
+            'launch_finale_subtitle' => 'nullable|string|max:160',
+            'launch_finale_badge_text' => 'nullable|string|max:180',
+            'launch_animation_button_text' => 'nullable|string|max:40',
+        ]);
+
+        $defaults = [
+            'launch_brand_title' => 'Gliders India Limited',
+            'launch_brand_subtitle' => 'A Government of India Enterprise',
+            'launch_intro_overline' => 'Celebrating freedom. Building self-reliance.',
+            'launch_animation_title' => 'Happy Independence Day',
+            'launch_animation_message' => 'Honouring the spirit of freedom, courage and self-reliance.',
+            'launch_intro_whisper' => 'A new digital chapter is ready to take flight',
+            'launch_ribbon_overline' => 'With pride, we unveil',
+            'launch_ribbon_title' => 'A New Era of',
+            'launch_ribbon_highlight' => 'Innovation',
+            'launch_ribbon_caption' => 'Gliders India Limited',
+            'launch_countdown_overline' => 'The future takes flight in',
+            'launch_countdown_text_5' => 'Five seconds to a new chapter',
+            'launch_countdown_text_4' => 'Innovation moves forward',
+            'launch_countdown_text_3' => 'Built on courage and capability',
+            'launch_countdown_text_2' => 'Designed for a self-reliant India',
+            'launch_countdown_text_1' => 'Ready for take-off',
+            'launch_finale_overline' => 'Proudly presenting',
+            'launch_finale_title' => 'Our New Digital Home',
+            'launch_finale_subtitle' => 'Modern. Accessible. Mission ready.',
+            'launch_finale_badge_text' => 'Welcome to the new Gliders India website',
+            'launch_animation_button_text' => 'Enter the Website',
+        ];
+
+        $data = collect($defaults)->mapWithKeys(function ($default, $key) use ($request) {
+            return [$key => $request->filled($key) ? trim((string) $request->input($key)) : $default];
+        })->all();
+
+        $data['launch_animation_enabled'] = $request->boolean('launch_animation_enabled');
+        $data['launch_animation_show_skip_button'] = $request->boolean('launch_animation_show_skip_button');
+        $data['launch_animation_fireworks_enabled'] = $request->boolean('launch_animation_fireworks_enabled');
+        $data['launch_animation_confetti_enabled'] = $request->boolean('launch_animation_confetti_enabled');
+        $data['launch_animation_auto_reveal_seconds'] = (int) $validated['launch_animation_auto_reveal_seconds'];
+        $data['launch_intro_date_label'] = $request->filled('launch_intro_date_label')
+            ? trim((string) $request->input('launch_intro_date_label'))
+            : null;
+        $data['launch_animation_target_at'] = $request->filled('launch_animation_target_at')
+            ? Carbon::createFromFormat('Y-m-d\TH:i', $request->input('launch_animation_target_at'), 'Asia/Kolkata')->utc()
+            : null;
+
+        GeneralSetting::firstOrCreate([])->update($data);
+
+        return redirect()->route('admin.settings.index', ['tab' => 'launch'])
+            ->with('success', 'Launch experience updated successfully.');
     }
 }

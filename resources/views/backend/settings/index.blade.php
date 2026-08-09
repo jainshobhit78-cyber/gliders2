@@ -361,6 +361,7 @@
 
                         <!-- TAB: INDEPENDENCE DAY LAUNCH EXPERIENCE -->
                         <div class="tab-pane fade" id="launch" role="tabpanel" aria-labelledby="launch-tab">
+                            @php($launchForm = 'launchSettingsSubmitForm')
                             <div class="form-group-wrapper" style="background: linear-gradient(135deg, #fff8f1 0%, #ffffff 48%, #f2fbf5 100%); border-color: #f4c89f;">
                                 <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-3">
                                     <div>
@@ -373,7 +374,7 @@
                                 </div>
 
                                 <div class="form-check form-switch mb-4">
-                                    <input class="form-check-input" type="checkbox" name="launch_animation_enabled" id="launch_animation_enabled" style="width: 48px; height: 24px; cursor: pointer;" {{ old('launch_animation_enabled', $setting->launch_animation_enabled) ? 'checked' : '' }}>
+                                    <input form="{{ $launchForm }}" class="form-check-input" type="checkbox" name="launch_animation_enabled" id="launch_animation_enabled" style="width: 48px; height: 24px; cursor: pointer;" {{ old('launch_animation_enabled', $setting->launch_animation_enabled) ? 'checked' : '' }}>
                                     <label class="form-check-label ms-2 align-middle" for="launch_animation_enabled" style="cursor: pointer; font-weight: 700; color: #13235b;">
                                         Start the launch experience on the homepage
                                     </label>
@@ -381,20 +382,21 @@
 
                                 <div id="launch_experience_fields">
                                     <div class="alert alert-info py-2 mb-4" role="alert">
-                                        Visitors see one cinematic sequence per browser session: message, ribbon cutting, five-second countdown, fireworks and a smooth homepage reveal. The button lets them skip at any time.
+                                        Every visible message, scene and effect is controlled here. Visitors see the saved sequence once per browser session; use Preview Animation to review changes at any time.
                                     </div>
 
+                                    <h6 class="fw-bold text-primary mb-3">Status, timing and controls</h6>
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label">Launch Occasion Date <span class="text-muted">(India time)</span></label>
-                                            <input type="datetime-local" name="launch_animation_target_at" class="form-control"
+                                            <input form="{{ $launchForm }}" type="datetime-local" name="launch_animation_target_at" class="form-control"
                                                 value="{{ old('launch_animation_target_at', $setting->launch_animation_target_at ? $setting->launch_animation_target_at->copy()->setTimezone('Asia/Kolkata')->format('Y-m-d\TH:i') : '2026-08-15T00:00') }}">
-                                            <small class="text-muted d-block mt-1">Shown in the opening scene. Recommended: 15 August 2026, 12:00 AM IST.</small>
+                                            <small class="text-muted d-block mt-1">Used as the opening date unless a custom date label is entered below.</small>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label">Complete Experience Duration</label>
                                             <div class="input-group">
-                                                <input type="number" min="14" max="30" name="launch_animation_auto_reveal_seconds" class="form-control"
+                                                <input form="{{ $launchForm }}" type="number" min="14" max="30" name="launch_animation_auto_reveal_seconds" class="form-control"
                                                     value="{{ old('launch_animation_auto_reveal_seconds', max(14, (int) ($setting->launch_animation_auto_reveal_seconds ?? 16))) }}">
                                                 <span class="input-group-text">seconds</span>
                                             </div>
@@ -402,27 +404,96 @@
                                         </div>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label class="form-label">Main Celebration Heading</label>
-                                        <input type="text" name="launch_animation_title" class="form-control" maxlength="120"
-                                            value="{{ old('launch_animation_title', $setting->launch_animation_title ?? 'Happy Independence Day') }}">
+                                    <div class="row mb-4">
+                                        <div class="col-md-4 mb-2">
+                                            <div class="form-check form-switch">
+                                                <input form="{{ $launchForm }}" class="form-check-input" type="checkbox" name="launch_animation_show_skip_button" id="launch_animation_show_skip_button" {{ old('launch_animation_show_skip_button', $setting->launch_animation_show_skip_button !== false) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="launch_animation_show_skip_button">Show enter/skip button</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-2">
+                                            <div class="form-check form-switch">
+                                                <input form="{{ $launchForm }}" class="form-check-input" type="checkbox" name="launch_animation_fireworks_enabled" id="launch_animation_fireworks_enabled" {{ old('launch_animation_fireworks_enabled', $setting->launch_animation_fireworks_enabled !== false) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="launch_animation_fireworks_enabled">Enable fireworks</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-2">
+                                            <div class="form-check form-switch">
+                                                <input form="{{ $launchForm }}" class="form-check-input" type="checkbox" name="launch_animation_confetti_enabled" id="launch_animation_confetti_enabled" {{ old('launch_animation_confetti_enabled', $setting->launch_animation_confetti_enabled !== false) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="launch_animation_confetti_enabled">Enable celebration confetti</label>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label class="form-label">Celebration Message</label>
-                                        <textarea name="launch_animation_message" class="form-control" rows="3" maxlength="300">{{ old('launch_animation_message', $setting->launch_animation_message ?? 'Honouring the spirit of freedom, courage and self-reliance.') }}</textarea>
+                                    <h6 class="fw-bold text-primary border-top pt-4 mb-3">Brand and opening scene</h6>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Header Brand Name</label>
+                                            <input form="{{ $launchForm }}" type="text" name="launch_brand_title" class="form-control" maxlength="100" value="{{ old('launch_brand_title', $setting->launch_brand_title ?: 'Gliders India Limited') }}">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Header Brand Subtitle</label>
+                                            <input form="{{ $launchForm }}" type="text" name="launch_brand_subtitle" class="form-control" maxlength="140" value="{{ old('launch_brand_subtitle', $setting->launch_brand_subtitle ?: 'A Government of India Enterprise') }}">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Custom Date Label <span class="text-muted">(optional)</span></label>
+                                            <input form="{{ $launchForm }}" type="text" name="launch_intro_date_label" class="form-control" maxlength="80" value="{{ old('launch_intro_date_label', $setting->launch_intro_date_label) }}" placeholder="15 August 2026">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Opening Eyebrow Text</label>
+                                            <input form="{{ $launchForm }}" type="text" name="launch_intro_overline" class="form-control" maxlength="140" value="{{ old('launch_intro_overline', $setting->launch_intro_overline ?: 'Celebrating freedom. Building self-reliance.') }}">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Main Celebration Heading</label>
+                                            <input form="{{ $launchForm }}" type="text" name="launch_animation_title" class="form-control" maxlength="120" value="{{ old('launch_animation_title', $setting->launch_animation_title ?: 'Happy Independence Day') }}">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Opening Bottom Line</label>
+                                            <input form="{{ $launchForm }}" type="text" name="launch_intro_whisper" class="form-control" maxlength="160" value="{{ old('launch_intro_whisper', $setting->launch_intro_whisper ?: 'A new digital chapter is ready to take flight') }}">
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">Celebration Message</label>
+                                            <textarea form="{{ $launchForm }}" name="launch_animation_message" class="form-control" rows="3" maxlength="300">{{ old('launch_animation_message', $setting->launch_animation_message ?: 'Honouring the spirit of freedom, courage and self-reliance.') }}</textarea>
+                                        </div>
                                     </div>
 
-                                    <div class="row align-items-end">
+                                    <h6 class="fw-bold text-primary border-top pt-4 mb-3">Ribbon-cutting scene</h6>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3"><label class="form-label">Ribbon Eyebrow Text</label><input form="{{ $launchForm }}" type="text" name="launch_ribbon_overline" class="form-control" maxlength="120" value="{{ old('launch_ribbon_overline', $setting->launch_ribbon_overline ?: 'With pride, we unveil') }}"></div>
+                                        <div class="col-md-6 mb-3"><label class="form-label">Ribbon Caption</label><input form="{{ $launchForm }}" type="text" name="launch_ribbon_caption" class="form-control" maxlength="100" value="{{ old('launch_ribbon_caption', $setting->launch_ribbon_caption ?: 'Gliders India Limited') }}"></div>
+                                        <div class="col-md-6 mb-3"><label class="form-label">Ribbon Main Heading</label><input form="{{ $launchForm }}" type="text" name="launch_ribbon_title" class="form-control" maxlength="120" value="{{ old('launch_ribbon_title', $setting->launch_ribbon_title ?: 'A New Era of') }}"></div>
+                                        <div class="col-md-6 mb-3"><label class="form-label">Highlighted Heading Word(s)</label><input form="{{ $launchForm }}" type="text" name="launch_ribbon_highlight" class="form-control" maxlength="80" value="{{ old('launch_ribbon_highlight', $setting->launch_ribbon_highlight ?: 'Innovation') }}"></div>
+                                    </div>
+
+                                    <h6 class="fw-bold text-primary border-top pt-4 mb-3">Five-second countdown</h6>
+                                    <div class="mb-3"><label class="form-label">Countdown Heading</label><input form="{{ $launchForm }}" type="text" name="launch_countdown_overline" class="form-control" maxlength="120" value="{{ old('launch_countdown_overline', $setting->launch_countdown_overline ?: 'The future takes flight in') }}"></div>
+                                    <div class="row">
+                                        @foreach([5 => 'Five seconds to a new chapter', 4 => 'Innovation moves forward', 3 => 'Built on courage and capability', 2 => 'Designed for a self-reliant India', 1 => 'Ready for take-off'] as $second => $defaultCopy)
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Text at {{ $second }} second{{ $second === 1 ? '' : 's' }}</label>
+                                                <input form="{{ $launchForm }}" type="text" name="launch_countdown_text_{{ $second }}" class="form-control" maxlength="140" value="{{ old('launch_countdown_text_'.$second, $setting->{'launch_countdown_text_'.$second} ?: $defaultCopy) }}">
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    <h6 class="fw-bold text-primary border-top pt-4 mb-3">Final celebration and website entry</h6>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3"><label class="form-label">Finale Eyebrow Text</label><input form="{{ $launchForm }}" type="text" name="launch_finale_overline" class="form-control" maxlength="120" value="{{ old('launch_finale_overline', $setting->launch_finale_overline ?: 'Proudly presenting') }}"></div>
+                                        <div class="col-md-6 mb-3"><label class="form-label">Finale Heading</label><input form="{{ $launchForm }}" type="text" name="launch_finale_title" class="form-control" maxlength="120" value="{{ old('launch_finale_title', $setting->launch_finale_title ?: 'Our New Digital Home') }}"></div>
+                                        <div class="col-md-6 mb-3"><label class="form-label">Finale Subtitle</label><input form="{{ $launchForm }}" type="text" name="launch_finale_subtitle" class="form-control" maxlength="160" value="{{ old('launch_finale_subtitle', $setting->launch_finale_subtitle ?: 'Modern. Accessible. Mission ready.') }}"></div>
+                                        <div class="col-md-6 mb-3"><label class="form-label">Finale Badge Message</label><input form="{{ $launchForm }}" type="text" name="launch_finale_badge_text" class="form-control" maxlength="180" value="{{ old('launch_finale_badge_text', $setting->launch_finale_badge_text ?: 'Welcome to the new Gliders India website') }}"></div>
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label">Enter Button Text</label>
-                                            <input type="text" name="launch_animation_button_text" class="form-control" maxlength="40"
+                                            <input form="{{ $launchForm }}" type="text" name="launch_animation_button_text" class="form-control" maxlength="40"
                                                 value="{{ old('launch_animation_button_text', $setting->launch_animation_button_text ?? 'Enter the Website') }}">
                                         </div>
-                                        <div class="col-md-6 mb-3 text-md-end">
+                                        <div class="col-md-6 mb-3 d-flex align-items-end justify-content-md-end gap-2 flex-wrap">
                                             <a href="{{ route('home', ['launch_preview' => 1]) }}" target="_blank" rel="noopener" class="btn btn-outline-primary px-4">
                                                 <i class="fa fa-play me-2"></i>Preview Animation
                                             </a>
+                                            <button form="{{ $launchForm }}" type="submit" id="saveLaunchExperienceButton" class="btn btn-theme px-4">
+                                                <i class="fa fa-save me-2"></i>Save Launch Experience
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -569,6 +640,9 @@
                         <button type="submit" class="btn btn-theme px-4 py-2" style="font-weight: 600; border-radius: 8px;">Save Settings</button>
                     </div>
                 </form>
+                <form id="launchSettingsSubmitForm" method="POST" action="{{ route('admin.settings.launch.update') }}" class="d-none">
+                    @csrf
+                </form>
             </div>
         </div>
     </div>
@@ -592,6 +666,39 @@
             };
             launchSwitch.addEventListener("change", updateLaunchFields);
             updateLaunchFields();
+        }
+
+        const requestedTab = new URLSearchParams(window.location.search).get("tab");
+        if (requestedTab === "launch") {
+            const launchTab = document.getElementById("launch-tab");
+            if (launchTab && window.bootstrap) bootstrap.Tab.getOrCreateInstance(launchTab).show();
+        }
+
+        const launchForm = document.getElementById("launchSettingsSubmitForm");
+        const launchSaveButton = document.getElementById("saveLaunchExperienceButton");
+        if (launchForm) {
+            launchForm.addEventListener("submit", async function(event) {
+                if (launchForm.dataset.tokenReady === "true") return;
+                event.preventDefault();
+                if (launchSaveButton) {
+                    launchSaveButton.disabled = true;
+                    launchSaveButton.innerHTML = '<i class="fa fa-spinner fa-spin me-2"></i>Saving...';
+                }
+
+                try {
+                    const response = await fetch(@json(route('admin.csrf.refresh')), {
+                        credentials: "same-origin",
+                        headers: { "Accept": "application/json", "X-Requested-With": "XMLHttpRequest" }
+                    });
+                    if (!response.ok) throw new Error("Unable to refresh form security token");
+                    const payload = await response.json();
+                    launchForm.querySelector('input[name="_token"]').value = payload.token;
+                    launchForm.dataset.tokenReady = "true";
+                    launchForm.requestSubmit();
+                } catch (error) {
+                    window.location.assign(@json(route('admin.settings.index', ['tab' => 'launch'])));
+                }
+            });
         }
     });
 </script>

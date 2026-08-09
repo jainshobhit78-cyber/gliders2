@@ -2,13 +2,23 @@
     $launchTarget = $trackingSetting->launch_animation_target_at
         ? $trackingSetting->launch_animation_target_at->copy()->setTimezone('Asia/Kolkata')->toIso8601String()
         : '2026-08-15T00:00:00+05:30';
-    $launchDateLabel = $trackingSetting->launch_animation_target_at
+    $derivedLaunchDateLabel = $trackingSetting->launch_animation_target_at
         ? $trackingSetting->launch_animation_target_at->copy()->setTimezone('Asia/Kolkata')->format('d F Y')
         : '15 August 2026';
+    $launchDateLabel = $trackingSetting->launch_intro_date_label ?: $derivedLaunchDateLabel;
+    $launchBrandTitle = $trackingSetting->launch_brand_title ?: 'Gliders India Limited';
+    $launchBrandSubtitle = $trackingSetting->launch_brand_subtitle ?: 'A Government of India Enterprise';
     $launchTitle = $trackingSetting->launch_animation_title ?: 'Happy Independence Day';
     $launchMessage = $trackingSetting->launch_animation_message ?: 'Honouring the spirit of freedom, courage and self-reliance.';
     $launchButton = $trackingSetting->launch_animation_button_text ?: 'Enter the Website';
     $launchDuration = max(14, (int) ($trackingSetting->launch_animation_auto_reveal_seconds ?: 16));
+    $countdownWords = [
+        5 => $trackingSetting->launch_countdown_text_5 ?: 'Five seconds to a new chapter',
+        4 => $trackingSetting->launch_countdown_text_4 ?: 'Innovation moves forward',
+        3 => $trackingSetting->launch_countdown_text_3 ?: 'Built on courage and capability',
+        2 => $trackingSetting->launch_countdown_text_2 ?: 'Designed for a self-reliant India',
+        1 => $trackingSetting->launch_countdown_text_1 ?: 'Ready for take-off',
+    ];
     $launchVersion = optional($trackingSetting->updated_at)->timestamp ?: 1;
 @endphp
 
@@ -17,6 +27,8 @@
     data-duration="{{ $launchDuration }}"
     data-version="{{ $launchVersion }}"
     data-preview="{{ $launchPreview ? 'true' : 'false' }}"
+    data-fireworks="{{ $trackingSetting->launch_animation_fireworks_enabled !== false ? 'true' : 'false' }}"
+    data-confetti="{{ $trackingSetting->launch_animation_confetti_enabled !== false ? 'true' : 'false' }}"
     aria-label="Gliders India website launch ceremony" aria-modal="true" role="dialog">
 
     <canvas class="launch-fireworks-canvas" id="launchFireworksCanvas" aria-hidden="true"></canvas>
@@ -40,15 +52,17 @@
                 <img src="{{ asset('frontend/images/logo/gliders.png') }}" alt="Gliders India Limited">
             </div>
             <div class="launch-header__copy">
-                <strong>Gliders India Limited</strong>
-                <span>A Government of India Enterprise</span>
+                <strong>{{ $launchBrandTitle }}</strong>
+                <span>{{ $launchBrandSubtitle }}</span>
             </div>
         </div>
 
+        @if($trackingSetting->launch_animation_show_skip_button !== false)
         <button type="button" class="launch-skip" id="launchEnterButton" aria-label="{{ $launchButton }}">
             <span>{{ $launchButton }}</span>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
         </button>
+        @endif
     </header>
 
     <div class="launch-stage">
@@ -64,16 +78,16 @@
             </div>
 
             <div class="launch-intro__date"><span></span>{{ $launchDateLabel }}<span></span></div>
-            <p class="launch-overline">Celebrating freedom. Building self-reliance.</p>
+            <p class="launch-overline">{{ $trackingSetting->launch_intro_overline ?: 'Celebrating freedom. Building self-reliance.' }}</p>
             <h1 id="launchExperienceTitle">{{ $launchTitle }}</h1>
             <p class="launch-intro__message">{{ $launchMessage }}</p>
             <div class="launch-tricolour-stroke" aria-hidden="true"><i></i><i></i><i></i></div>
-            <p class="launch-intro__whisper">A new digital chapter is ready to take flight</p>
+            <p class="launch-intro__whisper">{{ $trackingSetting->launch_intro_whisper ?: 'A new digital chapter is ready to take flight' }}</p>
         </section>
 
         <section class="launch-scene launch-scene--ribbon" aria-label="Ceremonial ribbon cutting">
-            <p class="launch-overline">With pride, we unveil</p>
-            <h2>A New Era of<br><em>Innovation</em></h2>
+            <p class="launch-overline">{{ $trackingSetting->launch_ribbon_overline ?: 'With pride, we unveil' }}</p>
+            <h2>{{ $trackingSetting->launch_ribbon_title ?: 'A New Era of' }}<br><em>{{ $trackingSetting->launch_ribbon_highlight ?: 'Innovation' }}</em></h2>
 
             <div class="launch-ribbon-stage" aria-hidden="true">
                 <div class="launch-ribbon__half launch-ribbon__half--left">
@@ -95,11 +109,11 @@
                     <span></span><span></span><span></span>
                 </div>
             </div>
-            <p class="launch-ribbon__caption">Gliders India Limited</p>
+            <p class="launch-ribbon__caption">{{ $trackingSetting->launch_ribbon_caption ?: 'Gliders India Limited' }}</p>
         </section>
 
         <section class="launch-scene launch-scene--countdown" aria-label="Website launch countdown">
-            <p class="launch-overline">The future takes flight in</p>
+            <p class="launch-overline">{{ $trackingSetting->launch_countdown_overline ?: 'The future takes flight in' }}</p>
             <div class="launch-countdown-orbit" aria-hidden="true">
                 <svg viewBox="0 0 220 220">
                     <circle class="launch-countdown-orbit__track" cx="110" cy="110" r="96"/>
@@ -108,7 +122,7 @@
                 <span class="launch-countdown-orbit__spark"></span>
             </div>
             <strong class="launch-countdown-number" id="launchCountdownNumber">5</strong>
-            <p class="launch-countdown-word" id="launchCountdownWord">Five seconds to a new chapter</p>
+            <p class="launch-countdown-word" id="launchCountdownWord">{{ $countdownWords[5] }}</p>
         </section>
 
         <section class="launch-scene launch-scene--finale" aria-labelledby="launchFinaleTitle">
@@ -116,12 +130,12 @@
             <div class="launch-finale__logo">
                 <img src="{{ asset('frontend/images/logo/gliders.png') }}" alt="">
             </div>
-            <p class="launch-overline">Proudly presenting</p>
-            <h2 id="launchFinaleTitle">Our New Digital Home</h2>
-            <p>Modern. Accessible. Mission ready.</p>
+            <p class="launch-overline">{{ $trackingSetting->launch_finale_overline ?: 'Proudly presenting' }}</p>
+            <h2 id="launchFinaleTitle">{{ $trackingSetting->launch_finale_title ?: 'Our New Digital Home' }}</h2>
+            <p>{{ $trackingSetting->launch_finale_subtitle ?: 'Modern. Accessible. Mission ready.' }}</p>
             <div class="launch-finale__badge">
                 <span class="launch-finale__badge-dot"></span>
-                Welcome to the new Gliders India website
+                {{ $trackingSetting->launch_finale_badge_text ?: 'Welcome to the new Gliders India website' }}
             </div>
         </section>
     </div>
@@ -133,11 +147,13 @@
         <span data-phase-dot="finale"></span>
     </div>
 
+    @if($trackingSetting->launch_animation_confetti_enabled !== false)
     <div class="launch-confetti-field" id="launchConfettiField" aria-hidden="true">
         @for($piece = 1; $piece <= 54; $piece++)
             <i style="--x: {{ ($piece * 41) % 101 }}%; --drift: {{ (($piece % 9) - 4) * 26 }}px; --width: {{ 5 + ($piece % 4) * 2 }}px; --height: {{ 10 + ($piece % 5) * 2 }}px; --duration: {{ 2.2 + ($piece % 6) * .22 }}s; --delay: {{ ($piece % 15) * .06 }}s; --spin: {{ $piece * 37 }}deg"></i>
         @endfor
     </div>
+    @endif
 
     <div class="launch-transition" aria-hidden="true">
         <div class="launch-transition__panel launch-transition__panel--saffron"></div>
@@ -157,4 +173,5 @@
     <p class="visually-hidden" id="launchLiveStatus" aria-live="assertive">Launch ceremony started</p>
 </section>
 
-<script src="{{ asset('frontend/js/launch-experience.js') }}?v=3" defer></script>
+<script type="application/json" id="launchCountdownCopy">@json($countdownWords)</script>
+<script src="{{ asset('frontend/js/launch-experience.js') }}?v=4" defer></script>

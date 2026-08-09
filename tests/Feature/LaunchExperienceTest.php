@@ -19,6 +19,12 @@ class LaunchExperienceTest extends TestCase
             'launch_animation_message' => 'A special Independence Day message from Gliders India.',
             'launch_animation_button_text' => 'Experience the Website',
             'launch_animation_auto_reveal_seconds' => 9,
+            'launch_brand_title' => 'Custom Brand',
+            'launch_ribbon_title' => 'A Custom Era',
+            'launch_countdown_text_3' => 'Three custom seconds',
+            'launch_finale_title' => 'Custom Digital Home',
+            'launch_animation_fireworks_enabled' => false,
+            'launch_animation_confetti_enabled' => false,
         ]);
 
         $response = $this->get('/');
@@ -32,7 +38,12 @@ class LaunchExperienceTest extends TestCase
         $response->assertSee('id="launchCountdownNumber">5', false);
         $response->assertSee('launch-ribbon-stage', false);
         $response->assertSee('id="launchFireworksCanvas"', false);
-        $response->assertSee('Our New Digital Home');
+        $response->assertSee('Custom Brand');
+        $response->assertSee('A Custom Era');
+        $response->assertSee('Three custom seconds');
+        $response->assertSee('Custom Digital Home');
+        $response->assertSee('data-fireworks="false"', false);
+        $response->assertDontSee('id="launchConfettiField"', false);
         $response->assertSee('2026-08-15T00:00:00+05:30', false);
         $response->assertSee('frontend/images/logo/gliders.png');
     }
@@ -79,6 +90,9 @@ class LaunchExperienceTest extends TestCase
         $this->assertStringContainsString('launch-fireworks-canvas', $styles);
         $this->assertStringContainsString('launchNumberTick', $styles);
         $this->assertStringContainsString('name="launch_animation_enabled"', $settings);
+        $this->assertStringContainsString('name="launch_countdown_text_5"', $settings);
+        $this->assertStringContainsString('id="launchSettingsSubmitForm"', $settings);
+        $this->assertStringContainsString('admin.csrf.refresh', $settings);
         $this->assertStringContainsString('Preview Animation', $settings);
     }
 }

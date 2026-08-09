@@ -1361,6 +1361,8 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
     // System Settings Routes
     Route::get('admin/settings', [SystemSettingsController::class, 'index'])->name('admin.settings.index')->middleware('permission:settings.view,admin');
     Route::post('admin/settings/update', [SystemSettingsController::class, 'update'])->name('admin.settings.update')->middleware('permission:settings.edit,admin');
+    Route::post('admin/settings/launch', [SystemSettingsController::class, 'updateLaunch'])->name('admin.settings.launch.update')->middleware('permission:settings.edit,admin');
+    Route::get('admin/csrf-token', fn () => response()->json(['token' => csrf_token()]))->name('admin.csrf.refresh')->middleware('permission:settings.edit,admin');
 
     // Approvals Dashboard Routes
     Route::get('admin/approvals', [ApprovalController::class, 'index'])->name('admin.approvals.index')->middleware('permission:approvals.view,admin');
