@@ -91,7 +91,7 @@
                     </li>
                 </ul>
 
-                <form method="POST" action="{{ route('admin.settings.update') }}" class="theme-form" enctype="multipart/form-data">
+                <form id="systemSettingsForm" method="POST" action="{{ route('admin.settings.update') }}" class="theme-form" enctype="multipart/form-data">
                     @csrf
 
                     <!-- Tab Contents -->
@@ -374,7 +374,8 @@
                                 </div>
 
                                 <div class="form-check form-switch mb-4">
-                                    <input form="{{ $launchForm }}" class="form-check-input" type="checkbox" name="launch_animation_enabled" id="launch_animation_enabled" style="width: 48px; height: 24px; cursor: pointer;" {{ old('launch_animation_enabled', $setting->launch_animation_enabled) ? 'checked' : '' }}>
+                                    <input form="{{ $launchForm }}" type="hidden" name="launch_animation_enabled" value="0">
+                                    <input form="{{ $launchForm }}" class="form-check-input" type="checkbox" name="launch_animation_enabled" value="1" id="launch_animation_enabled" style="width: 48px; height: 24px; cursor: pointer;" {{ old('launch_animation_enabled', $setting->launch_animation_enabled) ? 'checked' : '' }}>
                                     <label class="form-check-label ms-2 align-middle" for="launch_animation_enabled" style="cursor: pointer; font-weight: 700; color: #13235b;">
                                         Start the launch experience on the homepage
                                     </label>
@@ -637,7 +638,7 @@
 
                     <!-- Save Button -->
                     <div class="mt-4 border-top pt-3 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-theme px-4 py-2" style="font-weight: 600; border-radius: 8px;">Save Settings</button>
+                        <button type="submit" id="saveSystemSettingsButton" class="btn btn-theme px-4 py-2" style="font-weight: 600; border-radius: 8px;">Save Settings</button>
                     </div>
                 </form>
                 <form id="launchSettingsSubmitForm" method="POST" action="{{ route('admin.settings.launch.update') }}" class="d-none">
@@ -676,6 +677,37 @@
 
         const launchForm = document.getElementById("launchSettingsSubmitForm");
         const launchSaveButton = document.getElementById("saveLaunchExperienceButton");
+        const systemForm = document.getElementById("systemSettingsForm");
+        const systemSaveButton = document.getElementById("saveSystemSettingsButton");
+
+        // The launch controls intentionally belong to their dedicated form. If an
+        // administrator uses the page-level Save button while this tab is open,
+        // submit that dedicated form instead of silently ignoring the launch fields.
+        if (systemForm && launchForm) {
+            systemForm.addEventListener("submit", function(event) {
+                const launchPane = document.getElementById("launch");
+                if (!launchPane || !launchPane.classList.contains("active")) return;
+
+                event.preventDefault();
+                launchForm.requestSubmit();
+            });
+        }
+
+        if (systemSaveButton) {
+            const updateSystemSaveLabel = function() {
+                const launchPane = document.getElementById("launch");
+                systemSaveButton.innerHTML = launchPane && launchPane.classList.contains("active")
+                    ? '<i class="fa fa-save me-2"></i>Save Launch Experience'
+                    : 'Save Settings';
+            };
+
+            document.querySelectorAll('#settingsTab button[data-bs-toggle="tab"]').forEach(function(tabButton) {
+                tabButton.addEventListener("shown.bs.tab", updateSystemSaveLabel);
+            });
+
+            updateSystemSaveLabel();
+        }
+
         if (launchForm) {
             launchForm.addEventListener("submit", async function(event) {
                 if (launchForm.dataset.tokenReady === "true") return;

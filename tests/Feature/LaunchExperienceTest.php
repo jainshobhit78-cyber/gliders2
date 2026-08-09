@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Http\Controllers\Backend\SystemSettingsController;
 use App\Models\GeneralSetting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Tests\TestCase;
 
 class LaunchExperienceTest extends TestCase
@@ -71,6 +73,20 @@ class LaunchExperienceTest extends TestCase
             ->assertDontSee('id="launchExperience"', false);
     }
 
+    public function test_launch_settings_endpoint_persists_explicit_off_state(): void
+    {
+        GeneralSetting::firstOrCreate([])->update(['launch_animation_enabled' => true]);
+
+        $request = Request::create('/admin/settings/launch', 'POST', [
+            'launch_animation_enabled' => '0',
+            'launch_animation_auto_reveal_seconds' => 16,
+        ]);
+
+        app(SystemSettingsController::class)->updateLaunch($request);
+
+        $this->assertFalse(GeneralSetting::first()->fresh()->launch_animation_enabled);
+    }
+
     public function test_launch_assets_include_session_memory_countdown_and_animated_reveal(): void
     {
         $script = file_get_contents(public_path('frontend/js/launch-experience.js'));
@@ -92,6 +108,9 @@ class LaunchExperienceTest extends TestCase
         $this->assertStringContainsString('name="launch_animation_enabled"', $settings);
         $this->assertStringContainsString('name="launch_countdown_text_5"', $settings);
         $this->assertStringContainsString('id="launchSettingsSubmitForm"', $settings);
+        $this->assertStringContainsString('id="systemSettingsForm"', $settings);
+        $this->assertStringContainsString('name="launch_animation_enabled" value="0"', $settings);
+        $this->assertStringContainsString('launchPane.classList.contains("active")', $settings);
         $this->assertStringContainsString('admin.csrf.refresh', $settings);
         $this->assertStringContainsString('Preview Animation', $settings);
     }
