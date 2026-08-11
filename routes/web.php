@@ -725,13 +725,18 @@ Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(fun
         };
 
         $sync('SU-30', $su30Data);
-        $sync('Mig29', $mig29Data);
+        $sync('MiG-29', $mig29Data);
         $sync('Tejas', $tejasData);
         $sync('Mirage', $mirageData);
         $sync('MIG-21/23/25', $migSeriesData);
         $sync('Hawk', $hawkData);
         $sync('Lakshya', $lakshyaData);
         $sync('Jaguar', $jaguarData);
+
+        // Keep the maintenance seeder aligned with the reviewed brake-parachute
+        // specification sheet and its canonical heading order.
+        $correctionMigration = require database_path('migrations/2026_08_11_010000_uniform_brake_parachute_specifications.php');
+        $correctionMigration->up();
 
         return response($output . "\nSeeding Completed Successfully!", 200)
             ->header('Content-Type', 'text/plain');
