@@ -237,12 +237,12 @@
                         </section>
 
                         {{-- Legacy Toggle Buttons --}}
-                        <div class="leader-tabs-container mb-5" style="max-width: 500px; margin: 0 auto 30px auto;">
+                        <div class="leader-tabs-container mb-5" style="max-width: 720px; margin: 0 auto 30px auto;">
                             <button class="leader-tab-btn active" id="btnLegacyGliders" onclick="switchLegacy('gliders')">
                                 Gliders India Limited
                             </button>
                             <button class="leader-tab-btn" id="btnLegacyOPF" onclick="switchLegacy('opf')">
-                                OPF
+                                Ordnance Parachute Factory
                             </button>
                         </div>
 
