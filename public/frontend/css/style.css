@@ -2449,9 +2449,25 @@ table td {
     text-decoration: underline;
 }
 
+.officer-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    width: min(100%, 420px);
+}
+
+.officer-tabs .nav-item {
+    width: 100%;
+}
+
 .officer-tabs .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 52px;
     border-radius: 8px;
-    margin-right: 10px;
+    margin-right: 0;
     padding: 10px 20px;
     font-weight: 600;
     color: #1f3c88;
