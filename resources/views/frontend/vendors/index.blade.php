@@ -31,20 +31,17 @@
 
                             <div class="portal-card mb-4">
 
-                                 <h4 class="portal-title">
-                                    {!! preg_replace('!(https?://[^\s]+)!', '<a href="$1" target="_blank" style="word-break: break-all;" class="text-primary text-decoration-underline">$1</a>', e($item->title)) !!}
-                                </h4>
-
-                                @if($item->pdf)
-                                    <div class="pdf-link-wrapper mt-3">
-                                        <span class="pdf-icon">📄</span>
-
-                                        <a href="{{ asset('uploads/vendors/' . $item->pdf) }}" target="_blank" class="portal-pdf-link">
-                                            Click here to Download
-                                            ({{ $item->pdf }})
+                                <h4 class="portal-title">
+                                    @if($item->pdf)
+                                        <a href="{{ asset('uploads/vendors/' . $item->pdf) }}"
+                                           download="{{ \App\Support\DocumentLink::downloadName($item->pdf, $item->title) }}"
+                                           class="document-heading-link">
+                                            {{ $item->title }}
                                         </a>
-                                    </div>
-                                @endif
+                                    @else
+                                        {!! preg_replace('!(https?://[^\s]+)!', '<a href="$1" target="_blank" style="word-break: break-all;" class="text-primary text-decoration-underline">$1</a>', e($item->title)) !!}
+                                    @endif
+                                </h4>
 
                             </div>
 

@@ -40,7 +40,7 @@
                                 @if($item->pdf)
                                     <h4 class="raj-title">
                                         <a href="{{ asset('uploads/rajshabha/' . $item->pdf) }}"
-                                           download="{{ $item->pdf }}"
+                                           download="{{ \App\Support\DocumentLink::downloadName($item->pdf, $item->heading) }}"
                                            class="raj-title-download"
                                            aria-label="Download {{ $item->heading }} PDF">
                                             {{ $item->heading }}
@@ -77,7 +77,7 @@
                                 @if($item->pdf)
                                     <h4 class="raj-title">
                                         <a href="{{ asset('uploads/rajshabha/' . $item->pdf) }}"
-                                           download="{{ $item->pdf }}"
+                                           download="{{ \App\Support\DocumentLink::downloadName($item->pdf, $item->heading) }}"
                                            class="raj-title-download"
                                            aria-label="Download {{ $item->heading }} PDF">
                                             {{ $item->heading }}

@@ -39,24 +39,34 @@
 
                             <div class="report-card mb-4">
 
+                                @php($primaryFile = $item->files->first())
                                 <h4 class="report-title">
-                                    {{ $item->heading }}
+                                    @if($primaryFile)
+                                        <a href="{{ asset('uploads/finance/' . $primaryFile->pdf) }}"
+                                           download="{{ \App\Support\DocumentLink::downloadName($primaryFile->pdf, $item->heading) }}"
+                                           class="document-heading-link">
+                                            {{ $item->heading }}
+                                        </a>
+                                    @else
+                                        {{ $item->heading }}
+                                    @endif
                                 </h4>
 
                                 <div class="report-description">
                                     {!! \App\Support\Security::cleanHtml($item->description) !!}
                                 </div>
 
-                                @if($item->files->count())
+                                @if($item->files->count() > 1)
                                     <div class="pdf-list mt-3">
 
-                                        @foreach($item->files as $file)
+                                        @foreach($item->files->skip(1) as $file)
                                             <div class="pdf-link-wrapper">
                                                 <span class="pdf-icon">📄</span>
 
-                                                <a href="{{ asset('uploads/finance/' . $file->pdf) }}" target="_blank" class="pdf-link">
-                                                    Click here to Download
-                                                    ({{ $file->pdf }})
+                                                <a href="{{ asset('uploads/finance/' . $file->pdf) }}"
+                                                   download="{{ \App\Support\DocumentLink::downloadName($file->pdf, $item->heading) }}"
+                                                   class="pdf-link">
+                                                    {{ \App\Support\DocumentLink::downloadName($file->pdf, $item->heading) }}
                                                 </a>
                                             </div>
                                         @endforeach
@@ -87,23 +97,20 @@
                             <div class="eoi-card mb-4">
 
                                 <h4 class="report-title">
-                                    {{ $item->title }}
+                                    @if($item->pdf)
+                                        <a href="{{ asset('uploads/finance/' . $item->pdf) }}"
+                                           download="{{ \App\Support\DocumentLink::downloadName($item->pdf, $item->title) }}"
+                                           class="document-heading-link">
+                                            {{ $item->title }}
+                                        </a>
+                                    @else
+                                        {{ $item->title }}
+                                    @endif
                                 </h4>
 
                                 <div class="report-description">
                                     {!! \App\Support\Security::cleanHtml($item->description) !!}
                                 </div>
-
-                                @if($item->pdf)
-                                    <div class="pdf-link-wrapper mt-3">
-                                        <span class="pdf-icon">📄</span>
-
-                                        <a href="{{ asset('uploads/finance/' . $item->pdf) }}" target="_blank" class="pdf-link">
-                                            Click here to Download
-                                            ({{ $item->pdf }})
-                                        </a>
-                                    </div>
-                                @endif
 
                             </div>
 

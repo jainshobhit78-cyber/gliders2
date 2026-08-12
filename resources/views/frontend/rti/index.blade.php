@@ -162,17 +162,17 @@
 
                             <div class="rti-info-item mb-4">
 
-                                <div class="rti-info-content">
-                                    {!! \App\Support\Security::cleanHtml($item->info_text) !!}
-                                </div>
-
                                 @if($item->pdf)
-                                    <div class="pdf-link-wrapper">
-                                        <span class="pdf-icon">📄</span>
-
-                                        <a href="{{ asset('uploads/rti/' . $item->pdf) }}" target="_blank" class="pdf-link">
-                                            Click here to Download ({{ $item->pdf }})
+                                    <div class="rti-info-content">
+                                        <a href="{{ asset('uploads/rti/' . $item->pdf) }}"
+                                           download="{{ \App\Support\DocumentLink::downloadName($item->pdf, $item->info_text) }}"
+                                           class="document-heading-link">
+                                            {!! \App\Support\Security::cleanHtml($item->info_text) !!}
                                         </a>
+                                    </div>
+                                @else
+                                    <div class="rti-info-content">
+                                        {!! \App\Support\Security::cleanHtml($item->info_text) !!}
                                     </div>
                                 @endif
 

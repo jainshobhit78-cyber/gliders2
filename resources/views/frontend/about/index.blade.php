@@ -800,22 +800,20 @@
                             <div class="conduct-item pb-4 mb-1">
 
                                 <h4 class="pb-2">
-                                    {{ $item->title }}
+                                    @if($item->pdf)
+                                        <a href="{{ asset('uploads/codes/' . $item->pdf) }}"
+                                           download="{{ \App\Support\DocumentLink::downloadName($item->pdf, $item->title) }}"
+                                           class="document-heading-link">
+                                            {{ $item->title }}
+                                        </a>
+                                    @else
+                                        {{ $item->title }}
+                                    @endif
                                 </h4>
 
                                 <div class="text-muted pb-2">
                                     {!! \App\Support\Security::cleanHtml($item->description) !!}
                                 </div>
-
-                                @if($item->pdf)
-                                    <div class="pdf-link-wrapper">
-                                        <span class="pdf-icon">📄</span>
-
-                                        <a href="{{ asset('uploads/codes/' . $item->pdf) }}" target="_blank" class="pdf-link">
-                                            Click here to Download ({{ $item->pdf }})
-                                        </a>
-                                    </div>
-                                @endif
 
                             </div>
 

@@ -74,7 +74,15 @@
                                 <div class="col-md-8">
 
                                     <h4>
-                                        {{ $item->name }}
+                                        @if($item->pdf)
+                                            <a href="{{ asset('uploads/cvo/' . $item->pdf) }}"
+                                               download="{{ \App\Support\DocumentLink::downloadName($item->pdf, $item->name) }}"
+                                               class="document-heading-link">
+                                                {{ $item->name }}
+                                            </a>
+                                        @else
+                                            {{ $item->name }}
+                                        @endif
                                     </h4>
 
                                     <h5 class="designation text-start">
@@ -88,17 +96,6 @@
                                     <div class="cvo-description">
                                         {!! \App\Support\Security::cleanHtml($item->description) !!}
                                     </div>
-
-                                    @if($item->pdf)
-                                        <div class="mt-4">
-                                            <span class="pdf-icon">📄</span>
-                                            <a href="{{ asset('uploads/cvo/' . $item->pdf) }}" target="_blank" class="cvo-pdf-link">
-                                                Click here to Download ({{ $item->pdf }})
-                                            </a>
-                                        </div>
-                                    @endif
-
-
 
                                 </div>
 
@@ -138,23 +135,21 @@
                                 <div class="col-md-8">
                                     <div class="pb-2">
                                         <h4>
-                                            Vigilance Setup
+                                            @if($item->pdf)
+                                                <a href="{{ asset('uploads/vigilance/' . $item->pdf) }}"
+                                                   download="{{ \App\Support\DocumentLink::downloadName($item->pdf, 'Vigilance Setup') }}"
+                                                   class="document-heading-link">
+                                                    Vigilance Setup
+                                                </a>
+                                            @else
+                                                Vigilance Setup
+                                            @endif
                                         </h4>
                                     </div>
 
                                     <div class="text-muted">
                                         {!! \App\Support\Security::cleanHtml($item->description) !!}
                                     </div>
-
-                                    @if($item->pdf)
-                                        <div class="mt-2">
-                                            <span class="pdf-icon">📄</span>
-                                            <a href="{{ asset('uploads/vigilance/' . $item->pdf) }}" target="_blank"
-                                                class="setup-pdf-link">
-                                                Click here to Download ({{ $item->pdf }})
-                                            </a>
-                                        </div>
-                                    @endif
 
                                 </div>
 
@@ -280,26 +275,21 @@
                                 <div class="col-md-8">
                                     <div class="pb-2">
                                         <h4>
-                                            Sexual Harassment Policy
+                                            @if($item->pdf)
+                                                <a href="{{ asset('uploads/vigilance/' . $item->pdf) }}"
+                                                   download="{{ \App\Support\DocumentLink::downloadName($item->pdf, 'Sexual Harassment Policy') }}"
+                                                   class="document-heading-link">
+                                                    Sexual Harassment Policy
+                                                </a>
+                                            @else
+                                                Sexual Harassment Policy
+                                            @endif
                                         </h4>
                                     </div>
 
                                     <div class="info-text">
                                         {!! \App\Support\Security::cleanHtml($item->info_text) !!}
                                     </div>
-
-                                    @if($item->pdf)
-                                        <div class="mt-2">
-                                            <span class="pdf-icon">📄</span>
-                                            <a href="{{ asset('uploads/vigilance/' . $item->pdf) }}" target="_blank"
-                                                class="harassment-pdf-link">
-
-                                                Click here to Download ({{ $item->pdf }})
-                                            </a>
-                                        </div>
-                                    @endif
-
-
 
                                 </div>
 
@@ -345,18 +335,17 @@
 
                             <div class="manual-item mb-4">
 
-                                <div class="info-text">
-                                    {!! \App\Support\Security::cleanHtml($item->info_text) !!}
-                                </div>
-
                                 @if($item->pdf)
-                                    <div class="mt-3">
-                                        <span class="pdf-icon">📄</span>
-                                        <a href="{{ asset('uploads/vigilance/' . $item->pdf) }}" target="_blank"
-                                            class="manual-pdf-link">
-
-                                            Click here to Download ({{ $item->pdf }})
+                                    <div class="info-text">
+                                        <a href="{{ asset('uploads/vigilance/' . $item->pdf) }}"
+                                           download="{{ \App\Support\DocumentLink::downloadName($item->pdf, $item->info_text) }}"
+                                           class="document-heading-link">
+                                            {!! \App\Support\Security::cleanHtml($item->info_text) !!}
                                         </a>
+                                    </div>
+                                @else
+                                    <div class="info-text">
+                                        {!! \App\Support\Security::cleanHtml($item->info_text) !!}
                                     </div>
                                 @endif
 
@@ -382,18 +371,17 @@
 
                             <div class="mb-4">
 
-                                <div class="info-text">
-                                    {!! \App\Support\Security::cleanHtml($item->info_text) !!}
-                                </div>
-
                                 @if($item->pdf)
-                                    <div class="mt-3">
-                                        <span class="pdf-icon">📄</span>
-                                        <a href="{{ asset('uploads/vigilance/' . $item->pdf) }}" target="_blank"
-                                            class="bulletin-pdf-link">
-
-                                            Click here to Download ({{ $item->pdf }})
+                                    <div class="info-text">
+                                        <a href="{{ asset('uploads/vigilance/' . $item->pdf) }}"
+                                           download="{{ \App\Support\DocumentLink::downloadName($item->pdf, $item->info_text) }}"
+                                           class="document-heading-link">
+                                            {!! \App\Support\Security::cleanHtml($item->info_text) !!}
                                         </a>
+                                    </div>
+                                @else
+                                    <div class="info-text">
+                                        {!! \App\Support\Security::cleanHtml($item->info_text) !!}
                                     </div>
                                 @endif
 

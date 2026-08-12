@@ -42,7 +42,15 @@
                             <div class="job-opening-item border rounded p-4 mb-4 bg-light shadow-sm" style="transition: transform 0.2s;">
                                 <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
                                     <h4 class="job-title text-dark mb-0 fw-bold">
-                                        {{ $item->title }}
+                                        @if($item->pdf)
+                                            <a href="{{ asset('uploads/careers/' . $item->pdf) }}"
+                                               download="{{ \App\Support\DocumentLink::downloadName($item->pdf, $item->title) }}"
+                                               class="document-heading-link">
+                                                {{ $item->title }}
+                                            </a>
+                                        @else
+                                            {{ $item->title }}
+                                        @endif
                                     </h4>
                                     <div>
                                         @if($isClosed)
@@ -83,11 +91,7 @@
                                         @endif
                                     </div>
                                     <div class="col-sm-6 text-sm-end">
-                                        @if($item->pdf)
-                                            <a href="{{ asset('uploads/careers/' . $item->pdf) }}" target="_blank" class="btn btn-outline-primary btn-sm px-4 py-2">
-                                                Download Details PDF
-                                            </a>
-                                        @else
+                                        @if(!$item->pdf)
                                             <span class="text-muted">No attachments</span>
                                         @endif
                                     </div>
@@ -128,8 +132,10 @@
                                             <div class="pdf-link-wrapper">
                                                 <span class="pdf-icon text-danger">📄</span>
 
-                                                <a href="{{ asset('uploads/careers/' . $file->pdf) }}" target="_blank" class="pdf-link text-decoration-none">
-                                                    Download Advertisement/Details ({{ $file->pdf }})
+                                                <a href="{{ asset('uploads/careers/' . $file->pdf) }}"
+                                                   download="{{ \App\Support\DocumentLink::downloadName($file->pdf, $item->title) }}"
+                                                   class="pdf-link text-decoration-none">
+                                                    Download Advertisement ({{ \App\Support\DocumentLink::downloadName($file->pdf, $item->title) }})
                                                 </a>
                                             </div>
                                         @endforeach
