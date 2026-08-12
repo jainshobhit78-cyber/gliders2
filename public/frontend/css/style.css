@@ -8966,7 +8966,7 @@ table td {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(245, 248, 255, 0.55) !important; /* Soft ice-white overlay to fade wallpaper */
+    background: rgba(245, 248, 255, 0.76) !important; /* Keep the wallpaper subtle behind product content */
     z-index: 2;
     pointer-events: none;
 }
