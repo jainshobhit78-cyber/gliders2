@@ -37,19 +37,19 @@
 
                             <div class="raj-item-card mb-4">
 
-                                <h4 class="raj-title">
-                                    {{ $item->heading }}
-                                </h4>
-
                                 @if($item->pdf)
-                                    <div class="pdf-link-wrapper mt-3">
-                                        <span class="pdf-icon">📄</span>
-
-                                        <a href="{{ asset('uploads/rajshabha/' . $item->pdf) }}" target="_blank" class="pdf-link">
-                                            Click here to Download
-                                            ({{ $item->pdf }})
+                                    <h4 class="raj-title">
+                                        <a href="{{ asset('uploads/rajshabha/' . $item->pdf) }}"
+                                           download="{{ $item->pdf }}"
+                                           class="raj-title-download"
+                                           aria-label="Download {{ $item->heading }} PDF">
+                                            {{ $item->heading }}
                                         </a>
-                                    </div>
+                                    </h4>
+                                @else
+                                    <h4 class="raj-title">
+                                        {{ $item->heading }}
+                                    </h4>
                                 @endif
 
                             </div>
@@ -74,19 +74,19 @@
 
                             <div class="raj-item-card mb-4">
 
-                                <h4 class="raj-title">
-                                    {{ $item->heading }}
-                                </h4>
-
                                 @if($item->pdf)
-                                    <div class="pdf-link-wrapper mt-3">
-                                        <span class="pdf-icon">📄</span>
-
-                                        <a href="{{ asset('uploads/rajshabha/' . $item->pdf) }}" target="_blank" class="pdf-link">
-                                            Click here to Download
-                                            ({{ $item->pdf }})
+                                    <h4 class="raj-title">
+                                        <a href="{{ asset('uploads/rajshabha/' . $item->pdf) }}"
+                                           download="{{ $item->pdf }}"
+                                           class="raj-title-download"
+                                           aria-label="Download {{ $item->heading }} PDF">
+                                            {{ $item->heading }}
                                         </a>
-                                    </div>
+                                    </h4>
+                                @else
+                                    <h4 class="raj-title">
+                                        {{ $item->heading }}
+                                    </h4>
                                 @endif
 
                             </div>
