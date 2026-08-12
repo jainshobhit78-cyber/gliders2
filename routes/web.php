@@ -60,24 +60,27 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::redirect('admin', 'admin/dashboard');
+// Apply the IP allowlist before authentication so unapproved visitors cannot
+// view or submit any admin authentication, password-reset, or OTP endpoint.
+Route::middleware('ipWhitelist')->group(function () {
+    Route::redirect('admin', 'admin/dashboard');
 
-Route::get('admin/login', [AdminAuthController::class, 'login']);
-Route::post('admin/login', [AdminAuthController::class, 'loginPost']);
+    Route::get('admin/login', [AdminAuthController::class, 'login']);
+    Route::post('admin/login', [AdminAuthController::class, 'loginPost']);
 
+    Route::get('admin/forgot-password', [AdminAuthController::class, 'forgotPassword']);
+    Route::post('admin/forgot-password', [AdminAuthController::class, 'forgotPasswordPost'])->middleware('throttle:3,5');
 
-Route::get('admin/forgot-password', [AdminAuthController::class, 'forgotPassword']);
-Route::post('admin/forgot-password', [AdminAuthController::class, 'forgotPasswordPost'])->middleware('throttle:3,5');
+    Route::get('admin/verify-otp', [AdminAuthController::class, 'verifyOtpForm']);
+    Route::post('admin/verify-otp', [AdminAuthController::class, 'verifyOtpPost'])->middleware('throttle:3,5');
 
-Route::get('admin/verify-otp', [AdminAuthController::class, 'verifyOtpForm']);
-Route::post('admin/verify-otp', [AdminAuthController::class, 'verifyOtpPost'])->middleware('throttle:3,5');
+    Route::get('admin/reset-password/{token}', [AdminAuthController::class, 'showResetForm']);
+    Route::post('admin/reset-password', [AdminAuthController::class, 'resetPasswordPost']);
 
-Route::get('admin/reset-password/{token}', [AdminAuthController::class, 'showResetForm']);
-Route::post('admin/reset-password', [AdminAuthController::class, 'resetPasswordPost']);
+    Route::post('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+});
 
-Route::post('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
-
-Route::middleware(['adminAuth', 'ipWhitelist', 'validateCmsUploads'])->group(function () {
+Route::middleware(['ipWhitelist', 'adminAuth', 'validateCmsUploads'])->group(function () {
 
     // System Tools: super-admin-only, and additionally locked behind a hardcoded
     // access password. Shows the password form until unlocked for the session.
