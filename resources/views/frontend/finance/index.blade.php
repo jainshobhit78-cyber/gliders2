@@ -83,7 +83,6 @@
                                             </a>
                                         @else
                                             <span>ANNUAL RETURN {{ $item->fiscal_year }}</span>
-                                            <small class="d-block text-muted mt-1">PDF pending upload</small>
                                         @endif
                                     </h4>
                                 </div>

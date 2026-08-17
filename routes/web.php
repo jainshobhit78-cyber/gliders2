@@ -1559,11 +1559,19 @@ Route::middleware(['ipWhitelist', 'adminAuth', 'validateCmsUploads'])->group(fun
     })->middleware('permission:finance.view,admin');
 
     Route::post('admin/finance/toggle-eoi', function (\Illuminate\Http\Request $request) {
-        $settings = \App\Models\GeneralSetting::firstOrCreate([]);
-        $settings->update([
-            'eoi_enabled' => (bool)$request->enabled
+        $validated = $request->validate([
+            'enabled' => ['required', 'boolean'],
         ]);
-        return response()->json(['status' => 'success']);
+
+        $settings = \App\Models\GeneralSetting::firstOrCreate([]);
+        $settings->eoi_enabled = (bool) $validated['enabled'];
+        $settings->saveOrFail();
+        $settings->refresh();
+
+        return response()->json([
+            'status' => 'success',
+            'enabled' => (bool) $settings->eoi_enabled,
+        ]);
     })->middleware('permission:finance.view,admin')->name('admin.finance.toggle-eoi');
 
     Route::get('admin/finance/reports', [FinanceReportController::class, 'list'])->middleware('permission:annual_reports.view,admin');

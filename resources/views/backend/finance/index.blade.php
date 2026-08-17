@@ -338,33 +338,54 @@
 
         })
 
-        // AJAX Toggle handler for EOI status
-        $("#toggleEoiStatus").change(function() {
-            let isChecked = $(this).is(":checked");
-            let statusText = isChecked ? "Enabled" : "Disabled";
-            $("#eoiStatusLabel").text(statusText);
-            
-            fetch("{{ route('admin.finance.toggle-eoi') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({ enabled: isChecked })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
+        // Persist the EOI visibility switch and only show a new state after the
+        // server confirms it. A failed or expired request restores the old state.
+        $(document)
+            .off("change.financeEoi", "#toggleEoiStatus")
+            .on("change.financeEoi", "#toggleEoiStatus", async function () {
+                const checkbox = this;
+                const requestedState = checkbox.checked;
+                const previousState = !requestedState;
+                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+                checkbox.disabled = true;
+
+                try {
+                    const response = await fetch("{{ route('admin.finance.toggle-eoi') }}", {
+                        method: "POST",
+                        credentials: "same-origin",
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json",
+                            "X-Requested-With": "XMLHttpRequest",
+                            "X-CSRF-TOKEN": csrfToken || "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({ enabled: requestedState })
+                    });
+
+                    const data = await response.json().catch(() => ({}));
+
+                    if (!response.ok || data.status !== 'success') {
+                        throw new Error(response.status === 419 ? 'session-expired' : 'save-failed');
+                    }
+
+                    checkbox.checked = Boolean(data.enabled);
+                    const statusText = checkbox.checked ? "Enabled" : "Disabled";
+                    $("#eoiStatusLabel").text(statusText);
                     toastr.success('EOI for Banks tab ' + statusText.toLowerCase() + ' successfully.');
-                } else {
-                    toastr.error('Failed to update EOI status.');
+                } catch (error) {
+                    checkbox.checked = previousState;
+                    $("#eoiStatusLabel").text(previousState ? "Enabled" : "Disabled");
+
+                    if (error.message === 'session-expired') {
+                        toastr.error('Your admin session has expired. Please sign in again.');
+                    } else {
+                        toastr.error('EOI setting could not be saved. The previous state has been restored.');
+                    }
+                } finally {
+                    checkbox.disabled = false;
                 }
-            })
-            .catch(error => {
-                console.error('Error updating EOI status:', error);
-                toastr.error('Error updating EOI status.');
             });
-        });
     </script>
 
 

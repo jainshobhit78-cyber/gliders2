@@ -9,7 +9,7 @@ final class DocumentLink
      */
     public static function annualReportHeading(?string $storedFilename): string
     {
-        return 'ANNUAL REPORT '.self::annualReportYear($storedFilename);
+        return 'ANNUAL REPORT YEAR '.self::annualReportYear($storedFilename);
     }
 
     /**
@@ -17,7 +17,7 @@ final class DocumentLink
      */
     public static function annualReportDownloadName(?string $storedFilename): string
     {
-        return 'Annual Report '.self::annualReportYear($storedFilename).'.pdf';
+        return 'Annual Report Year '.self::annualReportYear($storedFilename).'.pdf';
     }
 
     /**
