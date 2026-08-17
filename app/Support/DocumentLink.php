@@ -21,6 +21,20 @@ final class DocumentLink
     }
 
     /**
+     * Expand a stored two-digit fiscal year for public display.
+     */
+    public static function fullFiscalYear(?string $fiscalYear): string
+    {
+        $fiscalYear = trim((string) $fiscalYear);
+
+        if (preg_match('/^(?:20)?(\d{2})-(\d{2})$/u', $fiscalYear, $matches)) {
+            return '20'.$matches[1].'-'.$matches[2];
+        }
+
+        return $fiscalYear;
+    }
+
+    /**
      * Return a safe, human-readable download name for legacy and current uploads.
      */
     public static function downloadName(?string $storedFilename, ?string $fallbackTitle = null): string
@@ -59,14 +73,14 @@ final class DocumentLink
         $filename = basename(str_replace('\\', '/', (string) $storedFilename));
 
         if (preg_match('/(?:20)?(\d{2})[\s_.-]+(\d{2})(?!\d)/u', $filename, $matches)) {
-            return $matches[1].'-'.$matches[2];
+            return '20'.$matches[1].'-'.$matches[2];
         }
 
         // The first GIL report was historically stored as "AR_22".
         if (preg_match('/(?:^|[^a-z0-9])AR[\s_.-]*(\d{2})(?!\d)/iu', $filename, $matches)) {
             $endYear = (int) $matches[1];
 
-            return sprintf('%02d-%02d', ($endYear + 99) % 100, $endYear);
+            return sprintf('20%02d-%02d', ($endYear + 99) % 100, $endYear);
         }
 
         return 'DOCUMENT';

@@ -42,24 +42,27 @@ class DocumentLinkTest extends TestCase
     public function test_it_builds_consistent_annual_report_headings_and_download_names(): void
     {
         $this->assertSame(
-            'ANNUAL REPORT YEAR 24-25',
+            'ANNUAL REPORT YEAR 2024-25',
             DocumentLink::annualReportHeading('1780401170_6a1ec41206c74_GIL_AR_ENGLISH_2024-25 (1).pdf')
         );
         $this->assertSame(
-            'Annual Report Year 24-25.pdf',
+            'Annual Report Year 2024-25.pdf',
             DocumentLink::annualReportDownloadName('1780401170_6a1ec41206c74_GIL_AR_ENGLISH_2024-25 (1).pdf')
         );
         $this->assertSame(
-            'ANNUAL REPORT YEAR 23-24',
+            'ANNUAL REPORT YEAR 2023-24',
             DocumentLink::annualReportHeading('1780401170_6a1ec41207570_GIL AR_ENGLISH_2023-24.pdf')
         );
         $this->assertSame(
-            'ANNUAL REPORT YEAR 22-23',
+            'ANNUAL REPORT YEAR 2022-23',
             DocumentLink::annualReportHeading('1780401170_6a1ec41208b00_GIL Annual Report 2022-23.pdf')
         );
         $this->assertSame(
-            'ANNUAL REPORT YEAR 21-22',
+            'ANNUAL REPORT YEAR 2021-22',
             DocumentLink::annualReportHeading('Gliders India Limited AR_22_eng ver.pdf')
         );
+
+        $this->assertSame('2024-25', DocumentLink::fullFiscalYear('24-25'));
+        $this->assertSame('2024-25', DocumentLink::fullFiscalYear('2024-25'));
     }
 }

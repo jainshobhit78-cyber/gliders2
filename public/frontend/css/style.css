@@ -2630,6 +2630,18 @@ table td {
     margin-bottom: 15px;
 }
 
+/* Finance document links are intentionally more compact than card headings. */
+.finance-document-list .report-title {
+    font-size: 20px;
+    line-height: 1.45;
+}
+
+@media (max-width: 767px) {
+    .finance-document-list .report-title {
+        font-size: 18px;
+    }
+}
+
 .report-description {
     font-size: 18px;
     line-height: 1.8;

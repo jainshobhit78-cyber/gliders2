@@ -23,7 +23,7 @@
                         <tbody>
                             @forelse($items as $item)
                                 <tr>
-                                    <td>ANNUAL RETURN YEAR {{ $item->fiscal_year }}</td>
+                                    <td>ANNUAL RETURN YEAR {{ \App\Support\DocumentLink::fullFiscalYear($item->fiscal_year) }}</td>
                                     <td>
                                         @if($item->pdf)
                                             <a href="{{ asset('uploads/finance/' . $item->pdf) }}" target="_blank">View PDF</a>
