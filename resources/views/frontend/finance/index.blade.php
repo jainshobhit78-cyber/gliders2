@@ -109,21 +109,20 @@
 
                             <div class="eoi-card mb-4">
 
-                                <h4 class="report-title">
-                                    @if($item->pdf)
-                                        <a href="{{ asset('uploads/finance/' . $item->pdf) }}"
-                                           download="{{ \App\Support\DocumentLink::downloadName($item->pdf, $item->title) }}"
-                                           class="document-heading-link">
-                                            {{ $item->title }}
-                                        </a>
-                                    @else
-                                        {{ $item->title }}
-                                    @endif
-                                </h4>
+                                <h4 class="report-title">{{ $item->title }}</h4>
 
                                 <div class="report-description">
                                     {!! \App\Support\Security::cleanHtml($item->description) !!}
                                 </div>
+
+                                @if($item->pdf)
+                                    <a href="{{ asset('uploads/finance/' . $item->pdf) }}"
+                                       download="{{ \App\Support\DocumentLink::downloadName($item->pdf, 'EOI Document') }}"
+                                       class="document-heading-link d-inline-flex align-items-center gap-2 mt-3">
+                                        <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
+                                        Download EOI Document (PDF)
+                                    </a>
+                                @endif
 
                             </div>
 
