@@ -1,7 +1,7 @@
 <div class="about-section">
     <div class="title-header d-flex align-items-center justify-content-between">
         <h5 class="mb-0 page-title">Annual Returns</h5>
-        @if(auth()->guard('admin')->user()->can('annual_reports.create'))
+        @if(auth()->guard('admin')->user()->canAny(['annual_reports.create', 'finance.view']))
             <a href="javascript:void(0)" class="btn btn-theme openReturnAdd"
                data-url="{{ url('admin/finance/returns/add') }}">Add New</a>
         @endif
@@ -23,7 +23,7 @@
                         <tbody>
                             @forelse($items as $item)
                                 <tr>
-                                    <td>ANNUAL RETURN {{ $item->fiscal_year }}</td>
+                                    <td>ANNUAL RETURN YEAR {{ $item->fiscal_year }}</td>
                                     <td>
                                         @if($item->pdf)
                                             <a href="{{ asset('uploads/finance/' . $item->pdf) }}" target="_blank">View PDF</a>
@@ -33,13 +33,13 @@
                                     </td>
                                     <td>
                                         <ul class="table-action mb-0">
-                                            @if(auth()->guard('admin')->user()->can('annual_reports.edit'))
+                                            @if(auth()->guard('admin')->user()->canAny(['annual_reports.edit', 'finance.view']))
                                                 <li>
                                                     <a href="javascript:void(0)" class="btn btn-edit openReturnEdit"
                                                        data-url="{{ url('admin/finance/returns/edit/' . $item->id) }}">Edit</a>
                                                 </li>
                                             @endif
-                                            @if(auth()->guard('admin')->user()->can('annual_reports.delete'))
+                                            @if(auth()->guard('admin')->user()->canAny(['annual_reports.delete', 'finance.view']))
                                                 <li>
                                                     <x-delete-form :action="url('admin/finance/returns/delete/' . $item->id)" class="btn btn-delete" confirm="Delete this annual return?" />
                                                 </li>

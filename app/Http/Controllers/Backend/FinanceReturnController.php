@@ -60,7 +60,7 @@ class FinanceReturnController extends Controller
             $item->pdf = $this->storePdf($request->file('pdf'), $year);
         } elseif ($item->pdf && $item->fiscal_year !== $year) {
             $oldPath = public_path('uploads/finance/'.$item->pdf);
-            $newName = 'Annual Return '.$year.'.pdf';
+            $newName = 'Annual Return Year '.$year.'.pdf';
             $newPath = public_path('uploads/finance/'.$newName);
 
             if (is_file($oldPath)) {
@@ -103,7 +103,7 @@ class FinanceReturnController extends Controller
     private function storePdf($file, string $year): string
     {
         $directory = public_path('uploads/finance');
-        $name = 'Annual Return '.$year.'.pdf';
+        $name = 'Annual Return Year '.$year.'.pdf';
 
         if (! is_dir($directory)) {
             mkdir($directory, 0755, true);

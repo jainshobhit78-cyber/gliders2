@@ -77,12 +77,12 @@
                                     <h4 class="report-title mb-0">
                                         @if($item->pdf)
                                             <a href="{{ asset('uploads/finance/' . $item->pdf) }}"
-                                               download="Annual Return {{ $item->fiscal_year }}.pdf"
+                                               download="Annual Return Year {{ $item->fiscal_year }}.pdf"
                                                class="document-heading-link">
-                                                ANNUAL RETURN {{ $item->fiscal_year }}
+                                                ANNUAL RETURN YEAR {{ $item->fiscal_year }}
                                             </a>
                                         @else
-                                            <span>ANNUAL RETURN {{ $item->fiscal_year }}</span>
+                                            <span>ANNUAL RETURN YEAR {{ $item->fiscal_year }}</span>
                                         @endif
                                     </h4>
                                 </div>

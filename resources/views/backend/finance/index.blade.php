@@ -12,16 +12,22 @@
 
         </div>
 
-        <div class="d-flex align-items-center gap-2">
+        <form method="post" action="{{ route('admin.finance.toggle-eoi') }}"
+              class="d-flex align-items-center gap-2" id="eoiVisibilityForm">
+            @csrf
+            <input type="hidden" name="enabled" value="0">
             <span style="font-weight: 500; font-size: 14px;">EOI for Banks Tab:</span>
             <div class="form-check form-switch mb-0">
-                <input class="form-check-input" type="checkbox" role="switch" id="toggleEoiStatus" 
-                       {{ $eoiEnabled ? 'checked' : '' }} style="cursor: pointer; width: 45px; height: 22px;">
-                <label class="form-check-label" for="toggleEoiStatus" id="eoiStatusLabel" style="font-size: 14px; font-weight: 600; margin-left: 8px;">
+                <input class="form-check-input" type="checkbox" role="switch" id="toggleEoiStatus"
+                       name="enabled" value="1" {{ $eoiEnabled ? 'checked' : '' }}
+                       onchange="this.form.submit()"
+                       style="cursor: pointer; width: 45px; height: 22px;">
+                <label class="form-check-label" for="toggleEoiStatus" id="eoiStatusLabel"
+                       style="font-size: 14px; font-weight: 600; margin-left: 8px;">
                     {{ $eoiEnabled ? 'Enabled' : 'Disabled' }}
                 </label>
             </div>
-        </div>
+        </form>
 
     </div>
 
@@ -39,10 +45,11 @@
 
                     </button>
 
+                @endif
+
+                @if(auth()->guard('admin')->user()->canAny(['annual_reports.view', 'finance.view']))
                     <button class="tab-btn" data-url="{{ url('admin/finance/returns') }}">
-
-                        Annual Returns
-
+                        Annual Returns (Upload PDF)
                     </button>
                 @endif
 
@@ -338,54 +345,6 @@
 
         })
 
-        // Persist the EOI visibility switch and only show a new state after the
-        // server confirms it. A failed or expired request restores the old state.
-        $(document)
-            .off("change.financeEoi", "#toggleEoiStatus")
-            .on("change.financeEoi", "#toggleEoiStatus", async function () {
-                const checkbox = this;
-                const requestedState = checkbox.checked;
-                const previousState = !requestedState;
-                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-
-                checkbox.disabled = true;
-
-                try {
-                    const response = await fetch("{{ route('admin.finance.toggle-eoi') }}", {
-                        method: "POST",
-                        credentials: "same-origin",
-                        headers: {
-                            "Accept": "application/json",
-                            "Content-Type": "application/json",
-                            "X-Requested-With": "XMLHttpRequest",
-                            "X-CSRF-TOKEN": csrfToken || "{{ csrf_token() }}"
-                        },
-                        body: JSON.stringify({ enabled: requestedState })
-                    });
-
-                    const data = await response.json().catch(() => ({}));
-
-                    if (!response.ok || data.status !== 'success') {
-                        throw new Error(response.status === 419 ? 'session-expired' : 'save-failed');
-                    }
-
-                    checkbox.checked = Boolean(data.enabled);
-                    const statusText = checkbox.checked ? "Enabled" : "Disabled";
-                    $("#eoiStatusLabel").text(statusText);
-                    toastr.success('EOI for Banks tab ' + statusText.toLowerCase() + ' successfully.');
-                } catch (error) {
-                    checkbox.checked = previousState;
-                    $("#eoiStatusLabel").text(previousState ? "Enabled" : "Disabled");
-
-                    if (error.message === 'session-expired') {
-                        toastr.error('Your admin session has expired. Please sign in again.');
-                    } else {
-                        toastr.error('EOI setting could not be saved. The previous state has been restored.');
-                    }
-                } finally {
-                    checkbox.disabled = false;
-                }
-            });
     </script>
 
 

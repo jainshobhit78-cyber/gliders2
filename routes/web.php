@@ -1568,10 +1568,15 @@ Route::middleware(['ipWhitelist', 'adminAuth', 'validateCmsUploads'])->group(fun
         $settings->saveOrFail();
         $settings->refresh();
 
-        return response()->json([
-            'status' => 'success',
-            'enabled' => (bool) $settings->eoi_enabled,
-        ]);
+        if ($request->expectsJson()) {
+            return response()->json([
+                'status' => 'success',
+                'enabled' => (bool) $settings->eoi_enabled,
+            ]);
+        }
+
+        return redirect()->route('admin.finance')
+            ->with('success', 'EOI for Banks tab '.($settings->eoi_enabled ? 'enabled' : 'disabled').' successfully.');
     })->middleware('permission:finance.view,admin')->name('admin.finance.toggle-eoi');
 
     Route::get('admin/finance/reports', [FinanceReportController::class, 'list'])->middleware('permission:annual_reports.view,admin');
@@ -1586,12 +1591,12 @@ Route::middleware(['ipWhitelist', 'adminAuth', 'validateCmsUploads'])->group(fun
         [FinanceReportController::class, 'deleteFile']
     )->middleware('permission:annual_reports.delete,admin');
 
-    Route::get('admin/finance/returns', [FinanceReturnController::class, 'list'])->middleware('permission:annual_reports.view,admin');
-    Route::get('admin/finance/returns/add', [FinanceReturnController::class, 'add'])->middleware('permission:annual_reports.create,admin');
-    Route::post('admin/finance/returns/add', [FinanceReturnController::class, 'store'])->middleware('permission:annual_reports.create,admin');
-    Route::get('admin/finance/returns/edit/{id}', [FinanceReturnController::class, 'edit'])->middleware('permission:annual_reports.edit,admin');
-    Route::post('admin/finance/returns/update/{id}', [FinanceReturnController::class, 'update'])->middleware('permission:annual_reports.edit,admin');
-    Route::delete('admin/finance/returns/delete/{id}', [FinanceReturnController::class, 'delete'])->middleware('permission:annual_reports.delete,admin');
+    Route::get('admin/finance/returns', [FinanceReturnController::class, 'list'])->middleware('permission:annual_reports.view|finance.view,admin');
+    Route::get('admin/finance/returns/add', [FinanceReturnController::class, 'add'])->middleware('permission:annual_reports.create|finance.view,admin');
+    Route::post('admin/finance/returns/add', [FinanceReturnController::class, 'store'])->middleware('permission:annual_reports.create|finance.view,admin');
+    Route::get('admin/finance/returns/edit/{id}', [FinanceReturnController::class, 'edit'])->middleware('permission:annual_reports.edit|finance.view,admin');
+    Route::post('admin/finance/returns/update/{id}', [FinanceReturnController::class, 'update'])->middleware('permission:annual_reports.edit|finance.view,admin');
+    Route::delete('admin/finance/returns/delete/{id}', [FinanceReturnController::class, 'delete'])->middleware('permission:annual_reports.delete|finance.view,admin');
 
     Route::get('admin/finance/eoi', [FinanceEoiController::class, 'list'])->middleware('permission:eoi_for_banks.view,admin');
     Route::get('admin/finance/eoi/add', [FinanceEoiController::class, 'add'])->middleware('permission:eoi_for_banks.create,admin');
