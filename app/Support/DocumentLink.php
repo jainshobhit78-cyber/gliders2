@@ -5,6 +5,22 @@ namespace App\Support;
 final class DocumentLink
 {
     /**
+     * Build the concise, consistent public heading used for annual reports.
+     */
+    public static function annualReportHeading(?string $storedFilename): string
+    {
+        return 'ANNUAL REPORT '.self::annualReportYear($storedFilename);
+    }
+
+    /**
+     * Build the filename visitors receive when downloading an annual report.
+     */
+    public static function annualReportDownloadName(?string $storedFilename): string
+    {
+        return 'Annual Report '.self::annualReportYear($storedFilename).'.pdf';
+    }
+
+    /**
      * Return a safe, human-readable download name for legacy and current uploads.
      */
     public static function downloadName(?string $storedFilename, ?string $fallbackTitle = null): string
@@ -36,5 +52,23 @@ final class DocumentLink
         $title = preg_replace('/_+/u', '_', $title) ?? '';
 
         return trim($title, '._- ');
+    }
+
+    private static function annualReportYear(?string $storedFilename): string
+    {
+        $filename = basename(str_replace('\\', '/', (string) $storedFilename));
+
+        if (preg_match('/(?:20)?(\d{2})[\s_.-]+(\d{2})(?!\d)/u', $filename, $matches)) {
+            return $matches[1].'-'.$matches[2];
+        }
+
+        // The first GIL report was historically stored as "AR_22".
+        if (preg_match('/(?:^|[^a-z0-9])AR[\s_.-]*(\d{2})(?!\d)/iu', $filename, $matches)) {
+            $endYear = (int) $matches[1];
+
+            return sprintf('%02d-%02d', ($endYear + 99) % 100, $endYear);
+        }
+
+        return 'DOCUMENT';
     }
 }

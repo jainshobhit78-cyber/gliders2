@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\FinanceReport;
 use App\Models\FinanceEoi;
+use App\Models\FinanceReturn;
 
 class FinanceController extends Controller
 {
@@ -25,7 +26,12 @@ class FinanceController extends Controller
                 ->orderBy('id', 'desc')
                 ->get()
             : collect();
-        $eois = \Illuminate\Support\Facades\Schema::hasTable('finance_eois')
+        $returns = \Illuminate\Support\Facades\Schema::hasTable('finance_returns')
+            ? FinanceReturn::orderBy('display_order', 'asc')
+                ->orderBy('fiscal_year', 'desc')
+                ->get()
+            : collect();
+        $eois = \Illuminate\Support\Facades\Schema::hasTable('finance_eoi')
             ? FinanceEoi::orderBy('display_order', 'asc')
                 ->orderBy('id', 'desc')
                 ->get()
@@ -34,6 +40,7 @@ class FinanceController extends Controller
         return view('frontend.finance.index', compact(
             'tab',
             'reports',
+            'returns',
             'eois',
             'eoiEnabled'
         ));

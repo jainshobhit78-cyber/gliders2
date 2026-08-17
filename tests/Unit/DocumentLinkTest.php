@@ -38,4 +38,28 @@ class DocumentLinkTest extends TestCase
             DocumentLink::downloadName('Recruitment Notice (Final).pdf', 'Advertisement')
         );
     }
+
+    public function test_it_builds_consistent_annual_report_headings_and_download_names(): void
+    {
+        $this->assertSame(
+            'ANNUAL REPORT 24-25',
+            DocumentLink::annualReportHeading('1780401170_6a1ec41206c74_GIL_AR_ENGLISH_2024-25 (1).pdf')
+        );
+        $this->assertSame(
+            'Annual Report 24-25.pdf',
+            DocumentLink::annualReportDownloadName('1780401170_6a1ec41206c74_GIL_AR_ENGLISH_2024-25 (1).pdf')
+        );
+        $this->assertSame(
+            'ANNUAL REPORT 23-24',
+            DocumentLink::annualReportHeading('1780401170_6a1ec41207570_GIL AR_ENGLISH_2023-24.pdf')
+        );
+        $this->assertSame(
+            'ANNUAL REPORT 22-23',
+            DocumentLink::annualReportHeading('1780401170_6a1ec41208b00_GIL Annual Report 2022-23.pdf')
+        );
+        $this->assertSame(
+            'ANNUAL REPORT 21-22',
+            DocumentLink::annualReportHeading('Gliders India Limited AR_22_eng ver.pdf')
+        );
+    }
 }

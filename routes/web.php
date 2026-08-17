@@ -21,6 +21,7 @@ use App\Http\Controllers\Backend\CareerNotificationController;
 use App\Http\Controllers\Backend\CareerJobController;
 use App\Http\Controllers\Backend\FinanceEoiController;
 use App\Http\Controllers\Backend\FinanceReportController;
+use App\Http\Controllers\Backend\FinanceReturnController;
 use App\Http\Controllers\Backend\RajshabhaNiyamController;
 use App\Http\Controllers\Backend\RajshabhaRulesController;
 use App\Http\Controllers\Backend\RoleAndPermissionController;
@@ -1576,6 +1577,13 @@ Route::middleware(['ipWhitelist', 'adminAuth', 'validateCmsUploads'])->group(fun
         'admin/finance/reports/file/delete/{id}',
         [FinanceReportController::class, 'deleteFile']
     )->middleware('permission:annual_reports.delete,admin');
+
+    Route::get('admin/finance/returns', [FinanceReturnController::class, 'list'])->middleware('permission:annual_reports.view,admin');
+    Route::get('admin/finance/returns/add', [FinanceReturnController::class, 'add'])->middleware('permission:annual_reports.create,admin');
+    Route::post('admin/finance/returns/add', [FinanceReturnController::class, 'store'])->middleware('permission:annual_reports.create,admin');
+    Route::get('admin/finance/returns/edit/{id}', [FinanceReturnController::class, 'edit'])->middleware('permission:annual_reports.edit,admin');
+    Route::post('admin/finance/returns/update/{id}', [FinanceReturnController::class, 'update'])->middleware('permission:annual_reports.edit,admin');
+    Route::delete('admin/finance/returns/delete/{id}', [FinanceReturnController::class, 'delete'])->middleware('permission:annual_reports.delete,admin');
 
     Route::get('admin/finance/eoi', [FinanceEoiController::class, 'list'])->middleware('permission:eoi_for_banks.view,admin');
     Route::get('admin/finance/eoi/add', [FinanceEoiController::class, 'add'])->middleware('permission:eoi_for_banks.create,admin');

@@ -377,8 +377,7 @@
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button"
                             aria-expanded="false">FINANCE</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('finance', 'annual-report') }}">Annual
-                                    Reports</a></li>
+                            <li><a class="dropdown-item" href="{{ route('finance', 'annual-report') }}">Annual Reports &amp; Returns</a></li>
                             @if($headerSetting ? (bool)$headerSetting->eoi_enabled : true)
                                 <li><a class="dropdown-item" href="{{ route('finance', 'eoi') }}">EOI for Banks</a></li>
                             @endif

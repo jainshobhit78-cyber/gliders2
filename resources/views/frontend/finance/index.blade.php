@@ -14,6 +14,11 @@
                         Annual Reports
                     </a>
 
+                    <a href="{{ route('finance', 'annual-return') }}"
+                        class="sidebar-item {{ $tab == 'annual-return' ? 'active' : '' }}">
+                        Annual Returns
+                    </a>
+
                     @if($eoiEnabled)
                         <a href="{{ route('finance', 'eoi') }}" class="sidebar-item {{ $tab == 'eoi' ? 'active' : '' }}">
                             EOI for Banks
@@ -35,48 +40,57 @@
                             Annual Reports
                         </h2>
 
-                        @foreach($reports as $item)
-
-                            <div class="report-card mb-4">
-
-                                @php($primaryFile = $item->files->first())
-                                <h4 class="report-title">
-                                    @if($primaryFile)
-                                        <a href="{{ asset('uploads/finance/' . $primaryFile->pdf) }}"
-                                           download="{{ \App\Support\DocumentLink::downloadName($primaryFile->pdf, $item->heading) }}"
-                                           class="document-heading-link">
-                                            {{ $item->heading }}
-                                        </a>
-                                    @else
-                                        {{ $item->heading }}
-                                    @endif
-                                </h4>
-
-                                <div class="report-description">
-                                    {!! \App\Support\Security::cleanHtml($item->description) !!}
-                                </div>
-
-                                @if($item->files->count() > 1)
-                                    <div class="pdf-list mt-3">
-
-                                        @foreach($item->files->skip(1) as $file)
-                                            <div class="pdf-link-wrapper">
-                                                <span class="pdf-icon">📄</span>
-
-                                                <a href="{{ asset('uploads/finance/' . $file->pdf) }}"
-                                                   download="{{ \App\Support\DocumentLink::downloadName($file->pdf, $item->heading) }}"
-                                                   class="pdf-link">
-                                                    {{ \App\Support\DocumentLink::downloadName($file->pdf, $item->heading) }}
-                                                </a>
-                                            </div>
-                                        @endforeach
-
+                        <div class="finance-document-list">
+                            @forelse($reports as $item)
+                                @foreach($item->files as $file)
+                                    <div class="report-card mb-3">
+                                        <h4 class="report-title mb-0">
+                                            <a href="{{ asset('uploads/finance/' . $file->pdf) }}"
+                                               download="{{ \App\Support\DocumentLink::annualReportDownloadName($file->pdf) }}"
+                                               class="document-heading-link">
+                                                {{ \App\Support\DocumentLink::annualReportHeading($file->pdf) }}
+                                            </a>
+                                        </h4>
                                     </div>
-                                @endif
+                                @endforeach
+                            @empty
+                                <p class="text-muted mb-0">No annual reports are currently available.</p>
+                            @endforelse
+                        </div>
 
-                            </div>
+                    </div>
 
-                        @endforeach
+                @endif
+
+                {{-- ANNUAL RETURNS --}}
+                @if($tab == 'annual-return')
+
+                    <div class="finance-card shadow-sm border rounded p-4 bg-white">
+
+                        <h2 class="finance-main-title">
+                            Annual Returns
+                        </h2>
+
+                        <div class="finance-document-list">
+                            @forelse($returns as $item)
+                                <div class="report-card mb-3">
+                                    <h4 class="report-title mb-0">
+                                        @if($item->pdf)
+                                            <a href="{{ asset('uploads/finance/' . $item->pdf) }}"
+                                               download="Annual Return {{ $item->fiscal_year }}.pdf"
+                                               class="document-heading-link">
+                                                ANNUAL RETURN {{ $item->fiscal_year }}
+                                            </a>
+                                        @else
+                                            <span>ANNUAL RETURN {{ $item->fiscal_year }}</span>
+                                            <small class="d-block text-muted mt-1">PDF pending upload</small>
+                                        @endif
+                                    </h4>
+                                </div>
+                            @empty
+                                <p class="text-muted mb-0">No annual returns are currently available.</p>
+                            @endforelse
+                        </div>
 
                     </div>
 

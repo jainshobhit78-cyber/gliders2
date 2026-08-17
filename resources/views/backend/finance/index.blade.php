@@ -38,6 +38,12 @@
                         Annual Report
 
                     </button>
+
+                    <button class="tab-btn" data-url="{{ url('admin/finance/returns') }}">
+
+                        Annual Returns
+
+                    </button>
                 @endif
 
                 @if(auth()->guard('admin')->user()->can('eoi_for_banks.view'))
@@ -261,6 +267,28 @@
         $(document).on("click", ".backReport", function () {
 
             $.get("{{ url('admin/finance/reports') }}", function (res) {
+
+                $("#ajaxContent").html(res)
+
+            })
+
+        })
+
+        $(document).on("click", ".openReturnAdd, .openReturnEdit", function () {
+
+            let url = $(this).data("url")
+
+            $.get(url, function (res) {
+
+                $("#ajaxContent").html(res)
+
+            })
+
+        })
+
+        $(document).on("click", ".backReturn", function () {
+
+            $.get("{{ url('admin/finance/returns') }}", function (res) {
 
                 $("#ajaxContent").html(res)
 
