@@ -739,8 +739,8 @@ Route::middleware(['ipWhitelist', 'adminAuth', 'validateCmsUploads'])->group(fun
 
         // Keep the maintenance seeder aligned with the reviewed brake-parachute
         // specification sheet and its canonical heading order.
-        $correctionMigration = require database_path('migrations/2026_08_11_010000_uniform_brake_parachute_specifications.php');
-        $correctionMigration->up();
+        $markedCorrections = require database_path('migrations/2026_09_22_010000_apply_marked_parachute_product_corrections.php');
+        $markedCorrections->up();
 
         return response($output . "\nSeeding Completed Successfully!", 200)
             ->header('Content-Type', 'text/plain');
@@ -1262,7 +1262,9 @@ Route::middleware(['ipWhitelist', 'adminAuth', 'validateCmsUploads'])->group(fun
         $sync(9, 'Tactical Assault Main', $ptamData);
         $sync(10, 'Tactical Assault Reserve', $ptarData);
         $sync(12, 'Paratroop Type PTR-M', $ptrmData);
-        $sync(9, 'Combat Free Fall', $cffData);
+        // Matches both the former title and the reviewed MCPS title, avoiding
+        // a duplicate product if this maintenance seeder is run again.
+        $sync(9, 'RAM AIR 9 Cell', $cffData);
         $sync(9, 'BMK-41', $bmk41Data);
         $sync(9, 'Seat Mk-10', $seatMk10Data);
         $sync(9, 'High Altitude', $hapData);
@@ -1344,6 +1346,9 @@ Route::middleware(['ipWhitelist', 'adminAuth', 'validateCmsUploads'])->group(fun
         } catch (\Exception $e) {
             $output .= "Warning seeding video playlists: " . $e->getMessage() . "\n";
         }
+
+        $markedCorrections = require database_path('migrations/2026_09_22_010000_apply_marked_parachute_product_corrections.php');
+        $markedCorrections->up();
 
         return response($output . "\nAll Categories and Products Seeding Completed Successfully!", 200)
             ->header('Content-Type', 'text/plain');

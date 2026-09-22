@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductCategory;
 use App\Support\UnitFormatter;
+use App\Support\BrakeParachuteSpecifications;
 
 class ProductController extends Controller
 {
@@ -102,6 +103,8 @@ class ProductController extends Controller
                 }
             }
         }
+
+        $technicalSpecs = BrakeParachuteSpecifications::forAdminSave((string) $request->title, $technicalSpecs);
 
         $product = Product::create([
             'title' => UnitFormatter::normalize($request->title),
@@ -234,6 +237,8 @@ class ProductController extends Controller
                 }
             }
         }
+
+        $technicalSpecs = BrakeParachuteSpecifications::forAdminSave((string) $request->title, $technicalSpecs);
 
         $product->update([
             'title' => UnitFormatter::normalize($request->title),
