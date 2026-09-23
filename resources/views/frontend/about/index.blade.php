@@ -252,7 +252,6 @@
                                 <button class="legacy-slider-arrow legacy-prev" id="legacyPrevBtn" aria-label="Previous">&#10094;</button>
                                 <button class="legacy-slider-arrow legacy-next" id="legacyNextBtn" aria-label="Next">&#10095;</button>
                                 <div class="legacy-slider-track" id="legacySliderTrack"></div>
-                                <div class="legacy-dots" id="legacyDots"></div>
                             </div>
                         </section>
 
@@ -474,7 +473,6 @@
                                             <th>Name</th>
                                             <th>Designation</th>
                                             <th>Role</th>
-                                            <th>Phone Number</th>
                                         </tr>
                                     </thead>
 
@@ -493,7 +491,6 @@
                                                         {{ $member->sub_title }}
                                                     </span>
                                                 </td>
-                                                <td>{{ $member->phone }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -905,10 +902,8 @@
     }
 
     let legacyCardEls = [];
-    let legacyDotEls = [];
 
     const legacyTrack = document.getElementById('legacySliderTrack');
-    const legacyDotsWrap = document.getElementById('legacyDots');
     const legacyTimelineEl = document.getElementById('legacyTimeline');
     const legacyTimelineWrapEl = document.getElementById('legacyTimelineWrap');
     const legacyTimelineSubEl = document.getElementById('legacyTimelineSub');
@@ -937,9 +932,8 @@
             legacyLeaders = glidersLegacy;
         }
 
-        // Clear track and dots
+        // Clear the card track. Navigation is intentionally arrow-only.
         if (legacyTrack) legacyTrack.innerHTML = '';
-        if (legacyDotsWrap) legacyDotsWrap.innerHTML = '';
 
         // Build slider cards
         if (legacyTrack) {
@@ -957,16 +951,6 @@
             });
         }
         legacyCardEls = legacyTrack ? Array.from(legacyTrack.children) : [];
-
-        // Build dots
-        if (legacyDotsWrap) {
-            legacyLeaders.forEach((l, pos) => {
-              const d = document.createElement('button');
-              d.addEventListener('click', () => legacySetActive(pos));
-              legacyDotsWrap.appendChild(d);
-            });
-        }
-        legacyDotEls = legacyDotsWrap ? Array.from(legacyDotsWrap.children) : [];
 
         // Paint first item
         legacyActivePos = 0;
@@ -1072,7 +1056,6 @@
       legacyActivePos = ((pos % legacyLeaders.length) + legacyLeaders.length) % legacyLeaders.length;
 
       legacyCardEls.forEach((c, idx) => c.classList.toggle('legacy-active', idx === legacyActivePos));
-      legacyDotEls.forEach((d, idx) => d.classList.toggle('legacy-active', idx === legacyActivePos));
 
       if (legacyCardEls[legacyActivePos]) {
           legacyCardEls[legacyActivePos].scrollIntoView({behavior: 'smooth', inline: 'center', block: 'nearest'});

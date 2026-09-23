@@ -37,7 +37,7 @@ return new class extends Migration
 
         DB::table('legacy_leaders')->insert([
             'name' => 'Shri Sunil Date',
-            'role' => 'Chairman & Managing Director',
+            'role' => 'Chairman & Managing Director (Additional Charge of Director Operations & Human Resources)',
             'type' => 'gliders',
             'tenure_start' => '2024',
             'tenure_end' => '2024',
@@ -45,7 +45,7 @@ return new class extends Migration
             'initials' => 'SD',
             'color' => '#2e6b9e',
             'image' => null,
-            'description' => 'Shri Sunil Date, I.O.F.S (Retired), took over as Chairman & Managing Director of Gliders India Limited on 01.10.2024. A BE in Electronics and Telecommunications Engineering, he was associated with the Industrial Systems Group of BHEL for one and a half years before joining the Ordnance Factories organisation. An IOFS officer of the 1989 batch, he has held important positions in various Ordnance factories including HAPF, OFIT, OFPM and OFAJ, bringing a rich experience of more than 35 years across maintenance, procurement, quality, R&D and production.',
+            'description' => 'Shri Sunil Date took over as Chairman and Managing Director, with additional charge of Director (Operations and Human Resources), of Gliders India Limited on 01.10.2024 and served until 31.12.2024. He holds a BE in Electronics and Telecommunications Engineering and was associated with the Industrial Systems Group of BHEL for one and a half years before joining the Ordnance Factories organisation. An IOFS officer of the 1989 batch, he held important positions in HAPF, OFIT, OFPM and OFAJ and has more than 35 years of experience in maintenance, procurement, quality, R&D and production. He headed the Quality and Maintenance divisions at Ordnance Factory Ambajhari and made notable contributions to plant and process modernisation, predictive maintenance, Industry 4.0 and quality functions. He qualified as an Energy Auditor in the 2005 Bureau of Energy Efficiency examination, ranking among the top 10 in India, and has served as a member of the Energy Management and Energy Saving Sectional Committee of the Bureau of Indian Standards.',
             'quote' => null,
             'achievements' => implode("\n", [
                 'Headed the Quality and Maintenance divisions at Ordnance Factory Ambajhari',

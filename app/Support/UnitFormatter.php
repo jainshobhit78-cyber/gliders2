@@ -102,6 +102,9 @@ class UnitFormatter
     protected static function rules(): array
     {
         return [
+            // Textile shorthand: U/D means undyed.
+            '/\bU\s*\/\s*D\b/iu' => 'Undyed',
+
             // m/sec, meter/second, metres / sec  ->  m/s
             '/\b(?:m|met(?:er|re)s?)\s*\/\s*sec(?:ond)?s?\b(\.)?/iu' => 'm/s$1',
 

@@ -99,11 +99,6 @@
                                 <!-- Dark Gradient overlay -->
                                 <div class="mockup-card-overlay-mask"></div>
 
-                                <!-- Top Left Icon badge -->
-                                <div class="mockup-card-icon-badge">
-                                    {!! $iconSvg !!}
-                                </div>
-
                                 <!-- Inner Content Area -->
                                 <div class="mockup-card-content-box d-flex flex-column h-100">
                                     

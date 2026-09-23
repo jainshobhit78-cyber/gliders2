@@ -19,7 +19,11 @@
     <link rel="stylesheet" href="{{ url('frontend/fonts/font-icons.css') }}">
     <link rel="stylesheet" href="{{ url('frontend/css/e2dd61510303e09c.css') }}">
     <link rel="stylesheet" href="{{ url('frontend/css/fancybox.css') }}">
-    <link rel="stylesheet" href="{{ url('frontend/css/style.css') }}?v={{ time() }}">
+    @php
+        $siteStylesheet = public_path('frontend/css/style.css');
+        $siteStylesheetVersion = file_exists($siteStylesheet) ? filemtime($siteStylesheet) : '1';
+    @endphp
+    <link rel="stylesheet" href="{{ url('frontend/css/style.css') }}?v={{ $siteStylesheetVersion }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
@@ -105,6 +109,11 @@
         @include('frontend.layouts.footer')
     </div>
 
+    <div class="captcha-protection-badge" role="status" aria-label="Forms protected by visual CAPTCHA">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4.5 5.1v5.7c0 5.1 3.1 9.7 7.5 11.2 4.4-1.5 7.5-6.1 7.5-11.2V5.1L12 2Z"/><path d="m8.4 12 2.2 2.2 5-5"/></svg>
+        <span><strong>Protected</strong> by CAPTCHA</span>
+    </div>
+
     <div class="gi-chatbot bounce-animation" id="chatbotContainer">
         <!-- Bouncing Tooltip Bubble -->
         <div class="chatbot-bubble" id="chatbotBubble">How may I help you?</div>
@@ -134,6 +143,40 @@
              </div>
         </div>
     </div>
+
+    <style>
+        .captcha-protection-badge {
+            position: fixed;
+            left: 16px;
+            bottom: 16px;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            border: 1px solid rgba(255, 255, 255, .3);
+            border-radius: 999px;
+            background: rgba(5, 22, 50, .92);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .24);
+            color: #eaf3ff;
+            font-size: 12px;
+            line-height: 1.1;
+            backdrop-filter: blur(10px);
+        }
+        .captcha-protection-badge svg {
+            width: 22px;
+            height: 22px;
+            fill: rgba(242, 123, 34, .18);
+            stroke: #f27b22;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        @media (max-width: 575px) {
+            .captcha-protection-badge { left: 10px; bottom: 10px; padding: 8px 10px; font-size: 10px; }
+            .captcha-protection-badge svg { width: 19px; height: 19px; }
+        }
+    </style>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

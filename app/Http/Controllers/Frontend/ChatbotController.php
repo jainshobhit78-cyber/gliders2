@@ -9,6 +9,7 @@ use App\Models\AboutLeadership;
 use App\Models\NewsArticle;
 use App\Models\GeneralSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class ChatbotController extends Controller
 {
@@ -228,9 +229,9 @@ class ChatbotController extends Controller
      */
     public function questions()
     {
-        $questions = ChatbotFaq::where('is_starter', true)
-            ->orderBy('position')
-            ->get(['question']);
+        $questions = $this->supportsCategorisedFaqs()
+            ? ChatbotFaq::where('is_starter', true)->orderBy('position')->get(['question'])
+            : ChatbotFaq::orderBy('id')->limit(6)->get(['question']);
 
         return response()->json($questions);
     }
@@ -238,10 +239,11 @@ class ChatbotController extends Controller
     /** One entry question per topic, used to open and to re-orient. */
     private function starterQuestions(): array
     {
-        return ChatbotFaq::where('is_starter', true)
-            ->orderBy('position')
-            ->pluck('question')
-            ->toArray();
+        if (! $this->supportsCategorisedFaqs()) {
+            return ChatbotFaq::orderBy('id')->limit(6)->pluck('question')->toArray();
+        }
+
+        return ChatbotFaq::where('is_starter', true)->orderBy('position')->pluck('question')->toArray();
     }
 
     /**
@@ -251,6 +253,14 @@ class ChatbotController extends Controller
      */
     private function suggestionsFor(ChatbotFaq $faq): array
     {
+        if (! $this->supportsCategorisedFaqs()) {
+            return ChatbotFaq::where('id', '!=', $faq->id)
+                ->orderBy('id')
+                ->limit(4)
+                ->pluck('question')
+                ->toArray();
+        }
+
         if ($faq->category === 'closing') {
             return [];
         }
@@ -278,13 +288,27 @@ class ChatbotController extends Controller
             return null;
         }
 
-        foreach (ChatbotFaq::orderBy('position')->get() as $faq) {
+        $orderColumn = Schema::hasColumn('chatbot_faqs', 'position') ? 'position' : 'id';
+
+        foreach (ChatbotFaq::orderBy($orderColumn)->get() as $faq) {
             if ($this->normaliseQuestion($faq->question) === $needle) {
                 return $faq;
             }
         }
 
         return null;
+    }
+
+    /**
+     * Shared hosting databases may temporarily lag behind the application
+     * release. Keep the public chatbot usable until the optional categorised
+     * FAQ migration is deliberately applied.
+     */
+    private function supportsCategorisedFaqs(): bool
+    {
+        return Schema::hasColumn('chatbot_faqs', 'category')
+            && Schema::hasColumn('chatbot_faqs', 'is_starter')
+            && Schema::hasColumn('chatbot_faqs', 'position');
     }
 
     private function normaliseQuestion(string $text): string

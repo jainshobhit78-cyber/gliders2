@@ -3,25 +3,24 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\GeneralSetting;
 use App\Models\PasswordReset;
+use App\Support\VisualCaptcha;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use Illuminate\Support\Str;
-use Hash;
-use Session;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\RateLimiter;
+
 class AdminAuthController extends Controller
 {
 
     public function login()
     {
-        $num1 = rand(1, 10);
-        $num2 = rand(1, 10);
-        session(['admin_captcha' => $num1 + $num2]);
-        $captcha_question = "What is $num1 + $num2?";
-
-        return view('backend.auth.login', compact('captcha_question'));
+        return view('backend.auth.login');
     }
 
     public function loginPost(Request $request)
@@ -29,48 +28,139 @@ class AdminAuthController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'captcha' => 'required|integer'
+            'captcha' => 'required|string|size:' . VisualCaptcha::LENGTH,
         ]);
 
-        $key = 'login-attempts:' . Str::lower($request->email) . '|' . $request->ip();
+        $captchaKey = VisualCaptcha::limiterKey('admin', $request);
+        if (RateLimiter::tooManyAttempts($captchaKey, 3)) {
+            $seconds = RateLimiter::availableIn($captchaKey);
 
-        if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts($key, 5)) {
-            $seconds = \Illuminate\Support\Facades\RateLimiter::availableIn($key);
             return back()->withErrors([
-                'email' => 'Too many login attempts. Please try again in ' . $seconds . ' seconds.'
-            ])->withInput();
+                'captcha' => 'Too many incorrect CAPTCHA entries. Please wait ' . $seconds . ' seconds before trying again.',
+            ])->onlyInput('email');
         }
 
-        if ($request->captcha != session('admin_captcha')) {
-            // Regenerate captcha on failure
-            $num1 = rand(1, 10);
-            $num2 = rand(1, 10);
-            session(['admin_captcha' => $num1 + $num2]);
+        if (! VisualCaptcha::verify($request, 'admin', $request->input('captcha'))) {
+            RateLimiter::hit($captchaKey, 300);
+            $attemptsRemaining = max(0, 3 - RateLimiter::attempts($captchaKey));
+            $message = $attemptsRemaining > 0
+                ? 'Incorrect CAPTCHA. ' . $attemptsRemaining . ' attempt(s) remaining before a 5-minute lock.'
+                : 'Too many incorrect CAPTCHA entries. CAPTCHA entry is locked for 5 minutes.';
+
+            return back()->withErrors(['captcha' => $message])->onlyInput('email');
+        }
+        RateLimiter::clear($captchaKey);
+
+        $passwordKey = 'admin-password-failures:' . Str::lower($request->email) . '|' . $request->ip();
+        if (RateLimiter::tooManyAttempts($passwordKey, 3)) {
+            $seconds = RateLimiter::availableIn($passwordKey);
+
             return back()->withErrors([
-                'captcha' => 'Invalid CAPTCHA answer.'
-            ])->withInput();
+                'email' => 'Too many incorrect login attempts. Please wait ' . $seconds . ' seconds before trying again.',
+            ])->onlyInput('email');
         }
 
-        if (
-            Auth::guard('admin')->attempt([
-                'email' => $request->email,
-                'password' => $request->password
-            ])
-        ) {
-            \Illuminate\Support\Facades\RateLimiter::clear($key);
-            return redirect('admin/dashboard');
+        $admin = Admin::where('email', $request->email)->first();
+        if (! $admin || ! Hash::check($request->password, $admin->password)) {
+            RateLimiter::hit($passwordKey, 60);
+            $attemptsRemaining = max(0, 3 - RateLimiter::attempts($passwordKey));
+            $message = $attemptsRemaining > 0
+                ? 'Invalid email or password. ' . $attemptsRemaining . ' attempt(s) remaining before a 1-minute lock.'
+                : 'Too many incorrect login attempts. Login is locked for 1 minute.';
+
+            return back()->withErrors(['email' => $message])->onlyInput('email');
+        }
+        RateLimiter::clear($passwordKey);
+
+        $otp = (string) random_int(100000, 999999);
+        $settings = GeneralSetting::first();
+        $recipientEmail = $settings?->otp_recipient_email ?: $admin->email;
+
+        $request->session()->put([
+            'admin_login_mfa.admin_id' => $admin->id,
+            'admin_login_mfa.otp_hash' => Hash::make($otp),
+            'admin_login_mfa.expires_at' => now()->addMinutes(10)->timestamp,
+            'admin_login_mfa.remember' => $request->boolean('remember'),
+            'admin_login_mfa.recipient_hint' => $this->maskEmail($recipientEmail),
+        ]);
+
+        try {
+            Mail::send('backend.auth.login-otp-mail', [
+                'otp' => $otp,
+                'admin' => $admin,
+            ], function ($message) use ($recipientEmail) {
+                $message->to($recipientEmail);
+                $message->subject('Gliders India Admin Login Verification Code');
+            });
+        } catch (\Throwable $exception) {
+            Log::error('Admin login OTP could not be sent.', [
+                'admin_id' => $admin->id,
+                'exception' => $exception->getMessage(),
+            ]);
+            $request->session()->forget('admin_login_mfa');
+
+            return back()->withErrors([
+                'email' => 'Your credentials were correct, but the verification email could not be sent. Please contact the system administrator.',
+            ])->onlyInput('email');
         }
 
-        \Illuminate\Support\Facades\RateLimiter::hit($key, 60);
+        return redirect()->route('admin.login.otp')->with('success', 'A 6-digit verification code has been sent to the configured security email.');
+    }
 
-        // Regenerate captcha on failure
-        $num1 = rand(1, 10);
-        $num2 = rand(1, 10);
-        session(['admin_captcha' => $num1 + $num2]);
+    public function loginOtpForm(Request $request)
+    {
+        if (! $request->session()->has('admin_login_mfa.admin_id')) {
+            return redirect('admin/login')->withErrors(['email' => 'Please enter your login credentials first.']);
+        }
 
-        return back()->withErrors([
-            'email' => 'Invalid email or password'
-        ])->withInput();
+        return view('backend.auth.login-otp', [
+            'recipientHint' => $request->session()->get('admin_login_mfa.recipient_hint'),
+        ]);
+    }
+
+    public function loginOtpPost(Request $request)
+    {
+        $request->validate([
+            'otp' => 'required|digits:6',
+        ]);
+
+        $adminId = $request->session()->get('admin_login_mfa.admin_id');
+        $otpHash = $request->session()->get('admin_login_mfa.otp_hash');
+        $expiresAt = (int) $request->session()->get('admin_login_mfa.expires_at', 0);
+        $otpKey = 'admin-login-otp-failures:' . $request->ip() . '|' . $adminId;
+
+        if (RateLimiter::tooManyAttempts($otpKey, 5)) {
+            return back()->withErrors([
+                'otp' => 'Too many incorrect verification codes. Please try again in ' . RateLimiter::availableIn($otpKey) . ' seconds.',
+            ]);
+        }
+
+        if (! $adminId || ! $otpHash || $expiresAt < now()->timestamp) {
+            $request->session()->forget('admin_login_mfa');
+
+            return redirect('admin/login')->withErrors(['email' => 'The verification session expired. Please log in again.']);
+        }
+
+        if (! Hash::check((string) $request->otp, (string) $otpHash)) {
+            RateLimiter::hit($otpKey, 300);
+
+            return back()->withErrors(['otp' => 'Incorrect verification code. Please check the email and try again.']);
+        }
+
+        $admin = Admin::find($adminId);
+        if (! $admin) {
+            $request->session()->forget('admin_login_mfa');
+
+            return redirect('admin/login')->withErrors(['email' => 'The administrator account is no longer available.']);
+        }
+
+        $remember = (bool) $request->session()->get('admin_login_mfa.remember', false);
+        RateLimiter::clear($otpKey);
+        $request->session()->forget('admin_login_mfa');
+        Auth::guard('admin')->login($admin, $remember);
+        $request->session()->regenerate();
+
+        return redirect('admin/dashboard');
     }
 
     public function forgotPassword()
@@ -223,7 +313,7 @@ class AdminAuthController extends Controller
                 'regex:/[0-9]/',
                 'regex:/[@$!%*?&#]/',
             ],
-            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
         ]);
 
         $admin->name = $request->name;
@@ -257,6 +347,14 @@ class AdminAuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('admin/login');
+    }
+
+    private function maskEmail(string $email): string
+    {
+        [$name, $domain] = array_pad(explode('@', $email, 2), 2, '');
+        $visible = mb_substr($name, 0, min(2, mb_strlen($name)));
+
+        return $visible . str_repeat('*', max(3, mb_strlen($name) - mb_strlen($visible))) . '@' . $domain;
     }
 
 }

@@ -9,9 +9,12 @@
     RewriteCond %{REQUEST_URI} !^/public/
     RewriteRule ^(.*)$ public/$1 [L]
 
-    php_value upload_max_filesize 50M
-    php_value post_max_size 55M
-    php_value memory_limit 256M
+    # The application enforces 5 MB images, 10 MB PDFs and 100 MB videos.
+    # Keep PHP slightly above the largest application limit so Laravel can
+    # return a friendly validation message instead of an empty request.
+    php_value upload_max_filesize 105M
+    php_value post_max_size 120M
+    php_value memory_limit 512M
     php_value max_execution_time 600
     php_value max_input_time 600
 </IfModule>

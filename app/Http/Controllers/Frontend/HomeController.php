@@ -12,9 +12,11 @@ use App\Models\Playlist;
 use App\Models\Product;
 use App\Models\StateCounter;
 use App\Models\VideoBanner;
+use App\Support\VisualCaptcha;
 use Illuminate\Http\Request;
 use App\Mail\InquiryReplyMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\RateLimiter;
 use DB;
 
 class HomeController extends Controller
@@ -269,21 +271,26 @@ class HomeController extends Controller
             'email' => 'required|email',
             'phone' => 'required|string|max:20',
             'message' => 'required|string',
-            'captcha' => 'required|integer',
+            'captcha' => 'required|string|size:' . VisualCaptcha::LENGTH,
         ]);
 
-        if ($request->captcha != (session('captcha_num1') + session('captcha_num2'))) {
-            session([
-                'captcha_num1' => rand(1, 10),
-                'captcha_num2' => rand(1, 10)
-            ]);
-            return back()->withErrors(['captcha' => 'Invalid CAPTCHA answer. Please try again.'])->withInput();
+        $captchaKey = VisualCaptcha::limiterKey('public', $request);
+        if (RateLimiter::tooManyAttempts($captchaKey, 3)) {
+            return back()->withErrors([
+                'captcha' => 'Too many incorrect CAPTCHA entries. Please wait ' . RateLimiter::availableIn($captchaKey) . ' seconds before trying again.',
+            ])->withInput();
         }
 
-        session([
-            'captcha_num1' => rand(1, 10),
-            'captcha_num2' => rand(1, 10)
-        ]);
+        if (! VisualCaptcha::verify($request, 'public', $request->input('captcha'))) {
+            RateLimiter::hit($captchaKey, 300);
+            $attemptsRemaining = max(0, 3 - RateLimiter::attempts($captchaKey));
+            $message = $attemptsRemaining > 0
+                ? 'Incorrect CAPTCHA. ' . $attemptsRemaining . ' attempt(s) remaining before a 5-minute lock.'
+                : 'Too many incorrect CAPTCHA entries. CAPTCHA entry is locked for 5 minutes.';
+
+            return back()->withErrors(['captcha' => $message])->withInput();
+        }
+        RateLimiter::clear($captchaKey);
 
         ContactMessage::create([
             'product_id' => $request->product_id,

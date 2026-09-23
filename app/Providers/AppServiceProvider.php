@@ -25,10 +25,24 @@ class AppServiceProvider extends ServiceProvider
             return method_exists($user, 'hasRole') && $user->hasRole('admin') ? true : null;
         });
 
-        // Automatically clear all caches on code redeployment
+        // Automatically clear caches after any user-facing deployment file changes.
+        // This covers CSS and Blade-only releases as well as route changes.
         $deployFile = base_path('.deploy_timestamp');
-        $routesFile = base_path('routes/web.php');
-        $currentMtime = file_exists($routesFile) ? filemtime($routesFile) : time();
+        $deploymentFiles = [
+            base_path('routes/web.php'),
+            app_path('Http/Controllers/Backend/AdminAuthController.php'),
+            resource_path('views/frontend/layouts/app.blade.php'),
+            resource_path('views/frontend/home/index.blade.php'),
+            resource_path('views/frontend/products/index.blade.php'),
+            resource_path('views/frontend/products/category-products.blade.php'),
+            resource_path('views/frontend/products/product-detail.blade.php'),
+            public_path('frontend/css/style.css'),
+        ];
+        $deploymentMtimes = array_map(
+            static fn (string $path): int => file_exists($path) ? (int) filemtime($path) : 0,
+            $deploymentFiles
+        );
+        $currentMtime = max($deploymentMtimes ?: [time()]);
         $lastMtime = file_exists($deployFile) ? (int)file_get_contents($deployFile) : 0;
         if ($currentMtime > $lastMtime) {
             try {
@@ -43,15 +57,6 @@ class AppServiceProvider extends ServiceProvider
                 // Fail silently
             }
         }
-
-        view()->composer('*', function ($view) {
-            if (!session()->has('captcha_num1') || !session()->has('captcha_num2')) {
-                session([
-                    'captcha_num1' => rand(1, 10),
-                    'captcha_num2' => rand(1, 10)
-                ]);
-            }
-        });
 
         view()->composer([
             'backend.auth.forgot-password',

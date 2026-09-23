@@ -168,19 +168,8 @@
                                         @endif
                                     </div>
 
-                                    <!-- Top Right corner floating badge -->
-                                    <div class="floating-icon-badge">
-                                        {!! $iconSvg !!}
-                                    </div>
-
                                     <!-- Inner card content -->
                                     <div class="premium-card-content">
-                                        <!-- Category Tag -->
-                                        <div class="category-tag-pill">
-                                            <span class="tag-dot" style="background-color: {{ $dotColor }};"></span>
-                                            <span class="tag-label">{{ $tagText }}</span>
-                                        </div>
-
                                         <!-- Title (H3) -->
                                         <h3 class="product-title-h3">
                                             {{ $product->title }}
@@ -721,43 +710,30 @@
                     </h2>
                 </div>
 
-                <div class="certification-grid">
+                @php
+                    $qualityCertificates = [
+                        ['image' => 'opf-quality-certificate-01.png', 'page' => 1, 'title' => 'ISO 9001:2015 Quality Management System'],
+                        ['image' => 'opf-quality-certificate-02.png', 'page' => 2, 'title' => 'ISO 14001:2015 Environmental Management System'],
+                        ['image' => 'opf-quality-certificate-03.png', 'page' => 3, 'title' => 'ISO 45001:2018 Occupational Health & Safety'],
+                        ['image' => 'opf-quality-certificate-04.png', 'page' => 4, 'title' => 'AS 9100D & ISO 9001:2015 Aerospace Quality'],
+                        ['image' => 'opf-quality-certificate-05.png', 'page' => 5, 'title' => 'DGAQA-AFQMS-2018 Approval'],
+                    ];
+                @endphp
 
-                    <div class="cert-card">
-                        <div class="cert-logo">
-                            <img src="{{ asset('frontend/images/section/5.png') }}" alt="Quality Management System">
-                        </div>
-                        <h4>Quality Management System</h4>
-                    </div>
-
-                    <div class="cert-card">
-                        <div class="cert-logo">
-                            <img src="{{ asset('frontend/images/section/6.png') }}" alt="Directorate General of Assurance">
-                        </div>
-                        <h4>Directorate General of Assurance</h4>
-                    </div>
-
-                    <div class="cert-card">
-                        <div class="cert-logo">
-                            <img src="{{ asset('frontend/images/section/7.png') }}" alt="International Accreditation Forum">
-                        </div>
-                        <h4>International Accreditation Forum</h4>
-                    </div>
-
-                    <div class="cert-card">
-                        <div class="cert-logo">
-                            <img src="{{ asset('frontend/images/section/8.png') }}" alt="Directorate General AQPR">
-                        </div>
-                        <h4>Directorate General AQPR:Q9000</h4>
-                    </div>
-
-                    <div class="cert-card">
-                        <div class="cert-logo">
-                            <img src="{{ asset('frontend/images/section/9.png') }}" alt="Environmental Management System">
-                        </div>
-                        <h4>Environmental Management System</h4>
-                    </div>
-
+                <div class="certification-grid certification-document-grid">
+                    @foreach($qualityCertificates as $certificate)
+                        <a class="cert-card cert-document-card"
+                           href="{{ asset('frontend/documents/OPF-Quality-Certificates-2026.pdf') }}#page={{ $certificate['page'] }}"
+                           target="_blank" rel="noopener"
+                           aria-label="View {{ $certificate['title'] }} certificate">
+                            <div class="cert-logo cert-document-preview">
+                                <img src="{{ asset('frontend/images/certificates/' . $certificate['image']) }}"
+                                     alt="{{ $certificate['title'] }} certificate">
+                            </div>
+                            <h4>{{ $certificate['title'] }}</h4>
+                            <span class="cert-view-link">View certificate</span>
+                        </a>
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -795,13 +771,7 @@
                                 <input type="text" name="phone" placeholder="Phone Number" value="{{ old('phone') }}" required>
                                 <textarea name="message" rows="5" placeholder="Your Message" required>{{ old('message') }}</textarea>
 
-                                @error('captcha')
-                                    <div class="alert alert-danger p-2" style="font-size: 13px; margin-bottom: 10px; background: rgba(220, 53, 69, 0.2); border: 1px solid rgba(220, 53, 69, 0.4); color: #ff8080;">{{ $message }}</div>
-                                @enderror
-                                <div class="captcha-wrapper mb-3" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-                                    <span style="color: #fff; white-space: nowrap; font-weight: 600;">Security Check: What is {{ session('captcha_num1') }} + {{ session('captcha_num2') }}?</span>
-                                    <input type="number" name="captcha" placeholder="Answer" required style="margin: 0; width: 100px; padding: 8px; background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px;">
-                                </div>
+                                <x-visual-captcha context="public" :dark="true" />
 
                                 <button type="submit">Send message</button>
                             </form>

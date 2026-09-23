@@ -10,7 +10,7 @@ return new class extends Migration
      * Limited legacy entry. The image lives in shared upload storage, like any
      * photo added through the admin panel.
      */
-    private const IMAGE = 'sunil_date_cmd.webp';
+    private const IMAGE = 'sunil_date_cmd.png';
 
     public function up(): void
     {

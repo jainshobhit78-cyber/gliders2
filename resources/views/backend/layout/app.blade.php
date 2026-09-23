@@ -681,6 +681,18 @@
                     </div>
                 </div>
 
+                @if($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show mx-3 mt-3" role="alert" style="border-left:4px solid #dc3545;box-shadow:0 8px 22px rgba(26,39,55,.12);">
+                        <strong>Upload or form submission could not be completed.</strong>
+                        <ul class="mb-0 mt-2">
+                            @foreach($errors->all() as $message)
+                                <li>{{ $message }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
                 @yield('content')
 
 

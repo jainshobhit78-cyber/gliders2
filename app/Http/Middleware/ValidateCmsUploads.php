@@ -9,22 +9,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ValidateCmsUploads
 {
-    private const MAX_UPLOAD_KB = 51200;
+    private const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 
-    private const ALLOWED_EXTENSIONS = [
-        'jpg', 'jpeg', 'png', 'webp', 'gif',
-        'pdf',
-        'mp4', 'webm', 'ogg',
-    ];
+    private const MAX_PDF_BYTES = 10 * 1024 * 1024;
 
-    private const ALLOWED_MIME_PREFIXES = [
-        'image/',
-        'video/',
-    ];
+    private const MAX_VIDEO_BYTES = 100 * 1024 * 1024;
 
-    private const ALLOWED_MIMES = [
-        'application/pdf',
-    ];
+    private const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+
+    private const VIDEO_EXTENSIONS = ['mp4', 'webm', 'ogg'];
+
+    private const PDF_EXTENSIONS = ['pdf'];
 
     private const BLOCKED_EXTENSIONS = [
         'php', 'phtml', 'phar', 'php3', 'php4', 'php5', 'php7', 'php8',
@@ -34,8 +29,11 @@ class ValidateCmsUploads
 
     public function handle(Request $request, Closure $next): Response
     {
-        foreach ($this->flattenFiles($request->allFiles()) as $file) {
-            if (!$file instanceof UploadedFile) {
+        foreach ($this->flattenFiles($request->allFiles()) as $upload) {
+            $field = $upload['field'];
+            $file = $upload['file'];
+
+            if (! $file instanceof UploadedFile) {
                 continue;
             }
 
@@ -43,46 +41,76 @@ class ValidateCmsUploads
             $mime = strtolower((string) $file->getMimeType());
             $originalName = strtolower($file->getClientOriginalName());
 
-            if (
-                !$file->isValid()
-                || $file->getSize() > self::MAX_UPLOAD_KB * 1024
-                || in_array($extension, self::BLOCKED_EXTENSIONS, true)
-                || preg_match('/\.(php\d*|phtml|phar|htaccess)(\.|$)/i', $originalName)
-                || !in_array($extension, self::ALLOWED_EXTENSIONS, true)
-                || !$this->isAllowedMime($mime)
-            ) {
-                abort(422, 'Uploaded file type or size is not allowed.');
+            if (! $file->isValid()) {
+                return $this->uploadError($field, 'The selected file could not be uploaded. ' . $file->getErrorMessage());
             }
+
+            if (
+                in_array($extension, self::BLOCKED_EXTENSIONS, true)
+                || preg_match('/\.(php\d*|phtml|phar|htaccess)(\.|$)/i', $originalName)
+            ) {
+                return $this->uploadError($field, 'This file type is blocked for security reasons.');
+            }
+
+            if (in_array($extension, self::IMAGE_EXTENSIONS, true)) {
+                if (! str_starts_with($mime, 'image/')) {
+                    return $this->uploadError($field, 'The selected image is not a valid JPG, JPEG, PNG, WEBP, or GIF file.');
+                }
+                if ($file->getSize() > self::MAX_IMAGE_BYTES) {
+                    return $this->uploadError($field, 'The selected image must not be larger than 5 MB.');
+                }
+                continue;
+            }
+
+            if (in_array($extension, self::PDF_EXTENSIONS, true)) {
+                if ($mime !== 'application/pdf') {
+                    return $this->uploadError($field, 'The selected document is not a valid PDF file.');
+                }
+                if ($file->getSize() > self::MAX_PDF_BYTES) {
+                    return $this->uploadError($field, 'The selected PDF must not be larger than 10 MB.');
+                }
+                continue;
+            }
+
+            if (in_array($extension, self::VIDEO_EXTENSIONS, true)) {
+                if (! str_starts_with($mime, 'video/')) {
+                    return $this->uploadError($field, 'The selected video is not a valid MP4, WEBM, or OGG file.');
+                }
+                if ($file->getSize() > self::MAX_VIDEO_BYTES) {
+                    return $this->uploadError($field, 'The selected video must not be larger than 100 MB.');
+                }
+                continue;
+            }
+
+            return $this->uploadError(
+                $field,
+                'Unsupported file type. Upload a JPG, JPEG, PNG, WEBP, or GIF image; a PDF document; or an MP4, WEBM, or OGG video.'
+            );
         }
 
         return $next($request);
     }
 
-    private function isAllowedMime(string $mime): bool
+    private function uploadError(string $field, string $message)
     {
-        if (in_array($mime, self::ALLOWED_MIMES, true)) {
-            return true;
-        }
-
-        foreach (self::ALLOWED_MIME_PREFIXES as $prefix) {
-            if (str_starts_with($mime, $prefix)) {
-                return true;
-            }
-        }
-
-        return false;
+        return back()->withErrors([$field => $message])->withInput();
     }
 
     /**
-     * @return array<int, mixed>
+     * @return array<int, array{field: string, file: mixed}>
      */
-    private function flattenFiles(array $files): array
+    private function flattenFiles(array $files, string $prefix = ''): array
     {
         $flat = [];
 
-        array_walk_recursive($files, function ($file) use (&$flat) {
-            $flat[] = $file;
-        });
+        foreach ($files as $key => $file) {
+            $field = $prefix === '' ? (string) $key : $prefix . '.' . $key;
+            if (is_array($file)) {
+                $flat = array_merge($flat, $this->flattenFiles($file, $field));
+            } else {
+                $flat[] = ['field' => $field, 'file' => $file];
+            }
+        }
 
         return $flat;
     }

@@ -31,4 +31,12 @@ class UnitFormatterTest extends TestCase
             'description' => '<p>Maximum descent: 5 s at 7 m/s.</p>',
         ], UnitFormatter::normalize($content));
     }
+
+    public function test_it_expands_the_textile_undyed_abbreviation(): void
+    {
+        $this->assertSame(
+            'Fabric Nylon 66, 93 gsm Undyed',
+            UnitFormatter::normalize('Fabric Nylon 66, 93 Gsm U/D')
+        );
+    }
 }

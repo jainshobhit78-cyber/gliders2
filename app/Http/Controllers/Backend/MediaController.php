@@ -29,7 +29,7 @@ class MediaController extends Controller
     public function uploadVideo(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|mimetypes:video/mp4,video/webm,video/ogg|max:51200',
+            'file' => 'required|file|mimetypes:video/mp4,video/webm,video/ogg|max:102400',
         ]);
 
         if ($request->hasFile('file')) {
@@ -49,7 +49,7 @@ class MediaController extends Controller
             'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif,svg|max:5120',
             'status' => 'nullable|in:Pending,Published,Draft',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif,svg|max:5120',
-            'videos.*' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:51200',
+            'videos.*' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:102400',
         ]);
 
         // Determine status based on role: only Super Admins can publish directly
@@ -147,7 +147,7 @@ class MediaController extends Controller
             'thumbnail' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif,svg|max:5120',
             'status' => 'nullable|in:Pending,Published,Draft',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif,svg|max:5120',
-            'videos.*' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:51200',
+            'videos.*' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:102400',
         ]);
 
         $playlist = Playlist::find($id);
@@ -307,4 +307,3 @@ class MediaController extends Controller
     }
 
 }
-

@@ -200,8 +200,8 @@ class keyOfferingsController extends Controller
             'title' => 'nullable|string|max:255',
             'uploaded_banner_video' => 'nullable|string',
             'uploaded_mid_video' => 'nullable|string',
-            'banner_video' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg,video/quicktime|max:2048000',
-            'mid_video' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg,video/quicktime|max:2048000',
+            'banner_video' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:102400',
+            'mid_video' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:102400',
         ]);
 
         $banner = VideoBanner::first();
@@ -269,7 +269,7 @@ class keyOfferingsController extends Controller
             'heading' => 'nullable|string|max:255',
             'sub_heading' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:255',
-            'video' => 'nullable|mimes:mp4,webm,ogg',
+            'video' => 'nullable|file|mimetypes:video/mp4,video/webm,video/ogg|max:102400',
         ]);
 
         $banner = OurUnit::first();

@@ -52,8 +52,12 @@ use App\Http\Controllers\Frontend\RtiController;
 use App\Http\Controllers\Frontend\VendorController;
 use App\Http\Controllers\Frontend\VigilanceController;
 use App\Http\Controllers\Frontend\ProductFController;
+use App\Http\Controllers\SecurityCaptchaController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('security/captcha/{context}', [SecurityCaptchaController::class, 'show'])
+    ->whereIn('context', ['admin', 'public'])
+    ->name('security.captcha');
 
 
 
@@ -66,8 +70,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('ipWhitelist')->group(function () {
     Route::redirect('admin', 'admin/dashboard');
 
-    Route::get('admin/login', [AdminAuthController::class, 'login']);
+    Route::get('admin/login', [AdminAuthController::class, 'login'])->name('admin.login');
     Route::post('admin/login', [AdminAuthController::class, 'loginPost']);
+    Route::get('admin/login/otp', [AdminAuthController::class, 'loginOtpForm'])->name('admin.login.otp');
+    Route::post('admin/login/otp', [AdminAuthController::class, 'loginOtpPost'])->middleware('throttle:6,5');
 
     Route::get('admin/forgot-password', [AdminAuthController::class, 'forgotPassword']);
     Route::post('admin/forgot-password', [AdminAuthController::class, 'forgotPasswordPost'])->middleware('throttle:3,5');
@@ -541,7 +547,7 @@ Route::middleware(['ipWhitelist', 'adminAuth', 'validateCmsUploads'])->group(fun
                 ['parameter' => 'MiG-23 Landing Speed (Normal / Emergency)', 'value' => '180 to 300 kmph / 300-320 kmph', 'description' => 'MiG-23 operational speeds.', 'icon' => ''],
                 ['parameter' => 'MiG-25 Canopy Area / Mass', 'value' => 'Unicross (Twin), 23.2 sqm / 54 kg', 'description' => 'MiG-25 twin canopy specifications.', 'icon' => ''],
                 ['parameter' => 'MiG-25 Landing Speed (Normal / Emergency)', 'value' => '330 kmph / above 330 kmph', 'description' => 'MiG-25 high-speed operational limits.', 'icon' => ''],
-                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 109 gm U/D', 'description' => 'High-strength nylon fabric for MiG series.', 'icon' => '']
+                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 109 gm Undyed', 'description' => 'High-strength nylon fabric for MiG series.', 'icon' => '']
             ],
             'main_capabilities' => [
                 ['heading' => 'Multi-Aircraft Compatibility', 'description' => 'Tailored configurations designed specifically to support deployment and safe retardation across MiG-21, MiG-23, and MiG-25 fighter jets.'],
@@ -561,7 +567,7 @@ Route::middleware(['ipWhitelist', 'adminAuth', 'validateCmsUploads'])->group(fun
                 ['parameter' => 'Span / Width of Arm', 'value' => '5.76 m / 1.73 m', 'description' => 'Geometric dimensions of the canopy.', 'icon' => ''],
                 ['parameter' => 'No. Of Rigging Line', 'value' => '32', 'description' => 'Kevlar rigging lines layout.', 'icon' => ''],
                 ['parameter' => 'Deployment Speed (Normal / Emergency)', 'value' => '285 Kmph / 340 Kmph', 'description' => 'Operational deployment speeds.', 'icon' => ''],
-                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 66, 93 U/D', 'description' => 'Heavy-duty parachute fabric.', 'icon' => ''],
+                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 66, 93 Undyed', 'description' => 'Heavy-duty parachute fabric.', 'icon' => ''],
                 ['parameter' => 'Rigging Lines Material', 'value' => 'Tape Para-Aramid (Kevlar) 21 mm BS: 800 Kg', 'description' => 'Ultra high strength Kevlar lines.', 'icon' => ''],
                 ['parameter' => 'Mass of Parachute', 'value' => '10 Kg', 'description' => 'Packaged system weight.', 'icon' => '']
             ],
@@ -583,7 +589,7 @@ Route::middleware(['ipWhitelist', 'adminAuth', 'validateCmsUploads'])->group(fun
                 ['parameter' => 'No. Of rigging lines / Length', 'value' => '30 / 5480 mm', 'description' => 'Rigging lines configuration.', 'icon' => ''],
                 ['parameter' => 'Aircraft Landing Mass (Normal / Max)', 'value' => '5900 Kgs / 9100 Kgs', 'description' => 'Supported landing mass range.', 'icon' => ''],
                 ['parameter' => 'Max. Deployment Speed', 'value' => '160 Knots', 'description' => 'Maximum streaming velocity threshold.', 'icon' => ''],
-                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 66, 90 gsm U/D', 'description' => 'Highly strong lightweight nylon fabric.', 'icon' => ''],
+                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 66, 90 gsm Undyed', 'description' => 'Highly strong lightweight nylon fabric.', 'icon' => ''],
                 ['parameter' => 'Mass of Parachute System', 'value' => '6.2 kg', 'description' => 'Total system weight.', 'icon' => '']
             ],
             'main_capabilities' => [
@@ -646,7 +652,7 @@ Route::middleware(['ipWhitelist', 'adminAuth', 'validateCmsUploads'])->group(fun
                 ['parameter' => 'No. Of rigging lines / Length', 'value' => '32 / 6680 mm', 'description' => 'Rigging lines specs.', 'icon' => ''],
                 ['parameter' => 'Landing Speed (Normal / Emergency)', 'value' => '260 Kmph / 300 Kmph', 'description' => 'High speed operational thresholds.', 'icon' => ''],
                 ['parameter' => 'Max. Operational load / Weight', 'value' => '234000 N / 24 kg', 'description' => 'Load capacity and system weight.', 'icon' => ''],
-                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 66, 93 gm U/D', 'description' => 'Polyamide Nylon 66 fabric.', 'icon' => '']
+                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 66, 93 gm Undyed', 'description' => 'Polyamide Nylon 66 fabric.', 'icon' => '']
             ],
             'main_capabilities' => [
                 ['heading' => 'Twin-Canopy Unicross Design', 'description' => 'Deploys dual canopy parachutes (25 sqm each) to generate massive deceleration force for the heavy Sukhoi SU-30 fighter jet.'],
@@ -665,7 +671,7 @@ Route::middleware(['ipWhitelist', 'adminAuth', 'validateCmsUploads'])->group(fun
                 ['parameter' => 'Canopy Surface Area', 'value' => '14.4 sqm', 'description' => 'MiG-29 canopy surface area.', 'icon' => ''],
                 ['parameter' => 'System Mass / Auxiliary Parachute', 'value' => '8.2 kg / 1.0 sqm', 'description' => 'MiG-29 system weight specs.', 'icon' => ''],
                 ['parameter' => 'Landing Speed (Normal / Emergency)', 'value' => '180 kmph / 310 kmph', 'description' => 'Deployment operational speeds.', 'icon' => ''],
-                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 93 gm U/D', 'description' => 'Nylon 93 gm fabric.', 'icon' => '']
+                ['parameter' => 'Basic Material', 'value' => 'Fabric Nylon 93 gm Undyed', 'description' => 'Nylon 93 gm fabric.', 'icon' => '']
             ],
             'main_capabilities' => [
                 ['heading' => 'MiG-29 Precision Fit', 'description' => 'Engineered precisely for the MiG-29 rear deploy housing, ensuring zero-fault deployment at streaming speeds up to 180 kmph.'],

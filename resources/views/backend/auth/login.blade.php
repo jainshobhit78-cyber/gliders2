@@ -583,18 +583,7 @@
                     @enderror
                 </div>
 
-                <div class="form-group">
-                    <label>Decryption Verification: {{ $captcha_question }}</label>
-                    <div class="input-wrapper">
-                        <div class="input-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 11 2 2 4-4"></path></svg>
-                        </div>
-                        <input type="number" name="captcha" class="form-control" placeholder="Enter answer" required>
-                    </div>
-                    @error('captcha')
-                        <div class="error">{{ $message }}</div>
-                    @enderror
-                </div>
+                <x-visual-captcha context="admin" :dark="true" />
 
                 <div class="extra">
                     <label class="checkbox-container">

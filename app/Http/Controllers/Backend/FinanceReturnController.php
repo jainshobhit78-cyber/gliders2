@@ -91,7 +91,7 @@ class FinanceReturnController extends Controller
     {
         return $request->validate([
             'fiscal_year' => ['required', 'regex:/^(?:20)?\d{2}-\d{2}$/'],
-            'pdf' => ['nullable', 'file', 'mimes:pdf', 'max:20480'],
+            'pdf' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
         ]);
     }
 
