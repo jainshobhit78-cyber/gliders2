@@ -1695,6 +1695,9 @@ Route::middleware(['ipWhitelist', 'adminAuth', 'validateCmsUploads'])->group(fun
     Route::post('admin/product/add', [ProductController::class, 'store'])->middleware('permission:product.create,admin');
     Route::get('admin/product/edit/{id}', [ProductController::class, 'edit'])->middleware('permission:product.edit,admin');
     Route::post('admin/product/update/{id}', [ProductController::class, 'update'])->middleware('permission:product.edit,admin');
+    Route::post('admin/product/homepage-order/{id}', [ProductController::class, 'updateHomepageOrder'])
+        ->name('admin.product.homepage-order')
+        ->middleware('permission:product.edit,admin');
     Route::delete('admin/product/delete/{id}', [ProductController::class, 'delete'])->middleware('permission:product.delete,admin');
 
     Route::get('admin/media', [MediaController::class, 'list'])->middleware('permission:media.view,admin');

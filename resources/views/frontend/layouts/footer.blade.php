@@ -221,31 +221,26 @@
                     <li><a href="{{ route('news.categories') }}">New parachute testing facility inaugurated Apr 2025</a></li>
                     <li><a href="{{ route('news.categories') }}">Participation in Aero India Feb 2025</a></li>
                 </ul> -->
-                <ul class="latest-list">
-                    <?php
-$latestNews = App\Models\NewsArticle::latest()->get();
-                    ?>
-                    @foreach($latestNews as $news)
-                        <li class="mb-0">
-                            <a href="{{ route('news.category', $news->category_id) }}" class="news-link">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M7.75194 5.4392L18.2596 11.5687C18.4981 11.7078 18.5787 12.014 18.4396 12.2525C18.3961 12.327 18.3341 12.389 18.2596 12.4325L7.75194 18.562C7.51341 18.7011 7.20725 18.6205 7.06811 18.382C7.0235 18.3055 7 18.2186 7 18.1301V5.87109C7 5.59494 7.22386 5.37109 7.5 5.37109C7.58853 5.37109 7.67547 5.39459 7.75194 5.4392Z"
-                                        fill="#EE6802" />
-                                </svg>
+                @php($footerNews = App\Models\NewsArticle::latest()->take(12)->get())
+                <div class="footer-updates-scroll" tabindex="0" aria-label="Latest updates">
+                    <ul class="latest-list">
+                        @foreach($footerNews as $news)
+                            <li class="mb-0">
+                                <a href="{{ route('news.category', $news->category_id) }}" class="news-link">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M7.75194 5.4392L18.2596 11.5687C18.4981 11.7078 18.5787 12.014 18.4396 12.2525C18.3961 12.327 18.3341 12.389 18.2596 12.4325L7.75194 18.562C7.51341 18.7011 7.20725 18.6205 7.06811 18.382C7.0235 18.3055 7 18.2186 7 18.1301V5.87109C7 5.59494 7.22386 5.37109 7.5 5.37109C7.58853 5.37109 7.67547 5.39459 7.75194 5.4392Z"
+                                            fill="#EE6802" />
+                                    </svg>
 
-                                <span>{{ \Illuminate\Support\Str::limit($news->title, 60) }}</span>
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-
-                <!-- <div class="news-btn-wrap">
-                    <a href="{{ route('news.categories') }}" class="view-news-btn">
-                        View All News
-                    </a>
-                </div> -->
+                                    <span>{{ \Illuminate\Support\Str::limit($news->title, 60) }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+                <a href="{{ route('news.categories') }}" class="footer-updates-more">View More Updates →</a>
             </div>
 
         </div>

@@ -61,6 +61,7 @@
                                     <th>Title</th>
                                     <th>Category</th>
                                     <th>Display Order</th>
+                                    <th>Homepage Order</th>
                                     <th>Action</th>
                                 </tr>
 
@@ -96,6 +97,20 @@
                                         <td>{{ $p->category->name ?? '' }}</td>
 
                                         <td>{{ $p->display_order }}</td>
+
+                                        <td style="min-width: 190px;">
+                                            @if(auth()->guard('admin')->user()->can('product.edit'))
+                                                <form action="{{ route('admin.product.homepage-order', $p->id) }}" method="POST" class="d-flex align-items-center gap-2">
+                                                    @csrf
+                                                    <input type="number" name="homepage_order" min="1" max="999"
+                                                        value="{{ $p->homepage_order }}" class="form-control form-control-sm"
+                                                        placeholder="Blank = hidden" aria-label="Homepage order for {{ $p->title }}">
+                                                    <button type="submit" class="btn btn-theme btn-sm">Save</button>
+                                                </form>
+                                            @else
+                                                {{ $p->homepage_order ?: 'Hidden' }}
+                                            @endif
+                                        </td>
 
                                         <td>
 

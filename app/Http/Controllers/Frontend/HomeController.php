@@ -5,10 +5,8 @@ use App\Http\Controllers\Controller;
 use App\Models\AboutLeadership;
 use App\Models\ContactMessage;
 use App\Models\ImageGallery;
-use App\Models\KeyOffering;
 use App\Models\NewsArticle;
 use App\Models\PartnerLogo;
-use App\Models\Playlist;
 use App\Models\Product;
 use App\Models\StateCounter;
 use App\Models\VideoBanner;
@@ -25,23 +23,17 @@ class HomeController extends Controller
     {
         $videoBanner = VideoBanner::latest()->first();
         $tickerItems = \App\Models\TickerNews::where('is_active', true)->orderBy('position', 'asc')->get();
-        // Self-healing: add the instagram_embed_code column if it doesn't exist yet
-        // (migrations are out of sync on some environments).
-        if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'instagram_embed_code')) {
-            try {
-                \Illuminate\Support\Facades\Schema::table('general_settings', function ($table) {
-                    $table->text('instagram_embed_code')->nullable();
-                });
-            } catch (\Exception $e) {
-                // Ignore
-            }
-        }
-
         $settings = \App\Models\GeneralSetting::first();
         $galleryImages = ImageGallery::latest()->get();
         $stateCounter = StateCounter::latest()->first();
 
-        if ($settings && !$settings->product_slider_auto) {
+        if (\Illuminate\Support\Facades\Schema::hasColumn('products', 'homepage_order')) {
+            $products = Product::with('images')
+                ->whereNotNull('homepage_order')
+                ->orderBy('homepage_order')
+                ->orderBy('id')
+                ->get();
+        } elseif ($settings && !$settings->product_slider_auto) {
             $ids = array_filter([
                 $settings->homepage_product_1,
                 $settings->homepage_product_2,
@@ -65,69 +57,7 @@ class HomeController extends Controller
                 ->get();
         }
 
-        $keyOfferings = KeyOffering::with('category')
-            ->where('is_home', 1)
-            ->latest()
-            ->get();
-
-        $offeringImage = function (array $keywords, ?string $fallback = null) use ($keyOfferings): ?string {
-            $match = $keyOfferings->first(function (KeyOffering $offering) use ($keywords): bool {
-                $searchable = strtolower(strip_tags(implode(' ', [
-                    $offering->title,
-                    $offering->description,
-                    optional($offering->category)->name,
-                ])));
-
-                foreach ($keywords as $keyword) {
-                    if (str_contains($searchable, strtolower($keyword))) {
-                        return true;
-                    }
-                }
-
-                return false;
-            });
-
-            if ($match?->image) {
-                return asset('uploads/key_offerings/'.$match->image);
-            }
-
-            return $fallback ? asset($fallback) : null;
-        };
-
-        $businessOfferings = [
-            [
-                'title' => 'Parachutes',
-                'slug' => 'parachutes',
-                'image' => $offeringImage(
-                    ['parachute', 'aerial delivery'],
-                    'uploads/key_offerings/1776004316_parachutes-aerial-delivery.png'
-                ),
-            ],
-            [
-                'title' => 'Rubber Inflatables',
-                'slug' => 'rubber-inflatables',
-                'image' => $offeringImage(
-                    ['rubber', 'inflatable', 'float', 'boat'],
-                    'uploads/products/km_bridge.jpg'
-                ),
-            ],
-            [
-                'title' => 'Technical Clothing and Equipments',
-                'slug' => 'technical-clothing',
-                'image' => $offeringImage(
-                    ['technical clothing', 'clothing', 'garment', 'apparel'],
-                    'uploads/products/nbc_suit.jpg'
-                ),
-            ],
-        ];
-
         $isElectionMode = \App\Models\GeneralSetting::isElectionMode();
-
-        $playlistQuery = Playlist::with(['images', 'videos'])->where('status', 'Published');
-        if ($isElectionMode) {
-            $playlistQuery->where('hide_during_election', false);
-        }
-        $playlists = $playlistQuery->latest()->get();
 
         $leaders = AboutLeadership::with('milestones')
             ->orderBy('position', 'asc')
@@ -182,56 +112,6 @@ class HomeController extends Controller
 
         $ourPartners = \App\Models\OurPartner::latest()->get();
 
-        // Self-healing: create + seed the social_posts table if it does not exist yet
-        // (migrations are out of sync on some environments).
-        if (!\Illuminate\Support\Facades\Schema::hasTable('social_posts')) {
-            try {
-                \Illuminate\Support\Facades\Schema::create('social_posts', function ($table) {
-                    $table->id();
-                    $table->string('platform')->default('facebook');
-                    $table->string('author')->nullable();
-                    $table->date('post_date')->nullable();
-                    $table->text('content')->nullable();
-                    $table->string('image')->nullable();
-                    $table->unsignedInteger('likes')->default(0);
-                    $table->unsignedInteger('comments')->default(0);
-                    $table->unsignedInteger('shares')->default(0);
-                    $table->string('link')->nullable();
-                    $table->string('status')->default('Published');
-                    $table->integer('sort_order')->default(0);
-                    $table->timestamps();
-                });
-
-                $seed = [
-                    ['platform' => 'facebook', 'author' => 'Gliders India', 'post_date' => '2025-05-19', 'content' => 'Successful brake parachute deployment test on SU-30 MKI. Another step towards excellence!', 'likes' => 123, 'comments' => 5, 'shares' => 8, 'sort_order' => 1],
-                    ['platform' => 'linkedin', 'author' => 'Gliders India', 'post_date' => '2025-05-18', 'content' => 'Proud moment for our team as we achieve yet another milestone in defense innovation.', 'likes' => 98, 'comments' => 3, 'shares' => 6, 'sort_order' => 2],
-                    ['platform' => 'instagram', 'author' => 'Gliders India', 'post_date' => '2025-05-17', 'content' => 'Behind the scenes of precision, passion and performance. #SU30MKI #ParachuteTest', 'likes' => 210, 'comments' => 0, 'shares' => 0, 'sort_order' => 3],
-                ];
-                foreach ($seed as $row) {
-                    \App\Models\SocialPost::create($row);
-                }
-            } catch (\Exception $e) {
-                // Ignore or log error
-            }
-        }
-
-        $socialPosts = \Illuminate\Support\Facades\Schema::hasTable('social_posts')
-            ? \App\Models\SocialPost::where('status', 'Published')->orderBy('sort_order')->orderByDesc('post_date')->get()
-            : collect();
-
-        // Live Facebook Page feed (official Page Plugin) — normalise the configured Page URL.
-        $fbPageUrl = trim((string) ($settings->social_facebook ?? ''));
-        if ($fbPageUrl !== '') {
-            if (!\Illuminate\Support\Str::startsWith($fbPageUrl, ['http://', 'https://'])) {
-                $fbPageUrl = 'https://www.facebook.com/' . ltrim($fbPageUrl, '@/');
-            }
-        } else {
-            $fbPageUrl = null;
-        }
-
-        // Live Instagram feed via a third-party widget embed code pasted in settings.
-        $instagramEmbed = trim((string) ($settings->instagram_embed_code ?? '')) ?: null;
-
         return view('frontend.home.index', compact(
             'videoBanner',
             'tickerItems',
@@ -239,18 +119,12 @@ class HomeController extends Controller
             'galleryImages',
             'stateCounter',
             'products',
-            'keyOfferings',
-            'businessOfferings',
             'latestNews',
             'blogArticles',
-            'playlists',
             'ourUnit',
             'leaders',
             'partnerLogos',
-            'ourPartners',
-            'socialPosts',
-            'fbPageUrl',
-            'instagramEmbed'
+            'ourPartners'
         ));
     }
 

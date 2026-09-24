@@ -4,18 +4,14 @@
 
     <section class="hero-banner">
         @if($videoBanner?->banner_video)
-            <video id="heroVideo" class="hero-video" autoplay muted loop playsinline>
+            <video id="heroVideo" class="hero-video" autoplay muted loop playsinline tabindex="0"
+                role="button" aria-label="Play or pause background video">
                 <source src="{{ asset('uploads/video_banner/' . $videoBanner->banner_video) }}" type="video/mp4">
             </video>
         @endif
 
 
         <div class="hero-overlay"></div>
-
-        <!-- VIDEO CONTROL -->
-        @if($videoBanner?->banner_video)
-            <button id="videoToggleBtn" class="video-toggle-btn" type="button">Play</button>
-        @endif
 
         <div class="container hero-content">
             <div class="row align-items-center">
@@ -135,30 +131,18 @@
                             @php
                                 $index = $loop->index % 4;
                                 $themeClass = 'theme-orange';
-                                $tagText = $product->delivery_tag ?: 'Aerial Delivery';
-                                $dotColor = '#f5821f';
-                                $iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg>';
 
                                 if ($index == 1) {
                                     $themeClass = 'theme-green';
-                                    $tagText = $product->delivery_tag ?: 'Tactical Operations';
-                                    $dotColor = '#48bb78';
-                                    $iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>';
                                 } elseif ($index == 2) {
                                     $themeClass = 'theme-blue';
-                                    $tagText = $product->delivery_tag ?: 'Military Grade';
-                                    $dotColor = '#4299e1';
-                                    $iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>';
                                 } elseif ($index == 3) {
                                     $themeClass = 'theme-purple';
-                                    $tagText = $product->delivery_tag ?: 'Heavy Load';
-                                    $dotColor = '#9f7aea';
-                                    $iconSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>';
                                 }
                             @endphp
 
                             <div class="swiper-slide">
-                                <div class="premium-product-card {{ $themeClass }}">
+                                <div class="premium-product-card {{ $themeClass }}" tabindex="0">
                                     <!-- Full background photo -->
                                     <div class="card-bg-image">
                                         @if($product->profile_pic)
@@ -181,7 +165,7 @@
                                         </p>
 
                                         <!-- Action view details pill button -->
-                                        <div class="d-flex align-items-center gap-3">
+                                        <div class="product-card-action">
                                             <a href="{{ route('products.detail', ['categoryId' => $product->category_id, 'productId' => $product->id]) }}" class="btn-view-details">
                                                 <span>View Details</span>
                                                 <span class="details-arrow">→</span>
@@ -195,11 +179,8 @@
                     </div>
 
                     <!-- arrows -->
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
-
-                    <!-- pagination -->
-                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-prev product-slider-prev"></div>
+                    <div class="swiper-button-next product-slider-next"></div>
                 </div>
 
                 <h2 class="section-title section-title-2 premium-heading"
@@ -250,14 +231,6 @@
                         <div class="card-bg" style="background-image: url('/uploads/media/images/hd_su30_brake_parachute.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
-                            <div class="card-icon-wrapper">
-                                <!-- Parachute / Aviation Icon -->
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                                </svg>
-                            </div>
                             <h3 class="card-title">Parachutes & Aerial Delivery</h3>
                             <div class="card-details">
                                 <p class="card-description">Pioneers in manufacturing state-of-the-art paratrooper, brake, cargo, and heavy platform recovery parachute systems for global defense forces.</p>
@@ -271,13 +244,6 @@
                         <div class="card-bg" style="background-image: url('/uploads/media/images/hd_baplw_assault_boat.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
-                            <div class="card-icon-wrapper">
-                                <!-- Boat / Inflatable Icon -->
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 2L2 22h20L12 2z"></path>
-                                    <path d="M12 22V10"></path>
-                                </svg>
-                            </div>
                             <h3 class="card-title">Tactical Inflatable Systems</h3>
                             <div class="card-details">
                                 <p class="card-description">High-durability military assault boats, Gemini crafts, and pneumatic float assemblies designed for tactical crossings and riverine operations.</p>
@@ -291,12 +257,6 @@
                         <div class="card-bg" style="background-image: url('/uploads/media/images/hd_indian_clothing.jpg');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-content">
-                            <div class="card-icon-wrapper">
-                                <!-- Shield / Protective Gear Icon -->
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                                </svg>
-                            </div>
                             <h3 class="card-title">Technical Clothing & Equipment</h3>
                             <div class="card-details">
                                 <p class="card-description">Advanced protective combat clothing, nuclear-biological-chemical (NBC) suits, and extreme cold climate survival gear built to save lives.</p>
@@ -312,176 +272,6 @@
             <div class="horizontal-row"></div>
         </div>
 
-        <section class="media-release-section">
-            <div class="container">
-                <h2 class="section-title">
-                    Media <span>Releases</span>
-                </h2>
-                <div class="row g-4">
-
-                    <!-- LEFT: LATEST FROM SOCIAL MEDIA -->
-                    <div class="col-lg-5">
-                        <div class="social-feed-box">
-                            <h5 class="social-feed-title">Latest from Social Media</h5>
-                            <div class="social-feed-list">
-
-                                {{-- FACEBOOK: one embedded post at a time in a slider (native like/share/comment,
-                                     FB logo and link back to Facebook). Driven by Facebook posts (with a post URL
-                                     in the Link field) from the Social Posts admin. --}}
-                                @php
-                                    $fbPosts = $socialPosts->where('platform', 'facebook')->filter(fn($x) => !empty($x->link))->values();
-                                    $needFbSdk = $fbPosts->count() > 0 || !empty($fbPageUrl);
-                                @endphp
-                                <div id="fb-root"></div>
-                                @if($fbPosts->count() > 0)
-                                    <div class="social-embed social-embed--fb">
-                                        <div class="swiper fbPostSlider">
-                                            <div class="swiper-wrapper">
-                                                @foreach($fbPosts as $post)
-                                                    <div class="swiper-slide">
-                                                        <div class="fb-post" data-href="{{ $post->link }}" data-width="450" data-show-text="true"></div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                        @if($fbPosts->count() > 1)
-                                            {{-- Navigation bar below the post so it's always visible (not over the iframe) --}}
-                                            <div class="fb-slider-controls">
-                                                <button type="button" class="swiper-button-prev fbp-prev" aria-label="Previous post"></button>
-                                                <div class="swiper-pagination fbp-pagination"></div>
-                                                <button type="button" class="swiper-button-next fbp-next" aria-label="Next post"></button>
-                                            </div>
-                                        @endif
-                                    </div>
-                                @elseif(!empty($fbPageUrl))
-                                    {{-- Fallback until individual post URLs are added: compact live Page timeline --}}
-                                    <div class="social-embed">
-                                        <div class="fb-page"
-                                             data-href="{{ $fbPageUrl }}"
-                                             data-tabs="timeline"
-                                             data-width="450"
-                                             data-height="480"
-                                             data-small-header="true"
-                                             data-adapt-container-width="true"
-                                             data-hide-cover="false"
-                                             data-show-facepile="false">
-                                            <blockquote cite="{{ $fbPageUrl }}" class="fb-xfbml-parse-ignore">
-                                                <a href="{{ $fbPageUrl }}" target="_blank" rel="noopener">Visit us on Facebook</a>
-                                            </blockquote>
-                                        </div>
-                                    </div>
-                                @else
-                                    @foreach($socialPosts->where('platform', 'facebook') as $post)
-                                        @include('frontend.home.partials.social-card', ['post' => $post, 'settings' => $settings])
-                                    @endforeach
-                                @endif
-
-                                {{-- INSTAGRAM: live third-party widget embed when configured, else the manual card --}}
-                                @if(!empty($instagramEmbed))
-                                    <div class="social-embed">
-                                        {!! $instagramEmbed !!}
-                                    </div>
-                                @else
-                                    @foreach($socialPosts->where('platform', 'instagram') as $post)
-                                        @include('frontend.home.partials.social-card', ['post' => $post, 'settings' => $settings])
-                                    @endforeach
-                                @endif
-
-                                {{-- LINKEDIN: manual cards (LinkedIn has no free live-feed embed) --}}
-                                @foreach($socialPosts->where('platform', 'linkedin') as $post)
-                                    @include('frontend.home.partials.social-card', ['post' => $post, 'settings' => $settings])
-                                @endforeach
-
-                                @if(empty($fbPageUrl) && empty($instagramEmbed) && $socialPosts->isEmpty())
-                                    <div class="social-card">
-                                        <div class="social-card-body">
-                                            <p class="social-card-text">No social posts yet.</p>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                        @if($needFbSdk)
-                            {{-- Facebook SDK (renders the embedded posts / page feed above) --}}
-                            <script async defer crossorigin="anonymous"
-                                src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0"></script>
-                        @endif
-                    </div><!-- RIGHT VIDEO -->
-                    @if($playlists->count() > 0)
-                        <div class="col-lg-7 media-box">
-                            <div class="main-video-box" id="mainVideoBox">
-                                <video id="mediaMainVideo" preload="metadata" autoplay muted playsinline>
-                                    <source
-                                        src="{{ asset('uploads/media/videos/' . ($playlists->first()?->videos?->first()?->video ?? '')) }}"
-                                        type="video/mp4">
-                                </video>
-
-                                <button id="mediaPlayBtn" class="video-play-btn"><span class="me-2">▶</span></button>
-
-                                <div class="video-overlay-text">
-                                    <h3 id="mainHeading">{{ $playlists->first()?->heading ?? '' }}</h3>
-                                </div>
-                            </div>
-
-                            <!-- PLAYLIST THUMBNAILS -->
-                            <div class="swiper playlistSlider mt-3">
-                                <div class="swiper-wrapper">
-
-                                    @foreach($playlists as $playlist)
-                                        <div class="swiper-slide">
-                                            <div class="playlist-thumb"
-                                                onclick="changeVideo(
-                                                    '{{ asset('uploads/media/videos/' . ($playlist->videos?->first()?->video ?? '')) }}',
-                                                    '{{ addslashes($playlist->heading) }}'
-                                                )">
-
-                                                @php
-                                                    $thumbFile = $playlist->thumbnail ?: ($playlist->images?->first()?->image);
-                                                    $autoVideo = $playlist->videos?->first()?->video;
-                                                @endphp
-                                                <div class="playlist-thumb-media">
-                                                    @if($thumbFile)
-                                                        {{-- Manual thumbnail; if the file is missing it is removed so the auto thumbnail behind it shows --}}
-                                                        <img class="playlist-thumb-img"
-                                                            src="/uploads/media/images/{{ $thumbFile }}"
-                                                            alt="{{ $playlist->name }}"
-                                                            onerror="this.remove()">
-                                                    @endif
-                                                    @if($autoVideo)
-                                                        {{-- Auto thumbnail: first frame of the playlist video (no manual upload needed) --}}
-                                                        <video class="playlist-thumb-video" muted playsinline preload="metadata"
-                                                            src="/uploads/media/videos/{{ $autoVideo }}#t=0.5"
-                                                            onloadedmetadata="try{this.currentTime=0.5}catch(e){}"></video>
-                                                    @elseif(!$thumbFile)
-                                                        <div class="playlist-thumb-placeholder">
-                                                            <span class="playlist-thumb-play-icon">▶</span>
-                                                        </div>
-                                                    @endif
-                                                </div>
-
-                                                <div class="thumb-title">
-                                                    {{ $playlist->name }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <div class="col-lg-7 media-box">
-                            <div class="main-video-box d-flex align-items-center justify-content-center" style="background: #111; height: 350px; border-radius: 8px;">
-                                <div class="text-center text-muted">
-                                    <p>No featured media available.</p>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-
-                </div>
-            </div>
-        </section>
     </section>
 
     <section class="our-unit-section">
@@ -764,12 +554,12 @@
                                     <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
                                 </div>
 
-                                <input type="text" name="name" placeholder="Your Name" value="{{ old('name') }}" required>
+                                <input type="text" name="name" placeholder="Name" value="{{ old('name') }}" required>
                                 <input type="text" name="company_name" placeholder="Company Name" value="{{ old('company_name') }}">
                                 <input type="text" name="location" placeholder="Location" value="{{ old('location') }}">
-                                <input type="email" name="email" placeholder="Your Email" value="{{ old('email') }}" required>
+                                <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
                                 <input type="text" name="phone" placeholder="Phone Number" value="{{ old('phone') }}" required>
-                                <textarea name="message" rows="5" placeholder="Your Message" required>{{ old('message') }}</textarea>
+                                <textarea name="message" rows="5" placeholder="Message" required>{{ old('message') }}</textarea>
 
                                 <x-visual-captcha context="public" :dark="true" />
 
@@ -1006,21 +796,15 @@
                                                     </script> -->
 
     <script>
-        var autoSliderEnabled = {{ ($homeSetting->product_slider_auto ?? true) ? 'true' : 'false' }};
-
         var swiperOptions = {
             slidesPerView: 4,
             spaceBetween: 25,
-            loop: true,
+            loop: false,
+            allowTouchMove: true,
 
             navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
+                nextEl: ".product-slider-next",
+                prevEl: ".product-slider-prev",
             },
 
             breakpoints: {
@@ -1038,13 +822,6 @@
                 }
             }
         };
-
-        if (autoSliderEnabled) {
-            swiperOptions.autoplay = {
-                delay: 2500,
-                disableOnInteraction: false,
-            };
-        }
 
         var swiper = new Swiper(".productSlider", swiperOptions);
     </script>
@@ -1158,81 +935,6 @@
                 320: { slidesPerView: 1 },
                 576: { slidesPerView: 2 },
                 992: { slidesPerView: 3 }
-            }
-        });
-    </script>
-
-    <script>
-        function changeVideo(videoUrl, heading) {
-            let video = document.getElementById('mediaMainVideo');
-            let source = video.querySelector("source");
-            let headingBox = document.getElementById('mainHeading');
-            let btn = document.getElementById("mediaPlayBtn");
-            let box = document.getElementById("mainVideoBox");
-
-            source.src = videoUrl;
-            video.load();
-
-            video.play().then(() => {
-                btn.innerHTML = "❚❚";
-                box.classList.add("playing");
-            }).catch(err => {
-                console.log(err);
-            });
-
-            headingBox.innerText = heading;
-        }
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const video = document.getElementById("mediaMainVideo");
-            const btn = document.getElementById("mediaPlayBtn");
-            const box = document.getElementById("mainVideoBox");
-
-            video.muted = true;
-
-            video.play().then(() => {
-                btn.innerHTML = "❚❚";
-                box.classList.add("playing");
-            }).catch(err => {
-                console.log("Autoplay blocked:", err);
-            });
-
-            function updateUI() {
-                if (video.paused) {
-                    btn.innerHTML = "▶";
-                    box.classList.remove("playing");
-                } else {
-                    btn.innerHTML = "❚❚";
-                    box.classList.add("playing");
-                }
-            }
-
-            btn.addEventListener("click", function (e) {
-                e.stopPropagation();
-                video.paused ? video.play() : video.pause();
-            });
-
-            box.addEventListener("click", function () {
-                video.paused ? video.play() : video.pause();
-            });
-
-            video.addEventListener("play", updateUI);
-            video.addEventListener("pause", updateUI);
-
-            updateUI();
-        });
-    </script>
-    <script>
-        new Swiper(".playlistSlider", {
-            slidesPerView: 4,
-            spaceBetween: 15,
-            loop: true,
-            breakpoints: {
-                320: { slidesPerView: 1 },
-                576: { slidesPerView: 2 },
-                768: { slidesPerView: 3 },
-                1200: { slidesPerView: 4 }
             }
         });
     </script>
@@ -1413,29 +1115,32 @@
         document.addEventListener("DOMContentLoaded", function () {
 
             const video = document.getElementById("heroVideo");
-            const btn = document.getElementById("videoToggleBtn");
             const heroSection = document.querySelector(".hero-banner");
+
+            if (!video || !heroSection) {
+                return;
+            }
 
             let userPaused = false;
 
-            // 🔥 FORCE AUTOPLAY ON LOAD
+            video.muted = true;
             video.play().catch(() => { });
 
-            // =========================
-            // BUTTON CONTROL
-            // =========================
-            btn.addEventListener("click", function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-
+            function toggleHeroVideo() {
                 if (video.paused) {
-                    video.play();
-                    btn.innerHTML = '❚❚';
+                    video.play().catch(() => { });
                     userPaused = false;
                 } else {
                     video.pause();
-                    btn.innerHTML = '▶';
                     userPaused = true;
+                }
+            }
+
+            video.addEventListener("click", toggleHeroVideo);
+            video.addEventListener("keydown", function (event) {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    toggleHeroVideo();
                 }
             });
 
@@ -1451,13 +1156,8 @@
                             video.play();
                         }
 
-                        video.muted = false; // 🔊 unmute when visible
-
                     } else {
-
-                        video.muted = true;  // 🔇 mute
                         video.pause();
-
                     }
 
                 });

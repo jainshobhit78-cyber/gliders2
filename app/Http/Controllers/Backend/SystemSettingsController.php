@@ -12,8 +12,7 @@ class SystemSettingsController extends Controller
     public function index()
     {
         $setting = GeneralSetting::firstOrCreate([]);
-        $allProducts = \App\Models\Product::orderBy('title', 'asc')->get();
-        return view('backend.settings.index', compact('setting', 'allProducts'));
+        return view('backend.settings.index', compact('setting'));
     }
 
     public function update(Request $request)
@@ -51,10 +50,6 @@ class SystemSettingsController extends Controller
             'main_menu_font_family' => 'nullable|string|max:255',
             'submenu_font_family' => 'nullable|string|max:255',
             'body_font_family' => 'nullable|string|max:255',
-            'homepage_product_1' => 'nullable|integer|exists:products,id',
-            'homepage_product_2' => 'nullable|integer|exists:products,id',
-            'homepage_product_3' => 'nullable|integer|exists:products,id',
-            'homepage_product_4' => 'nullable|integer|exists:products,id',
         ]);
 
         $data = [
@@ -89,11 +84,6 @@ class SystemSettingsController extends Controller
             'twitter_feed_url' => $request->twitter_feed_url,
             'instagram_embed_code' => $request->instagram_embed_code,
             'nav_font_size' => $request->nav_font_size ?: '14',
-            'homepage_product_1' => $request->homepage_product_1,
-            'homepage_product_2' => $request->homepage_product_2,
-            'homepage_product_3' => $request->homepage_product_3,
-            'homepage_product_4' => $request->homepage_product_4,
-            'product_slider_auto' => $request->has('product_slider_auto'),
         ];
 
         if ($request->hasFile('products_page_wallpaper')) {

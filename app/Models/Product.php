@@ -11,6 +11,7 @@ class Product extends Model
         'title',
         'category_id',
         'display_order',
+        'homepage_order',
         'description',
         'wallpaper',
         'profile_pic',
@@ -24,6 +25,7 @@ class Product extends Model
     ];
 
     protected $casts = [
+        'homepage_order' => 'integer',
         'technical_specs' => 'array',
         'main_capabilities' => 'array'
     ];

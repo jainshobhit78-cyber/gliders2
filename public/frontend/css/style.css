@@ -2910,15 +2910,17 @@ table td {
     z-index: 1;
     /* Eased back slightly so it blends into the navy banner behind it
        and the hero text reads more clearly over the footage. */
-    opacity: 0.72;
+    opacity: 0.94;
+    filter: brightness(1.18) saturate(1.08);
+    cursor: pointer;
 }
 
 .hero-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(90deg,
-            rgba(0, 20, 60, 0.60) 0%,
-            rgba(0, 40, 100, 0.60) 100%);
+            rgba(0, 20, 60, 0.28) 0%,
+            rgba(0, 40, 100, 0.32) 100%);
     z-index: 2;
 }
 
@@ -8127,13 +8129,13 @@ table td {
     height: 100% !important;
     object-fit: cover !important;
     display: block !important;
-    filter: brightness(0.85);
+    filter: brightness(1.1) saturate(1.05);
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease !important;
 }
 
 .our-products-section .premium-product-card:hover .card-bg-image img {
     transform: scale(1.06) !important;
-    filter: brightness(0.95);
+    filter: brightness(1.2) saturate(1.1);
 }
 
 /* Floating Icon Badge (Top Right) */
@@ -11331,3 +11333,81 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
         height: 25px;
     }
 }
+
+/* Final homepage interaction overrides. Kept at the end so legacy theme rules cannot override them. */
+.hero-banner .video-toggle-btn { display: none !important; }
+.our-products-section .productSlider { padding: 18px 8px 24px; }
+.our-products-section .productSlider .swiper-slide { transition: transform .4s cubic-bezier(.25,1,.5,1), z-index 0s; }
+.our-products-section .productSlider .swiper-slide:hover,
+.our-products-section .productSlider .swiper-slide:focus-within { z-index: 5; }
+.our-products-section .premium-product-card::after {
+    background: linear-gradient(to top, rgba(4,12,27,.78) 0%, rgba(4,12,27,.16) 35%, rgba(4,12,27,.02) 72%) !important;
+    transition: background .4s ease;
+}
+.our-products-section .premium-product-card:hover,
+.our-products-section .premium-product-card:focus-within {
+    transform: translateY(-8px) scale(1.025);
+    box-shadow: 0 22px 48px rgba(0,25,72,.32);
+}
+.our-products-section .premium-product-card:hover::after,
+.our-products-section .premium-product-card:focus-within::after {
+    background: linear-gradient(to top, rgba(4,12,27,.94) 0%, rgba(4,12,27,.55) 46%, rgba(4,12,27,.08) 100%) !important;
+}
+.our-products-section .premium-card-content { align-items: center; text-align: center; }
+.our-products-section .premium-product-card .product-title-h3,
+.our-products-section .premium-product-card .product-desc-p {
+    opacity: 0;
+    visibility: hidden;
+    max-height: 0;
+    margin: 0 !important;
+    transform: translateY(18px);
+    transition: opacity .32s ease, transform .4s ease, max-height .4s ease, margin .4s ease;
+}
+.our-products-section .premium-product-card:hover .product-title-h3,
+.our-products-section .premium-product-card:focus-within .product-title-h3 {
+    opacity: 1;
+    visibility: visible;
+    max-height: 70px;
+    margin: 0 0 10px !important;
+    transform: translateY(0);
+}
+.our-products-section .premium-product-card:hover .product-desc-p,
+.our-products-section .premium-product-card:focus-within .product-desc-p {
+    opacity: 1;
+    visibility: visible;
+    max-height: 75px;
+    margin: 0 0 18px !important;
+    transform: translateY(0);
+    color: rgba(255,255,255,.92) !important;
+}
+.our-products-section .product-card-action { display: flex; width: 100%; justify-content: center; }
+.our-products-section .product-slider-prev,
+.our-products-section .product-slider-next {
+    background: rgba(3,25,62,.88);
+    border: 1px solid rgba(255,255,255,.7);
+    color: #fff;
+    border-radius: 50%;
+    width: 46px;
+    height: 46px;
+    box-shadow: 0 10px 24px rgba(0,18,55,.28);
+}
+.our-products-section .product-slider-prev::after,
+.our-products-section .product-slider-next::after { font-size: 17px; font-weight: 800; }
+.footer-updates-scroll {
+    max-height: 240px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-right: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: #ee6802 rgba(0,0,0,.08);
+}
+.footer-updates-scroll::-webkit-scrollbar { width: 6px; }
+.footer-updates-scroll::-webkit-scrollbar-thumb { background: #ee6802; border-radius: 10px; }
+.footer-updates-more {
+    display: inline-flex;
+    margin-top: 16px;
+    color: #ee6802;
+    font-weight: 700;
+    text-decoration: none;
+}
+.footer-updates-more:hover { color: #0b2a5b; }

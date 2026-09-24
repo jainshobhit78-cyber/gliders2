@@ -9,6 +9,7 @@ use App\Models\ProductImage;
 use App\Models\ProductCategory;
 use App\Support\UnitFormatter;
 use App\Support\BrakeParachuteSpecifications;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -27,6 +28,33 @@ class ProductController extends Controller
     {
         $categories = ProductCategory::where('status', 'active')->get();
         return view('backend.products.product.add', compact('categories'));
+    }
+
+    public function updateHomepageOrder(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'homepage_order' => 'nullable|integer|min:1|max:999',
+        ]);
+
+        $product = Product::findOrFail($id);
+        $homepageOrder = $validated['homepage_order'] ?? null;
+
+        DB::transaction(function () use ($product, $homepageOrder): void {
+            if ($homepageOrder !== null) {
+                Product::where('homepage_order', $homepageOrder)
+                    ->where('id', '<>', $product->id)
+                    ->update(['homepage_order' => null]);
+            }
+
+            $product->update(['homepage_order' => $homepageOrder]);
+        });
+
+        return back()->with(
+            'success',
+            $homepageOrder === null
+                ? 'Product removed from the homepage slider.'
+                : "Homepage position updated to {$homepageOrder}."
+        );
     }
 
     public function store(Request $request)
