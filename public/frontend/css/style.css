@@ -2915,6 +2915,44 @@ table td {
     cursor: pointer;
 }
 
+.hero-banner .hero-video-stop {
+    position: absolute;
+    z-index: 6;
+    right: 18px;
+    bottom: 18px;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: rgba(3, 25, 62, .72);
+    border: 1px solid rgba(255, 255, 255, .72);
+    border-radius: 50%;
+    font-size: 9px;
+    line-height: 1;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: scale(.9);
+    transition: opacity .2s ease, visibility .2s ease, transform .2s ease, background .2s ease;
+}
+
+.hero-banner.video-interacted .hero-video-stop {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+.hero-banner .hero-video-stop:hover,
+.hero-banner .hero-video-stop:focus-visible {
+    background: rgba(3, 25, 62, .96);
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
 .hero-overlay {
     position: absolute;
     inset: 0;
@@ -11381,24 +11419,6 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     color: rgba(255,255,255,.92) !important;
 }
 .our-products-section .product-card-action { display: flex; width: 100%; justify-content: center; }
-.our-products-section .premium-product-card[class*="theme-"] .btn-view-details {
-    background: #ee6802 !important;
-    color: #ffffff !important;
-    border: 2px solid rgba(255, 255, 255, .96) !important;
-    font-size: 13px !important;
-    font-weight: 800 !important;
-    letter-spacing: .7px;
-    min-width: 150px;
-    padding: 11px 24px !important;
-    box-shadow: 0 7px 20px rgba(0, 0, 0, .35), inset 0 0 0 1px rgba(255, 255, 255, .16) !important;
-}
-.our-products-section .premium-product-card[class*="theme-"] .btn-view-details:hover,
-.our-products-section .premium-product-card[class*="theme-"] .btn-view-details:focus-visible {
-    background: #ffffff !important;
-    color: #0b2a5b !important;
-    border-color: #ee6802 !important;
-    box-shadow: 0 9px 24px rgba(0, 0, 0, .4), 0 0 0 3px rgba(238, 104, 2, .28) !important;
-}
 .our-products-section .product-slider-prev,
 .our-products-section .product-slider-next {
     background: rgba(3,25,62,.88);

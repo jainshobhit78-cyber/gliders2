@@ -17,6 +17,8 @@ class HomepagePresentationMarkupTest extends TestCase
         $this->assertStringNotContainsString('Media <span>Releases</span>', $view);
         $this->assertStringNotContainsString('card-icon-wrapper', $view);
         $this->assertStringNotContainsString('id="videoToggleBtn"', $view);
+        $this->assertStringContainsString('id="heroVideoStop"', $view);
+        $this->assertStringContainsString('video.muted = false', $view);
     }
 
     public function test_contact_and_footer_markup_match_the_requested_layout(): void
@@ -36,8 +38,9 @@ class HomepagePresentationMarkupTest extends TestCase
         $this->assertStringContainsString('footer-column-body', $footer);
 
         $css = file_get_contents(__DIR__.'/../../public/frontend/css/style.css');
-        $this->assertStringContainsString('background: #ee6802 !important;', $css);
-        $this->assertStringContainsString('border: 2px solid rgba(255, 255, 255, .96) !important;', $css);
+        $this->assertStringContainsString('color: #ff9f4b !important;', $css);
+        $this->assertStringNotContainsString('.premium-product-card[class*="theme-"] .btn-view-details {', $css);
+        $this->assertStringContainsString('.hero-banner.video-interacted .hero-video-stop', $css);
     }
 
     public function test_outdated_commercial_news_is_removed_by_migration(): void

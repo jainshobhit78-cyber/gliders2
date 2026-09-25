@@ -5,9 +5,12 @@
     <section class="hero-banner">
         @if($videoBanner?->banner_video)
             <video id="heroVideo" class="hero-video" autoplay muted loop playsinline tabindex="0"
-                role="button" aria-label="Play or pause background video">
+                aria-label="Homepage background video. Click to enable audio and play or pause.">
                 <source src="{{ asset('uploads/video_banner/' . $videoBanner->banner_video) }}" type="video/mp4">
             </video>
+            <button type="button" id="heroVideoStop" class="hero-video-stop" aria-label="Stop homepage video" title="Stop video">
+                <span aria-hidden="true">■</span>
+            </button>
         @endif
 
 
@@ -1126,7 +1129,21 @@
             video.muted = true;
             video.play().catch(() => { });
 
-            function toggleHeroVideo() {
+            const stopButton = document.getElementById("heroVideoStop");
+
+            function activateHeroVideo() {
+                heroSection.classList.add("video-interacted");
+
+                // Browsers block audible autoplay; the first direct interaction
+                // with the video is the user's signal to turn the soundtrack on.
+                if (video.muted) {
+                    video.muted = false;
+                    video.volume = 1;
+                    userPaused = false;
+                    if (video.paused) video.play().catch(() => { });
+                    return;
+                }
+
                 if (video.paused) {
                     video.play().catch(() => { });
                     userPaused = false;
@@ -1136,12 +1153,23 @@
                 }
             }
 
-            video.addEventListener("click", toggleHeroVideo);
+            // The decorative overlay sits above the video in the hero stack,
+            // so handle clicks at the section level while leaving links/buttons alone.
+            heroSection.addEventListener("click", function (event) {
+                if (event.target.closest("a, button, input, select, textarea")) return;
+                activateHeroVideo();
+            });
             video.addEventListener("keydown", function (event) {
                 if (event.key === "Enter" || event.key === " ") {
                     event.preventDefault();
-                    toggleHeroVideo();
+                    activateHeroVideo();
                 }
+            });
+
+            stopButton?.addEventListener("click", function (event) {
+                event.stopPropagation();
+                video.pause();
+                userPaused = true;
             });
 
             // =========================
