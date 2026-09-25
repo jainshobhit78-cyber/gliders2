@@ -31,6 +31,8 @@ class HomepagePresentationMarkupTest extends TestCase
         }
 
         $this->assertStringContainsString('footer-updates-scroll', $footer);
+        $this->assertStringContainsString("route('news.show', \$news->id)", $footer);
+        $this->assertStringNotContainsString("route('news.category', \$news->category_id)", $footer);
         $this->assertStringContainsString('View More Updates', $footer);
         $this->assertStringContainsString("route('products.index')", $footer);
         $this->assertStringContainsString("route('careers')", $footer);

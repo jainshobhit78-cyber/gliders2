@@ -243,7 +243,7 @@
                     <ul class="latest-list">
                         @foreach($footerNews as $news)
                             <li class="mb-0">
-                                <a href="{{ route('news.category', $news->category_id) }}" class="news-link">
+                                <a href="{{ route('news.show', $news->id) }}" class="news-link">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
