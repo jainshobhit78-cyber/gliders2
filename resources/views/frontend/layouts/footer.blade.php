@@ -63,9 +63,22 @@
             </div>
 
             <!-- QUICK LINKS -->
-            <div class="footer-col">
+            <div class="footer-col footer-balanced-column footer-quick-links">
                 <h4>Quick Links</h4>
+                <div class="footer-column-body">
                 <ul>
+                    <li>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M2.5 3.33333C2.5 2.8731 2.8731 2.5 3.33333 2.5H16.6667C17.1269 2.5 17.5 2.8731 17.5 3.33333V16.6667C17.5 17.1269 17.1269 17.5 16.6667 17.5H3.33333C2.8731 17.5 2.5 17.1269 2.5 16.6667V3.33333ZM4.16667 4.16667V15.8333H15.8333V4.16667H4.16667ZM6.66667 6.66667H13.3333V8.33333H6.66667V6.66667ZM6.66667 10H13.3333V11.6667H6.66667V10Z" fill="black" />
+                        </svg>
+                        <a href="{{ route('products.index') }}">Products</a>
+                    </li>
+                    <li>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M6.66667 2.5H13.3333L14.1667 5H16.6667C17.1269 5 17.5 5.3731 17.5 5.83333V16.6667C17.5 17.1269 17.1269 17.5 16.6667 17.5H3.33333C2.8731 17.5 2.5 17.1269 2.5 16.6667V5.83333C2.5 5.3731 2.8731 5 3.33333 5H5.83333L6.66667 2.5ZM7.86833 4.16667L7.59056 5H12.4094L12.1317 4.16667H7.86833ZM4.16667 6.66667V15.8333H15.8333V6.66667H4.16667Z" fill="black" />
+                        </svg>
+                        <a href="{{ route('careers') }}">Careers</a>
+                    </li>
                     <li>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -137,11 +150,13 @@
                         <a href="#">Contact</a>
                     </li> -->
                 </ul>
+                </div>
             </div>
 
             <!-- CONTACT INFO -->
-            <div class="footer-col">
+            <div class="footer-col footer-balanced-column footer-contact-info">
                 <h4>Contact Info</h4>
+                <div class="footer-column-body">
                 <ul class="contact-list">
                     <li class="contact-item">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="contact-icon">
@@ -212,11 +227,13 @@
                         <span class="contact-text">Working Hours:<br><span class="phone-number" style="white-space: nowrap;">Mon - Fri: 09:00 - 17:30</span></span>
                     </li>
                 </ul>
+                </div>
             </div>
 
             <!-- UPDATES -->
-            <div class="footer-col">
+            <div class="footer-col footer-balanced-column footer-updates">
                 <h4>Updates</h4>
+                <div class="footer-column-body footer-updates-body">
                 <!-- <ul>
                     <li><a href="{{ route('news.categories') }}">New parachute testing facility inaugurated Apr 2025</a></li>
                     <li><a href="{{ route('news.categories') }}">Participation in Aero India Feb 2025</a></li>
@@ -241,6 +258,7 @@
                     </ul>
                 </div>
                 <a href="{{ route('news.categories') }}" class="footer-updates-more">View More Updates →</a>
+                </div>
             </div>
 
         </div>

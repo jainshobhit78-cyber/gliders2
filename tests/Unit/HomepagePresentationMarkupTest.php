@@ -30,6 +30,23 @@ class HomepagePresentationMarkupTest extends TestCase
 
         $this->assertStringContainsString('footer-updates-scroll', $footer);
         $this->assertStringContainsString('View More Updates', $footer);
+        $this->assertStringContainsString("route('products.index')", $footer);
+        $this->assertStringContainsString("route('careers')", $footer);
+        $this->assertStringContainsString('footer-balanced-column', $footer);
+        $this->assertStringContainsString('footer-column-body', $footer);
+
+        $css = file_get_contents(__DIR__.'/../../public/frontend/css/style.css');
+        $this->assertStringContainsString('background: #ee6802 !important;', $css);
+        $this->assertStringContainsString('border: 2px solid rgba(255, 255, 255, .96) !important;', $css);
+    }
+
+    public function test_outdated_commercial_news_is_removed_by_migration(): void
+    {
+        $migration = file_get_contents(__DIR__.'/../../database/migrations/2026_09_24_030000_remove_outdated_commercial_news.php');
+
+        $this->assertStringContainsString('Record $3.7 Million Export Order Secured by Gloders India.', $migration);
+        $this->assertStringContainsString('DPSUs get a 340 crore boost', $migration);
+        $this->assertStringContainsString("whereIn('title', self::TITLES)->delete()", $migration);
     }
 
     public function test_admin_product_list_exposes_homepage_order(): void
