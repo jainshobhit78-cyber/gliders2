@@ -104,7 +104,7 @@
                                                     @csrf
                                                     <input type="number" name="homepage_order" min="1" max="999"
                                                         value="{{ $p->homepage_order }}" class="form-control form-control-sm"
-                                                        placeholder="Blank = hidden" aria-label="Homepage order for {{ $p->title }}">
+                                                        placeholder="Default order" aria-label="Homepage order for {{ $p->title }}">
                                                     <button type="submit" class="btn btn-theme btn-sm">Save</button>
                                                 </form>
                                             @else

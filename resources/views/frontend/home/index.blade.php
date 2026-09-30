@@ -134,6 +134,10 @@
                             @php
                                 $index = $loop->index % 4;
                                 $themeClass = 'theme-orange';
+                                $productCardImage = $product->homepage_card_image
+                                    ?? ($product->profile_pic
+                                        ? asset('uploads/products/' . $product->profile_pic)
+                                        : asset('uploads/products/' . optional($product->images->first())->image));
 
                                 if ($index == 1) {
                                     $themeClass = 'theme-green';
@@ -147,12 +151,8 @@
                             <div class="swiper-slide">
                                 <div class="premium-product-card {{ $themeClass }}" tabindex="0">
                                     <!-- Full background photo -->
-                                    <div class="card-bg-image">
-                                        @if($product->profile_pic)
-                                            <img src="/uploads/products/{{ $product->profile_pic }}" alt="{{ $product->title }}">
-                                        @else
-                                            <img src="/uploads/products/{{ optional($product->images->first())->image }}" alt="{{ $product->title }}">
-                                        @endif
+                                    <div class="card-bg-image" style="--homepage-product-photo: url('{{ $productCardImage }}')">
+                                        <img src="{{ $productCardImage }}" alt="{{ $product->title }}">
                                     </div>
 
                                     <!-- Inner card content -->
@@ -803,6 +803,8 @@
             slidesPerView: 4,
             spaceBetween: 25,
             loop: false,
+            autoplay: false,
+            grabCursor: true,
             allowTouchMove: true,
 
             navigation: {

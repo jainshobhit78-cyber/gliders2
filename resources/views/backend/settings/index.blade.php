@@ -299,7 +299,7 @@
                             <!-- Homepage Product Slider -->
                             <div class="form-group-wrapper">
                                 <span class="settings-section-title"><i class="fa fa-shopping-bag me-2"></i>Homepage Product Slider</span>
-                                <small class="text-muted d-block mb-3">The slider is manual. Set a Homepage Order beside each product; blank products remain hidden from the homepage.</small>
+                                <small class="text-muted d-block mb-3">The manual slider shows two products from each group in this order: Pilot, Brake, Man-Carrying, Cargo, Inflatables, and Clothing. Homepage Order can reorder the two products within their group; blank values use the default order.</small>
                                 <a href="{{ url('admin/product/list') }}" class="btn btn-theme">Manage Homepage Product Order</a>
                             </div>
 

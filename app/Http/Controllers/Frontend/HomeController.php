@@ -27,35 +27,68 @@ class HomeController extends Controller
         $galleryImages = ImageGallery::latest()->get();
         $stateCounter = StateCounter::latest()->first();
 
-        if (\Illuminate\Support\Facades\Schema::hasColumn('products', 'homepage_order')) {
-            $products = Product::with('images')
-                ->whereNotNull('homepage_order')
-                ->orderBy('homepage_order')
-                ->orderBy('id')
-                ->get();
-        } elseif ($settings && !$settings->product_slider_auto) {
-            $ids = array_filter([
-                $settings->homepage_product_1,
-                $settings->homepage_product_2,
-                $settings->homepage_product_3,
-                $settings->homepage_product_4
-            ]);
-            if (!empty($ids)) {
-                $productsMap = Product::with('images')->whereIn('id', $ids)->get()->keyBy('id');
-                // Order exactly as selected by admin (1, 2, 3, 4)
-                $products = collect($ids)->map(function ($id) use ($productsMap) {
-                    return $productsMap->get($id);
-                })->filter()->values();
-            } else {
-                $products = collect();
-            }
-        } else {
-            // standard autoplay slider: fetch all products ordered by display_order
-            $products = Product::with('images')
-                ->orderBy('display_order', 'asc')
-                ->orderBy('id', 'asc')
-                ->get();
-        }
+        // Keep the homepage showcase focused and in a deliberate catalogue order.
+        // Product records remain untouched; only this public-facing slider is curated.
+        $productCatalog = Product::with(['images', 'category'])
+            ->orderBy('display_order', 'asc')
+            ->orderBy('id', 'asc')
+            ->get();
+
+        $homepageProductSequence = [
+            [0, 'Man Carrying Parachutes', 'BMK-41', 'pilot-bmk41.jpg'],
+            [0, 'Man Carrying Parachutes', 'Seat Mk-10', 'pilot-seat-mk10.jpg'],
+            [1, 'Brake Parachutes', 'LCA (Tejas)', 'brake-tejas.jpg'],
+            [1, 'Brake Parachutes', 'SU-30', 'brake-su30.jpg'],
+            [2, 'Man Carrying Parachutes', 'PTA-M', 'pta-main.jpg'],
+            [2, 'Man Carrying Parachutes', 'PTA-R', 'pta-reserve.jpg'],
+            [3, 'Cargo Parachutes', 'P-7 Heavy Drop', 'cargo-p7.jpg'],
+            [3, 'Cargo Parachutes', 'ECAD', 'cargo-ecad.jpg'],
+            [4, 'Rubber Inflatables', 'BAPLW', 'inflatable-baplw.jpg'],
+            [4, 'Rubber Inflatables', 'Gemini Craft', 'inflatable-gemini.jpg'],
+            [5, 'Technical Clothing', 'NBC Suit', 'clothing-nbc.jpg'],
+            [5, 'Technical Clothing', 'Wind Cheater', 'clothing-jacket.jpg'],
+        ];
+
+        $products = collect($homepageProductSequence)
+            ->map(function (array $slot, int $fallbackOrder) use ($productCatalog) {
+                [$group, $categoryName, $titleMatch, $image] = $slot;
+                $product = $productCatalog->first(function (Product $candidate) use ($categoryName, $titleMatch) {
+                    return strcasecmp((string) optional($candidate->category)->name, $categoryName) === 0
+                        && str_contains(mb_strtolower($candidate->title), mb_strtolower($titleMatch));
+                });
+
+                if ($product) {
+                    $product->setAttribute('homepage_card_image', asset('frontend/images/home-products/' . $image));
+                }
+
+                return $product ? ['group' => $group, 'fallback_order' => $fallbackOrder, 'product' => $product] : null;
+            })
+            ->filter()
+            ->groupBy('group')
+            ->sortKeys()
+            ->flatMap(function ($groupSlots) {
+                return $groupSlots
+                    ->sort(function (array $left, array $right) {
+                        $leftOrder = $left['product']->homepage_order;
+                        $rightOrder = $right['product']->homepage_order;
+
+                        if ($leftOrder !== null && $rightOrder !== null && $leftOrder !== $rightOrder) {
+                            return $leftOrder <=> $rightOrder;
+                        }
+
+                        if ($leftOrder !== null && $rightOrder === null) {
+                            return -1;
+                        }
+
+                        if ($leftOrder === null && $rightOrder !== null) {
+                            return 1;
+                        }
+
+                        return $left['fallback_order'] <=> $right['fallback_order'];
+                    })
+                    ->pluck('product');
+            })
+            ->values();
 
         $isElectionMode = \App\Models\GeneralSetting::isElectionMode();
 

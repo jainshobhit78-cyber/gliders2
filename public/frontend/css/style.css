@@ -8160,12 +8160,28 @@ table td {
     inset: 0;
     z-index: 0;
     overflow: hidden;
+    isolation: isolate;
+}
+
+.our-products-section .card-bg-image::before {
+    content: "";
+    position: absolute;
+    inset: -20px;
+    z-index: 0;
+    background-image: var(--homepage-product-photo);
+    background-position: center;
+    background-size: cover;
+    filter: blur(18px) brightness(0.58) saturate(1.08);
+    transform: scale(1.08);
 }
 
 .our-products-section .card-bg-image img {
+    position: relative;
+    z-index: 1;
     width: 100% !important;
     height: 100% !important;
-    object-fit: cover !important;
+    object-fit: contain !important;
+    object-position: center !important;
     display: block !important;
     filter: brightness(1.1) saturate(1.05);
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease !important;

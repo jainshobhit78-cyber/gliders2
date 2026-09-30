@@ -13,6 +13,8 @@ class HomepagePresentationMarkupTest extends TestCase
         $this->assertStringContainsString('product-slider-prev', $view);
         $this->assertStringContainsString('product-slider-next', $view);
         $this->assertStringContainsString('loop: false', $view);
+        $this->assertStringContainsString('autoplay: false', $view);
+        $this->assertStringContainsString('grabCursor: true', $view);
         $this->assertStringNotContainsString('autoSliderEnabled', $view);
         $this->assertStringNotContainsString('Media <span>Releases</span>', $view);
         $this->assertStringNotContainsString('card-icon-wrapper', $view);
@@ -61,5 +63,37 @@ class HomepagePresentationMarkupTest extends TestCase
         $this->assertStringContainsString('Homepage Order', $view);
         $this->assertStringContainsString('name="homepage_order"', $view);
         $this->assertStringContainsString("route('admin.product.homepage-order'", $view);
+    }
+
+    public function test_homepage_product_showcase_uses_twelve_curated_catalogue_photos_in_order(): void
+    {
+        $controller = file_get_contents(__DIR__.'/../../app/Http/Controllers/Frontend/HomeController.php');
+        $css = file_get_contents(__DIR__.'/../../public/frontend/css/style.css');
+        $orderedProducts = [
+            "[0, 'Man Carrying Parachutes', 'BMK-41'",
+            "[0, 'Man Carrying Parachutes', 'Seat Mk-10'",
+            "[1, 'Brake Parachutes', 'LCA (Tejas)'",
+            "[1, 'Brake Parachutes', 'SU-30'",
+            "[2, 'Man Carrying Parachutes', 'PTA-M'",
+            "[2, 'Man Carrying Parachutes', 'PTA-R'",
+            "[3, 'Cargo Parachutes', 'P-7 Heavy Drop'",
+            "[3, 'Cargo Parachutes', 'ECAD'",
+            "[4, 'Rubber Inflatables', 'BAPLW'",
+            "[4, 'Rubber Inflatables', 'Gemini Craft'",
+            "[5, 'Technical Clothing', 'NBC Suit'",
+            "[5, 'Technical Clothing', 'Wind Cheater'",
+        ];
+
+        $previousPosition = -1;
+        foreach ($orderedProducts as $productSlot) {
+            $position = strpos($controller, $productSlot);
+            $this->assertNotFalse($position, "Missing homepage product slot: {$productSlot}");
+            $this->assertGreaterThan($previousPosition, $position, 'Homepage product slots must keep the approved order.');
+            $previousPosition = $position;
+        }
+
+        $this->assertSame(12, substr_count($controller, '.jpg\'],'));
+        $this->assertStringContainsString('object-fit: contain !important;', $css);
+        $this->assertStringContainsString('background-image: var(--homepage-product-photo);', $css);
     }
 }
