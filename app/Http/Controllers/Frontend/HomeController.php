@@ -35,10 +35,10 @@ class HomeController extends Controller
             ->get();
 
         $homepageProductSequence = [
-            [0, 'Man Carrying Parachutes', ['PSU-36', 'SU-30'], 'pilot-psu36-su30-v3.jpg'],
-            [0, 'Man Carrying Parachutes', ['PSU-36', 'MIG'], 'pilot-psu36-mig29-v3.jpg'],
-            [1, 'Brake Parachutes', 'LCA (Tejas)', 'brake-tejas-v3.jpg'],
-            [1, 'Brake Parachutes', 'SU-30', 'brake-su30-v3.jpg'],
+            [0, 'Brake Parachutes', 'SU-30', 'pilot-psu36-su30-v3.jpg'],
+            [0, 'Brake Parachutes', 'MiG-29', 'pilot-psu36-mig29-v3.jpg'],
+            [1, 'Man Carrying Parachutes', 'BMK-41', 'pilot-bmk41-v3.jpg'],
+            [1, 'Man Carrying Parachutes', 'Seat Mk-10', 'pilot-seat-mk10-v3.jpg'],
             [2, 'Man Carrying Parachutes', 'PTA-M', 'pta-main-v3.jpg'],
             [2, 'Man Carrying Parachutes', 'PTA-R', 'pta-reserve-v3.jpg'],
             [3, 'Cargo Parachutes', 'P-7 Heavy Drop', 'cargo-p7-v3.jpg'],

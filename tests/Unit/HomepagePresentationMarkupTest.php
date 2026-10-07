@@ -70,10 +70,10 @@ class HomepagePresentationMarkupTest extends TestCase
         $controller = file_get_contents(__DIR__.'/../../app/Http/Controllers/Frontend/HomeController.php');
         $css = file_get_contents(__DIR__.'/../../public/frontend/css/style.css');
         $orderedProducts = [
-            "[0, 'Man Carrying Parachutes', ['PSU-36', 'SU-30']",
-            "[0, 'Man Carrying Parachutes', ['PSU-36', 'MIG']",
-            "[1, 'Brake Parachutes', 'LCA (Tejas)'",
-            "[1, 'Brake Parachutes', 'SU-30'",
+            "[0, 'Brake Parachutes', 'SU-30'",
+            "[0, 'Brake Parachutes', 'MiG-29'",
+            "[1, 'Man Carrying Parachutes', 'BMK-41'",
+            "[1, 'Man Carrying Parachutes', 'Seat Mk-10'",
             "[2, 'Man Carrying Parachutes', 'PTA-M'",
             "[2, 'Man Carrying Parachutes', 'PTA-R'",
             "[3, 'Cargo Parachutes', 'P-7 Heavy Drop'",
@@ -96,7 +96,7 @@ class HomepagePresentationMarkupTest extends TestCase
         $this->assertStringContainsString('object-fit: contain !important;', $css);
         $this->assertStringContainsString('transform: none !important;', $css);
         $this->assertStringContainsString('background-image: var(--homepage-product-photo);', $css);
-        $this->assertStringContainsString('pilot-feature-card', $css);
+        $this->assertStringContainsString('featured-parachute-card', $css);
 
         $photoNames = [
             'pilot-psu36-su30-v3.jpg', 'pilot-psu36-mig29-v3.jpg',

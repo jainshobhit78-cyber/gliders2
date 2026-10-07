@@ -11398,11 +11398,11 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
     background: linear-gradient(to top, rgba(4,12,27,.78) 0%, rgba(4,12,27,.16) 35%, rgba(4,12,27,.02) 72%) !important;
     transition: background .4s ease;
 }
-.our-products-section .pilot-feature-card::after {
+.our-products-section .featured-parachute-card::after {
     background: linear-gradient(to top, rgba(4,12,27,.34) 0%, rgba(4,12,27,.06) 35%, rgba(4,12,27,0) 72%) !important;
 }
-.our-products-section .pilot-feature-card:hover::after,
-.our-products-section .pilot-feature-card:focus-within::after {
+.our-products-section .featured-parachute-card:hover::after,
+.our-products-section .featured-parachute-card:focus-within::after {
     background: linear-gradient(to top, rgba(4,12,27,.62) 0%, rgba(4,12,27,.28) 42%, rgba(4,12,27,.03) 72%) !important;
 }
 .our-products-section .premium-product-card:hover,
