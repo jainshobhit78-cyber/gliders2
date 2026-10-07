@@ -149,7 +149,7 @@
                             @endphp
 
                             <div class="swiper-slide">
-                                <div class="premium-product-card {{ $themeClass }}" tabindex="0">
+                                <div class="premium-product-card {{ $themeClass }} {{ $loop->index < 2 ? 'pilot-feature-card' : '' }}" tabindex="0">
                                     <!-- Full background photo -->
                                     <div class="card-bg-image" style="--homepage-product-photo: url('{{ $productCardImage }}')">
                                         <img src="{{ $productCardImage }}" alt="{{ $product->title }}">

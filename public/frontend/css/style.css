@@ -8181,14 +8181,14 @@ table td {
     width: 100% !important;
     height: 100% !important;
     object-fit: contain !important;
-    object-position: center !important;
+    object-position: center center !important;
     display: block !important;
     filter: brightness(1.1) saturate(1.05);
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease !important;
 }
 
 .our-products-section .premium-product-card:hover .card-bg-image img {
-    transform: scale(1.06) !important;
+    transform: none !important;
     filter: brightness(1.2) saturate(1.1);
 }
 
@@ -11397,6 +11397,13 @@ body.home-page .main-navbar:not(.sticky-nav) .navbar-toggler {
 .our-products-section .premium-product-card::after {
     background: linear-gradient(to top, rgba(4,12,27,.78) 0%, rgba(4,12,27,.16) 35%, rgba(4,12,27,.02) 72%) !important;
     transition: background .4s ease;
+}
+.our-products-section .pilot-feature-card::after {
+    background: linear-gradient(to top, rgba(4,12,27,.34) 0%, rgba(4,12,27,.06) 35%, rgba(4,12,27,0) 72%) !important;
+}
+.our-products-section .pilot-feature-card:hover::after,
+.our-products-section .pilot-feature-card:focus-within::after {
+    background: linear-gradient(to top, rgba(4,12,27,.62) 0%, rgba(4,12,27,.28) 42%, rgba(4,12,27,.03) 72%) !important;
 }
 .our-products-section .premium-product-card:hover,
 .our-products-section .premium-product-card:focus-within {

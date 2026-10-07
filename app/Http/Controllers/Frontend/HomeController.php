@@ -35,26 +35,33 @@ class HomeController extends Controller
             ->get();
 
         $homepageProductSequence = [
-            [0, 'Man Carrying Parachutes', 'BMK-41', 'pilot-bmk41.jpg'],
-            [0, 'Man Carrying Parachutes', 'Seat Mk-10', 'pilot-seat-mk10.jpg'],
-            [1, 'Brake Parachutes', 'LCA (Tejas)', 'brake-tejas.jpg'],
-            [1, 'Brake Parachutes', 'SU-30', 'brake-su30.jpg'],
-            [2, 'Man Carrying Parachutes', 'PTA-M', 'pta-main.jpg'],
-            [2, 'Man Carrying Parachutes', 'PTA-R', 'pta-reserve.jpg'],
-            [3, 'Cargo Parachutes', 'P-7 Heavy Drop', 'cargo-p7.jpg'],
-            [3, 'Cargo Parachutes', 'ECAD', 'cargo-ecad.jpg'],
-            [4, 'Rubber Inflatables', 'BAPLW', 'inflatable-baplw.jpg'],
-            [4, 'Rubber Inflatables', 'Gemini Craft', 'inflatable-gemini.jpg'],
-            [5, 'Technical Clothing', 'NBC Suit', 'clothing-nbc.jpg'],
-            [5, 'Technical Clothing', 'Wind Cheater', 'clothing-jacket.jpg'],
+            [0, 'Man Carrying Parachutes', ['PSU-36', 'SU-30'], 'pilot-psu36-su30-v3.jpg'],
+            [0, 'Man Carrying Parachutes', ['PSU-36', 'MIG'], 'pilot-psu36-mig29-v3.jpg'],
+            [1, 'Brake Parachutes', 'LCA (Tejas)', 'brake-tejas-v3.jpg'],
+            [1, 'Brake Parachutes', 'SU-30', 'brake-su30-v3.jpg'],
+            [2, 'Man Carrying Parachutes', 'PTA-M', 'pta-main-v3.jpg'],
+            [2, 'Man Carrying Parachutes', 'PTA-R', 'pta-reserve-v3.jpg'],
+            [3, 'Cargo Parachutes', 'P-7 Heavy Drop', 'cargo-p7-v3.jpg'],
+            [3, 'Cargo Parachutes', 'ECAD', 'cargo-ecad-v3.jpg'],
+            [4, 'Rubber Inflatables', 'BAPLW', 'inflatable-baplw-v3.jpg'],
+            [4, 'Rubber Inflatables', 'Gemini Craft', 'inflatable-gemini-v3.jpg'],
+            [5, 'Technical Clothing', 'NBC Suit', 'clothing-nbc-v3.jpg'],
+            [5, 'Technical Clothing', 'Wind Cheater', 'clothing-jacket-v3.jpg'],
         ];
 
         $products = collect($homepageProductSequence)
             ->map(function (array $slot, int $fallbackOrder) use ($productCatalog) {
                 [$group, $categoryName, $titleMatch, $image] = $slot;
                 $product = $productCatalog->first(function (Product $candidate) use ($categoryName, $titleMatch) {
-                    return strcasecmp((string) optional($candidate->category)->name, $categoryName) === 0
-                        && str_contains(mb_strtolower($candidate->title), mb_strtolower($titleMatch));
+                    $normalize = static fn (string $value): string => preg_replace('/[^a-z0-9]+/u', '', mb_strtolower($value));
+                    $candidateTitle = $normalize($candidate->title);
+                    $titleMatches = collect((array) $titleMatch)
+                        ->every(fn (string $term) => str_contains($candidateTitle, $normalize($term)));
+                    $candidateCategory = mb_strtolower((string) optional($candidate->category)->name);
+                    $categoryMatches = $candidateCategory === mb_strtolower($categoryName)
+                        || ($categoryName === 'Man Carrying Parachutes' && $candidateCategory === 'pilot parachutes');
+
+                    return $categoryMatches && $titleMatches;
                 });
 
                 if ($product) {

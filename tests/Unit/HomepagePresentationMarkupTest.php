@@ -70,8 +70,8 @@ class HomepagePresentationMarkupTest extends TestCase
         $controller = file_get_contents(__DIR__.'/../../app/Http/Controllers/Frontend/HomeController.php');
         $css = file_get_contents(__DIR__.'/../../public/frontend/css/style.css');
         $orderedProducts = [
-            "[0, 'Man Carrying Parachutes', 'BMK-41'",
-            "[0, 'Man Carrying Parachutes', 'Seat Mk-10'",
+            "[0, 'Man Carrying Parachutes', ['PSU-36', 'SU-30']",
+            "[0, 'Man Carrying Parachutes', ['PSU-36', 'MIG']",
             "[1, 'Brake Parachutes', 'LCA (Tejas)'",
             "[1, 'Brake Parachutes', 'SU-30'",
             "[2, 'Man Carrying Parachutes', 'PTA-M'",
@@ -94,6 +94,22 @@ class HomepagePresentationMarkupTest extends TestCase
 
         $this->assertSame(12, substr_count($controller, '.jpg\'],'));
         $this->assertStringContainsString('object-fit: contain !important;', $css);
+        $this->assertStringContainsString('transform: none !important;', $css);
         $this->assertStringContainsString('background-image: var(--homepage-product-photo);', $css);
+        $this->assertStringContainsString('pilot-feature-card', $css);
+
+        $photoNames = [
+            'pilot-psu36-su30-v3.jpg', 'pilot-psu36-mig29-v3.jpg',
+            'brake-tejas-v3.jpg', 'brake-su30-v3.jpg',
+            'pta-main-v3.jpg', 'pta-reserve-v3.jpg',
+            'cargo-p7-v3.jpg', 'cargo-ecad-v3.jpg',
+            'inflatable-baplw-v3.jpg', 'inflatable-gemini-v3.jpg',
+            'clothing-nbc-v3.jpg', 'clothing-jacket-v3.jpg',
+        ];
+        foreach ($photoNames as $photoName) {
+            $photoPath = __DIR__.'/../../public/frontend/images/home-products/'.$photoName;
+            $dimensions = getimagesize($photoPath);
+            $this->assertSame([1200, 1500], [$dimensions[0], $dimensions[1]], "Homepage photo {$photoName} must use the uniform 4:5 dimensions.");
+        }
     }
 }
